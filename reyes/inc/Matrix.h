@@ -1,6 +1,9 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include "MatrixFactory.h"
+#include "Axis.h"
+
 class Matrix {
 
  private:
@@ -26,10 +29,10 @@ class Matrix {
   int getM() const { return _m; }
   int getN() const { return _n; }
 
-  static Matrix identity(void);
-  void rotate(const Matrix &);
+  void homogenize(void);
+  Matrix & rotate(Axis, float);
   void scale(const Matrix &);
-  void translate(const Matrix &);
+  Matrix & translate(const Matrix &);
 
 };
 

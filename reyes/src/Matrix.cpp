@@ -93,3 +93,47 @@ float Matrix::get(int row, int col) const {
   return this->matrix[ IX(row, col) ];
 
 }
+
+void Matrix::homogenize(void) {
+
+  int m = this->_m, n = this->_n;
+
+  float factor = this->matrix[ IX(m-1,n-1) ];
+
+  for (int i=0; i<m; i++) {
+    for (int j = 0; j < n; j++) {
+      this->matrix[ IX(i,j)] /= factor;
+    }
+  }
+
+}
+
+void Matrix::scale(const Matrix &v) {
+  
+  Matrix scaleMatrix = MatrixFactory::createScale(v);
+
+  // *this *= scaleMatrix;
+  (*this) = scaleMatrix * (*this);
+
+}
+
+Matrix & Matrix::translate(const Matrix &v) {
+
+  Matrix translationMatrix = MatrixFactory::createTranslation(v);
+
+  (*this) = translationMatrix * (*this);
+
+  return *this;
+
+}
+
+Matrix & Matrix::rotate(Axis axis, float angle) {
+  
+  Matrix rotationMatrix = MatrixFactory::createRotation(axis, angle);
+
+  (*this) = rotationMatrix * (*this);
+
+  return *this;
+
+   
+}

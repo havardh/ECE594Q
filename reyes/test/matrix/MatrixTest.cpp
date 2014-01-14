@@ -66,3 +66,119 @@ TEST(Matrix, multiply) {
   MATRIX_EQUALS(expected, m3, 0.0001);
 
 }
+
+TEST(Matrix, multiplyDimensions) {
+
+  Matrix m1(3,1);
+  Matrix m2(1,2);
+  Matrix m3 = m1 * m2;
+  
+  CHECK_EQUAL(3, m3.getM());
+  CHECK_EQUAL(2, m3.getN());
+
+}
+
+TEST(Matrix, scale) {
+
+  Matrix m1(4, 1);
+  float v1[] = { 1, 2, 2, 1 };
+  m1.setAll(v1);
+
+  Matrix m2(3, 1);
+  float v2[] = { 2, 2, 2 };
+  m2.setAll(v2);
+
+  m1.scale(m2);
+
+  float expected[] = {
+    2, 4, 4, 1
+  };
+
+  MATRIX_EQUALS(expected, m1, 0.0001);
+
+}
+
+TEST(Matrix, homogenize) {
+  
+  Matrix m1(4,1);
+  float values[] = { 6, 4, 2, 2 };
+  m1.setAll(values);
+
+  m1.homogenize();
+
+  float expected[] = {
+    3, 2, 1, 1
+  };
+
+  MATRIX_EQUALS(expected, m1, 0.0001);
+
+}
+
+TEST(Matrix, translate) {
+  
+	Matrix m1(4,1);
+  float v1[] = { 1, 2, 2, 1 };
+  m1.setAll(v1);
+
+  Matrix m2(3,1);
+  float v2[] = { 5, 4, 1 };
+  m2.setAll(v2);
+
+  m1.translate(m2).homogenize();
+
+  float expected[] = {
+    6, 6, 3, 1
+  };
+
+  MATRIX_EQUALS(expected, m1, 0.0001);
+  
+}
+
+#define rotateAndAssert(AXIS, VAR, EXP)         \
+  m1.rotate(AXIS, (float)M_PI/2).homogenize();     \
+  float VAR[] = EXP;                 \
+  MATRIX_EQUALS(VAR, m1, 0.0001);                
+
+
+TEST(Matrix, rotate) {
+  
+	Matrix m1(4,1);
+  float v1[] = { 1, 1, 0, 1 };
+  m1.setAll(v1);
+
+  // Rotate on Z by 90
+  m1.rotate(Z, (float)M_PI/2).homogenize();
+  float e1[] = { -1, 1, 0, 1 };
+  MATRIX_EQUALS(e1, m1, 0.0001);
+
+  m1.rotate(Z, (float)M_PI/2).homogenize();
+  float e2[] = { -1, -1, 0, 1 };
+  MATRIX_EQUALS(e2, m1, 0.0001);
+
+  m1.rotate(Z, (float)M_PI/2).homogenize();
+  float e3[] = { 1, -1, 0, 1 };
+  MATRIX_EQUALS(e3, m1, 0.0001);
+
+  m1.rotate(Z, (float)M_PI/2).homogenize();
+  float e4[] = { 1, 1, 0, 1 };
+  MATRIX_EQUALS(e4, m1, 0.0001);
+
+  // Rotate on X by 90
+  m1.rotate(X, (float)M_PI/2).homogenize();
+  float e5[] = { 1, 0, 1, 1 };
+  MATRIX_EQUALS(e5, m1, 0.0001);
+
+  m1.rotate(X, (float)M_PI/2).homogenize();
+  float e6[] = { 1, -1, 0, 1 };
+  MATRIX_EQUALS(e6, m1, 0.0001);
+  
+  m1.rotate(X, (float)M_PI/2).homogenize();
+  float e7[] = { 1, 0, -1, 1 };
+  MATRIX_EQUALS(e7, m1, 0.0001);
+  
+  m1.rotate(X, (float)M_PI/2).homogenize();
+  float e8[] = { 1, 1, 0, 1 };
+  MATRIX_EQUALS(e8, m1, 0.0001);
+  
+}
+
