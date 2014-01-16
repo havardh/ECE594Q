@@ -7,6 +7,17 @@ TEST_GROUP(Matrix) {
   void teardown() {}
 };
 
+TEST(Matrix, shouldContainDeepCopyConstructor) {
+
+  Matrix m1(1);
+  m1.set(0,0, 5.0);
+  Matrix m2(m1);
+  m1.set(0,0, 6.0);
+
+  DOUBLES_EQUAL(5.0, m2.get(0,0), 0.0001);
+
+}
+
 TEST(Matrix, shouldCreateSquareMatrix) {
   
 	Matrix m(4);
@@ -134,9 +145,9 @@ TEST(Matrix, translate) {
   
 }
 
-#define rotateAndAssert(AXIS, VAR, EXP)         \
+#define rotateAndAssert(AXIS, VAR, EXP)            \
   m1.rotate(AXIS, (float)M_PI/2).homogenize();     \
-  float VAR[] = EXP;                 \
+  float VAR[] = EXP;                               \
   MATRIX_EQUALS(VAR, m1, 0.0001);                
 
 
@@ -182,3 +193,35 @@ TEST(Matrix, rotate) {
   
 }
 
+TEST(Matrix, shouldDoDotProduct) {
+  
+  Matrix m1(4,1);
+  float v1[] = { 1, 2, 3, 4 };
+  m1.setAll(v1);
+
+  Matrix m2(4,1);
+  float v2[] = { 1, 2, 3, 4 };
+  m2.setAll(v2);
+
+  float actual = m1.dot(m2);
+  
+  DOUBLES_EQUAL(1*1 + 2*2 + 3*3 + 4*4, actual, 0.0001);
+  
+}
+
+TEST(Matrix, shouldProjectAPointOntoASpace) {
+  
+	Matrix p(4,1);
+  float v[] = { 5, 2, 20, 1 };
+  p.setAll(v);
+
+  Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection((float)M_PI/4.0f, 4.0f/3.0f, 0.1f, 40);
+  p.projectOnto(projectionMatrix);
+
+  float expected[] = {
+    12, 6.6f, 19.9f, 20
+  };
+
+  MATRIX_EQUALS(expected, p, 0.1);
+  
+}

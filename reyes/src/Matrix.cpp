@@ -4,6 +4,19 @@
 
 Matrix::Matrix() : _m(0), _n(0), matrix(0) {}
 
+Matrix::Matrix(const Matrix &other) : _m(other._m), _n(other._n) {
+
+  if ( _m > 0 && _n > 0 ) {
+    this->allocate();
+
+    
+    for (int i=0; i<_m*_n; i++) {
+      this->matrix[i] = other.matrix[i];
+    }
+  }
+
+}
+
 Matrix::Matrix(int n) : _m(n), _n(n) {
 
   if (n > 0) {
@@ -29,19 +42,19 @@ Matrix::Matrix(int m, int n) : _m(m), _n(n) {
 }
 
 void Matrix::allocate(void) {
-  this->matrix = (float*) malloc(sizeof(float) * (unsigned long)(this->_m * this->_n));
+  this->matrix = new float[this->_m*this->_n];
 }
 
 Matrix::~Matrix(void) {
 
-  free (this->matrix);
+  delete[] this->matrix;
 
 }
 
 Matrix & Matrix::operator=(const Matrix &rhs) {
 
   if ( this->_m != rhs._m || this->_n != rhs._n) {
-    free(this->matrix);
+    delete[] this->matrix;
     this->_m = rhs._m;
     this->_n = rhs._n;
     this->allocate();
@@ -136,4 +149,25 @@ Matrix & Matrix::rotate(Axis axis, float angle) {
   return *this;
 
    
+}
+
+Matrix & Matrix::projectOnto(const Matrix &space) {
+  
+  (*this) = space * (*this);
+
+  return *this;
+
+}
+
+
+float Matrix::dot(const Matrix &other) const {
+
+  float result = 0.0;
+
+  for (int i=0; i<this->_m; i++) {
+    result += this->get(i,0) * other.get(i,0);
+  }
+
+  return result;
+
 }

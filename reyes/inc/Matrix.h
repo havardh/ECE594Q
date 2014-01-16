@@ -17,6 +17,7 @@ class Matrix {
   Matrix();
   Matrix(int);
   Matrix(int, int);
+  Matrix(const Matrix &);
   ~Matrix(void);
 
   Matrix & operator=(const Matrix &);
@@ -33,6 +34,10 @@ class Matrix {
   Matrix & rotate(Axis, float);
   void scale(const Matrix &);
   Matrix & translate(const Matrix &);
+
+  Matrix & projectOnto(const Matrix &);
+
+  float dot(const Matrix &) const;
 
 };
 

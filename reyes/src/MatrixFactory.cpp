@@ -57,3 +57,40 @@ Matrix MatrixFactory::createRotation(Axis axis, float angle) {
   return m;
 
 }
+
+Matrix MatrixFactory::createPerspectiveProjection(float theta, float r, float hither, float yon) {
+
+  Matrix m(4,4);
+
+  m.set(0,0, (float)(1.0/tan(theta/2)));
+  m.set(1,1, (float)(1.0/tan(theta/(r*2))));
+  m.set(2,2, yon/(yon-hither));
+  m.set(2,3, (-yon*hither)/(yon-hither));
+  m.set(3,2, 1.0);
+
+  return m;
+
+}
+
+Matrix MatrixFactory::createOrthogonalProjection(float left, float right, float top, float bottom, float near, float far) {
+  (void) left;
+  (void) right;
+  (void) top;
+  (void) bottom;
+  (void) near;
+  (void) far;
+
+  Matrix m(4,4);
+  
+  m.set(0,0, 2.0f/(right-left));
+  m.set(1,1, 2.0f/(top-bottom));
+  m.set(2,2, 2.0f/(far-near));
+
+  m.set(0,3, -(right+left)/2.0f);
+  m.set(1,3, -(top+bottom)/2.0f);
+  m.set(2,3, -(far+near)/2.0f);
+  m.set(3,3, 1.0);
+
+  return m;
+
+}

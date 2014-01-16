@@ -171,3 +171,44 @@ TEST(MatrixFactory, shouldCreateRotationOnXWith7PIHalfAngle) {
   MATRIX_EQUALS(expected, m, 0.0001);  
 }
 
+TEST(MatrixFactory, shouldCreatePerspectiveProjectionMatrix) {
+  
+  float theta = (float)M_PI/2.0f;
+  float r = 4.0f/3.0f;
+  float hither = 1;
+  float yon = 10;
+
+	Matrix m = MatrixFactory::createPerspectiveProjection(theta, r, hither, yon);
+  
+  float expected[] = {
+    1, 0, 0, 0,
+    0, 1.4966f, 0, 0,
+    0, 0, 1.1111f, -1.1111f,
+    0, 0, 1, 0
+  };
+
+  MATRIX_EQUALS(expected, m, 0.0001);
+
+}
+
+TEST(MatrixFactory, shouldCreateOrthogonalProjectionMatrix) {
+  
+  float left = 1;
+  float right = -1;
+  float top = 1;
+  float bottom = -1;
+  float near = 2;
+  float far = 10;
+
+  float expected[] = {
+    -1, 0, 0,     0,
+     0, 1, 0,     0,
+     0, 0, 0.25, -6,
+     0, 0, 0,     1
+  };
+
+  Matrix m = MatrixFactory::createOrthogonalProjection(left, right, top, bottom, near, far);
+
+  MATRIX_EQUALS(expected, m, 0.0001);
+  
+}
