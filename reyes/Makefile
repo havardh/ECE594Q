@@ -1,6 +1,9 @@
 CPP=g++
+INC=inc
 
-all: 
+all: src/*.cpp inc/*.h
+	g++ -g -Iinc main.cpp src/*.cpp
 
-%.o: src/%.c
-	$(CPP) 
+gen: all
+	./a.out
+	open out.bmp

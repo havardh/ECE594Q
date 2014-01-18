@@ -145,6 +145,7 @@ TEST(Matrix, translate) {
   
 }
 
+
 #define rotateAndAssert(AXIS, VAR, EXP)            \
   m1.rotate(AXIS, (float)M_PI/2).homogenize();     \
   float VAR[] = EXP;                               \

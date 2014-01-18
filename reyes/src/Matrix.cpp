@@ -107,7 +107,7 @@ float Matrix::get(int row, int col) const {
 
 }
 
-void Matrix::homogenize(void) {
+Matrix & Matrix::homogenize(void) {
 
   int m = this->_m, n = this->_n;
 
@@ -119,14 +119,18 @@ void Matrix::homogenize(void) {
     }
   }
 
+  return *this;
+
 }
 
-void Matrix::scale(const Matrix &v) {
+Matrix & Matrix::scale(const Matrix &v) {
   
   Matrix scaleMatrix = MatrixFactory::createScale(v);
 
   // *this *= scaleMatrix;
   (*this) = scaleMatrix * (*this);
+
+  return *this;
 
 }
 
