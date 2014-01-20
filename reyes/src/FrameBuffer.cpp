@@ -47,10 +47,12 @@ void FrameBuffer::draw(Matrix * points, int n) {
 void FrameBuffer::drawPoint(Matrix p) {
 
   p.projectOnto(this->_projectionMatrix);
+  p.scale(this->_width, this->_height, 1);
+  p.translate(this->_width/2, this->_height/2, 0);
   p.homogenize();
   
-  int x = (int)(p.get(0,0) * (float)this->_width +  (float)(this->_width/2));
-  int y = (int)(p.get(1,0) * (float)this->_height + (float)(this->_height/2));
+  int x = (int)(p.get(0,0));
+  int y = (int)(p.get(1,0));
   
   if ( x < this->_width && x >= 0 && y < this->_height && y >= 0 ) {
     this->buffer[ x + this->_width * y ][0].red = 255;
