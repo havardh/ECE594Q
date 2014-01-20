@@ -46,7 +46,7 @@ void Matrix::allocate(void) {
 }
 
 Matrix::~Matrix(void) {
-  delete[] this->matrix;
+  delete [] this->matrix;
 }
 
 Matrix & Matrix::operator=(const Matrix &rhs) {

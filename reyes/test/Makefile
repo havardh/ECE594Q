@@ -15,7 +15,7 @@ CPPUTEST_HOME = /usr/local/Cellar/cpputest/3.4
 
 CPPUTEST_USE_EXTENSIONS = N
 CPP_PLATFORM = GCC
-CPPFLAGS += -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h -v
+CPPFLAGS += -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h -v 
 CPPUTEST_CPPFLAGS = -x c++ -g
 CFLAGS += --std=c99 -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorMallocMacros.h
 
@@ -30,8 +30,8 @@ TEST_SRC_DIRS = \
 	./shapes/
 
 INCLUDE_DIRS =\
-	../inc\
 	./helpers\
+	../inc\
   $(CPPUTEST_HOME)/include\
 
 include MakefileWorker.mk

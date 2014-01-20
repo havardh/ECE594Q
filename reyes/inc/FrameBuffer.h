@@ -6,12 +6,15 @@
 #include "Sphere.h"
 #include <string.h>
 
+typedef Color Sample;
+typedef Sample* Pixel;
+
 class FrameBuffer {
 
 private:
   int _width, _height;
   char *_filename;
-  unsigned char *buffer;
+  Pixel *buffer;
   Matrix _projectionMatrix;
 
 public:

@@ -13,7 +13,7 @@ Mesh::Mesh() {
 }
 
 Mesh::~Mesh() {
-
+  
   delete [] this->mesh;
 
 }
@@ -40,6 +40,42 @@ Mesh & Mesh::homogenize() {
 
   return *this;
 
+}
+
+BoundingBox Mesh::getBoundingBox() {
+
+  BoundingBox box;
+
+  float minx = this->mesh[0].get(0,0);
+  float miny = this->mesh[0].get(1,0);
+  float maxx = this->mesh[0].get(0,0);
+  float maxy = this->mesh[0].get(1,0);
+  
+  for (int i=1; i<_m*_n; i++) {
+    float x = this->mesh[i].get(0,0);
+    float y = this->mesh[i].get(1,0);
+
+    if ( x > maxx )
+      maxx = x;
+
+    if ( y > maxy )
+      maxy = y;
+
+    if ( x < minx )
+      minx = x;
+
+    if ( y < miny )
+      miny = y;
+
+  }
+  
+  box.x = minx;
+  box.y = minx;
+  box.dx = maxx - minx;
+  box.dy = maxy - miny;
+  
+  return box;
+  
 }
 
 void Mesh::printMesh() {

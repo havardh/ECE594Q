@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "Matrix.h"
+#include "BoundingBox.h"
 
 typedef struct {
   uint8_t red;
@@ -34,6 +35,8 @@ public:
 
   Mesh & transform(Matrix &);
   Mesh & homogenize();
+
+  BoundingBox getBoundingBox();
 
   void printMesh();
 };

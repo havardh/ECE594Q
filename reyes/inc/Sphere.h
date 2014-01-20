@@ -6,7 +6,7 @@
 class Sphere : public Mesh {
 
 public:
-  Sphere();
+  Sphere(float radius);
 
 };
 

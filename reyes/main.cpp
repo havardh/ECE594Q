@@ -39,7 +39,7 @@ void project(Matrix *V, int n) {
 }
 
 int main(int argc, char *argv[]) {
-
+  
   Matrix translationVector = vector3(10, 0, 10);
   Matrix scaleVector = vector3(1, 1, 2);
 
@@ -62,18 +62,29 @@ int main(int argc, char *argv[]) {
   V[6] = vector4(x0+dx, y0,    z0+dz);
   V[7] = vector4(x0+dx, y0+dy, z0+dz);
 
-  Sphere sphere;
+  Sphere sphere(1);
   Matrix transformMatrix = MatrixFactory::createIdentity(4);
   transformMatrix.scale(10, 10, 10);
   transformMatrix.translate(0, 0, 100);
   sphere.transform(transformMatrix);
 
+
+  Matrix pts[3];
+  pts[0] = vector4(-10, -10, 100);
+  pts[1] = vector4(-10, -10, 200);
+  pts[2] = vector4(-10, -10, 300);
+  
   //project(V, N);
 
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
-  fb.draw(&sphere);
+  //fb.draw(&sphere);
+  fb.draw(pts, 3);
   fb.flush();
+
+  for (int i=0; i<3; i++) {
+    pts[i].printPoint();
+  }
 
   return 0;
 }
