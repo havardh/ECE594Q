@@ -34,7 +34,9 @@ class Matrix {
   Matrix & homogenize(void);
   Matrix & rotate(Axis, float);
   Matrix & scale(const Matrix &);
+  Matrix & scale(float x, float y, float z);
   Matrix & translate(const Matrix &);
+  Matrix & translate(float x, float y, float z);
 
   Matrix & projectOnto(const Matrix &);
 

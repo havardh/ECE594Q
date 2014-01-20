@@ -8,7 +8,6 @@ class Sphere : public Mesh {
 public:
   Sphere();
 
-
 };
 
 

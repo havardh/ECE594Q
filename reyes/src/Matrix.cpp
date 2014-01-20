@@ -46,12 +46,11 @@ void Matrix::allocate(void) {
 }
 
 Matrix::~Matrix(void) {
-
   delete[] this->matrix;
-
 }
 
 Matrix & Matrix::operator=(const Matrix &rhs) {
+
 
   if ( this->_m != rhs._m || this->_n != rhs._n) {
     delete[] this->matrix;
@@ -134,6 +133,14 @@ Matrix & Matrix::scale(const Matrix &v) {
 
 }
 
+Matrix & Matrix::scale(float x, float y, float z) {
+  Matrix v(3,1);
+  float values[] = { x, y, z };
+  v.setAll(values);
+
+  return this->scale(v);
+}
+
 Matrix & Matrix::translate(const Matrix &v) {
 
   Matrix translationMatrix = MatrixFactory::createTranslation(v);
@@ -142,6 +149,14 @@ Matrix & Matrix::translate(const Matrix &v) {
 
   return *this;
 
+}
+
+Matrix & Matrix::translate(float x, float y, float z) {
+  Matrix v(3,1);
+  float values[] = { x, y, z };
+  v.setAll(values);
+
+  return this->translate(v);
 }
 
 Matrix & Matrix::rotate(Axis axis, float angle) {

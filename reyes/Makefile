@@ -2,8 +2,10 @@ CPP=g++
 INC=inc
 
 all: src/*.cpp inc/*.h
-	g++ -g -Iinc main.cpp src/*.cpp
+	g++ -g -Iinc main.cpp src/*.cpp -lm -lpthread -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11
 
 gen: all
 	./a.out
+
+open: gen
 	open out.bmp

@@ -63,12 +63,17 @@ int main(int argc, char *argv[]) {
   V[7] = vector4(x0+dx, y0+dy, z0+dz);
 
   Sphere sphere;
+  Matrix transformMatrix = MatrixFactory::createIdentity(4);
+  transformMatrix.scale(10, 10, 10);
+  transformMatrix.translate(0, 0, 100);
+  sphere.transform(transformMatrix);
 
-  project(V, N);
+  //project(V, N);
 
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
-  fb.draw(V, 8);
+  fb.draw(&sphere);
+  fb.flush();
 
   return 0;
 }
