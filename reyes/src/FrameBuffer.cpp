@@ -62,6 +62,19 @@ void FrameBuffer::drawPoint(Matrix p) {
 
 }
 
+void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {
+
+  for (int i=y; i < y+dy; i++) {
+    for (int j=x; j < x+dx; j++) {
+      
+      this->buffer[ i + this->_width * j][0].red = 255;
+      this->buffer[ i + this->_width * j][0].green = 255;
+      this->buffer[ i + this->_width * j][0].blue = 255;
+    }
+  }
+  
+}
+
 void FrameBuffer::bind(char *filename) {
   this->_filename = filename;
 }
@@ -76,7 +89,7 @@ void FrameBuffer::flush() {
       image(j, _height-1-i, 0, 0) = this->buffer[i*this->_width + j][0].red;
       image(j, _height-1-i, 0, 1) = this->buffer[i*this->_width + j][0].green;
       image(j, _height-1-i, 0, 2) = this->buffer[i*this->_width + j][0].blue;
-     
+      
     }
   }
 

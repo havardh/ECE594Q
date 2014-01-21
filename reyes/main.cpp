@@ -81,17 +81,21 @@ int main(int argc, char *argv[]) {
   sphere.homogenize();
   std::vector<Micropolygon> polygons = sphere.getMicropolygons();
 
+  FrameBuffer fb(WIDTH, HEIGHT);
+  fb.setProjectionMatrix(projectionMatrix);
+  //fb.draw(&sphere);
+  
   for (std::vector<Micropolygon>::iterator iter = polygons.begin();
        iter != polygons.end();
        ++iter) {
-
-    iter->getBoundingBox().print();
-    
+    BoundingBox box = iter->getBoundingBox();
+    int x = (int)floor(box.getX() * WIDTH + WIDTH/2);
+    int y = (int)floor(box.getY() * HEIGHT + HEIGHT/2);
+    int dx = (int)ceil(box.getDX() * WIDTH);
+    int dy = (int)ceil(box.getDY() * HEIGHT);
+    fb.drawRectangle(x, y, dx, dy);
   }
   
-  FrameBuffer fb(WIDTH, HEIGHT);
-  fb.setProjectionMatrix(projectionMatrix);
-  fb.draw(&sphere);
   //fb.draw(pts, 3);
   fb.flush();
 

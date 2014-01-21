@@ -24,6 +24,7 @@ public:
   void setProjectionMatrix(Matrix &);
   void draw(Matrix * points, int n);
   void drawPoint(Matrix);
+  void drawRectangle(int x, int y, int dx, int dy);
   void draw(Mesh * mesh);
   void bind(char *filename);
   void flush();
