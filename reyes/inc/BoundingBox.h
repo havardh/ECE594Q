@@ -1,7 +1,7 @@
 #ifndef _BOUNDINGBOX_H_
 #define _BOUNDINGBOX_H_
 
-//#include <iostream>
+#include <stdio.h>
 
 class BoundingBox {
 
@@ -12,6 +12,8 @@ public:
   float getY() { return _y; }
   float getDX() { return _dx; }
   float getDY() { return _dy; }
+
+  void print();
   
   //friend std::ostream & operator<<(std::ostream &, const BoundingBox &);
   

@@ -5,6 +5,7 @@
 #include "Sphere.h"
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 #define WIDTH 640
 #define HEIGHT 640
@@ -77,7 +78,16 @@ int main(int argc, char *argv[]) {
   pts[2] = vector4(-10, -10, 300);
   
   sphere.projectOnto(projectionMatrix);
-  sphere.getMicropolygons();
+  sphere.homogenize();
+  std::vector<Micropolygon> polygons = sphere.getMicropolygons();
+
+  for (std::vector<Micropolygon>::iterator iter = polygons.begin();
+       iter != polygons.end();
+       ++iter) {
+
+    iter->getBoundingBox().print();
+    
+  }
   
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
