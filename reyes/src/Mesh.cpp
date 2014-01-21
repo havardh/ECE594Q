@@ -22,6 +22,16 @@ Matrix Mesh::getPoint(int i) {
   return this->mesh[i];
 }
 
+Mesh & Mesh::projectOnto(Matrix &projectionMatrix) {
+
+  for (int i=0; i<_m*_n; i++) {
+    this->mesh[i] = projectionMatrix * this->mesh[i];
+  }
+
+  return *this;
+  
+}
+
 Mesh & Mesh::transform(Matrix &transformMatrix) {
 
   for (int i=0; i<_m*_n; i++) {
@@ -44,8 +54,6 @@ Mesh & Mesh::homogenize() {
 
 BoundingBox Mesh::getBoundingBox() {
 
-  BoundingBox box;
-
   float minx = this->mesh[0].get(0,0);
   float miny = this->mesh[0].get(1,0);
   float maxx = this->mesh[0].get(0,0);
@@ -66,15 +74,9 @@ BoundingBox Mesh::getBoundingBox() {
 
     if ( y < miny )
       miny = y;
-
   }
   
-  box.x = minx;
-  box.y = minx;
-  box.dx = maxx - minx;
-  box.dy = maxy - miny;
-  
-  return box;
+  return BoundingBox(minx, miny, maxx-minx, maxy-miny);
   
 }
 

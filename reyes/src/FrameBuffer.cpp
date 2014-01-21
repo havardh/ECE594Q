@@ -31,7 +31,7 @@ void FrameBuffer::setProjectionMatrix(Matrix &projectionMatrix) {
 
 void FrameBuffer::draw(Mesh * mesh) {
 
-  for (int i=0; i<mesh->getNumPoints(); i++) {
+  for (int i=0; i<mesh->getNumPoints(); i++) {   
     drawPoint(mesh->getPoint(i));
   }
 
@@ -45,10 +45,10 @@ void FrameBuffer::draw(Matrix * points, int n) {
 }
 
 void FrameBuffer::drawPoint(Matrix p) {
-
-  p.projectOnto(this->_projectionMatrix);
+  
   p.scale(this->_width, this->_height, 1);
   p.translate(this->_width/2, this->_height/2, 0);
+  
   p.homogenize();
   
   int x = (int)(p.get(0,0));
@@ -59,7 +59,6 @@ void FrameBuffer::drawPoint(Matrix p) {
     this->buffer[ x + this->_width * y ][0].green = 255;
     this->buffer[ x + this->_width * y ][0].blue = 255;
   }
-
 
 }
 
@@ -74,9 +73,9 @@ void FrameBuffer::flush() {
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
 
-      image(j,_height-1-i,0,0) = this->buffer[i*this->_width + j][0].red;
-      image(j,_height-1-i,0,1) = this->buffer[i*this->_width + j][0].green;
-      image(j,_height-1-i,0,2) = this->buffer[i*this->_width + j][0].blue;
+      image(j, _height-1-i, 0, 0) = this->buffer[i*this->_width + j][0].red;
+      image(j, _height-1-i, 0, 1) = this->buffer[i*this->_width + j][0].green;
+      image(j, _height-1-i, 0, 2) = this->buffer[i*this->_width + j][0].blue;
      
     }
   }

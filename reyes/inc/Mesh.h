@@ -33,6 +33,7 @@ public:
   int getNumPoints() { return _m*_n; }
   Matrix getPoint(int i);
 
+  Mesh & projectOnto(Matrix &);
   Mesh & transform(Matrix &);
   Mesh & homogenize();
 
