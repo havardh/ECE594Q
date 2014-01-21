@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-Sphere::Sphere(float radius) : Mesh(20) {
+Sphere::Sphere(float radius) : Mesh(20,20) {
 
   for (int i=0; i<_m; i++) {
     float iangle = (float)((M_PI / _m) * i);
@@ -14,7 +14,7 @@ Sphere::Sphere(float radius) : Mesh(20) {
       float z = radius * (float)(sin(jangle) * sin(iangle));
       
       float values[] = { x, y, z, 1 };
-      this->mesh[ i*_m + j ].setAll(values);
+      this->mesh[ (size_t)(i*_m + j) ].setAll(values);
 
     }
   }

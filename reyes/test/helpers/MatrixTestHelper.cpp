@@ -10,7 +10,7 @@ static void renderNonMatchingMatrices(float *expected, Matrix actual, int ei, in
   int n = actual.getN();
 
   char err[1024];
-  sprintf(err, "%s", "Expected: \n  ");
+  sprintf(err, "%s", "Actual: \n  ");
 
   for (int i=0; i<m; i++) {
     for (int j=0; j<n; j++) {
@@ -18,7 +18,7 @@ static void renderNonMatchingMatrices(float *expected, Matrix actual, int ei, in
     }
     sprintf(err, "%s %s", err, "\n  ");
    }
-  sprintf(err, "%s%s", err, "to equal:\n  ");
+  sprintf(err, "%s%s", err, "Expected:\n  ");
 
   for (int i=0; i<m; i++) {
     for (int j=0; j<n; j++) {

@@ -1,29 +1,23 @@
 #include "Mesh.h"
 
-Mesh::Mesh(int n) : _m(n), _n(n) {
-  
-  this->mesh = new Matrix[this->_m*this->_n];
+#define IX(row, col) ((row) * _m + (col))
+
+Mesh::Mesh(int m, int n) : _m(m), _n(n) {
 
   for (int i=0; i<_m *_n; i++) {
-    this->mesh[i] = Matrix(4,1);
+    this->mesh.push_back(Matrix(4,1));
   }
 
 }
 
-Mesh::~Mesh() {
-  
-  delete [] this->mesh;
-
-}
-
 Matrix Mesh::getPoint(int i) {
-  return this->mesh[i];
+  return this->mesh[(size_t)i];
 }
 
 Mesh & Mesh::projectOnto(Matrix &projectionMatrix) {
 
   for (int i=0; i<_m*_n; i++) {
-    this->mesh[i] = projectionMatrix * this->mesh[i];
+    this->mesh[(size_t)i] = projectionMatrix * this->mesh[(size_t)i];
   }
 
   return *this;
@@ -33,7 +27,7 @@ Mesh & Mesh::projectOnto(Matrix &projectionMatrix) {
 Mesh & Mesh::transform(Matrix &transformMatrix) {
 
   for (int i=0; i<_m*_n; i++) {
-    this->mesh[i] = transformMatrix * this->mesh[i];
+    this->mesh[(size_t)i] = transformMatrix * this->mesh[(size_t)i];
   }
 
   return * this;
@@ -43,7 +37,7 @@ Mesh & Mesh::transform(Matrix &transformMatrix) {
 Mesh & Mesh::homogenize() {
   
   for (int i=0; i<_m*_n; i++) {
-    this->mesh[i].homogenize();
+    this->mesh[(size_t)i].homogenize();
   }
 
   return *this;
@@ -58,8 +52,8 @@ BoundingBox Mesh::getBoundingBox() {
   float maxy = this->mesh[0].get(1,0);
   
   for (int i=1; i<_m*_n; i++) {
-    float x = this->mesh[i].get(0,0);
-    float y = this->mesh[i].get(1,0);
+    float x = this->mesh[(size_t)i].get(0,0);
+    float y = this->mesh[(size_t)i].get(1,0);
 
     if ( x > maxx )
       maxx = x;
@@ -82,7 +76,21 @@ std::vector<Micropolygon> Mesh::getMicropolygons() {
   
   std::vector<Micropolygon> polygons;
 
-  polygons.push_back(Micropolygon());
+  for (int i=0; i<_m-1; i++) {
+    for (int j=0; j<_n-1; j++) {
+     
+      Matrix points[4];
+      points[0] = this->mesh[ (size_t)IX(i  ,j  ) ];
+      points[1] = this->mesh[ (size_t)IX(i  ,j+1) ];
+      points[2] = this->mesh[ (size_t)IX(i+1,j  ) ];
+      points[3] = this->mesh[ (size_t)IX(i+1,j+1) ];
+
+      
+      Micropolygon p(points);
+      
+      polygons.push_back(p);
+    }
+  }
   
   return polygons;
 }
@@ -90,7 +98,7 @@ std::vector<Micropolygon> Mesh::getMicropolygons() {
 void Mesh::printMesh() {
 
   for (int i=0; i<_m*_n; i++) {
-    this->mesh[i].printPoint();
+    this->mesh[(size_t)i].printPoint();
   }
   
 }

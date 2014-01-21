@@ -2,6 +2,7 @@
 #define _MICROPOLYGON_H_
 
 #include "Matrix.h"
+#include "BoundingBox.h"
 
 class Micropolygon {
 
@@ -16,6 +17,7 @@ public:
 
   Matrix get(int i) const;
   void set(int i, Matrix);
+  BoundingBox getBoundingBox() const;
   
 };
 

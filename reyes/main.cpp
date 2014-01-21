@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
   
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
-  //fb.draw(&sphere);
+  fb.draw(&sphere);
   //fb.draw(pts, 3);
   fb.flush();
 

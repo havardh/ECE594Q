@@ -25,12 +25,11 @@ typedef struct {
 class Mesh {
 
 protected:
-  Matrix *mesh;
+  std::vector<Matrix> mesh;
   int _m, _n;
 
 public:
-  Mesh(int n);
-  ~Mesh();
+  Mesh(int m, int n);
 
   int getNumPoints() { return _m*_n; }
   Matrix getPoint(int i);
