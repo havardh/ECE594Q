@@ -8,7 +8,6 @@ Matrix::Matrix(const Matrix &other) : _m(other._m), _n(other._n) {
 
   if ( _m > 0 && _n > 0 ) {
     this->allocate();
-
     
     for (int i=0; i<_m*_n; i++) {
       this->matrix[i] = other.matrix[i];
@@ -39,6 +38,17 @@ Matrix::Matrix(int m, int n) : _m(m), _n(n) {
     }
   }
 
+}
+
+Matrix::Matrix(float x, float y, float z, float w) : _m(4), _n(1) {
+
+  this->allocate();
+
+  this->matrix[0] = x;
+  this->matrix[1] = y;
+  this->matrix[2] = z;
+  this->matrix[3] = w;
+  
 }
 
 void Matrix::allocate(void) {
@@ -92,6 +102,10 @@ void Matrix::set(int row, int col, float f) {
 
 }
 
+void Matrix::set(int i, float f) {
+  this->set(i,0,f);
+}
+
 void Matrix::setAll(const float values[]) {
 
   for (int i=0; i<this->_m*this->_n; i++) {
@@ -104,6 +118,10 @@ float Matrix::get(int row, int col) const {
 
   return this->matrix[ IX(row, col) ];
 
+}
+
+float Matrix::get(int i) const {
+  return this->get(i,0);
 }
 
 Matrix & Matrix::homogenize(void) {

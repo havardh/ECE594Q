@@ -1,8 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh() {
-
-  this->_m = this->_n = 20;
+Mesh::Mesh(int n) : _m(n), _n(n) {
   
   this->mesh = new Matrix[this->_m*this->_n];
 
@@ -78,6 +76,15 @@ BoundingBox Mesh::getBoundingBox() {
   
   return BoundingBox(minx, miny, maxx-minx, maxy-miny);
   
+}
+
+std::vector<Micropolygon> Mesh::getMicropolygons() {
+  
+  std::vector<Micropolygon> polygons;
+
+  polygons.push_back(Micropolygon());
+  
+  return polygons;
 }
 
 void Mesh::printMesh() {

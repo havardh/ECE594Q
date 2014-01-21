@@ -1,6 +1,6 @@
 #include "MatrixTestHelper.h"
 
-static void renderNonMatchingMatrices(float *expected, Matrix & actual, int ei, int ej) {
+static void renderNonMatchingMatrices(float *expected, Matrix actual, int ei, int ej) {
 
   (void) expected;
   (void) ei;
@@ -31,7 +31,7 @@ static void renderNonMatchingMatrices(float *expected, Matrix & actual, int ei, 
 
 }
 
-void MATRIX_EQUALS(float *expected, Matrix & actual, double tolerance) {
+void MATRIX_EQUALS(float *expected, Matrix actual, double tolerance) {
 
   int m = actual.getM();
   int n = actual.getN();

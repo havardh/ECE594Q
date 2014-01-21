@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "Sphere.h"
 #include <cmath>
+#include <iostream>
 
 #define WIDTH 640
 #define HEIGHT 640
@@ -67,24 +68,22 @@ int main(int argc, char *argv[]) {
   transformMatrix.scale(10, 10, 10);
   transformMatrix.translate(0, 0, 100);
   sphere.transform(transformMatrix);
-
+  
+  //project(V, N);
 
   Matrix pts[3];
   pts[0] = vector4(-10, -10, 100);
   pts[1] = vector4(-10, -10, 200);
   pts[2] = vector4(-10, -10, 300);
   
-  //project(V, N);
-
+  sphere.projectOnto(projectionMatrix);
+  sphere.getMicropolygons();
+  
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
   //fb.draw(&sphere);
-  fb.draw(pts, 3);
+  //fb.draw(pts, 3);
   fb.flush();
-
-  for (int i=0; i<3; i++) {
-    pts[i].printPoint();
-  }
 
   return 0;
 }

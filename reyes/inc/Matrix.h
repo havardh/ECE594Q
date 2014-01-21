@@ -18,6 +18,7 @@ class Matrix {
   Matrix();
   Matrix(int);
   Matrix(int, int);
+  Matrix(float, float, float, float);
   Matrix(const Matrix &);
   ~Matrix(void);
 
@@ -25,8 +26,10 @@ class Matrix {
   const Matrix operator*(const Matrix &) const;
 
   void set(int,int,float);
+  void set(int, float);
   void setAll(const float[]);
   float get(int,int) const;
+  float get(int) const;
 
   int getM() const { return _m; }
   int getN() const { return _n; }

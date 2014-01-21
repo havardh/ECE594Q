@@ -5,7 +5,7 @@
 #include <cmath>
 #include "Matrix.h"
 
-void MATRIX_EQUALS(float *expected, Matrix & actual, double tolerance);
+void MATRIX_EQUALS(float *expected, Matrix actual, double tolerance);
 
 
 #endif /* _MATRIXTESTHELPER_H_ */

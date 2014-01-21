@@ -14,8 +14,30 @@ TEST(Matrix, shouldContainDeepCopyConstructor) {
   Matrix m2(m1);
   m1.set(0,0, 6.0);
 
-  DOUBLES_EQUAL(5.0, m2.get(0,0), 0.0001);
+  DOUBLES_EQUAL(5.0, m2.get(0), 0.0001);
 
+}
+
+TEST(Matrix, shouldProvideVectorGet) {
+  
+	Matrix m(1.0, 2.0, 4.0, 3.0);
+
+  DOUBLES_EQUAL(1.0, m.get(0), 0.0001);
+  DOUBLES_EQUAL(2.0, m.get(1), 0.0001);
+  DOUBLES_EQUAL(4.0, m.get(2), 0.0001);
+  DOUBLES_EQUAL(3.0, m.get(3), 0.0001);
+  
+}
+
+
+TEST(Matrix, shouldHaveFourComponentVectorConstructor) {
+
+  Matrix m(1, 2, 3, 4);
+  
+  DOUBLES_EQUAL(1.0, m.get(0), 0.0001);
+  DOUBLES_EQUAL(2.0, m.get(1), 0.0001);
+  DOUBLES_EQUAL(3.0, m.get(2), 0.0001);
+  DOUBLES_EQUAL(4.0, m.get(3), 0.0001);
 }
 
 TEST(Matrix, shouldCreateSquareMatrix) {
@@ -35,6 +57,16 @@ TEST(Matrix, shouldSetAndGetValues) {
   DOUBLES_EQUAL(1.0, m.get(0, 0), 0.0001);
 
 }
+
+TEST(Matrix, shouldSetAndGetValuesOfRowVector) {
+  
+	Matrix m(1,2,3,4);
+
+  m.set(3, 10);
+  DOUBLES_EQUAL(10, m.get(3), 0.0001);
+  
+}
+
 
 TEST(Matrix, shouldSetAll) {
   

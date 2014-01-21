@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "Matrix.h"
-#include "BoundingBox.h"
+#include "BoundingBox.h" 
+#include "Micropolygon.h"
+#include <vector>
 
 typedef struct {
   uint8_t red;
@@ -27,7 +29,7 @@ protected:
   int _m, _n;
 
 public:
-  Mesh();
+  Mesh(int n);
   ~Mesh();
 
   int getNumPoints() { return _m*_n; }
@@ -38,6 +40,7 @@ public:
   Mesh & homogenize();
 
   BoundingBox getBoundingBox();
+  std::vector<Micropolygon> getMicropolygons();
 
   void printMesh();
 };
