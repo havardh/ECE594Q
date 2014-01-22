@@ -4,6 +4,7 @@
 #include "Matrix.h"
 #include "Mesh.h"
 #include "Sphere.h"
+#include "BoundingBox.h"
 #include <string.h>
 
 typedef Color Sample;
@@ -18,15 +19,16 @@ private:
   Matrix _projectionMatrix;
 
 public:
-  FrameBuffer(int width, int height);
+  FrameBuffer(int, int);
   ~FrameBuffer();
 
   void setProjectionMatrix(Matrix &);
-  void draw(Matrix * points, int n);
+  void draw(Matrix *, int);
   void drawPoint(Matrix);
-  void drawRectangle(int x, int y, int dx, int dy);
-  void draw(Mesh * mesh);
-  void bind(char *filename);
+  void drawRectangle(int, int, int, int);
+  void drawBox(BoundingBox);
+  void draw(Mesh *);
+  void bind(char *);
   void flush();
 
 };

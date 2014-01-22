@@ -62,6 +62,16 @@ void FrameBuffer::drawPoint(Matrix p) {
 
 }
 
+void FrameBuffer::drawBox(BoundingBox box) {
+  int x = (int)floor(box.getX());
+  int y = (int)floor(box.getY());
+  int dx = (int)ceil(box.getDX());
+  int dy = (int)ceil(box.getDY());
+
+  this->drawRectangle(x, y, dx, dy);
+
+}
+
 void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {
 
   for (int i=y; i < y+dy; i++) {
@@ -70,6 +80,7 @@ void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {
       this->buffer[ i + this->_width * j][0].red = 255;
       this->buffer[ i + this->_width * j][0].green = 255;
       this->buffer[ i + this->_width * j][0].blue = 255;
+
     }
   }
   
