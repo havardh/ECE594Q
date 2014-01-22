@@ -1,5 +1,5 @@
 #include "FrameBuffer.h"
-
+#include <sstream>
 #include "CImg.h"
 using namespace cimg_library; 
 
@@ -21,6 +21,14 @@ FrameBuffer::~FrameBuffer() {
 
   delete [] this->buffer;
 
+}
+
+void FrameBuffer::set(int x, int y, Color color) {
+  this->buffer[ x + y * this->_width ][0] = color;
+}
+
+Color FrameBuffer::get(int x, int y) const {
+  return this->buffer[ x + y * this->_width][0];
 }
 
 void FrameBuffer::setProjectionMatrix(Matrix &projectionMatrix) {
@@ -72,14 +80,45 @@ void FrameBuffer::drawBox(BoundingBox box) {
 
 }
 
+void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
+  BoundingBox box = polygon.getBoundingBox();
+  box.projectToScreen(_width, _height);
+
+
+
+  int x = (int)floor(box.getX());
+  int y = (int)floor(box.getY());
+  int dx = (int)ceil(box.getDX());
+  int dy = (int)ceil(box.getDY());
+
+
+
+  Color color = { 255, 255, 255 };
+  
+  for (int i=x; i < x+dx; i++) {
+    for (int j=y; j < y+dy; j++) {
+
+      float fx = (float)(i - (this->_width/2)) / (float)_width;
+      float fy = (float)(j - (this->_height/2)) / (float)_height;
+
+      if (polygon.intersects(fx, fy)) {
+        
+        set(j, i, color);
+
+      }
+
+    }
+  }
+
+}
+
 void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {
 
   for (int i=y; i < y+dy; i++) {
     for (int j=x; j < x+dx; j++) {
       
-      this->buffer[ i + this->_width * j][0].red = 255;
-      this->buffer[ i + this->_width * j][0].green = 255;
-      this->buffer[ i + this->_width * j][0].blue = 255;
+      Color color = { 255, 255, 255 };
+      this->set(i,j, color);
 
     }
   }
@@ -90,20 +129,32 @@ void FrameBuffer::bind(char *filename) {
   this->_filename = filename;
 }
 
-void FrameBuffer::flush() {
+
+// Unused possible refactoring
+void setPixel(CImg<unsigned char> image, int height, int j, int i, Color color) {
+  image(j, height-1-i, 0, 0) = color.red;
+  image(j, height-1-i, 0, 1) = color.green;
+  image(j, height-1-i, 0, 2) = color.blue;
+}
+
+void FrameBuffer::flush(int i) {
   
   CImg<unsigned char> image(this->_width, this->_height, 1, 3, 0);
 
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
 
-      image(j, _height-1-i, 0, 0) = this->buffer[i*this->_width + j][0].red;
-      image(j, _height-1-i, 0, 1) = this->buffer[i*this->_width + j][0].green;
-      image(j, _height-1-i, 0, 2) = this->buffer[i*this->_width + j][0].blue;
+      Color color = get(j,i);
+      
+      image(j, _height-1-i, 0, 0) = color.red;
+      image(j, _height-1-i, 0, 1) = color.green;
+      image(j, _height-1-i, 0, 2) = color.blue;
       
     }
   }
 
-  image.save("out.bmp");
+  std::stringstream ss;
+  ss << "output/" << i << ".png";
+  image.save(ss.str().c_str());
   
 }

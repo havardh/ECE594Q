@@ -22,14 +22,18 @@ public:
   FrameBuffer(int, int);
   ~FrameBuffer();
 
+  void set(int, int, Color);
+  Color get(int, int) const;
+  
   void setProjectionMatrix(Matrix &);
   void draw(Matrix *, int);
   void drawPoint(Matrix);
   void drawRectangle(int, int, int, int);
   void drawBox(BoundingBox);
+  void drawMicropolygon(Micropolygon);
   void draw(Mesh *);
   void bind(char *);
-  void flush();
+  void flush(int i);
 
 };
 

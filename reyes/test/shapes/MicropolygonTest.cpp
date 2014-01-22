@@ -65,3 +65,18 @@ TEST(Micropolygon, getBoundingBox) {
   DOUBLES_EQUAL(5, box.getDY(), 0.0001);
 }
 
+TEST(Micropolygon, shouldCheckForIntersects) {
+  
+	Micropolygon polygon;
+  polygon.set(0, Matrix(1,1,0,1));
+  polygon.set(1, Matrix(0,-1,0,1));
+  polygon.set(2, Matrix(-1,0,0,1));
+  polygon.set(3, Matrix(-1,1,0,1));
+  
+  CHECK(polygon.intersects(0,0));
+  CHECK(polygon.intersects(0.9f,0.9f));
+  CHECK(!polygon.intersects(1,-1));
+  CHECK(polygon.intersects(0,0.9f));
+
+
+}

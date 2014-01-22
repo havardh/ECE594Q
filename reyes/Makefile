@@ -8,4 +8,4 @@ gen: all
 	./a.out
 
 open: gen
-	open out.bmp
+	open output/0.png

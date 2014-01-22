@@ -69,35 +69,25 @@ int main(int argc, char *argv[]) {
   transformMatrix.scale(10, 10, 10);
   transformMatrix.translate(0, 0, 100);
   sphere.transform(transformMatrix);
-  
-  //project(V, N);
 
-  Matrix pts[3];
-  pts[0] = vector4(-10, -10, 100);
-  pts[1] = vector4(-10, -10, 200);
-  pts[2] = vector4(-10, -10, 300);
-  
   sphere.projectOnto(projectionMatrix);
   sphere.homogenize();
   std::vector<Micropolygon> polygons = sphere.getMicropolygons();
-
+    
   FrameBuffer fb(WIDTH, HEIGHT);
   fb.setProjectionMatrix(projectionMatrix);
-  //fb.draw(&sphere);
-  
-  for (std::vector<Micropolygon>::iterator iter = polygons.begin();
-       iter != polygons.end();
-       ++iter) {
-    BoundingBox box = iter->getBoundingBox();
-    int x = (int)floor(box.getX() * WIDTH + WIDTH/2);
-    int y = (int)floor(box.getY() * HEIGHT + HEIGHT/2);
-    int dx = (int)ceil(box.getDX() * WIDTH);
-    int dy = (int)ceil(box.getDY() * HEIGHT);
-    fb.drawRectangle(x, y, dx, dy);
+
+  //fb.drawMicropolygon(polygons[20]);
+
+  std::vector<Micropolygon>::iterator it;
+  for (it = polygons.begin(); it != polygons.end(); ++it) {
+
+    fb.drawMicropolygon(*it);
+
   }
   
-  //fb.draw(pts, 3);
-  fb.flush();
+  fb.flush(0);
+  
 
   return 0;
 }

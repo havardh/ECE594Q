@@ -18,6 +18,14 @@ public:
   Matrix get(int i) const;
   void set(int i, Matrix);
   BoundingBox getBoundingBox() const;
+
+  bool intersects(float, float);
+
+  void print() { 
+    for (int i=0; i<4; i++) {
+      _points[i].printPoint();
+    }
+  }
   
 };
 
