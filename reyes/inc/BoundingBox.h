@@ -13,6 +13,8 @@ public:
   float getDX() { return _dx; }
   float getDY() { return _dy; }
 
+  void projectToScreen(int, int);
+
   void print();
   
   //friend std::ostream & operator<<(std::ostream &, const BoundingBox &);

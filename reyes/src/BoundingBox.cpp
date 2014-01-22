@@ -1,6 +1,13 @@
 #include "BoundingBox.h"
 
-void foo() {}
+void BoundingBox::projectToScreen(int width, int height) {
+  (void) height;
+  this->_x = this->_x * width + width / 2;
+  this->_y = this->_y * height + height / 2;
+  this->_dx *= width;
+  this->_dy *= height;
+
+}
 
 void BoundingBox::print() {
 
