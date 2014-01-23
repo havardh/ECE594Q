@@ -24,6 +24,7 @@ public:
   ~FrameBuffer();
 
   void set(int, int, Color);
+  void set(int, int, int, Color);
   Color get(int, int) const;
   
   void setProjectionMatrix(Matrix &);

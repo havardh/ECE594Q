@@ -13,7 +13,7 @@ FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height)
   this->buffer = new Pixel[width*height];
 
   for (int i=0; i<width*height; i++) {
-    this->buffer[i] = new Sample[1];
+    this->buffer[i] = new Sample[4*4];
   }
 
 }
@@ -34,14 +34,35 @@ void FrameBuffer::set(int x, int y, Color color) {
   assert(x < _width);
   assert(y < _height);
 
-  this->buffer[ x + y * this->_width ][0] = color;
+  for (int i=0; i<4*4; i++) {
+    set(x, y, i, color);
+  }
+}
+
+void FrameBuffer::set(int x, int y, int i, Color color) {
+
+  this->buffer[ x + y * this->_width ][i] = color;
+
 }
 
 Color FrameBuffer::get(int x, int y) const {
   assert(x < _width);
   assert(y < _height);
 
-  return this->buffer[ x + y * this->_width][0];
+  int red = 0, green = 0, blue = 0;
+  for (int i=0; i<4*4; i++) {
+    Color c = this->buffer[ x + y * this->_width][i];
+    red += c.red;
+    green += c.green;
+    blue += c.blue;
+  }
+
+  Color c = { 
+    (uint8_t)(red / (4*4)), 
+    (uint8_t)(green / (4*4)), 
+    (uint8_t)(blue / (4*4)) 
+  };
+  return c;
 }
 
 void FrameBuffer::setProjectionMatrix(Matrix &projectionMatrix) {
@@ -97,10 +118,19 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 
+  polygon.print();
+
+  drawBox(box);
+
   int x = (int)floor(box.getX());
   int y = (int)floor(box.getY());
   int dx = (int)ceil(box.getDX());
   int dy = (int)ceil(box.getDY());
+
+  SimplePolygon simplePolygon(polygon);
+
+  float fdx = (2.0f / _width) / 4.0f;
+  float fdy = (2.0f / _height) / 4.0f;
 
   for (int i=x; i < x+dx && i <_width; i++) {
     for (int j=y; j < y+dy && j < _height; j++) {
@@ -109,14 +139,16 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
       float fx = (float)(2*i / (float)_width)-1;
       float fy = (float)(2*j / (float)_height)-1;
 
-      if (SimplePolygon(polygon).intersects(fx, fy)) {
-        
-        set(j, i, polygon.getColor());
-      }      
+      for (int k=0; k<4; k++) {
+        for (int l=0; l<4; l++) {
 
+          if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
+            set(j, i, k*4+l, polygon.getColor());
+          }
+        }
+      }
     }
   }
-
 }
 
 void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {

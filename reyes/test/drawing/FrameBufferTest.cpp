@@ -16,13 +16,33 @@ TEST(FrameBuffer, shouldConstructAndDestruct) {
 TEST(FrameBuffer, shouldSetAndGet) {
 
   FrameBuffer s(100, 100);
-  Color c = { 123, 231, 111 };
+  Color c = { 1, 231, 111 };
   s.set( 99, 99, c );
   Color actual = s.get( 99, 99 ); 
 
-  CHECK_EQUAL( 123, actual.red );
+  CHECK_EQUAL( 1, actual.red );
   CHECK_EQUAL( 231, actual.green );
   CHECK_EQUAL( 111, actual.blue );
+
+}
+
+TEST(FrameBuffer, shouldSetSampleAndGetAverage) {
+
+  Color white = { 255, 255, 255 };
+  Color black = { 0, 0, 0 };
+  Color grey = { 255 / 2, 255 / 2, 255 / 2 };
+
+  FrameBuffer fb(1,1);
+  for (int i=0; i<8; i++) 
+    fb.set(0,0, i, white);
+
+  for (int i=8; i<16; i++)
+    fb.set(0,0, i, black);
+
+  Color actual = fb.get(0,0);
+  CHECK_EQUAL( grey.red, actual.red);
+  CHECK_EQUAL( grey.green, actual.red);
+  CHECK_EQUAL( grey.blue, actual.red);
 
 }
 
@@ -53,5 +73,4 @@ TEST(FrameBuffer, shouldSampleAMicroPolygon) {
       CHECK_EQUAL(1, actual.blue);
     }
   }
-
 }
