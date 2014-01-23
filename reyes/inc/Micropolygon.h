@@ -3,11 +3,16 @@
 
 #include "Matrix.h"
 #include "BoundingBox.h"
+#include "Color.h"
 
 class Micropolygon {
 
-private:
+protected:  
   Matrix _points[4];
+
+private:
+
+  Color _color;
 
   void allocate();
   
@@ -18,6 +23,9 @@ public:
   Matrix get(int i) const;
   void set(int i, Matrix);
   BoundingBox getBoundingBox() const;
+
+  void setColor(Color);
+  Color getColor() const;
 
   bool intersects(float, float);
 

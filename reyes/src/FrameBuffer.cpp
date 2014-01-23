@@ -1,6 +1,11 @@
 #include "FrameBuffer.h"
-#include <sstream>
 #include "CImg.h"
+#include "assert.h"
+
+#ifndef CPPUTEST
+#include <sstream>
+#endif
+
 using namespace cimg_library; 
 
 FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height) {
@@ -24,10 +29,18 @@ FrameBuffer::~FrameBuffer() {
 }
 
 void FrameBuffer::set(int x, int y, Color color) {
+  assert(x >= 0);
+  assert(y >= 0);
+  assert(x < _width);
+  assert(y < _height);
+
   this->buffer[ x + y * this->_width ][0] = color;
 }
 
 Color FrameBuffer::get(int x, int y) const {
+  assert(x < _width);
+  assert(y < _height);
+
   return this->buffer[ x + y * this->_width][0];
 }
 
@@ -84,28 +97,22 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 
-
-
   int x = (int)floor(box.getX());
   int y = (int)floor(box.getY());
   int dx = (int)ceil(box.getDX());
   int dy = (int)ceil(box.getDY());
 
+  for (int i=x; i < x+dx && i <_width; i++) {
+    for (int j=y; j < y+dy && j < _height; j++) {
 
+      // Back to eye-space
+      float fx = (float)(2*i / (float)_width)-1;
+      float fy = (float)(2*j / (float)_height)-1;
 
-  Color color = { 255, 255, 255 };
-  
-  for (int i=x; i < x+dx; i++) {
-    for (int j=y; j < y+dy; j++) {
-
-      float fx = (float)(i - (this->_width/2)) / (float)_width;
-      float fy = (float)(j - (this->_height/2)) / (float)_height;
-
-      if (polygon.intersects(fx, fy)) {
+      if (SimplePolygon(polygon).intersects(fx, fy)) {
         
-        set(j, i, color);
-
-      }
+        set(j, i, polygon.getColor());
+      }      
 
     }
   }
@@ -137,8 +144,8 @@ void setPixel(CImg<unsigned char> image, int height, int j, int i, Color color) 
   image(j, height-1-i, 0, 2) = color.blue;
 }
 
-void FrameBuffer::flush(int i) {
-  
+void FrameBuffer::flush(int fileNumber) {
+  (void) fileNumber;
   CImg<unsigned char> image(this->_width, this->_height, 1, 3, 0);
 
   for (int i=0; i<this->_height; i++) {
@@ -153,8 +160,10 @@ void FrameBuffer::flush(int i) {
     }
   }
 
+#ifndef CPPUTEST
   std::stringstream ss;
-  ss << "output/" << i << ".png";
+  ss << "output/" << fileNumber << ".png";
   image.save(ss.str().c_str());
+#endif
   
 }

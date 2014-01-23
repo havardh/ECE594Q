@@ -25,3 +25,33 @@ TEST(FrameBuffer, shouldSetAndGet) {
   CHECK_EQUAL( 111, actual.blue );
 
 }
+
+class PolyMock : public Micropolygon {
+
+  
+
+};
+
+TEST(FrameBuffer, shouldSampleAMicroPolygon) {
+
+  FrameBuffer fb(10, 10);
+  PolyMock p;
+  Color c = { 1,1,1 };
+  p.setColor(c);
+  p.set(0, Matrix(1, 1, 0, 1));
+  p.set(1, Matrix(1, -1, 0, 1));
+  p.set(2, Matrix(-1, -1, 0, 1));
+  p.set(3, Matrix(-1, 1, 0, 1));
+  fb.drawMicropolygon(p);
+
+  for (int i=0; i<10; i++) {
+    for (int j=0; j<10; j++) {
+      Color actual = fb.get(i,j);
+
+      CHECK_EQUAL(1, actual.red);
+      CHECK_EQUAL(1, actual.green);
+      CHECK_EQUAL(1, actual.blue);
+    }
+  }
+
+}

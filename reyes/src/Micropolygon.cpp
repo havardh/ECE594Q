@@ -29,6 +29,14 @@ void Micropolygon::set(int i, Matrix val) {
   this->_points[i] = val;
 }
 
+Color Micropolygon::getColor() const {
+  return this->_color;
+}
+
+void Micropolygon::setColor(Color color) {
+  this->_color = color;
+}
+
 BoundingBox Micropolygon::getBoundingBox() const {
 
   float minx = this->_points[0].get(0);
@@ -59,6 +67,9 @@ BoundingBox Micropolygon::getBoundingBox() const {
 
 float determinant(float x0, float y0, float x1, float y1, float x2, float y2) {
 
+  if ( (x0 == x2 && y0 == y2) || (x1 == x2 && y1 == y2) )
+    return 0.0f;
+
   float a0 = ( x0 * (y1 - y2) );
   float a1 = ( y0 * (x1 - x2) );
   float a2 = ( x1*y2 - x2*y1 );
@@ -68,6 +79,7 @@ float determinant(float x0, float y0, float x1, float y1, float x2, float y2) {
 }
 
 bool isInTriangle(float x0, float y0, float x1, float y1, float x2, float y2, float x, float y) {
+
 
   bool b0 = determinant(x0, y0, x1, y1, x, y) <= 0.0f;
   bool b1 = determinant(x1, y1, x2, y2, x, y) <= 0.0f;
@@ -87,9 +99,9 @@ bool Micropolygon::intersects(float x, float y) {
   float y2 = this->_points[2].get(1);
   float x3 = this->_points[3].get(0);
   float y3 = this->_points[3].get(1);
-  
+
   bool in0 = isInTriangle(x0,y0, x1,y1, x2,y2, x, y);
-  bool in1 = isInTriangle(x2,y2, x3,y3, x1,y1, x, y);
+  bool in1 = isInTriangle(x2,y2, x3,y3, x0,y0, x, y);
 
   return in0 || in1;
 }

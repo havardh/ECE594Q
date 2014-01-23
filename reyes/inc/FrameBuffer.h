@@ -4,6 +4,7 @@
 #include "Matrix.h"
 #include "Mesh.h"
 #include "Sphere.h"
+#include "SimplePolygon.h"
 #include "BoundingBox.h"
 #include <string.h>
 
@@ -33,7 +34,7 @@ public:
   void drawMicropolygon(Micropolygon);
   void draw(Mesh *);
   void bind(char *);
-  void flush(int i);
+  void flush(int );
 
 };
 

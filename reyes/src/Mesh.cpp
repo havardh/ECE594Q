@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-#define IX(row, col) ((row) * _m + (col))
+#define IX(row, col) ((row) * _n + (col))
 
 Mesh::Mesh(int m, int n) : _m(m), _n(n) {
 
@@ -77,16 +77,18 @@ std::vector<Micropolygon> Mesh::getMicropolygons() {
   std::vector<Micropolygon> polygons;
 
   for (int i=0; i<_m-1; i++) {
-    for (int j=0; j<_n-1; j++) {
+    for (int j=0; j<_n; j++) {
      
       Matrix points[4];
       points[0] = this->mesh[ (size_t)IX(i  ,j  ) ];
-      points[1] = this->mesh[ (size_t)IX(i  ,j+1) ];
+      points[1] = this->mesh[ (size_t)IX(i  ,(j+1)%_n) ];
       points[2] = this->mesh[ (size_t)IX(i+1,j  ) ];
-      points[3] = this->mesh[ (size_t)IX(i+1,j+1) ];
+      points[3] = this->mesh[ (size_t)IX(i+1,(j+1)%_n) ];
 
       
       Micropolygon p(points);
+      Color c = { (uint8_t)(255 * (float) i/_m), (uint8_t)(255 *(float) j/_n), 255 };
+      p.setColor(c);
       
       polygons.push_back(p);
     }

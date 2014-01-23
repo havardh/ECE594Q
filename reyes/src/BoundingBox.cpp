@@ -1,11 +1,18 @@
 #include "BoundingBox.h"
 
 void BoundingBox::projectToScreen(int width, int height) {
-  (void) height;
-  this->_x = this->_x * width + width / 2;
-  this->_y = this->_y * height + height / 2;
+
+  this->_x = (this->_x + 1.0f) / 2.0f * width;
+  this->_y = (this->_y + 1.0f) / 2.0f * height;
   this->_dx *= width;
   this->_dy *= height;
+
+  //assert(_x >= 0);
+  //assert(_x < width);
+  //assert(_y >= 0);
+  //assert(_y < height);
+  //assert(_x + _dx < width);
+  //assert(_y + _dy < height);
 
 }
 

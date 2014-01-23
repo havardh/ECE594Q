@@ -2,6 +2,7 @@
 #define _BOUNDINGBOX_H_
 
 #include <stdio.h>
+#include <assert.h>
 
 class BoundingBox {
 

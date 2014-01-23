@@ -64,30 +64,32 @@ int main(int argc, char *argv[]) {
   V[6] = vector4(x0+dx, y0,    z0+dz);
   V[7] = vector4(x0+dx, y0+dy, z0+dz);
 
+
   Sphere sphere(1);
   Matrix transformMatrix = MatrixFactory::createIdentity(4);
   transformMatrix.scale(10, 10, 10);
   transformMatrix.translate(0, 0, 100);
   sphere.transform(transformMatrix);
-
-  sphere.projectOnto(projectionMatrix);
-  sphere.homogenize();
-  std::vector<Micropolygon> polygons = sphere.getMicropolygons();
+  
+  for (int i=0; i<1; i++) {
     
-  FrameBuffer fb(WIDTH, HEIGHT);
-  fb.setProjectionMatrix(projectionMatrix);
+    Sphere s = sphere;
 
-  //fb.drawMicropolygon(polygons[20]);
+    s.projectOnto(projectionMatrix);
+    s.homogenize();
+    std::vector<Micropolygon> polygons = s.getMicropolygons();
+    
+    
+    FrameBuffer fb(WIDTH, HEIGHT);
+    //fb.drawMicropolygon(polygons[20]);
 
-  std::vector<Micropolygon>::iterator it;
-  for (it = polygons.begin(); it != polygons.end(); ++it) {
-
-    fb.drawMicropolygon(*it);
-
+    std::vector<Micropolygon>::iterator it;
+    for (it = polygons.begin(); it != polygons.end(); ++it) {
+      fb.drawMicropolygon(*it);
+    }
+  
+    fb.flush(i);
   }
-  
-  fb.flush(0);
-  
 
   return 0;
 }

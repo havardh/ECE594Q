@@ -22,6 +22,8 @@ static void renderNonMatchingMatrices(float *expected, Matrix actual, int ei, in
 
   for (int i=0; i<m; i++) {
     for (int j=0; j<n; j++) {
+
+
       sprintf(err, "%s %4.4f ", err, expected[ n*i+j]);
     }
     sprintf(err, "%s %s", err, "\n  ");

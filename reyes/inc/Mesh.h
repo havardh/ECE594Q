@@ -7,12 +7,7 @@
 #include "BoundingBox.h" 
 #include "Micropolygon.h"
 #include <vector>
-
-typedef struct {
-  uint8_t red;
-  uint8_t green;
-  uint8_t blue;
-} Color;
+#include "Color.h"
 
 typedef struct {
 
@@ -32,6 +27,8 @@ public:
   Mesh(int m, int n);
 
   int getNumPoints() { return _m*_n; }
+  int getM() { return _m; }
+  int getN() { return _n; }
   Matrix getPoint(int i);
 
   Mesh & projectOnto(Matrix &);

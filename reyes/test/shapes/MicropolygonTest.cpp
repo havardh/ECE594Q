@@ -69,14 +69,31 @@ TEST(Micropolygon, shouldCheckForIntersects) {
   
 	Micropolygon polygon;
   polygon.set(0, Matrix(1,1,0,1));
-  polygon.set(1, Matrix(0,-1,0,1));
-  polygon.set(2, Matrix(-1,0,0,1));
+  polygon.set(1, Matrix(1,-1,0,1));
+  polygon.set(2, Matrix(-1,-1,0,1));
   polygon.set(3, Matrix(-1,1,0,1));
   
-  CHECK(polygon.intersects(0,0));
-  CHECK(polygon.intersects(0.9f,0.9f));
-  CHECK(!polygon.intersects(1,-1));
-  CHECK(polygon.intersects(0,0.9f));
+  float POS_ONE = 1;
+  float NEG_ONE = -1;
 
+  CHECK(polygon.intersects(NEG_ONE, NEG_ONE));
+  CHECK(polygon.intersects(NEG_ONE, POS_ONE));
+  CHECK(polygon.intersects(POS_ONE, POS_ONE));
+  CHECK(polygon.intersects(POS_ONE,NEG_ONE));
+  CHECK(polygon.intersects(0,0));
+
+  CHECK(polygon.intersects(-0.3f, 0.4f));
+
+}
+
+TEST(Micropolygon, shouldSetAndGetColor) {
+
+  Micropolygon p;
+  Color c = { 0, 1, 2 };
+
+  p.setColor(c);
+  Color actual = p.getColor();
+
+  CHECK_EQUAL(0, actual.red );
 
 }
