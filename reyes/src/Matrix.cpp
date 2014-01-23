@@ -87,6 +87,25 @@ Matrix & Matrix::operator=(const Matrix &rhs) {
 
 }
 
+bool Matrix::operator==(const Matrix &rhs) const {
+  
+  if (_m != rhs._m || _n != rhs._n) 
+    return false;
+
+  for(int i=0; i<_m; i++) 
+    for (int j=0; j<_n; j++) 
+      if (get(i,j) != rhs.get(i,j))
+        return false;
+  
+  return true;
+}
+
+bool Matrix::operator!=(const Matrix &rhs) const {
+  
+  return !(*this == rhs);
+
+}
+
 const Matrix Matrix::operator*(const Matrix &rhs) const {
   
   int m = this->_m;

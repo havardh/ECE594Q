@@ -11,9 +11,9 @@ public:
 private:
   void simplify();
   Matrix * getTopLeft();
-  Matrix * getRightTop();
-  Matrix * getBottomRight();
-  Matrix * getLeftBottom();
+  Matrix * getRightTop(Matrix);
+  Matrix * getBottomRight(Matrix,Matrix);
+  Matrix * getLeftBottom(Matrix,Matrix,Matrix);
   
 
 };

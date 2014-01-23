@@ -50,10 +50,18 @@ BoundingBox Mesh::getBoundingBox() {
   float miny = this->mesh[0].get(1,0);
   float maxx = this->mesh[0].get(0,0);
   float maxy = this->mesh[0].get(1,0);
+
+  //printf("%f ", this->mesh[0].get(0));
+  //printf("%f\n", this->mesh[0].get(1));
+
   
   for (int i=1; i<_m*_n; i++) {
     float x = this->mesh[(size_t)i].get(0,0);
     float y = this->mesh[(size_t)i].get(1,0);
+
+    //printf("%f ", this->mesh[(size_t)i].get(0));
+    //printf("%f\n", this->mesh[(size_t)i].get(1));
+
 
     if ( x > maxx )
       maxx = x;

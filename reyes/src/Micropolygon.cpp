@@ -23,7 +23,7 @@ void Micropolygon::allocate() {
 
 Matrix Micropolygon::get(int i) const {
   return this->_points[i];
-}
+} 
 
 void Micropolygon::set(int i, Matrix val) {
   this->_points[i] = val;
@@ -44,6 +44,7 @@ BoundingBox Micropolygon::getBoundingBox() const {
   float maxx = this->_points[0].get(0);
   float maxy = this->_points[0].get(1);
   
+
   for (int i=1; i<4; i++) {
     float x = this->_points[i].get(0);
     float y = this->_points[i].get(1);

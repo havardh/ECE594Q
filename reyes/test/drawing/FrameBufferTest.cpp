@@ -15,16 +15,47 @@ TEST(FrameBuffer, shouldConstructAndDestruct) {
 
 TEST(FrameBuffer, shouldSetAndGet) {
 
-  FrameBuffer s(100, 100);
+  FrameBuffer fb(100, 100);
   Color c = { 1, 231, 111 };
-  s.set( 99, 99, c );
-  Color actual = s.get( 99, 99 ); 
+  fb.set( 99, 99, c );
+  Color actual = fb.get( 99, 99 ); 
 
   CHECK_EQUAL( 1, actual.red );
   CHECK_EQUAL( 231, actual.green );
   CHECK_EQUAL( 111, actual.blue );
 
 }
+
+TEST(FrameBuffer, shouldRetainColorOnlyIfZIsHigher) {
+  
+	FrameBuffer fb(1,1);
+  float z0 = 1.0;
+  Color c0 = { 1, 1, 1 };
+  for (int i=0; i<16; i++) 
+    fb.set(0, 0, i, c0, z0);
+
+  float z1 = 0.5;
+  Color c1 = { 2, 2, 2 };
+  for (int i=0; i<16; i++) 
+    fb.set(0, 0, i, c1, z1);
+  
+  Color a0 = fb.get(0,0);
+  CHECK_EQUAL( 2, a0.red );
+  CHECK_EQUAL( 2, a0.green );
+  CHECK_EQUAL( 2, a0.blue );
+
+  float z2 = 0.7f;
+  Color c2 = { 3,3,3 };
+  for (int i=0; i<16; i++) 
+    fb.set(0, 0, i, c2, z2);
+
+  Color a1 = fb.get(0,0);
+  CHECK_EQUAL( 2, a1.red );
+  CHECK_EQUAL( 2, a1.green );
+  CHECK_EQUAL( 2, a1.blue );
+}
+
+
 
 TEST(FrameBuffer, shouldSetSampleAndGetAverage) {
 

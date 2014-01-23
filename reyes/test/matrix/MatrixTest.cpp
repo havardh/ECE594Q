@@ -258,3 +258,39 @@ TEST(Matrix, shouldProjectAPointOntoASpace) {
   MATRIX_EQUALS(expected, p, 0.1);
   
 }
+
+TEST(Matrix, shouldCompare) {
+  
+	Matrix m1(1,1,1);
+  Matrix m2(1,1,1);
+  Matrix m3(2,1,1);
+  Matrix m4(1,2,1);
+  Matrix m5(1,1,2);
+
+  CHECK(m1 == m1);
+  CHECK(m1 == m2);
+  CHECK(m2 == m1);
+  CHECK(!(m1 == m3));
+  CHECK(!(m1 == m4));
+  CHECK(!(m5 == m1));
+  CHECK(m5 != m1);
+
+  float v6[] = { 1, 1, 1, 1 };
+  Matrix m6(2,2);
+  m6.setAll(v6);
+  float v7[] = { 1, 1, 1, 1 };
+  Matrix m7(2,2);
+  m7.setAll(v7);
+  float v8[] = { 1, 1, 1, 2 };
+  Matrix m8(2,2);
+  m8.setAll(v8);
+
+  CHECK(m7 == m6);
+  CHECK(!(m8 == m6));
+  CHECK(m6 != m8);
+
+  CHECK(m1 != m6);
+  CHECK(m6 != m1);
+
+  
+}

@@ -1,6 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "BoundingBox.h"
 
+
 TEST_GROUP(BoundingBox) {
   void setup() {}
   void teardown() {}
@@ -37,3 +38,4 @@ TEST(BoundingBox, shouldProjectUpperCorner) {
   DOUBLES_EQUAL(10, box.getY(), 0.0001);
 
 }
+

@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
   Sphere sphere(1);
   Matrix transformMatrix = MatrixFactory::createIdentity(4);
   transformMatrix.scale(10, 10, 10);
+  //transformMatrix.rotate(X, M_PI/4);
   transformMatrix.translate(0, 0, 100);
   sphere.transform(transformMatrix);
   
@@ -41,9 +42,14 @@ int main(int argc, char *argv[]) {
   
     std::vector<Micropolygon>::iterator it;
     for (it = polygons.begin(); it != polygons.end(); ++it) {
-      fb.drawMicropolygon(*it);
+      float x = it->get(0).get(0);
+      float y = it->get(0).get(1);
+      //if (x < 0.03 && x > -0.01 && y < 0.03 && y > -0.01) {
+        fb.drawMicropolygon(*it);
+        //}
     }
   
+    //fb.draw(&s);
     fb.flush(i);
   }
 

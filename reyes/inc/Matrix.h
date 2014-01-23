@@ -24,6 +24,8 @@ class Matrix {
   ~Matrix(void);
 
   Matrix & operator=(const Matrix &);
+  bool operator==(const Matrix &) const;
+  bool operator!=(const Matrix &) const;
   const Matrix operator*(const Matrix &) const;
 
   void set(int,int,float);

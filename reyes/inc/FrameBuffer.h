@@ -8,7 +8,12 @@
 #include "BoundingBox.h"
 #include <string.h>
 
-typedef Color Sample;
+typedef struct {
+  float z;
+  Color color;
+} Sample;
+
+//typedef Color Sample;
 typedef Sample* Pixel;
 
 class FrameBuffer {
@@ -24,6 +29,7 @@ public:
   ~FrameBuffer();
 
   void set(int, int, Color);
+  void set(int, int, int, Color, float);
   void set(int, int, int, Color);
   Color get(int, int) const;
   

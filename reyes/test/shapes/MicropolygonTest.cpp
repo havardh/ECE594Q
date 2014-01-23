@@ -1,6 +1,11 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "Micropolygon.h"
 #include "MatrixTestHelper.h"
+#include "BoundingBox.h"
+#include "Sphere.h"
+#include "Matrix.h"
+#include "MatrixFactory.h"
+
 
 TEST_GROUP(Micropolygon) {
 void setup() {}
@@ -97,3 +102,5 @@ TEST(Micropolygon, shouldSetAndGetColor) {
   CHECK_EQUAL(0, actual.red );
 
 }
+
+

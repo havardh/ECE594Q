@@ -14,9 +14,9 @@ SimplePolygon::SimplePolygon(Micropolygon p) {
 void SimplePolygon::simplify() {
 
   Matrix topLeft = *getTopLeft();
-  Matrix rightTop = *getRightTop();
-  Matrix bottomRight = *getBottomRight();
-  Matrix leftBottom = *getLeftBottom();
+  Matrix rightTop = *getRightTop(topLeft);
+  Matrix bottomRight = *getBottomRight(topLeft, rightTop);
+  Matrix leftBottom = *getLeftBottom(topLeft, rightTop, bottomRight);
 
   set(0, topLeft);
   set(1, rightTop);
@@ -29,40 +29,9 @@ Matrix * SimplePolygon::getTopLeft() {
   int index = 0;
 
   for (int i=1; i<4; i++) {
-    if (_points[i].get(1) > _points[index].get(1)) {
-      index = i;
-    } else if (_points[i].get(1) == _points[index].get(1) 
-               && _points[i].get(0)  < _points[index].get(0)) {
-      index = i;
-    }
-  }
-  
-  return &_points[index];
-}
-
-Matrix * SimplePolygon::getRightTop() {
-  int index = 0;
-
-  for (int i=1; i<4; i++) {
-    if (_points[i].get(0) > _points[index].get(0)) {
-      index = i;
-    } else if (_points[i].get(0) == _points[index].get(0)
-               && _points[i].get(1) > _points[index].get(1)) {
-      index = i;
-    } 
-  }
-  
-  return &_points[index];
-}
-
-Matrix * SimplePolygon::getBottomRight() {
-    int index = 0;
-
-  for (int i=1; i<4; i++) {
-    if (_points[i].get(1) < _points[index].get(1)) {
-      index = i;
-    } else if (_points[i].get(1) == _points[index].get(1)
-               && _points[i].get(0)  > _points[index].get(0)) {
+    if (_points[i].get(1) > _points[index].get(1)
+        || (_points[i].get(1) == _points[index].get(1) 
+            && _points[i].get(0)  < _points[index].get(0))) {
       index = i;
     }
   }
@@ -70,17 +39,47 @@ Matrix * SimplePolygon::getBottomRight() {
   return &_points[index];
 }
 
-Matrix * SimplePolygon::getLeftBottom() {
-
+Matrix * SimplePolygon::getRightTop(Matrix ex1) {
+  (void) ex1;
   int index = 0;
 
   for (int i=1; i<4; i++) {
-    if (_points[i].get(0) < _points[index].get(0)) {
-      index = i;
-    } else if (_points[i].get(0) == _points[index].get(0)
-               && _points[i].get(1) < _points[index].get(1)) {
-      index = i;
-    } 
+    
+      if (_points[i].get(0) > _points[index].get(0)
+          || (_points[i].get(0) == _points[index].get(0)
+              && _points[i].get(1) > _points[index].get(1))) {
+        index = i;
+      } 
+  }
+  
+  return &_points[index];
+}
+
+Matrix * SimplePolygon::getBottomRight(Matrix ex1 ,Matrix ex2) {
+  (void) ex1; (void) ex2;
+  int index = 0;
+
+  for (int i=1; i<4; i++) {
+      if (_points[i].get(1) < _points[index].get(1) || 
+          (_points[i].get(1) == _points[index].get(1) 
+           && _points[i].get(0)  > _points[index].get(0))) {
+        index = i;
+      }
+  }
+  
+  return &_points[index];
+}
+
+Matrix * SimplePolygon::getLeftBottom(Matrix ex1,Matrix ex2, Matrix ex3) {
+  (void) ex1; (void) ex2; (void) ex3;
+  int index = 0;
+
+  for (int i=1; i<4; i++) {
+      if (_points[i].get(0) < _points[index].get(0)
+          || (_points[i].get(0) == _points[index].get(0)
+              && _points[i].get(1) < _points[index].get(1))) {
+        index = i;
+      } 
   }
   
   return &_points[index];

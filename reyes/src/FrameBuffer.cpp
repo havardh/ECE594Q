@@ -14,6 +14,10 @@ FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height)
 
   for (int i=0; i<width*height; i++) {
     this->buffer[i] = new Sample[4*4];
+    
+    for (int j=0; j<4*4; j++) {
+      this->buffer[i][j].z = 2;
+    }
   }
 
 }
@@ -29,19 +33,33 @@ FrameBuffer::~FrameBuffer() {
 }
 
 void FrameBuffer::set(int x, int y, Color color) {
+
   assert(x >= 0);
   assert(y >= 0);
   assert(x < _width);
   assert(y < _height);
-
+  
   for (int i=0; i<4*4; i++) {
     set(x, y, i, color);
   }
 }
 
+void FrameBuffer::set(int x, int y, int i, Color color, float z) {
+  assert( z >= 0 );
+  assert( z <= 1 );
+
+  Sample s = this->buffer[ x + y * this->_width ][i];
+  if (s.z > z) {
+    s.color = color;
+    s.z = z;
+
+    this->buffer[ x + y * this->_width ][i] = s;
+  }
+}
+
 void FrameBuffer::set(int x, int y, int i, Color color) {
 
-  this->buffer[ x + y * this->_width ][i] = color;
+  this->buffer[ x + y * this->_width ][i].color = color;
 
 }
 
@@ -51,7 +69,7 @@ Color FrameBuffer::get(int x, int y) const {
 
   int red = 0, green = 0, blue = 0;
   for (int i=0; i<4*4; i++) {
-    Color c = this->buffer[ x + y * this->_width][i];
+    Color c = this->buffer[ x + y * this->_width][i].color;
     red += c.red;
     green += c.green;
     blue += c.blue;
@@ -88,8 +106,8 @@ void FrameBuffer::draw(Matrix * points, int n) {
 
 void FrameBuffer::drawPoint(Matrix p) {
   
-  p.scale(this->_width, this->_height, 1);
-  p.translate(this->_width/2, this->_height/2, 0);
+  p.translate(1, 1, 0);
+  p.scale(_width/2, _height/2, 1);
   
   p.homogenize();
   
@@ -97,11 +115,9 @@ void FrameBuffer::drawPoint(Matrix p) {
   int y = (int)(p.get(1,0));
   
   if ( x < this->_width && x >= 0 && y < this->_height && y >= 0 ) {
-    this->buffer[ x + this->_width * y ][0].red = 255;
-    this->buffer[ x + this->_width * y ][0].green = 255;
-    this->buffer[ x + this->_width * y ][0].blue = 255;
+    Color c = { 255, 255, 255 };
+    set(x, y, c);
   }
-
 }
 
 void FrameBuffer::drawBox(BoundingBox box) {
@@ -118,17 +134,14 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 
-  polygon.print();
-
-  drawBox(box);
-
   int x = (int)floor(box.getX());
   int y = (int)floor(box.getY());
   int dx = (int)ceil(box.getDX());
   int dy = (int)ceil(box.getDY());
 
   SimplePolygon simplePolygon(polygon);
-
+  
+  // pixel size in -1 - 1 range divided by number of samples
   float fdx = (2.0f / _width) / 4.0f;
   float fdy = (2.0f / _height) / 4.0f;
 
@@ -143,7 +156,7 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
         for (int l=0; l<4; l++) {
 
           if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
-            set(j, i, k*4+l, polygon.getColor());
+            set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(3));
           }
         }
       }
