@@ -40,6 +40,16 @@ Matrix::Matrix(int m, int n) : _m(m), _n(n) {
 
 }
 
+Matrix::Matrix(float x, float y, float z) : _m(3), _n(1) {
+
+  this->allocate();
+
+  this->matrix[0] = x;
+  this->matrix[1] = y;
+  this->matrix[2] = z;
+  
+}
+
 Matrix::Matrix(float x, float y, float z, float w) : _m(4), _n(1) {
 
   this->allocate();

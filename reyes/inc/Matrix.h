@@ -18,6 +18,7 @@ class Matrix {
   Matrix();
   Matrix(int);
   Matrix(int, int);
+  Matrix(float, float, float);
   Matrix(float, float, float, float);
   Matrix(const Matrix &);
   ~Matrix(void);
