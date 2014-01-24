@@ -1,22 +1,24 @@
 #include "Sphere.h"
 
-Sphere::Sphere(float radius) {
+Sphere::Sphere(float radius, float zmin, float zmax, float thetamax) {
 
-  printf("Sphere generated: %f\n", radius);
+  float phi_min = zmin > -radius ? asin(zmin/radius) : -M_PI / 4;
+  float phi_max = zmax > radius ? asin(zmax/radius) : M_PI / 4;
 
-  for (int i=0; i<_m; i++) {
-    float iangle = (float)((M_PI / _m) * i);
+  for (int u=0; u<_m; u++) {
 
-    for (int j=0; j<_n; j++) {
+    float theta = thetamax/(_m-1) * u;
+
+    for (int v=0; v<_n; v++) {
       
-      float jangle = (float)((2*M_PI / _n) * j);
+      float phi = phi_min + v / (float)_n * (phi_max - phi_min);
 
-      float x = radius * (float)(cos(jangle) * sin(iangle));
-      float y = radius * (float)cos(iangle);
-      float z = radius * (float)(sin(jangle) * sin(iangle));
+      float x = radius * (float)(cos(theta) * cos(phi));
+      float y = radius * (float)(sin(theta) * cos(phi));
+      float z = radius * (float)(sin(phi));
       
       float values[] = { x, y, z, 1 };
-      this->mesh[ (size_t)(i*_m + j) ].setAll(values);
+      this->mesh[ (size_t)(u*_m + v) ].setAll(values);
 
     }
   }

@@ -205,7 +205,7 @@ void RiConcatTransform(RtMatrix transform) {
 }
 
 void RiSphere(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...) {
-  Sphere s(radius);
+  Sphere s(radius, zmin, zmax, thetamax);
   s.setOpacity(opacity);
   s.setColor(currentColor.red, currentColor.green, currentColor.blue);
   s.transform(currentTransform);
