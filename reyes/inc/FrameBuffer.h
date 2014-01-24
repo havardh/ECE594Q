@@ -4,7 +4,6 @@
 #include "Matrix.h"
 #include "Mesh.h"
 #include "Sphere.h"
-#include "SimplePolygon.h"
 #include "BoundingBox.h"
 #include <string.h>
 #include <vector>
