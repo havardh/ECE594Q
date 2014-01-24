@@ -31,10 +31,10 @@ public:
   
   void setProjectionMatrix(Matrix &);
   void draw(Matrix *, int);
-  void drawPoint(Matrix);
-  void drawRectangle(int, int, int, int);
-  void drawBox(BoundingBox);
-  void drawMicropolygon(Micropolygon);
+  void draw(Matrix);
+  void draw(int, int, int, int);
+  void draw(BoundingBox);
+  void draw(Micropolygon);
   void draw(Mesh *);
   void draw(Shape&);
   void bind(char *);

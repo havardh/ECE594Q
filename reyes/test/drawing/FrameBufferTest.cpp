@@ -112,7 +112,7 @@ IGNORE_TEST(FrameBuffer, shouldSampleAMicroPolygon) {
   p.set(1, Matrix(1, -1, 0, 1));
   p.set(2, Matrix(-1, -1, 0, 1));
   p.set(3, Matrix(-1, 1, 0, 1));
-  fb.drawMicropolygon(p);
+  fb.draw(p);
 
   for (int i=0; i<10; i++) {
     for (int j=0; j<10; j++) {

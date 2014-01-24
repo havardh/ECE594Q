@@ -94,7 +94,7 @@ void FrameBuffer::setProjectionMatrix(Matrix &projectionMatrix) {
 void FrameBuffer::draw(Mesh * mesh) {
 
   for (int i=0; i<mesh->getNumPoints(); i++) {   
-    drawPoint(mesh->getPoint(i));
+    draw(mesh->getPoint(i));
   }
 
 }
@@ -102,7 +102,7 @@ void FrameBuffer::draw(Mesh * mesh) {
 void FrameBuffer::draw(Matrix * points, int n) {
 
   for (int i=0; i<n; i++) {
-    drawPoint(points[i]);
+    draw(points[i]);
   }
 }
 
@@ -113,12 +113,12 @@ void FrameBuffer::draw(Shape & shape) {
   std::vector<Micropolygon> polygons = shape.getMicropolygons();
   std::vector<Micropolygon>::iterator it;
   for (it = polygons.begin(); it != polygons.end(); ++it) {
-    drawMicropolygon(*it);
+    draw(*it);
   }
 
 }
 
-void FrameBuffer::drawPoint(Matrix p) {
+void FrameBuffer::draw(Matrix p) {
   
   p.translate(1, 1, 0);
   p.scale(_width/2, _height/2, 1);
@@ -134,17 +134,17 @@ void FrameBuffer::drawPoint(Matrix p) {
   }
 }
 
-void FrameBuffer::drawBox(BoundingBox box) {
+void FrameBuffer::draw(BoundingBox box) {
   int x = (int)floor(box.getX());
   int y = (int)floor(box.getY());
   int dx = (int)ceil(box.getDX());
   int dy = (int)ceil(box.getDY());
 
-  this->drawRectangle(x, y, dx, dy);
+  this->draw(x, y, dx, dy);
 
 }
 
-void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
+void FrameBuffer::draw(Micropolygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 
@@ -178,7 +178,7 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
   }
 }
 
-void FrameBuffer::drawRectangle(int x, int y, int dx, int dy) {
+void FrameBuffer::draw(int x, int y, int dx, int dy) {
 
   for (int i=y; i < y+dy; i++) {
     for (int j=x; j < x+dx; j++) {

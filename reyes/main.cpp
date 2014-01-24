@@ -196,7 +196,7 @@ void draw(FrameBuffer & fb, Shape & shape) {
   for (it = polygons.begin(); it != polygons.end(); ++it) {
     float x = it->get(0).get(0);
     float y = it->get(0).get(1);
-    fb.drawMicropolygon(*it);
+    fb.draw(*it);
   }
 
   
