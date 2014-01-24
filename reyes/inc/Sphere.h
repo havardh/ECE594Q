@@ -1,9 +1,9 @@
 #ifndef _SPHERE_H_
 #define _SPHERE_H_
 
-#include "Mesh.h"
+#include "Shape.h"
 
-class Sphere : public Mesh {
+class Sphere : public Shape {
 
 public:
   Sphere(float radius);

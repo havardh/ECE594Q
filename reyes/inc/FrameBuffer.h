@@ -7,21 +7,17 @@
 #include "SimplePolygon.h"
 #include "BoundingBox.h"
 #include <string.h>
+#include <vector>
+#include "ZBuffer.h"
 
-typedef struct {
-  float z;
-  Color color;
-} Sample;
-
-//typedef Color Sample;
-typedef Sample* Pixel;
+typedef std::vector<std::vector<ZBuffer> > Pixel;
 
 class FrameBuffer {
 
 private:
   int _width, _height;
   char *_filename;
-  Pixel *buffer;
+  Pixel pixels;
   Matrix _projectionMatrix;
 
 public:
@@ -29,8 +25,9 @@ public:
   ~FrameBuffer();
 
   void set(int, int, Color);
-  void set(int, int, int, Color, float);
   void set(int, int, int, Color);
+  void set(int, int, int, Color, float);
+  void set(int, int, int, Color, float, float);
   Color get(int, int) const;
   
   void setProjectionMatrix(Matrix &);

@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-Sphere::Sphere(float radius) : Mesh(40,40) {
+Sphere::Sphere(float radius) {
 
   for (int i=0; i<_m; i++) {
     float iangle = (float)((M_PI / _m) * i);

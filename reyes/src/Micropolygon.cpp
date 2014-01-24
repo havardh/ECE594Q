@@ -3,6 +3,7 @@
 Micropolygon::Micropolygon() {
 
   this->allocate();
+  this->_opacity = 1.0;
   
 }
 
@@ -11,6 +12,8 @@ Micropolygon::Micropolygon(Matrix *points) {
   for (int i=0; i<4; i++) {
     this->_points[i] = points[i];
   }
+
+  this->_opacity = 1.0;
   
 }
 

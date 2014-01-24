@@ -55,6 +55,25 @@ TEST(FrameBuffer, shouldRetainColorOnlyIfZIsHigher) {
   CHECK_EQUAL( 2, a1.blue );
 }
 
+TEST(FrameBuffer, shouldSupportOpacity) {
+  
+  FrameBuffer fb(1,1);
+  float z0 = 1.0;
+  Color c0 = { 0, 0, 0 };
+  for (int i=0; i<16; i++) 
+    fb.set(0, 0, i, c0, z0, 1);
+
+  float z1 = 0.5;
+  Color c1 = { 10, 10, 10 };
+  for (int i=0; i<16; i++) 
+    fb.set(0, 0, i, c1, z1, 0.5);
+  
+  Color a0 = fb.get(0,0);
+  CHECK_EQUAL( 5, a0.red );
+  CHECK_EQUAL( 5, a0.green );
+  CHECK_EQUAL( 5, a0.blue );
+  
+}
 
 
 TEST(FrameBuffer, shouldSetSampleAndGetAverage) {

@@ -22,6 +22,8 @@ class Mesh {
 protected:
   std::vector<Matrix> mesh;
   int _m, _n;
+  Color _color;
+  float _opacity;
 
 public:
   Mesh(int m, int n);
@@ -30,6 +32,16 @@ public:
   int getM() { return _m; }
   int getN() { return _n; }
   Matrix getPoint(int i);
+
+  Color getColor() { return _color; }
+  void setColor(uint8_t red, uint8_t green, uint8_t blue) {
+    _color.red = red; _color.green = green; _color.blue = blue; 
+  }
+  float getOpacity() { return _opacity; }
+  void setOpacity(float opacity) {
+    assert(opacity >= 0); assert(opacity <= 1.0);
+    _opacity = opacity;
+  }
 
   Mesh & projectOnto(Matrix &);
   Mesh & transform(Matrix &);

@@ -13,6 +13,7 @@ protected:
 private:
 
   Color _color;
+  float _opacity;
 
   void allocate();
   
@@ -21,6 +22,8 @@ public:
   Micropolygon(Matrix * points);
 
   Matrix get(int i) const;
+  float getOpacity() const { return _opacity; }
+  void setOpacity(float opacity) { _opacity = opacity; }
   void set(int i, Matrix);
   BoundingBox getBoundingBox() const;
 

@@ -10,27 +10,13 @@ using namespace cimg_library;
 
 FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height) {
 
-  this->buffer = new Pixel[width*height];
-
-  for (int i=0; i<width*height; i++) {
-    this->buffer[i] = new Sample[4*4];
-    
-    for (int j=0; j<4*4; j++) {
-      this->buffer[i][j].z = 2;
-    }
-  }
+  std::vector<ZBuffer> initial(4*4);
+  pixels = std::vector<std::vector<ZBuffer> >((size_t)(width*height), initial);
+  
 
 }
 
-FrameBuffer::~FrameBuffer() {
-
-  for (int i=0; i<_width*_height; i++) {
-    delete[] this->buffer[i];
-  }
-
-  delete [] this->buffer;
-
-}
+FrameBuffer::~FrameBuffer() {}
 
 void FrameBuffer::set(int x, int y, Color color) {
 
@@ -40,7 +26,8 @@ void FrameBuffer::set(int x, int y, Color color) {
   assert(y < _height);
   
   for (int i=0; i<4*4; i++) {
-    set(x, y, i, color);
+    Sample s = { 1.0, 1.0, color };
+    pixels[(size_t)(x + y *this->_width)][(size_t)i].add(s);
   }
 }
 
@@ -48,18 +35,22 @@ void FrameBuffer::set(int x, int y, int i, Color color, float z) {
   assert( z >= 0 );
   assert( z <= 1 );
 
-  Sample s = this->buffer[ x + y * this->_width ][i];
-  if (s.z > z) {
-    s.color = color;
-    s.z = z;
+  Sample s = { z, 1.0, color };
+  pixels[(size_t)(x + y *this->_width)][(size_t)i].add(s);
 
-    this->buffer[ x + y * this->_width ][i] = s;
-  }
+}
+
+void FrameBuffer::set(int x, int y, int i, Color color, float z, float opacity) {
+
+  Sample s = { z, opacity, color };
+  pixels[(size_t)(x + y *this->_width)][(size_t)i].add(s);
+
 }
 
 void FrameBuffer::set(int x, int y, int i, Color color) {
 
-  this->buffer[ x + y * this->_width ][i].color = color;
+  Sample s = { 1.0, 1.0, color };
+  pixels[(size_t)(x + y *this->_width)][(size_t)i].add(s);
 
 }
 
@@ -69,7 +60,10 @@ Color FrameBuffer::get(int x, int y) const {
 
   int red = 0, green = 0, blue = 0;
   for (int i=0; i<4*4; i++) {
-    Color c = this->buffer[ x + y * this->_width][i].color;
+    
+    ZBuffer zBuffer = pixels[(size_t)(x + y *this->_width)][(size_t)i];
+    Color c = zBuffer.getColor();
+
     red += c.red;
     green += c.green;
     blue += c.blue;
@@ -156,7 +150,7 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
         for (int l=0; l<4; l++) {
 
           if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
-            set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(3));
+            set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(2), polygon.getOpacity());
           }
         }
       }

@@ -2,7 +2,7 @@
 
 #define IX(row, col) ((row) * _n + (col))
 
-Mesh::Mesh(int m, int n) : _m(m), _n(n) {
+Mesh::Mesh(int m, int n) : _m(m), _n(n), _opacity(1.0) {
 
   for (int i=0; i<_m *_n; i++) {
     this->mesh.push_back(Matrix(4,1));
@@ -95,8 +95,10 @@ std::vector<Micropolygon> Mesh::getMicropolygons() {
 
       
       Micropolygon p(points);
-      Color c = { (uint8_t)(255 * (float) i/_m), (uint8_t)(255 *(float) j/_n), 255 };
-      p.setColor(c);
+      //Color c = { (uint8_t)(255 * (float) i/_m), (uint8_t)(255 *(float) j/_n), 255 };
+      //p.setColor(c);
+      p.setColor(getColor());
+      p.setOpacity(getOpacity());
       
       polygons.push_back(p);
     }

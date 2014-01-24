@@ -11,7 +11,7 @@ endif
 
 #--- Inputs ----#
 COMPONENT_NAME = all
-CPPUTEST_HOME = /usr/local/Cellar/cpputest/3.4
+CPPUTEST_HOME = ../cpputest
 
 CPPUTEST_USE_EXTENSIONS = N
 CPP_PLATFORM = GCC
