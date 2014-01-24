@@ -1,13 +1,13 @@
-#include "Micropolygon.h"
+#include "Polygon.h"
 
-Micropolygon::Micropolygon() {
+Polygon::Polygon() {
 
   this->allocate();
   this->_opacity = 1.0;
   
 }
 
-Micropolygon::Micropolygon(Matrix *points) {
+Polygon::Polygon(Matrix *points) {
   
   for (int i=0; i<4; i++) {
     this->_points[i] = points[i];
@@ -17,30 +17,30 @@ Micropolygon::Micropolygon(Matrix *points) {
   
 }
 
-void Micropolygon::allocate() {
+void Polygon::allocate() {
 
   for (int i=0; i<4; i++) {
     _points[i] = Matrix(4,1);
   }
 }
 
-Matrix Micropolygon::get(int i) const {
+Matrix Polygon::get(int i) const {
   return this->_points[i];
 } 
 
-void Micropolygon::set(int i, Matrix val) {
+void Polygon::set(int i, Matrix val) {
   this->_points[i] = val;
 }
 
-Color Micropolygon::getColor() const {
+Color Polygon::getColor() const {
   return this->_color;
 }
 
-void Micropolygon::setColor(Color color) {
+void Polygon::setColor(Color color) {
   this->_color = color;
 }
 
-BoundingBox Micropolygon::getBoundingBox() const {
+BoundingBox Polygon::getBoundingBox() const {
 
   float minx = this->_points[0].get(0);
   float miny = this->_points[0].get(1);
@@ -103,7 +103,7 @@ bool isInTriangle(float x0, float y0, float x1, float y1, float x2, float y2, fl
 
 }
 
-bool Micropolygon::intersects(float x, float y) {
+bool Polygon::intersects(float x, float y) {
 
   float x0 = this->_points[0].get(0);
   float y0 = this->_points[0].get(1);

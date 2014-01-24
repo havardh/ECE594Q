@@ -1,5 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
-#include "Micropolygon.h"
+#include "Polygon.h"
 #include "MatrixTestHelper.h"
 #include "BoundingBox.h"
 #include "Sphere.h"
@@ -7,7 +7,7 @@
 #include "MatrixFactory.h"
 
 
-TEST_GROUP(Micropolygon) {
+TEST_GROUP(Polygon) {
 void setup() {}
 void teardown() {}
 };
@@ -20,9 +20,9 @@ static Matrix values[4] = {
 };
 
 
-TEST(Micropolygon, shouldConstructCopies) {
+TEST(Polygon, shouldConstructCopies) {
     
-  Micropolygon polygon(values);
+  Polygon polygon(values);
 
   values[0].set(0,0, 5.0);
   float value = polygon.get(0).get(0);
@@ -30,9 +30,9 @@ TEST(Micropolygon, shouldConstructCopies) {
   
 }
 
-TEST(Micropolygon, shouldSetAndGetValues) {
+TEST(Polygon, shouldSetAndGetValues) {
   
-	Micropolygon polygon;
+	Polygon polygon;
   polygon.set(0, Matrix(0,0,0,0));
   polygon.set(1, Matrix(1,1,1,1));
   polygon.set(2, Matrix(2,2,2,2));
@@ -54,9 +54,9 @@ TEST(Micropolygon, shouldSetAndGetValues) {
 }
 
 
-TEST(Micropolygon, getBoundingBox) {
+TEST(Polygon, getBoundingBox) {
   
-  Micropolygon polygon;
+  Polygon polygon;
   polygon.set(0, Matrix(-1,-1,1,1));
   polygon.set(1, Matrix(-1, 2,1,1));
   polygon.set(2, Matrix( 1, 1,1,1));
@@ -70,9 +70,9 @@ TEST(Micropolygon, getBoundingBox) {
   DOUBLES_EQUAL(5, box.getDY(), 0.0001);
 }
 
-TEST(Micropolygon, shouldCheckForIntersects) {
+TEST(Polygon, shouldCheckForIntersects) {
   
-	Micropolygon polygon;
+	Polygon polygon;
   polygon.set(0, Matrix(2,2,0,2));
   polygon.set(1, Matrix(2,-2,0,2));
   polygon.set(2, Matrix(-2,-2,0,2));
@@ -91,9 +91,9 @@ TEST(Micropolygon, shouldCheckForIntersects) {
 
 }
 
-TEST(Micropolygon, shouldSetAndGetColor) {
+TEST(Polygon, shouldSetAndGetColor) {
 
-  Micropolygon p;
+  Polygon p;
   Color c = { 0, 1, 2 };
 
   p.setColor(c);

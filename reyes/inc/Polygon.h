@@ -5,7 +5,7 @@
 #include "BoundingBox.h"
 #include "Color.h"
 
-class Micropolygon {
+class Polygon {
 
 protected:  
   Matrix _points[4];
@@ -18,8 +18,8 @@ private:
   void allocate();
   
 public:
-  Micropolygon();
-  Micropolygon(Matrix * points);
+  Polygon();
+  Polygon(Matrix * points);
 
   Matrix get(int i) const;
   float getOpacity() const { return _opacity; }

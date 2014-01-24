@@ -21,7 +21,7 @@ public:
     setColor(255, 255, 255);
   }
 
-  std::vector<Micropolygon> getMicropolygons();
+  std::vector<Polygon> getPolygons();
 
   Color getColor();
   void setColor(uint8_t, uint8_t, uint8_t);

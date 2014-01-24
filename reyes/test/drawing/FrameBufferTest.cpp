@@ -96,7 +96,7 @@ TEST(FrameBuffer, shouldSetSampleAndGetAverage) {
 
 }
 
-class PolyMock : public Micropolygon {
+class PolyMock : public Polygon {
 
   
 

@@ -190,9 +190,9 @@ int main(int argc, char *argv[]) {
 
 void draw(FrameBuffer & fb, Shape & shape) {
   
-  std::vector<Micropolygon> polygons = shape.getMicropolygons();
+  std::vector<Polygon> polygons = shape.getPolygons();
   
-  std::vector<Micropolygon>::iterator it;
+  std::vector<Polygon>::iterator it;
   for (it = polygons.begin(); it != polygons.end(); ++it) {
     float x = it->get(0).get(0);
     float y = it->get(0).get(1);

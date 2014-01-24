@@ -22,7 +22,7 @@ public:
 /**
  * Checks if the given polygon has the values from the position valueIndex from valuesArray on position i
  */
-static void CHECK_DICING(Micropolygon polygon, int *valueIndices, float *valuesArray) {
+static void CHECK_DICING(Polygon polygon, int *valueIndices, float *valuesArray) {
 
   for (int i=0; i<4; i++) {
       Matrix m = polygon.get(i);
@@ -40,10 +40,10 @@ static float values[] = {
 };
 
 
-TEST(Shape, shouldDiceIntoMicropolygons) {
+TEST(Shape, shouldDiceIntoPolygons) {
   
 	ShapeMock shape(values, 2, 2);
-  std::vector<Micropolygon> polygon = shape.getMicropolygons();
+  std::vector<Polygon> polygon = shape.getPolygons();
 
   int valuesArray[] = { 0, 4, 8, 12 };
   CHECK_DICING(polygon[0], valuesArray, values);
@@ -68,7 +68,7 @@ static float grid[] = {
 TEST(Shape, dicingShouldBeSequential) {
   
 	ShapeMock shape(grid, 3, 3);
-  std::vector<Micropolygon> polygons = shape.getMicropolygons();
+  std::vector<Polygon> polygons = shape.getPolygons();
 
   CHECK_EQUAL(6, polygons.size());
   /*

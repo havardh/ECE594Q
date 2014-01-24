@@ -34,7 +34,7 @@ public:
   void draw(Matrix);
   void draw(int, int, int, int);
   void draw(BoundingBox);
-  void draw(Micropolygon);
+  void draw(Polygon);
   void draw(Mesh *);
   void draw(Shape&);
   void bind(char *);

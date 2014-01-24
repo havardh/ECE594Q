@@ -110,8 +110,8 @@ void FrameBuffer::draw(Shape & shape) {
 
   //draw(&shape);
 
-  std::vector<Micropolygon> polygons = shape.getMicropolygons();
-  std::vector<Micropolygon>::iterator it;
+  std::vector<Polygon> polygons = shape.getPolygons();
+  std::vector<Polygon>::iterator it;
   for (it = polygons.begin(); it != polygons.end(); ++it) {
     draw(*it);
   }
@@ -144,7 +144,7 @@ void FrameBuffer::draw(BoundingBox box) {
 
 }
 
-void FrameBuffer::draw(Micropolygon polygon) {
+void FrameBuffer::draw(Polygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 

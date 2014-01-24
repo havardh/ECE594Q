@@ -20,9 +20,9 @@ void Shape::setOpacity(float opacity) {
 }
 
 
-std::vector<Micropolygon> Shape::getMicropolygons() {
+std::vector<Polygon> Shape::getPolygons() {
   
-  std::vector<Micropolygon> polygons;
+  std::vector<Polygon> polygons;
 
   for (int i=0; i<_m-1; i++) {
     for (int j=0; j<_n; j++) {
@@ -34,7 +34,7 @@ std::vector<Micropolygon> Shape::getMicropolygons() {
       points[3] = this->mesh[ (size_t)IX(i+1,(j+1)%_n) ];
 
       
-      Micropolygon p(points);
+      Polygon p(points);
       p.setColor(getColor());
       p.setOpacity(getOpacity());
       
