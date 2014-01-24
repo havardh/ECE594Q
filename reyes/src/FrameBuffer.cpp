@@ -108,7 +108,7 @@ void FrameBuffer::draw(Matrix * points, int n) {
 
 void FrameBuffer::draw(Shape & shape) {
 
-  shape.getPoint(0).printPoint();
+  //draw(&shape);
 
   std::vector<Micropolygon> polygons = shape.getMicropolygons();
   std::vector<Micropolygon>::iterator it;
@@ -155,8 +155,6 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
   int y = (int)floor(box.getY());
   int dx = (int)ceil(box.getDX());
   int dy = (int)ceil(box.getDY());
-
-  SimplePolygon simplePolygon(polygon);
   
   // pixel size in -1 - 1 range divided by number of samples
   float fdx = (2.0f / _width) / 4.0f;
@@ -172,7 +170,7 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
         for (int k=0; k<4; k++) {
           for (int l=0; l<4; l++) {
             
-            if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
+            if (polygon.intersects(fx + k*fdx, fy + l*fdy)) {
 
               set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(2), polygon.getOpacity());
             }

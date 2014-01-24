@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "Sphere.h"
 #include "Cylinder.h"
+#include "Cone.h"
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -163,14 +164,13 @@ void renderExample() {
   for (int i=0; i<1; i++) {
     
     {
-      Cylinder s(1, 0, 1, 2*M_PI);
+      Sphere s(1);
       s.setColor(0, 255, 0);
-      s.setOpacity(0.7);
+      s.setOpacity(0.2);
       Matrix t = MatrixFactory::createIdentity(4);
-      t.rotate(X, M_PI);
-      t.rotate(Y, M_PI);
-      t.rotate(Z, M_PI);
-      t.scale(10, 10, 10);
+      t.rotate(X, M_PI/2);
+      t.rotate(Z, M_PI/2);
+      t.scale(2,2,2);
       t.translate(0, 0, 100);
       s.transform(t);
       s.projectOnto(projectionMatrix);
@@ -183,8 +183,10 @@ void renderExample() {
       s.setColor(0, 0, 255);
       s.setOpacity(0.7);
       Matrix t = MatrixFactory::createIdentity(4);
-      t.scale(1.7,1.7,1.7);
-      t.translate(5,5, 60);
+      t.scale(10, 10, 10);
+      t.rotate(X, M_PI/4);
+      t.translate(0,0,100);
+      
       s.transform(t);
       s.projectOnto(projectionMatrix);
       s.homogenize();

@@ -10,7 +10,7 @@ Cylinder::Cylinder(float radius, float zmin, float zmax, float thetamax) {
 
       float x = radius * cos(theta);
       float y = radius * sin(theta);
-      float z = v * (zmax - zmin);
+      float z = v/(float)_n * (zmax - zmin);
 
       float values[] = {x,y,z,1};
       this->mesh[(size_t)(u*_m + v)].setAll(values);

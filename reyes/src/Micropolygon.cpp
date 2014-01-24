@@ -82,12 +82,22 @@ float determinant(float x0, float y0, float x1, float y1, float x2, float y2) {
 
 }
 
+float sign(float x0, float y0, float x1, float y1, float x2, float y2) {
+
+  float f = ((x0 - x2) * (y1 - y2)) - ((x1 - x2) * (y0 - y2));
+  return f;
+
+}
+
 bool isInTriangle(float x0, float y0, float x1, float y1, float x2, float y2, float x, float y) {
 
+  //bool b0 = determinant(x0, y0, x1, y1, x, y) <= 0.0f;
+  //bool b1 = determinant(x1, y1, x2, y2, x, y) <= 0.0f;
+  //bool b2 = determinant(x2, y2, x0, y0, x, y) <= 0.0f;
 
-  bool b0 = determinant(x0, y0, x1, y1, x, y) <= 0.0f;
-  bool b1 = determinant(x1, y1, x2, y2, x, y) <= 0.0f;
-  bool b2 = determinant(x2, y2, x0, y0, x, y) <= 0.0f;
+  bool b0 = sign(x, y, x0, y0, x1, y1) < 0.0f;
+  bool b1 = sign(x, y, x1, y1, x2, y2) < 0.0f;
+  bool b2 = sign(x, y, x2, y2, x0, y0) < 0.0f;
 
   return ( (b0 == b1) && (b1 == b2) );
 
@@ -104,8 +114,8 @@ bool Micropolygon::intersects(float x, float y) {
   float x3 = this->_points[3].get(0);
   float y3 = this->_points[3].get(1);
 
-  bool in0 = isInTriangle(x0,y0, x1,y1, x2,y2, x, y);
-  bool in1 = isInTriangle(x2,y2, x3,y3, x0,y0, x, y);
+  bool in0 = isInTriangle(x2,y2, x1,y1, x3,y3, x, y);
+  bool in1 = isInTriangle(x1,y1, x0,y0, x2,y2, x, y);
 
   return in0 || in1;
 }
