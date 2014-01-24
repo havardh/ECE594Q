@@ -45,25 +45,38 @@ int main(int argc, char *argv[]) {
   
   for (int i=0; i<1; i++) {
     
-    Sphere s1(1);
-    s1.setColor(0, 255, 0);
-    s1.setOpacity(0.7);
-    Matrix t1 = MatrixFactory::createIdentity(4);
-    t1.scale(10, 10, 10);
-    t1.translate(0, 0, 100);
-    s1.transform(t1);
+    {
+      Sphere s(1);
+      s.setColor(0, 255, 0);
+      s.setOpacity(0.7);
+      Matrix t = MatrixFactory::createIdentity(4);
+      t.scale(10, 10, 10);
+      t.translate(0, 0, 100);
+      s.transform(t);
+      draw(fb, s);
+    }
 
-    Sphere s2(1);
-    s2.setColor(255, 0, 0);
-    s2.setOpacity(0.7);
-    Matrix t2 = MatrixFactory::createIdentity(4);
-    t2.scale(1,1,1);
-    t2.translate(1,1, 20);
-    s2.transform(t2);
-    
-    draw(fb, s1);
-    draw(fb, s2);
-    
+    {
+      Sphere s(1);
+      s.setColor(0, 0, 255);
+      s.setOpacity(0.7);
+      Matrix t = MatrixFactory::createIdentity(4);
+      t.scale(1.7,1.7,1.7);
+      t.translate(5,5, 60);
+      s.transform(t);
+      draw(fb, s);
+    }    
+
+    {
+      Sphere s(1);
+      s.setColor(255, 0, 0);
+      s.setOpacity(0.3);
+      Matrix t = MatrixFactory::createIdentity(4);
+      t.scale(1,1,1);
+      t.translate(1,1, 20);
+      s.transform(t);
+      draw(fb, s);
+    }    
     //fb.draw(&s);
     fb.flush(i);
   }

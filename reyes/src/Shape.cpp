@@ -35,8 +35,6 @@ std::vector<Micropolygon> Shape::getMicropolygons() {
 
       
       Micropolygon p(points);
-      //Color c = { (uint8_t)(255 * (float) i/_m), (uint8_t)(255 *(float) j/_n), 255 };
-      //p.setColor(c);
       p.setColor(getColor());
       p.setOpacity(getOpacity());
       
