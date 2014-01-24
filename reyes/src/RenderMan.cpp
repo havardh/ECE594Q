@@ -212,38 +212,31 @@ void RiConcatTransform(RtMatrix transform) {
 
 }
 
+void renderShape(Shape & shape) {
+  shape.setOpacity(opacity);
+  shape.setColor(currentColor.red, currentColor.green, currentColor.blue);
+  shape.transform(currentTransform);
+  shape.projectOnto(projectionMatrix);
+  shape.homogenize();
+  frameBuffer->draw(shape);
+
+}
+
 void RiSphere(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...) {
-  Sphere s(radius, zmin, zmax, thetamax);
-  s.setOpacity(opacity);
-  s.setColor(currentColor.red, currentColor.green, currentColor.blue);
-  s.transform(currentTransform);
-  s.projectOnto(projectionMatrix);
-  s.homogenize();
-  frameBuffer->draw(s);
+  Sphere sphere(radius, zmin, zmax, thetamax);
+  renderShape(sphere);
 }
 
 void RiCone(RtFloat height, RtFloat radius, RtFloat thetamax, ...) {
   
   Cone cone(height, radius, thetamax);
-  cone.setOpacity(opacity);
-  cone.setColor(currentColor.red, currentColor.green, currentColor.blue);
-  cone.transform(currentTransform);
-  cone.projectOnto(projectionMatrix);
-  cone.homogenize();
-  frameBuffer->draw(cone);
-
+  renderShape(cone);
 }
 
 void RiCylinder(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...) {
 
   Cylinder cylinder(radius, zmin, zmax, (float)((thetamax / 360.0) * (2*M_PI)));
-  cylinder.setOpacity(opacity);
-  cylinder.setColor(currentColor.red, currentColor.green, currentColor.blue);
-  cylinder.transform(currentTransform);
-  cylinder.projectOnto(projectionMatrix);
-  cylinder.homogenize();
-  frameBuffer->draw(cylinder);
-
+  renderShape(cylinder);
 }
 
 void RiTorus(RtFloat majorradius, RtFloat minorradius, RtFloat phimin, RtFloat phimax, RtFloat thetamax, ...) {
