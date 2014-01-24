@@ -18,7 +18,7 @@ Sphere::Sphere(float radius, float zmin, float zmax, float thetamax) {
       float z = radius * (float)(sin(phi));
       
       float values[] = { x, y, z, 1 };
-      this->mesh[ (size_t)(u*_m + v) ].setAll(values);
+      this->getPoint(u, v).setAll(values);
 
     }
   }

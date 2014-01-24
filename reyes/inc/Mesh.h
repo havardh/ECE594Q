@@ -20,7 +20,7 @@ typedef struct {
 class Mesh {
 
 protected:
-  std::vector<Matrix> mesh;
+  std::vector<MeshPoint> mesh;
   int _m, _n;
 
 public:
@@ -29,7 +29,8 @@ public:
   int getNumPoints() { return _m*_n; }
   int getM() { return _m; }
   int getN() { return _n; }
-  Matrix getPoint(int i);
+  Matrix & getPoint(int i);
+  Matrix & getPoint(int u, int v);
 
   Mesh & projectOnto(Matrix &);
   Mesh & transform(Matrix &);

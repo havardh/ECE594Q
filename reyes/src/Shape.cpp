@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-#define IX(row, col) ((row) * _n + (col))
+#define IX(row, col) ((row) * _m + (col))
 
 Color Shape::getColor() { 
   return _color; 
@@ -28,10 +28,10 @@ std::vector<Polygon> Shape::getPolygons() {
     for (int j=0; j<_n; j++) {
      
       Matrix points[4];
-      points[0] = this->mesh[ (size_t)IX(i  ,j  ) ];
-      points[1] = this->mesh[ (size_t)IX(i  ,(j+1)%_n) ];
-      points[2] = this->mesh[ (size_t)IX(i+1,j  ) ];
-      points[3] = this->mesh[ (size_t)IX(i+1,(j+1)%_n) ];
+      points[0] = this->getPoint(IX(i  ,j  ));
+      points[1] = this->getPoint(IX(i  ,(j+1)%_n));
+      points[2] = this->getPoint(IX(i+1,j  ));
+      points[3] = this->getPoint(IX(i+1,(j+1)%_n));
 
       
       Polygon p(points);

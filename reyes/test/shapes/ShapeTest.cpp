@@ -13,7 +13,7 @@ public:
   ShapeMock(float * values, int m, int n) : Shape(m, n) {
     
     for (int i=0; i<m*n; i++) { 
-      this->mesh[(size_t)i].setAll(&values[i*4]);
+      this->getPoint(i).setAll(&values[i*4]);
     }
   }
   
@@ -86,6 +86,11 @@ TEST(Shape, dicingShouldBeSequential) {
   */
 }
 
+
+
+TEST(Shape, shouldContainTextureCoordinates) {
+   
+}
 
 
 TEST(Shape, shouldSetGetColor) {
