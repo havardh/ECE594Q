@@ -10,6 +10,7 @@ using namespace cimg_library;
 
 FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height) {
 
+
   std::vector<ZBuffer> initial(4*4);
   pixels = std::vector<std::vector<ZBuffer> >((size_t)(width*height), initial);
   
@@ -41,6 +42,13 @@ void FrameBuffer::set(int x, int y, int i, Color color, float z) {
 }
 
 void FrameBuffer::set(int x, int y, int i, Color color, float z, float opacity) {
+
+  assert(x >= 0);
+  assert(x < _width);
+  assert(y >= 0);
+  assert(y < _height);
+  assert(i >= 0);
+  assert(i < 4*4);
 
   Sample s = { z, opacity, color };
   pixels[(size_t)(x + y *this->_width)][(size_t)i].add(s);
@@ -98,6 +106,21 @@ void FrameBuffer::draw(Matrix * points, int n) {
   }
 }
 
+void FrameBuffer::draw(Shape & shape) {
+
+  shape.getPoint(0).printPoint();
+
+  std::vector<Micropolygon> polygons = shape.getMicropolygons();
+  std::vector<Micropolygon>::iterator it;
+  int i=0;
+  for (it = polygons.begin(); it != polygons.end(); ++it) {
+    float x = it->get(0).get(0);
+    float y = it->get(0).get(1);
+    drawMicropolygon(*it);
+  }
+
+}
+
 void FrameBuffer::drawPoint(Matrix p) {
   
   p.translate(1, 1, 0);
@@ -141,16 +164,18 @@ void FrameBuffer::drawMicropolygon(Micropolygon polygon) {
 
   for (int i=x; i < x+dx && i <_width; i++) {
     for (int j=y; j < y+dy && j < _height; j++) {
+      if (i > 0 && j > 0) {
+        // Back to eye-space
+        float fx = (float)(2*i / (float)_width)-1;
+        float fy = (float)(2*j / (float)_height)-1;
+        
+        for (int k=0; k<4; k++) {
+          for (int l=0; l<4; l++) {
+            
+            if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
 
-      // Back to eye-space
-      float fx = (float)(2*i / (float)_width)-1;
-      float fy = (float)(2*j / (float)_height)-1;
-
-      for (int k=0; k<4; k++) {
-        for (int l=0; l<4; l++) {
-
-          if (simplePolygon.intersects(fx + k*fdx, fy + l*fdy)) {
-            set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(2), polygon.getOpacity());
+              set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(2), polygon.getOpacity());
+            }
           }
         }
       }
@@ -175,7 +200,6 @@ void FrameBuffer::bind(char *filename) {
   this->_filename = filename;
 }
 
-
 // Unused possible refactoring
 void setPixel(CImg<unsigned char> image, int height, int j, int i, Color color) {
   image(j, height-1-i, 0, 0) = color.red;
@@ -186,6 +210,7 @@ void setPixel(CImg<unsigned char> image, int height, int j, int i, Color color) 
 void FrameBuffer::flush(int fileNumber) {
   (void) fileNumber;
   CImg<unsigned char> image(this->_width, this->_height, 1, 3, 0);
+
 
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
@@ -204,5 +229,9 @@ void FrameBuffer::flush(int fileNumber) {
   ss << "output/" << fileNumber << ".png";
   image.save(ss.str().c_str());
 #endif
+  
+}
+
+void FrameBuffer::clear() {
   
 }

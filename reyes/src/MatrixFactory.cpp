@@ -45,14 +45,13 @@ Matrix MatrixFactory::createRotation(Axis axis, float angle) {
   
   Matrix m = MatrixFactory::createIdentity(4);
 
-  (void) axis;
-
-  int d = axis == Z ? 0 : 1;
+  int d = axis == X ? 1 : 0;
+  int id = axis == Y ? 1 : 0;
 
   m.set(d+0,d+0, (float)cos(angle));
   m.set(d+0,d+1, (float)-sin(angle));
-  m.set(d+1,d+1, (float)cos(angle));
-  m.set(d+1,d+0, (float)sin(angle));
+  m.set(d+1+id,d+1+id, (float)cos(angle));
+  m.set(d+1+id,d+0+id, (float)sin(angle));
 
   return m;
 

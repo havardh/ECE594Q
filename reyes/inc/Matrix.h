@@ -20,6 +20,7 @@ class Matrix {
   Matrix(int, int);
   Matrix(float, float, float);
   Matrix(float, float, float, float);
+  Matrix(float[4][4]);
   Matrix(const Matrix &);
   ~Matrix(void);
 
@@ -43,6 +44,7 @@ class Matrix {
   Matrix & scale(float x, float y, float z);
   Matrix & translate(const Matrix &);
   Matrix & translate(float x, float y, float z);
+  Matrix & transform(const Matrix &);
 
   Matrix & projectOnto(const Matrix &);
 

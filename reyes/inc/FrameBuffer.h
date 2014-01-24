@@ -37,8 +37,10 @@ public:
   void drawBox(BoundingBox);
   void drawMicropolygon(Micropolygon);
   void draw(Mesh *);
+  void draw(Shape&);
   void bind(char *);
   void flush(int );
+  void clear();
 
 };
 

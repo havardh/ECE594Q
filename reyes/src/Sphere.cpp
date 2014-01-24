@@ -2,6 +2,8 @@
 
 Sphere::Sphere(float radius) {
 
+  printf("Sphere generated: %f\n", radius);
+
   for (int i=0; i<_m; i++) {
     float iangle = (float)((M_PI / _m) * i);
 

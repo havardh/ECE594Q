@@ -61,6 +61,18 @@ Matrix::Matrix(float x, float y, float z, float w) : _m(4), _n(1) {
   
 }
 
+Matrix::Matrix(float vals[4][4] ) : _m(4), _n(4) {
+  
+  this->allocate();
+
+  for (int i=0; i<_m; i++) {
+    for (int j=0; j<_n; j++) {
+      set(i,j, vals[i][j]);
+    }
+  }
+
+}
+
 void Matrix::allocate(void) {
   this->matrix = new float[this->_m*this->_n];
 }
@@ -204,6 +216,14 @@ Matrix & Matrix::translate(float x, float y, float z) {
   v.setAll(values);
 
   return this->translate(v);
+}
+
+Matrix & Matrix::transform(const Matrix &v) {
+
+  (*this) = v * (*this);
+
+  return *this;
+
 }
 
 Matrix & Matrix::rotate(Axis axis, float angle) {

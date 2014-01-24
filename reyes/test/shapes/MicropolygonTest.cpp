@@ -73,18 +73,18 @@ TEST(Micropolygon, getBoundingBox) {
 TEST(Micropolygon, shouldCheckForIntersects) {
   
 	Micropolygon polygon;
-  polygon.set(0, Matrix(1,1,0,1));
-  polygon.set(1, Matrix(1,-1,0,1));
-  polygon.set(2, Matrix(-1,-1,0,1));
-  polygon.set(3, Matrix(-1,1,0,1));
+  polygon.set(0, Matrix(2,2,0,2));
+  polygon.set(1, Matrix(2,-2,0,2));
+  polygon.set(2, Matrix(-2,-2,0,2));
+  polygon.set(3, Matrix(-2,2,0,2));
   
-  float POS_ONE = 1;
-  float NEG_ONE = -1;
+  float POS_ONE = 2;
+  float NEG_ONE = -2;
 
   CHECK(polygon.intersects(NEG_ONE, NEG_ONE));
   CHECK(polygon.intersects(NEG_ONE, POS_ONE));
   CHECK(polygon.intersects(POS_ONE, POS_ONE));
-  CHECK(polygon.intersects(POS_ONE,NEG_ONE));
+  CHECK(polygon.intersects(POS_ONE, NEG_ONE));
   CHECK(polygon.intersects(0,0));
 
   CHECK(polygon.intersects(-0.3f, 0.4f));

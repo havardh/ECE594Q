@@ -3,9 +3,12 @@
 #include "MatrixFactory.h"
 #include "FrameBuffer.h"
 #include "Sphere.h"
+#include "Cylinder.h"
 #include <cmath>
 #include <iostream>
 #include <vector>
+
+#include "RenderMan.h"
 
 #define WIDTH  640
 #define HEIGHT 640
@@ -18,10 +21,125 @@ Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
   1000
 );
 
+void myScene(void) { 
+  RiBegin(RI_NULL);
+ 
+  RiFormat(100,100, 1.0); 
+  RiFrameAspectRatio(4.0/3.0); 
+
+  RiFrameBegin(0); 
+
+  /* set the perspective transformation */ 
+  float fov = 45.0;
+  RiProjection(RI_ORTHOGRAPHIC, "fov", &fov); 
+  RiTranslate(0, 0, 100.0); 
+
+  RiWorldBegin(); 
+ 
+  RiSphere(5.0, 5.0, 5.0, 2 * M_PI); 
+ 
+  RiWorldEnd(); 
+  RiFrameEnd(); 
+  RiEnd(); 
+}; 
+
+void SampleScene1(void) {
+	int i;
+	int nf;
+	float slopex,slopey,slopez;
+	char name[50];
+
+	RtColor red={1,0,0};
+	RtColor green={0,1,0};
+	RtColor blue={0,0,1};
+	RtColor white={1,1,1};
+
+
+	RtPoint p1={30,0,100}; /* ball's initial position */
+	RtPoint p2={0,20,100}; /* ball's final position  */
+
+
+	RtFloat fov = 45;
+	RtFloat intensity1=0.1;
+	RtFloat intensity2=1.5;
+	RtInt init=0,end=1;
+	
+
+	nf = 100; /* number of frames to output */
+	slopex = (p2[0]-p1[0])/nf;
+	slopey = (p2[1]-p1[1])/nf;
+	slopez = (p2[2]-p1[2])/nf;
+	
+	RiBegin(RI_NULL);
+		RiFormat(320,240,1);
+		RiPixelSamples(2,2);
+		RiShutter(0,1);
+
+		/* loop through all the frames */
+		for (i = 1; i <= nf; i++) {
+			RiFrameBegin(i);
+        sprintf(name,"image_%02d.tif", i-1);
+				RiDisplay(name, "file", "rgb", RI_NULL);
+
+				RiProjection("perspective", "fov", &fov, RI_NULL);
+        
+				RiTranslate(0,-5,60);
+				RiRotate(-120,1,0,0);
+				RiRotate(25,0,0,1);
+        /*
+				RiWorldBegin();
+					RiColor(blue);
+					RiTransformBegin();
+						RiCylinder(1, 0, 20, 360, RI_NULL);
+						RiTranslate(0, 0, 20);
+						RiCone(2, 2, 360, RI_NULL);
+					RiTransformEnd();
+
+					RiColor(green);
+					RiTransformBegin();
+						RiRotate(-90, 1, 0, 0);
+						RiCylinder(1, 0, 20, 360, RI_NULL);
+						RiTranslate(0, 0, 20);
+						RiCone(2, 2, 360, RI_NULL);
+					RiTransformEnd();
+
+					RiColor(red);
+					RiTransformBegin();
+						RiRotate(90, 0, 1, 0);
+						RiCylinder(1, 0, 20, 360, RI_NULL);
+						RiTranslate(0, 0, 20);
+						RiCone(2, 2, 360, RI_NULL);
+					RiTransformEnd();
+          
+        */
+					RiColor(white);
+						RiTransformBegin();
+						RiTranslate(p1[0] + slopex * (i-1), p1[1] + slopey * (i-1), p1[2] + slopez * (i-1));
+						RiSphere(5, -5, 5, 360, RI_NULL);
+					RiTransformEnd();
+				RiWorldEnd();
+
+			/* when you hit this command you should output the final image for this frame */
+			RiFrameEnd();
+		}
+	RiEnd();
+};
+
+
+void renderExample();
+int main(int argc, char *argv[]) {
+  //FrameBuffer fb(10,10);
+  //fb.flush(0);
+
+  renderExample();
+
+  return 0;
+}
+
+
+
 void draw(FrameBuffer & fb, Shape & shape) {
   
-  shape.projectOnto(projectionMatrix);
-  shape.homogenize();
   std::vector<Micropolygon> polygons = shape.getMicropolygons();
   
   std::vector<Micropolygon>::iterator it;
@@ -34,9 +152,8 @@ void draw(FrameBuffer & fb, Shape & shape) {
   
 }
 
+void renderExample() {
 
-int main(int argc, char *argv[]) {
-  
   Matrix translationVector(10, 0, 10);
   Matrix scaleVector(1, 1, 2);
 
@@ -46,14 +163,19 @@ int main(int argc, char *argv[]) {
   for (int i=0; i<1; i++) {
     
     {
-      Sphere s(1);
+      Cylinder s(1, 0, 1, 2*M_PI);
       s.setColor(0, 255, 0);
       s.setOpacity(0.7);
       Matrix t = MatrixFactory::createIdentity(4);
+      t.rotate(X, M_PI);
+      t.rotate(Y, M_PI);
+      t.rotate(Z, M_PI);
       t.scale(10, 10, 10);
       t.translate(0, 0, 100);
       s.transform(t);
-      draw(fb, s);
+      s.projectOnto(projectionMatrix);
+      s.homogenize();
+      fb.draw(s);
     }
 
     {
@@ -64,7 +186,9 @@ int main(int argc, char *argv[]) {
       t.scale(1.7,1.7,1.7);
       t.translate(5,5, 60);
       s.transform(t);
-      draw(fb, s);
+      s.projectOnto(projectionMatrix);
+      s.homogenize();
+      fb.draw(s);
     }    
 
     {
@@ -75,11 +199,13 @@ int main(int argc, char *argv[]) {
       t.scale(1,1,1);
       t.translate(1,1, 20);
       s.transform(t);
-      draw(fb, s);
+      s.projectOnto(projectionMatrix);
+      s.homogenize();
+      fb.draw(s);
     }    
     //fb.draw(&s);
     fb.flush(i);
   }
 
-  return 0;
+
 }
