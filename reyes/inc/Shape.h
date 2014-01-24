@@ -8,11 +8,28 @@
 class Shape : public Mesh {
 
 private:
+  Color _color;
+  float _opacity;
 
 public:
-  Shape() : Mesh(800,800) {
+  
+
+  Shape() : Mesh(20,20), _opacity(0) {
     setColor(255, 255, 255);
   }
+
+  Shape(int m, int n) : Mesh(m,n), _opacity(0) {
+    setColor(255, 255, 255);
+  }
+
+  std::vector<Micropolygon> getMicropolygons();
+
+  Color getColor();
+  void setColor(uint8_t, uint8_t, uint8_t);
+  float getOpacity();
+  void setOpacity(float);
+
+
 
 };
 

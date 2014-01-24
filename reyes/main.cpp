@@ -18,11 +18,11 @@ Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
   1000
 );
 
-void draw(FrameBuffer & fb, Mesh & m) {
+void draw(FrameBuffer & fb, Shape & shape) {
   
-  m.projectOnto(projectionMatrix);
-  m.homogenize();
-  std::vector<Micropolygon> polygons = m.getMicropolygons();
+  shape.projectOnto(projectionMatrix);
+  shape.homogenize();
+  std::vector<Micropolygon> polygons = shape.getMicropolygons();
   
   std::vector<Micropolygon>::iterator it;
   for (it = polygons.begin(); it != polygons.end(); ++it) {

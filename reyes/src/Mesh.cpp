@@ -2,7 +2,7 @@
 
 #define IX(row, col) ((row) * _n + (col))
 
-Mesh::Mesh(int m, int n) : _m(m), _n(n), _opacity(1.0) {
+Mesh::Mesh(int m, int n) : _m(m), _n(n) {
 
   for (int i=0; i<_m *_n; i++) {
     this->mesh.push_back(Matrix(4,1));
@@ -50,18 +50,10 @@ BoundingBox Mesh::getBoundingBox() {
   float miny = this->mesh[0].get(1,0);
   float maxx = this->mesh[0].get(0,0);
   float maxy = this->mesh[0].get(1,0);
-
-  //printf("%f ", this->mesh[0].get(0));
-  //printf("%f\n", this->mesh[0].get(1));
-
   
   for (int i=1; i<_m*_n; i++) {
     float x = this->mesh[(size_t)i].get(0,0);
     float y = this->mesh[(size_t)i].get(1,0);
-
-    //printf("%f ", this->mesh[(size_t)i].get(0));
-    //printf("%f\n", this->mesh[(size_t)i].get(1));
-
 
     if ( x > maxx )
       maxx = x;
@@ -80,32 +72,6 @@ BoundingBox Mesh::getBoundingBox() {
   
 }
 
-std::vector<Micropolygon> Mesh::getMicropolygons() {
-  
-  std::vector<Micropolygon> polygons;
-
-  for (int i=0; i<_m-1; i++) {
-    for (int j=0; j<_n; j++) {
-     
-      Matrix points[4];
-      points[0] = this->mesh[ (size_t)IX(i  ,j  ) ];
-      points[1] = this->mesh[ (size_t)IX(i  ,(j+1)%_n) ];
-      points[2] = this->mesh[ (size_t)IX(i+1,j  ) ];
-      points[3] = this->mesh[ (size_t)IX(i+1,(j+1)%_n) ];
-
-      
-      Micropolygon p(points);
-      //Color c = { (uint8_t)(255 * (float) i/_m), (uint8_t)(255 *(float) j/_n), 255 };
-      //p.setColor(c);
-      p.setColor(getColor());
-      p.setOpacity(getOpacity());
-      
-      polygons.push_back(p);
-    }
-  }
-  
-  return polygons;
-}
 
 void Mesh::printMesh() {
 
