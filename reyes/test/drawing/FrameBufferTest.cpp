@@ -102,7 +102,7 @@ class PolyMock : public Micropolygon {
 
 };
 
-TEST(FrameBuffer, shouldSampleAMicroPolygon) {
+IGNORE_TEST(FrameBuffer, shouldSampleAMicroPolygon) {
 
   FrameBuffer fb(10, 10);
   PolyMock p;

@@ -3,13 +3,14 @@
 #include "Color.h"
 #include "Sphere.h"
 #include "Cylinder.h"
+#include "Cone.h"
 #include "FrameBuffer.h"
 #include <cstdarg>
 #include <cmath>
 #include <stdlib.h>
 
-const RtToken RI_PERSPECTIVE = "perspective";
-const RtToken RI_ORTHOGRAPHIC = "orthographic";
+RtToken RI_PERSPECTIVE = "perspective";
+RtToken RI_ORTHOGRAPHIC = "orthographic";
 
 static char filename[20];
 static int framenumber;
@@ -30,6 +31,8 @@ static Matrix projectionMatrix;
 static Matrix currentTransform;
 static Matrix worldToCameraTransform;
 
+static RtShaderFunc surfaceShader = NULL;
+static RtShaderFunc displacementShader = NULL;
 
 void RiBegin(RtToken name) {
   if (name != RI_NULL) {
@@ -38,7 +41,7 @@ void RiBegin(RtToken name) {
   }
 
   // Set default variables  xres = 100;
-  fov = M_PI/4;
+  fov = (float)(M_PI/4);
   yres = 100;
   ratio = 1;
   hither = 1;
@@ -82,7 +85,7 @@ void RiProjection(RtToken name, ...) {
   char * parametername = va_arg(ap, char*);
 
   if (strcmp(parametername, "fov") == 0) {
-    fov = (*va_arg(ap, float*) / 360 * M_PI);
+    fov = (float)(*va_arg(ap, float*) / 360 * M_PI);
   }
   
   if (strcmp(name, RI_PERSPECTIVE) == 0) {
@@ -110,12 +113,14 @@ void RiFrameAspectRatio(RtFloat frameaspectratio) {
 
 void RiPixelSamples(RtFloat xsamples, RtFloat ysamples) {
 
-  xsmpl = xsamples;
-  ysmpl = ysamples;
+  xsmpl = xsamples > 1.0 ? (int)xsamples : 1;
+  ysmpl = ysamples > 1.0 ? (int)ysamples : 1;
 
 } 
 
 void RiDisplay(RtToken name, RtToken type, RtToken mode, ...) {
+
+  (void) mode;
 
   if (strcmp(type, "file") == 0) {
 
@@ -174,7 +179,8 @@ void RiTransform(RtMatrix transform) {
   currentTransform.transform(Matrix(transform));
 }
 
-void RiPerspective(RtFloat fov) {
+void RiPerspective(RtFloat _fov) {
+  (void) _fov;
 }
 
 void RiTranslate(RtFloat dx, RtFloat dy, RtFloat dz) {
@@ -183,13 +189,15 @@ void RiTranslate(RtFloat dx, RtFloat dy, RtFloat dz) {
 
 void RiRotate(RtFloat angle, RtFloat dx, RtFloat dy, RtFloat dz) {
 
-  angle = (angle / 360.0) * 2*M_PI;
+  angle = (float)((angle / 360.0) * 2*M_PI);
 
   if (dx == 1.0) {
     currentTransform.rotate(X, angle);
-  } else if (dy == 1.0) {
+  }
+  if (dy == 1.0) {
     currentTransform.rotate(Y, angle);
-  } else if (dz == 1.0) {
+  }
+  if (dz == 1.0) {
     currentTransform.rotate(Z, angle);
   }
 }
@@ -216,11 +224,19 @@ void RiSphere(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...)
 
 void RiCone(RtFloat height, RtFloat radius, RtFloat thetamax, ...) {
   
+  Cone cone(height, radius, thetamax);
+  cone.setOpacity(opacity);
+  cone.setColor(currentColor.red, currentColor.green, currentColor.blue);
+  cone.transform(currentTransform);
+  cone.projectOnto(projectionMatrix);
+  cone.homogenize();
+  frameBuffer->draw(cone);
+
 }
 
 void RiCylinder(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...) {
 
-  Cylinder cylinder(radius, zmin, zmax, (thetamax / 360.0) * (2*M_PI));
+  Cylinder cylinder(radius, zmin, zmax, (float)((thetamax / 360.0) * (2*M_PI)));
   cylinder.setOpacity(opacity);
   cylinder.setColor(currentColor.red, currentColor.green, currentColor.blue);
   cylinder.transform(currentTransform);
@@ -232,12 +248,18 @@ void RiCylinder(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ..
 
 void RiTorus(RtFloat majorradius, RtFloat minorradius, RtFloat phimin, RtFloat phimax, RtFloat thetamax, ...) {
 
+  (void) majorradius;
+  (void) minorradius;
+  (void) phimin;
+  (void) phimax;
+  (void) thetamax;
+
 }
 
 void RiColor(RtColor color) {
-  currentColor.red = color[0] * 255;
-  currentColor.green = color[1] * 255;
-  currentColor.blue = color[2] * 255;
+  currentColor.red   = (uint8_t)(color[0] * 255);
+  currentColor.green = (uint8_t)(color[1] * 255);
+  currentColor.blue  = (uint8_t)(color[2] * 255);
 }
 
 void RiOpacity(RtColor color) {
@@ -246,17 +268,19 @@ void RiOpacity(RtColor color) {
 
 // Not according to spec
 void RiMakeTexture(char *picturename, RtInt slot) {
-
+  (void) picturename;
+  (void) slot;
 }
 
 void RiSurface(RtShaderFunc displacementFunc) {
-
+  displacementShader = displacementFunc;
 }
 
 void RiDisplacement(RtShaderFunc surfaceFunc) {
-
+  surfaceShader = surfaceFunc;
 }
 
 void RiShutter(RtFloat min, RtFloat max) {
-
+  (void) min;
+  (void) max;
 }

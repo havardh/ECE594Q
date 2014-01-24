@@ -11,29 +11,76 @@
 
 #include "RenderMan.h"
 
-#define WIDTH  640
-#define HEIGHT 640
+#define WIDTH  100
+#define HEIGHT 100
 #define N 8
 
 Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
   M_PI/3, 
   4.0f/4.0f,
-  1,
-  1000
+  0.1,
+  100
 );
+
+void texture(int i) { (void) i;}
+
+void TextureMap0()
+{
+	texture(0);
+}
+
+void Earth()
+{
+	RiBegin(RI_NULL);
+		//RiFormat(960, 720, 1.0);
+		RiFormat(400, 300, 1.0);
+		//RiFormat(200, 150, 1.0);
+		RiDisplay("Earth.png", "file", "");
+		RiPixelSamples(2,2);
+		
+		RiFrameBegin(0);
+			/* set the perspective transformation */
+			float fov = 45.0;
+			RiProjection(RI_PERSPECTIVE, "fov", &fov);
+
+			RiWorldBegin();
+				RiTransformBegin();
+					RiMakeTexture("earth.jpg", 0);
+					void (*earthShader)(void) = TextureMap0;
+					RiSurface(earthShader);
+					RtColor blue = { 0, 0, 1 };
+					RtColor opacity = { .9, .9, .9 };
+					RiColor(blue);
+					RiOpacity(opacity);
+					//BUMP_AMPLITUDE = .02;
+					//BUMP_MIN_FREQ_EXP = 14;
+					//BUMP_MAX_FREQ_EXP = 16;
+					//RiDisplacement(BUMPY);
+					//RiRotate(-175, 0, 1, 0);
+					//RiRotate(90, 1, 1, 1);
+					RiTranslate(0, 0, 50.0);
+					RiSphere(5, 5, 5, 2*M_PI);
+				RiTransformEnd();
+			RiWorldEnd();
+
+		RiFrameEnd();
+
+	RiEnd();
+}
+
 
 void myScene(void) { 
   RiBegin(RI_NULL);
  
   RiFormat(100,100, 1.0); 
-  RiFrameAspectRatio(4.0/3.0); 
+  RiFrameAspectRatio(4.0/4.0); 
 
   RiFrameBegin(0); 
 
   /* set the perspective transformation */ 
   float fov = 45.0;
-  RiProjection(RI_ORTHOGRAPHIC, "fov", &fov); 
-  RiTranslate(0, 0, 100.0); 
+  RiProjection(RI_PERSPECTIVE, "fov", &fov); 
+  RiTranslate(0,0, 50.0); 
 
   RiWorldBegin(); 
  
@@ -87,7 +134,7 @@ void SampleScene1(void) {
 				RiTranslate(0,-5,60);
 				RiRotate(-120,1,0,0);
 				RiRotate(25,0,0,1);
-        /*
+        
 				RiWorldBegin();
 					RiColor(blue);
 					RiTransformBegin();
@@ -112,7 +159,7 @@ void SampleScene1(void) {
 						RiCone(2, 2, 360, RI_NULL);
 					RiTransformEnd();
           
-        */
+        
 					RiColor(white);
 						RiTransformBegin();
 						RiTranslate(p1[0] + slopex * (i-1), p1[1] + slopey * (i-1), p1[2] + slopez * (i-1));
@@ -131,8 +178,10 @@ void renderExample();
 int main(int argc, char *argv[]) {
   //FrameBuffer fb(10,10);
   //fb.flush(0);
-
-  renderExample();
+  //SampleScene1();
+  //myScene();
+  Earth();
+  //renderExample();
 
   return 0;
 }
@@ -164,14 +213,14 @@ void renderExample() {
   for (int i=0; i<1; i++) {
     
     {
-      Sphere s(1);
+      Sphere s(1, 0, 1, 2*M_PI);
       s.setColor(0, 255, 0);
       s.setOpacity(0.2);
       Matrix t = MatrixFactory::createIdentity(4);
-      t.rotate(X, M_PI/2);
-      t.rotate(Z, M_PI/2);
+      //t.rotate(X, M_PI/2);
+      //t.rotate(Z, M_PI/2);
       t.scale(2,2,2);
-      t.translate(0, 0, 100);
+      t.translate(0, 0, 50);
       s.transform(t);
       s.projectOnto(projectionMatrix);
       s.homogenize();
@@ -179,13 +228,13 @@ void renderExample() {
     }
 
     {
-      Sphere s(1);
-      s.setColor(0, 0, 255);
+      Sphere s(1, 0, 1, 2*M_PI);
+      s.setColor(0, 255, 255);
       s.setOpacity(0.7);
       Matrix t = MatrixFactory::createIdentity(4);
-      t.scale(10, 10, 10);
-      t.rotate(X, M_PI/4);
-      t.translate(0,0,100);
+      t.scale(20, 20, 20);
+      //t.rotate(X, M_PI/4);
+      t.translate(0,0,60);
       
       s.transform(t);
       s.projectOnto(projectionMatrix);
@@ -194,7 +243,7 @@ void renderExample() {
     }    
 
     {
-      Sphere s(1);
+      Sphere s(1, 0, 1, 2*M_PI);
       s.setColor(255, 0, 0);
       s.setOpacity(0.3);
       Matrix t = MatrixFactory::createIdentity(4);

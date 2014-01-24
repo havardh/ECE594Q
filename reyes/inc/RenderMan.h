@@ -6,10 +6,10 @@ typedef int RtInt;
 typedef float RtFloat;
 
 
-typedef char *RtToken;
+typedef const char *RtToken;
 #define RI_NULL ((RtToken)0)
 
-extern const RtToken RI_PERSPECTIVE, RI_ORTHOGRAPHIC;
+extern RtToken RI_PERSPECTIVE, RI_ORTHOGRAPHIC;
 
 typedef RtFloat RtColor[3];
 typedef RtFloat RtMatrix[4][4];

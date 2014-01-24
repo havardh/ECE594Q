@@ -56,7 +56,7 @@ TEST(SimplePolygon, shouldFixBug1) {
 
 }
 
-IGNORE_TEST(SimplePolygon, shouldFixBug2) {
+TEST(SimplePolygon, shouldFixBug2) {
 
   Micropolygon p;
   p.set(0, Matrix(0.02459044f, 0.01237137f, 0.99188828f, 1.00000000f));

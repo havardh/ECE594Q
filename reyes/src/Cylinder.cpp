@@ -8,8 +8,8 @@ Cylinder::Cylinder(float radius, float zmin, float zmax, float thetamax) {
     
     for (int v=0; v<_n; v++) {
 
-      float x = radius * cos(theta);
-      float y = radius * sin(theta);
+      float x = (float)(radius * cos(theta));
+      float y = (float)(radius * sin(theta));
       float z = v/(float)_n * (zmax - zmin);
 
       float values[] = {x,y,z,1};

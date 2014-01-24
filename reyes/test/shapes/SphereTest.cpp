@@ -9,6 +9,6 @@ TEST_GROUP(Sphere) {
 
 TEST(Sphere, shouldCalculatePointsOnSphere) {
   
-	Sphere s(1);
+	Sphere s(1, 1, 1, 1);
   
 }

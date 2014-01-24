@@ -112,10 +112,7 @@ void FrameBuffer::draw(Shape & shape) {
 
   std::vector<Micropolygon> polygons = shape.getMicropolygons();
   std::vector<Micropolygon>::iterator it;
-  int i=0;
   for (it = polygons.begin(); it != polygons.end(); ++it) {
-    float x = it->get(0).get(0);
-    float y = it->get(0).get(1);
     drawMicropolygon(*it);
   }
 

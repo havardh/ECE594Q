@@ -8,8 +8,8 @@ Cone::Cone(float height, float radius, float thetamax) {
 
     for (int v=0; v<_n; v++) {
 
-      float x = radius * ((float)_n - v) / _n * cos(theta);
-      float y = radius * ((float)_n - v) / _n * sin(theta);
+      float x = (float)(radius * ((float)_n - v) / _n * cos(theta));
+      float y = (float)(radius * ((float)_n - v) / _n * sin(theta));
       float z = ((float)v/ _n) * height;
       
       float values[] = {x,y,z,1};
