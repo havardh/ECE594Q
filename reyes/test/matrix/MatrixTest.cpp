@@ -294,3 +294,16 @@ TEST(Matrix, shouldCompare) {
 
   
 }
+
+TEST(Matrix, crossProduct) {
+
+  Matrix m1(1, 2, 3);
+  Matrix m2(2, 2, 2);
+  
+  Matrix m3 = m1.crossProduct(m2);
+
+  float expected[] = { -2, -4, -2 };
+
+  MATRIX_EQUALS(expected, m3, 0.0001);
+
+}

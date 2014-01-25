@@ -257,3 +257,21 @@ float Matrix::dot(const Matrix &other) const {
   return result;
 
 }
+
+Matrix Matrix::crossProduct(const Matrix &other) const {
+  
+  float u1 = get(0);
+  float u2 = get(1);
+  float u3 = get(2);
+  float v1 = other.get(0);
+  float v2 = other.get(1);
+  float v3 = other.get(2);
+  
+
+  return Matrix(
+    u2*v3-u3*v2,
+    u1*v3-u3*v1,
+    u1*v2-u2*v1
+  );
+  
+}

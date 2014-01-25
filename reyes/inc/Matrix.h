@@ -29,6 +29,8 @@ class Matrix {
   bool operator!=(const Matrix &) const;
   const Matrix operator*(const Matrix &) const;
 
+  Matrix crossProduct(const Matrix &) const;
+
   void set(int,int,float);
   void set(int, float);
   void setAll(const float[]);
