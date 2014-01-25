@@ -12,6 +12,7 @@
 #include "RsRandomShader.h"
 #include "RsBumpyShader.h"
 #include "RsCheckerboardShader.h"
+#include "PI.h"
 
 #include "RenderMan.h"
 
@@ -25,52 +26,6 @@ Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
   0.1,
   100
 );
-
-//void texture(int i) { (void) i;}
-
-void TextureMap0()
-{
-  //texture(0);
-}
-
-void Earth()
-{
-	RiBegin(RI_NULL);
-		//RiFormat(960, 720, 1.0);
-		RiFormat(400, 300, 1.0);
-		//RiFormat(200, 150, 1.0);
-		RiDisplay("Earth.png", "file", "");
-		RiPixelSamples(2,2);
-		
-		RiFrameBegin(0);
-			/* set the perspective transformation */
-			float fov = 45.0;
-			RiProjection(RI_PERSPECTIVE, "fov", &fov);
-
-			RiWorldBegin();
-				RiTransformBegin();
-					RiMakeTexture("earth.jpg", 0);
-					void (*earthShader)(void) = TextureMap0;
-					RiSurface(earthShader);
-					RtColor blue = { 0, 0, 1 };
-					RtColor opacity = { .9, .9, .9 };
-					RiColor(blue);
-					RiOpacity(opacity);
-					//BUMP_AMPLITUDE = .02;
-					//BUMP_MIN_FREQ_EXP = 14;
-					//BUMP_MAX_FREQ_EXP = 16;
-					//RiDisplacement(BUMPY);
-					//RiRotate(-175, 0, 1, 0);
-					//RiRotate(90, 1, 1, 1);
-					RiTranslate(0, 0, 50.0);
-					RiSphere(5, 5, 5, 2*M_PI);
-				RiTransformEnd();
-			RiWorldEnd();
-
-		RiFrameEnd();
-
-	RiEnd();
-}
 
 void CylinderAboutYAxis(void) {
 
@@ -145,21 +100,18 @@ void BumpyBall() {
   RiSurface((RtShaderFunc)&RsTextureShader);
   RiDisplacement((RtShaderFunc)&RsBumpyShader);
   
-  for (int i=0; i<1; i++) {
 
-    RiFrameBegin(i); 
-
-    RiWorldBegin(); 
- 
-    RiTranslate(0,0, -45.0); 
-    RiRotate(1, 0, 0, 1);
-    RiTranslate(0,0, 45.0); 
-    RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
-    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
+  RiFrameBegin(0); 
+  
+  RiWorldBegin(); 
+  
+  RiTranslate(0,0, -45.0); 
+  RiRotate(1, 0, 0, 1);
+  RiTranslate(0,0, 45.0); 
+  RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
     
-    RiWorldEnd(); 
-    RiFrameEnd(); 
-  }
+  RiWorldEnd(); 
+  RiFrameEnd();
   RiEnd(); 
 }; 
 
@@ -168,7 +120,7 @@ void CheckerBall() {
  
   RiFormat(200, 200, 1.0); 
   RiFrameAspectRatio(4.0/4.0); 
-
+  
 
   /* set the perspective transformation */ 
   float fov = 45.0;
@@ -178,7 +130,6 @@ void CheckerBall() {
   RiTranslate(0,0, 45.0); 
 
   RiSurface((RtShaderFunc)&RsCheckerboardShader);
-  //RiDisplacement((RtShaderFunc)&RsBumpyShader);
   
   RiFrameBegin(0); 
 
@@ -189,15 +140,14 @@ void CheckerBall() {
   RiWorldEnd(); 
   RiFrameEnd(); 
   
-  RiEnd(); 
+  RiEnd();
 }; 
 
-void myScene(void) { 
+void MyEarth(void) { 
   RiBegin(RI_NULL);
  
   RiFormat(1024, 1024, 1.0); 
   RiFrameAspectRatio(4.0/4.0); 
-
 
   /* set the perspective transformation */ 
   float fov = 45.0;
@@ -208,21 +158,19 @@ void myScene(void) {
 
   RiSurface((RtShaderFunc)&RsTextureShader);
   
-  for (int i=0; i<1; i++) {
+  RiFrameBegin(0); 
 
-    RiFrameBegin(i); 
-
-    RiWorldBegin(); 
+  RiWorldBegin(); 
  
-    RiTranslate(0,0, -45.0); 
-    RiRotate(1, 0, 0, 1);
-    RiTranslate(0,0, 45.0); 
-    RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
-    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
-    
-    RiWorldEnd(); 
-    RiFrameEnd(); 
-  }
+  RiTranslate(0,0, -45.0); 
+  RiRotate(1, 0, 0, 1);
+  RiTranslate(0,0, 45.0); 
+  RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
+  //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
+  
+  RiWorldEnd(); 
+  RiFrameEnd(); 
+ 
   RiEnd(); 
 }; 
 
@@ -319,9 +267,9 @@ int main(int argc, char *argv[]) {
 
   //FrameBuffer fb(10,10);
   //fb.flush(0);
-  //SampleScene1();
+  SampleScene1();
   //CylinderAboutYAxis();
-  CheckerBall();
+  //CheckerBall();
   //BumpyBall();
   //DrawTorus();
   //myScene();

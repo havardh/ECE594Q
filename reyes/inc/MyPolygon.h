@@ -5,7 +5,7 @@
 #include "BoundingBox.h"
 #include "Color.h"
 
-class Polygon {
+class MyPolygon {
 
 private:
   Matrix *_points[4];
@@ -16,8 +16,8 @@ private:
   void allocate();
   
 public:
-  Polygon();
-  Polygon(Matrix ** points);
+  MyPolygon();
+  MyPolygon(Matrix ** points);
 
   Matrix* get(int i) const;
   float getOpacity() const { return _opacity; }

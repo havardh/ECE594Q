@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include "Matrix.h"
 #include "BoundingBox.h" 
-#include "Polygon.h"
+#include "MyPolygon.h"
 #include <vector>
 #include "Color.h"
 

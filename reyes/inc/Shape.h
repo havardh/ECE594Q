@@ -13,7 +13,7 @@ private:
 
 public:
   
- Shape() : Mesh(20,20), _opacity(0) {
+ Shape() : Mesh(200,200), _opacity(0) {
     setColor(255, 255, 255);
   }
 
@@ -21,7 +21,7 @@ public:
     setColor(255, 255, 255);
   }
 
-  std::vector<Polygon> getPolygons();
+  std::vector<MyPolygon> getMyPolygons();
 
   Color getColor();
   void setColor(uint8_t, uint8_t, uint8_t);

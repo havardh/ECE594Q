@@ -11,6 +11,7 @@
 #include <cstdarg>
 #include <cmath>
 #include <stdlib.h>
+#include "PI.h"
 
 RtToken RI_PERSPECTIVE = "perspective";
 RtToken RI_ORTHOGRAPHIC = "orthographic";

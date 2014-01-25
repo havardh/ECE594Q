@@ -13,7 +13,7 @@ TEST_GROUP(Shape) {
 /**
  * Checks if the given polygon has the values from the position valueIndex from valuesArray on position i
  */
-static void CHECK_DICING(Polygon polygon, int *valueIndices, float *valuesArray) {
+static void CHECK_DICING(MyPolygon polygon, int *valueIndices, float *valuesArray) {
 
   for (int i=0; i<4; i++) {
       Matrix m = *polygon.get(i);
@@ -31,10 +31,10 @@ static float values[] = {
 };
 
 
-TEST(Shape, shouldDiceIntoPolygons) {
+TEST(Shape, shouldDiceIntoMyPolygons) {
   
 	ShapeMock shape(values, 2, 2);
-  std::vector<Polygon> polygon = shape.getPolygons();
+  std::vector<MyPolygon> polygon = shape.getMyPolygons();
 
   int valuesArray[] = { 0, 4, 8, 12 };
   CHECK_DICING(polygon[0], valuesArray, values);
@@ -59,7 +59,7 @@ static float grid[] = {
 TEST(Shape, dicingShouldBeSequential) {
   
 	ShapeMock shape(grid, 3, 3);
-  std::vector<Polygon> polygons = shape.getPolygons();
+  std::vector<MyPolygon> polygons = shape.getMyPolygons();
 
   CHECK_EQUAL(6, polygons.size());
   /*
@@ -78,7 +78,7 @@ TEST(Shape, dicingShouldBeSequential) {
 }
 
 
-TEST(Shape, shouldPassOnMeshPointColorToPolygon) {
+TEST(Shape, shouldPassOnMeshPointColorToMyPolygon) {
   
   float v[] = { 
     1,1,1,1,  
@@ -110,7 +110,7 @@ TEST(Shape, shouldPassOnMeshPointColorToPolygon) {
   m.getMeshPoint(1,1).color = c[4];
   m.getMeshPoint(1,2).color = c[5];
   
-  std::vector<Polygon> P = m.getPolygons();
+  std::vector<MyPolygon> P = m.getMyPolygons();
 
   CHECK_EQUAL(c[0].red,   P[(size_t)0].getColor().red);
   CHECK_EQUAL(c[0].green, P[(size_t)0].getColor().green);

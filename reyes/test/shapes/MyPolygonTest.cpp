@@ -1,5 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
-#include "Polygon.h"
+#include "MyPolygon.h"
 #include "MatrixTestHelper.h"
 #include "BoundingBox.h"
 #include "Sphere.h"
@@ -7,16 +7,16 @@
 #include "MatrixFactory.h"
 
 
-TEST_GROUP(Polygon) {
+TEST_GROUP(MyPolygon) {
   void setup() {}
   void teardown() {}
 
 };
 
 
-TEST(Polygon, shouldNotConstructCopies) {
+TEST(MyPolygon, shouldNotConstructCopies) {
     
-  Polygon polygon;
+  MyPolygon polygon;
   Matrix *m = new Matrix(-1, -1, -1, 1);
   polygon.set(0, m);
   polygon.set(1, new Matrix(1, 1, 1, 1));
@@ -35,9 +35,9 @@ TEST(Polygon, shouldNotConstructCopies) {
   
 }
 
-TEST(Polygon, shouldSetAndGetValues) {
+TEST(MyPolygon, shouldSetAndGetValues) {
   
-	Polygon polygon;
+	MyPolygon polygon;
   polygon.set(0, new Matrix(0,0,0,0));
   polygon.set(1, new Matrix(1,1,1,1));
   polygon.set(2, new Matrix(2,2,2,2));
@@ -65,9 +65,9 @@ TEST(Polygon, shouldSetAndGetValues) {
 }
 
 
-TEST(Polygon, getBoundingBox) {
+TEST(MyPolygon, getBoundingBox) {
   
-  Polygon polygon;
+  MyPolygon polygon;
   polygon.set(0, new Matrix(-1,-1,1,1));
   polygon.set(1, new Matrix(-1, 2,1,1));
   polygon.set(2, new Matrix( 1, 1,1,1));
@@ -87,9 +87,9 @@ TEST(Polygon, getBoundingBox) {
 
 }
 
-TEST(Polygon, shouldCheckForIntersects) {
+TEST(MyPolygon, shouldCheckForIntersects) {
   
-	Polygon polygon;
+	MyPolygon polygon;
   polygon.set(0, new Matrix(2,2,0,2));
   polygon.set(1, new Matrix(2,-2,0,2));
   polygon.set(2, new Matrix(-2,-2,0,2));
@@ -114,9 +114,9 @@ TEST(Polygon, shouldCheckForIntersects) {
 
 }
 
-TEST(Polygon, shouldSetAndGetColor) {
+TEST(MyPolygon, shouldSetAndGetColor) {
 
-  Polygon p;
+  MyPolygon p;
   Color c = { 0, 1, 2 };
 
   p.setColor(c);
@@ -126,10 +126,10 @@ TEST(Polygon, shouldSetAndGetColor) {
 
 }
 
-TEST(Polygon, shouldCreateSurfaceNormal) {
+TEST(MyPolygon, shouldCreateSurfaceNormal) {
 
 
-  Polygon polygon;
+  MyPolygon polygon;
   polygon.set(0, new Matrix(0,1,0,1));
   polygon.set(1, new Matrix(1,1,0,1));
   polygon.set(2, new Matrix(1,0,0,1));

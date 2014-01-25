@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "PI.h"
 
 #define IX(row, col) ((row) * _m + (col))
 
@@ -25,9 +26,9 @@ void Shape::setOpacity(float opacity) {
 }
 
 
-std::vector<Polygon> Shape::getPolygons() {
+std::vector<MyPolygon> Shape::getMyPolygons() {
   
-  std::vector<Polygon> polygons;
+  std::vector<MyPolygon> polygons;
 
   for (int i=0; i<_m-1; i++) {
     for (int j=0; j<_n; j++) {
@@ -38,7 +39,7 @@ std::vector<Polygon> Shape::getPolygons() {
       points[2] = &this->getPoint(IX(i+1,j  ));
       points[3] = &this->getPoint(IX(i+1,(j+1)%_n));
 
-      Polygon p(points);
+      MyPolygon p(points);
       p.setColor(getMeshPoint(i,j).color);
       p.setOpacity(getOpacity());
       

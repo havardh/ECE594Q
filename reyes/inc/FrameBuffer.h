@@ -8,6 +8,7 @@
 #include <string.h>
 #include <vector>
 #include "ZBuffer.h"
+#include "MyPolygon.h"
 
 typedef std::vector<std::vector<ZBuffer> > Pixel;
 
@@ -34,7 +35,7 @@ public:
   void draw(Matrix);
   void draw(int, int, int, int);
   void draw(BoundingBox);
-  void draw(Polygon);
+  void draw(MyPolygon);
   void draw(Mesh *);
   void draw(Shape&);
   void bind(char *);

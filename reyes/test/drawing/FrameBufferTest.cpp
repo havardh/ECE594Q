@@ -96,13 +96,13 @@ TEST(FrameBuffer, shouldSetSampleAndGetAverage) {
 
 }
 
-class PolyMock : public Polygon {
+class PolyMock : public MyPolygon {
 
   
 
 };
 
-IGNORE_TEST(FrameBuffer, shouldSampleAMicroPolygon) {
+IGNORE_TEST(FrameBuffer, shouldSampleAMicroMyPolygon) {
 
   FrameBuffer fb(10, 10);
   PolyMock p;

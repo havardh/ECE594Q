@@ -20,11 +20,13 @@ FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height)
 FrameBuffer::~FrameBuffer() {}
 
 void FrameBuffer::set(int x, int y, Color color) {
-
-  assert(x >= 0);
-  assert(y >= 0);
-  assert(x < _width);
-  assert(y < _height);
+  
+  if ((x >= 0)
+      || (y >= 0)
+      || (x < _width)
+      || (y < _height)) {
+    return;
+  }
   
   for (int i=0; i<4*4; i++) {
     Sample s = { 1.0, 1.0, color };
@@ -110,8 +112,8 @@ void FrameBuffer::draw(Shape & shape) {
 
   //draw(&shape);
 
-  std::vector<Polygon> polygons = shape.getPolygons();
-  std::vector<Polygon>::iterator it;
+  std::vector<MyPolygon> polygons = shape.getMyPolygons();
+  std::vector<MyPolygon>::iterator it;
   for (it = polygons.begin(); it != polygons.end(); ++it) {
     draw(*it);
   }
@@ -144,7 +146,7 @@ void FrameBuffer::draw(BoundingBox box) {
 
 }
 
-void FrameBuffer::draw(Polygon polygon) {
+void FrameBuffer::draw(MyPolygon polygon) {
   BoundingBox box = polygon.getBoundingBox();
   box.projectToScreen(_width, _height);
 

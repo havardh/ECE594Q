@@ -1,12 +1,12 @@
-#include "Polygon.h"
+#include "MyPolygon.h"
 
-Polygon::Polygon() {
+MyPolygon::MyPolygon() {
 
   this->_opacity = 1.0;
   
 }
 
-Polygon::Polygon(Matrix **points) {
+MyPolygon::MyPolygon(Matrix **points) {
   
   for (int i=0; i<4; i++) {
     this->_points[i] = points[i];
@@ -16,23 +16,23 @@ Polygon::Polygon(Matrix **points) {
   
 }
 
-Matrix * Polygon::get(int i) const {
+Matrix * MyPolygon::get(int i) const {
   return this->_points[i];
 } 
 
-void Polygon::set(int i, Matrix * val) {
+void MyPolygon::set(int i, Matrix * val) {
   this->_points[i] = val;
 }
 
-Color Polygon::getColor() const {
+Color MyPolygon::getColor() const {
   return this->_color;
 }
 
-void Polygon::setColor(Color color) {
+void MyPolygon::setColor(Color color) {
   this->_color = color;
 }
 
-BoundingBox Polygon::getBoundingBox() const {
+BoundingBox MyPolygon::getBoundingBox() const {
 
   float minx = this->_points[0]->get(0);
   float miny = this->_points[0]->get(1);
@@ -95,7 +95,7 @@ bool isInTriangle(float x0, float y0, float x1, float y1, float x2, float y2, fl
 
 }
 
-bool Polygon::intersects(float x, float y) {
+bool MyPolygon::intersects(float x, float y) {
 
   float x0 = this->_points[0]->get(0);
   float y0 = this->_points[0]->get(1);
@@ -112,7 +112,7 @@ bool Polygon::intersects(float x, float y) {
   return in0 || in1;
 }
 
-Matrix Polygon::getSurfaceNormal() const {
+Matrix MyPolygon::getSurfaceNormal() const {
 
   Matrix m1(
     get(1)->get(0) - get(0)->get(0),
