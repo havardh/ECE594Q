@@ -126,4 +126,25 @@ TEST(Polygon, shouldSetAndGetColor) {
 
 }
 
+TEST(Polygon, shouldCreateSurfaceNormal) {
 
+
+  Polygon polygon;
+  polygon.set(0, new Matrix(0,1,0,1));
+  polygon.set(1, new Matrix(1,1,0,1));
+  polygon.set(2, new Matrix(1,0,0,1));
+  polygon.set(3, new Matrix(0,0,0,1));
+
+  Matrix normal = polygon.getSurfaceNormal();
+
+  DOUBLES_EQUAL(0, normal.get(0), 0.0001);
+  DOUBLES_EQUAL(0, normal.get(1), 0.0001);
+  DOUBLES_EQUAL(-1, normal.get(2), 0.0001);
+
+  delete polygon.get(0);
+  delete polygon.get(1);
+  delete polygon.get(2);
+  delete polygon.get(3);
+
+
+}

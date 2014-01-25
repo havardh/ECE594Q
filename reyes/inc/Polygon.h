@@ -24,6 +24,7 @@ public:
   void setOpacity(float opacity) { _opacity = opacity; }
   void set(int i, Matrix*);
   BoundingBox getBoundingBox() const;
+  Matrix getSurfaceNormal() const;
 
   void setColor(Color);
   Color getColor() const;

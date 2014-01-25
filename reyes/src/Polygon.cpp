@@ -111,3 +111,23 @@ bool Polygon::intersects(float x, float y) {
 
   return in0 || in1;
 }
+
+Matrix Polygon::getSurfaceNormal() const {
+
+  Matrix m1(
+    get(1)->get(0) - get(0)->get(0),
+    get(1)->get(1) - get(0)->get(1),
+    get(1)->get(2) - get(0)->get(2),
+    1
+  );
+
+  Matrix m2(
+    get(2)->get(0) - get(0)->get(0),
+    get(2)->get(1) - get(0)->get(1),
+    get(2)->get(2) - get(0)->get(2),
+    1
+  );
+
+  return m1.crossProduct(m2);
+
+}
