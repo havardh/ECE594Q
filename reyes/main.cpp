@@ -11,6 +11,7 @@
 #include "RsTextureShader.h"
 #include "RsRandomShader.h"
 #include "RsBumpyShader.h"
+#include "RsCheckerboardShader.h"
 
 #include "RenderMan.h"
 
@@ -162,6 +163,35 @@ void BumpyBall() {
   RiEnd(); 
 }; 
 
+void CheckerBall() {
+  RiBegin(RI_NULL);
+ 
+  RiFormat(200, 200, 1.0); 
+  RiFrameAspectRatio(4.0/4.0); 
+
+
+  /* set the perspective transformation */ 
+  float fov = 45.0;
+  RiProjection(RI_PERSPECTIVE, "fov", &fov); 
+  RiRotate(90, 1, 0, 0);
+  RiRotate(180, 0, 0, 1);
+  RiTranslate(0,0, 45.0); 
+
+  RiSurface((RtShaderFunc)&RsCheckerboardShader);
+  //RiDisplacement((RtShaderFunc)&RsBumpyShader);
+  
+  RiFrameBegin(0); 
+
+  RiWorldBegin(); 
+ 
+  RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
+  
+  RiWorldEnd(); 
+  RiFrameEnd(); 
+  
+  RiEnd(); 
+}; 
+
 void myScene(void) { 
   RiBegin(RI_NULL);
  
@@ -291,7 +321,8 @@ int main(int argc, char *argv[]) {
   //fb.flush(0);
   //SampleScene1();
   //CylinderAboutYAxis();
-  BumpyBall();
+  CheckerBall();
+  //BumpyBall();
   //DrawTorus();
   //myScene();
   //Earth();
