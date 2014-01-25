@@ -222,6 +222,7 @@ void renderShape(Shape & shape) {
   shape.setColor(currentColor.red, currentColor.green, currentColor.blue);
 
   shape.shade((ShaderFunction)surfaceShader);
+  shape.shade((ShaderFunction)displacementShader);
 
   shape.transform(currentTransform);
   shape.projectOnto(projectionMatrix);

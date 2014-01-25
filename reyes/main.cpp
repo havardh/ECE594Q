@@ -10,6 +10,7 @@
 #include <vector>
 #include "RsTextureShader.h"
 #include "RsRandomShader.h"
+#include "RsBumpyShader.h"
 
 #include "RenderMan.h"
 
@@ -126,6 +127,40 @@ void DrawTorus(void) {
 
 }
 
+void BumpyBall() {
+  RiBegin(RI_NULL);
+ 
+  RiFormat(200, 200, 1.0); 
+  RiFrameAspectRatio(4.0/4.0); 
+
+
+  /* set the perspective transformation */ 
+  float fov = 45.0;
+  RiProjection(RI_PERSPECTIVE, "fov", &fov); 
+  RiRotate(90, 1, 0, 0);
+  RiRotate(180, 0, 0, 1);
+  RiTranslate(0,0, 45.0); 
+
+  RiSurface((RtShaderFunc)&RsTextureShader);
+  RiDisplacement((RtShaderFunc)&RsBumpyShader);
+  
+  for (int i=0; i<1; i++) {
+
+    RiFrameBegin(i); 
+
+    RiWorldBegin(); 
+ 
+    RiTranslate(0,0, -45.0); 
+    RiRotate(1, 0, 0, 1);
+    RiTranslate(0,0, 45.0); 
+    RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
+    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
+    
+    RiWorldEnd(); 
+    RiFrameEnd(); 
+  }
+  RiEnd(); 
+}; 
 
 void myScene(void) { 
   RiBegin(RI_NULL);
@@ -256,7 +291,8 @@ int main(int argc, char *argv[]) {
   //fb.flush(0);
   //SampleScene1();
   //CylinderAboutYAxis();
-  DrawTorus();
+  BumpyBall();
+  //DrawTorus();
   //myScene();
   //Earth();
   //renderExample();
