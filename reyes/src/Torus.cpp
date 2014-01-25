@@ -10,13 +10,11 @@ Torus::Torus(float majorradius, float minorradius, float phimin, float phimax, f
 
       float phi = phimin + (v/(_n-1)) * (phimax - phimin);
 
-      float r = minorradius * cos(phi);
+      float r = (float)(minorradius * cos(phi));
 
-      float x = (majorradius + r) * cos(theta);
-      float y = (majorradius + r) * sin(theta);
-      float z = minorradius * sin(phi);
-
-      printf("%f %f %f\n", x, y, z);
+      float x = (float)((majorradius + r) * cos(theta));
+      float y = (float)((majorradius + r) * sin(theta));
+      float z = (float)(minorradius * sin(phi));
 
       float values[] = { x, y, z, 1 };
       this->getPoint(u, v).setAll(values);
