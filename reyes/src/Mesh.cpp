@@ -9,7 +9,7 @@ Mesh::Mesh(int m, int n) : _m(m), _n(n) {
     float v = (float)(i % _n);
 
     Color c = { 255, 255, 255 };
-    MeshPoint p = { Matrix(4,1), u / _m, v/_n, c };
+    MeshPoint p = { Matrix(4,1), u / _m, v/_n, NULL, c };
     this->mesh.push_back(p);
   }
 
@@ -83,6 +83,34 @@ BoundingBox Mesh::getBoundingBox() {
   
   return BoundingBox(minx, miny, maxx-minx, maxy-miny);
   
+}
+
+void Mesh::generateSurfaceNormals() {
+  /*
+  for (int i=0; i<_m; i++) {
+    for (int j=0; j<_n; j++) {
+      MeshPoint *p = &getMeshPoint(i,j);
+      Matrix *n1 = &getMeshPoint(i, (j+1)%_n).point;
+      Matrix *n2 = &getMeshPoint((i+1)%_m, (j+1)%_n).point;
+      Matrix m1(
+        n1->get(0) - p->point.get(0),
+        n1->get(1) - p->point.get(1),
+        n1->get(2) - p->point.get(2),
+        1
+      );
+
+      Matrix m2(
+        n2->get(0) - p->point.get(0),
+        n2->get(1) - p->point.get(1),
+        n2->get(2) - p->point.get(2),
+        1
+      );
+
+      p->normal = new Matrix(m1.crossProduct(m2));
+
+    }
+  }
+  */
 }
 
 

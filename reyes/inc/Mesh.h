@@ -14,7 +14,7 @@ typedef struct {
   Matrix point;
   float u,v;
 
-  //Matrix normal;
+  Matrix *normal;
   Color color;
 
 } MeshPoint;
@@ -38,6 +38,8 @@ public:
   Mesh & projectOnto(Matrix &);
   Mesh & transform(Matrix &);
   Mesh & homogenize();
+
+  void generateSurfaceNormals();
 
   BoundingBox getBoundingBox();
 

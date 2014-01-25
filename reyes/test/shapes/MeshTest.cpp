@@ -87,3 +87,26 @@ TEST(Mesh, shouldProjectOnto) {
   delete m;
 }
 
+IGNORE_TEST(Mesh, shouldGenerateSurfaceNormals) {
+
+
+  float v[] = {
+    0,1,0,1,
+    1,1,0,1,
+    1,0,0,1,
+    0,0,0,1,
+  };
+  Mesh *m = new MeshMock(v, 2, 2);
+
+  m->generateSurfaceNormals();
+
+  MeshPoint mp = m->getMeshPoint(0,0);
+
+  DOUBLES_EQUAL(0, mp.normal->get(0), 0.0001);
+  DOUBLES_EQUAL(0, mp.normal->get(1), 0.0001);
+  DOUBLES_EQUAL(-1, mp.normal->get(2), 0.0001);
+
+
+  delete m;
+
+}
