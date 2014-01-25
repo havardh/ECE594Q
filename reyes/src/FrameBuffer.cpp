@@ -206,7 +206,6 @@ void FrameBuffer::flush(int fileNumber) {
   (void) fileNumber;
   CImg<unsigned char> image(this->_width, this->_height, 1, 3, 0);
 
-
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
 
@@ -228,5 +227,10 @@ void FrameBuffer::flush(int fileNumber) {
 }
 
 void FrameBuffer::clear() {
-  
+  Color c = { 0,0,0 };
+  for (int i=0; i<_height; i++) {
+    for (int j=0; j<_width; j++) {
+      set(i,j, c);
+    }
+  }
 }

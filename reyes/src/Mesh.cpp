@@ -3,8 +3,13 @@
 
 Mesh::Mesh(int m, int n) : _m(m), _n(n) {
 
+
   for (int i=0; i<_m *_n; i++) {
-    MeshPoint p = { Matrix(4,1) };
+    float u = (float)(i / _n);
+    float v = (float)(i % _n);
+
+    Color c = { 255, 255, 255 };
+    MeshPoint p = { Matrix(4,1), u / _m, v/_n, c };
     this->mesh.push_back(p);
   }
 
@@ -16,6 +21,10 @@ Matrix & Mesh::getPoint(int i) {
 
 Matrix & Mesh::getPoint(int u, int v) {
   return getPoint( u * _n + v );
+}
+
+MeshPoint & Mesh::getMeshPoint(int u, int v) {
+  return this->mesh[(size_t)(u*_n+v)];
 }
 
 Mesh & Mesh::projectOnto(Matrix &projectionMatrix) {

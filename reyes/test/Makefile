@@ -25,9 +25,7 @@ SRC_DIRS = \
 
 TEST_SRC_DIRS = \
 	./ \
-	./matrix\
-	./drawing\
-	./shapes/
+	./**
 
 INCLUDE_DIRS =\
 	./helpers\

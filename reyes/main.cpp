@@ -8,6 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include "RsRandomShader.h"
 
 #include "RenderMan.h"
 
@@ -75,19 +76,33 @@ void myScene(void) {
   RiFormat(100,100, 1.0); 
   RiFrameAspectRatio(4.0/4.0); 
 
-  RiFrameBegin(0); 
 
   /* set the perspective transformation */ 
   float fov = 45.0;
   RiProjection(RI_PERSPECTIVE, "fov", &fov); 
-  RiTranslate(0,0, 50.0); 
+  RiRotate(90, 1, 0, 0);
+  RiTranslate(0,0, 45.0); 
 
-  RiWorldBegin(); 
+  RiSurface((RtShaderFunc)&RsRandomShader);
+  
+  for (int i=0; i<1; i++) {
+
+    RiFrameBegin(i); 
+
+    RiWorldBegin(); 
  
-  RiSphere(5.0, 5.0, 5.0, 2 * M_PI); 
- 
-  RiWorldEnd(); 
-  RiFrameEnd(); 
+    //RiSphere(5.0, 5.0, 5.0, 2 * M_PI); 
+    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
+    RiTranslate(0,0, -45.0); 
+    RiRotate(80, 1, 0, 0);
+    RiTranslate(0,0, 45.0); 
+    
+    RiCone(5.0, 5.0, 2*M_PI);
+
+    
+    RiWorldEnd(); 
+    RiFrameEnd(); 
+  }
   RiEnd(); 
 }; 
 
@@ -176,11 +191,17 @@ void SampleScene1(void) {
 
 void renderExample();
 int main(int argc, char *argv[]) {
+
+  //Matrix m(1,2,3,1);
+  //m.printPoint();
+  //m.rotate(Z, M_PI/2);
+  //m.printPoint();
+
   //FrameBuffer fb(10,10);
   //fb.flush(0);
   //SampleScene1();
-  //myScene();
-  Earth();
+  myScene();
+  //Earth();
   //renderExample();
 
   return 0;

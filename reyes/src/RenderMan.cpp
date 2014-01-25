@@ -5,6 +5,8 @@
 #include "Cylinder.h"
 #include "Cone.h"
 #include "FrameBuffer.h"
+#include "Texture.h"
+#include <vector>
 #include <cstdarg>
 #include <cmath>
 #include <stdlib.h>
@@ -25,6 +27,8 @@ static Color currentColor;
 static float opacity;
 
 static int xsmpl, ysmpl;
+
+static std::vector<Texture> textures;
 
 static FrameBuffer* frameBuffer = NULL;
 static Matrix projectionMatrix;
@@ -215,11 +219,13 @@ void RiConcatTransform(RtMatrix transform) {
 void renderShape(Shape & shape) {
   shape.setOpacity(opacity);
   shape.setColor(currentColor.red, currentColor.green, currentColor.blue);
+
+  shape.shade((ShaderFunction)surfaceShader);
+
   shape.transform(currentTransform);
   shape.projectOnto(projectionMatrix);
   shape.homogenize();
   frameBuffer->draw(shape);
-
 }
 
 void RiSphere(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ...) {
@@ -261,16 +267,16 @@ void RiOpacity(RtColor color) {
 
 // Not according to spec
 void RiMakeTexture(char *picturename, RtInt slot) {
-  (void) picturename;
   (void) slot;
+  textures.push_back(Texture(picturename));
 }
 
-void RiSurface(RtShaderFunc displacementFunc) {
-  displacementShader = displacementFunc;
-}
-
-void RiDisplacement(RtShaderFunc surfaceFunc) {
+void RiSurface(RtShaderFunc surfaceFunc) {
   surfaceShader = surfaceFunc;
+}
+
+void RiDisplacement(RtShaderFunc displacementFunc) {
+  displacementShader = displacementFunc;
 }
 
 void RiShutter(RtFloat min, RtFloat max) {

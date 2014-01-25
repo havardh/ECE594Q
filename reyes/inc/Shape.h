@@ -3,17 +3,17 @@
 
 #include "Color.h"
 #include "Mesh.h"
+#include "Shader.h"
 #include <assert.h>
 
 class Shape : public Mesh {
 
 private:
-  Color _color;
   float _opacity;
 
 public:
   
-  Shape() : Mesh(20,20), _opacity(0) {
+ Shape() : Mesh(100,100), _opacity(0) {
     setColor(255, 255, 255);
   }
 
@@ -27,6 +27,7 @@ public:
   void setColor(uint8_t, uint8_t, uint8_t);
   float getOpacity();
   void setOpacity(float);
+  void shade(ShaderFunction);
 
 };
 

@@ -33,7 +33,6 @@ static float values[] = {
 };
 
 TEST(Mesh, shouldSupportAssignmentOperator) {
-  
   float v[] = { 1, 1, 1, 2 };
   Mesh *m = new MeshMock(v, 1, 1);
 
@@ -47,6 +46,7 @@ TEST(Mesh, shouldSupportAssignmentOperator) {
   MATRIX_EQUALS(v2, m->getPoint(0), 0.0001);
 
   delete m;
+  
 }
 
 TEST(Mesh, shouldComputeBoundingBox) {

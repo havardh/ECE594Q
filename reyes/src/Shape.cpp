@@ -2,12 +2,17 @@
 
 #define IX(row, col) ((row) * _m + (col))
 
-Color Shape::getColor() { 
-  return _color; 
+Color Shape::getColor() {
+  return getMeshPoint(0,0).color;
 }
 
 void Shape::setColor(uint8_t red, uint8_t green, uint8_t blue) {
-  _color.red = red; _color.green = green; _color.blue = blue; 
+  Color c = { red, green, blue };
+  for (int i=0; i<_m; i++) {
+    for (int j=0; j<_n; j++) {
+      getMeshPoint(i,j).color = c;
+    }
+  }
 }
 
 float Shape::getOpacity() { 
@@ -33,9 +38,8 @@ std::vector<Polygon> Shape::getPolygons() {
       points[2] = this->getPoint(IX(i+1,j  ));
       points[3] = this->getPoint(IX(i+1,(j+1)%_n));
 
-      
       Polygon p(points);
-      p.setColor(getColor());
+      p.setColor(getMeshPoint(i,j).color);
       p.setOpacity(getOpacity());
       
       polygons.push_back(p);
@@ -43,4 +47,21 @@ std::vector<Polygon> Shape::getPolygons() {
   }
   
   return polygons;
+}
+
+void Shape::shade(ShaderFunction shader) {
+
+  if (shader != NULL) {
+
+    for (int i=0; i<_m; i++) {
+      for (int j=0; j<_n; j++) {
+        ShaderParam param = { 
+          (float)i/(_m-1) ,
+          (float)j/(_n-1), 
+          &getMeshPoint(i,j) };
+        (*shader)(param);
+      }
+    }
+
+  }
 }

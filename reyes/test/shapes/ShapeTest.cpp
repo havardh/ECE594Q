@@ -1,23 +1,14 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "Shape.h"
 #include "MatrixTestHelper.h"
+#include "ShapeMock.h"
 
 TEST_GROUP(Shape) {
   void setup() {}
   void teardown() {}
 };
 
-class ShapeMock : public Shape {
 
-public:
-  ShapeMock(float * values, int m, int n) : Shape(m, n) {
-    
-    for (int i=0; i<m*n; i++) { 
-      this->getPoint(i).setAll(&values[i*4]);
-    }
-  }
-  
-};
 
 /**
  * Checks if the given polygon has the values from the position valueIndex from valuesArray on position i
@@ -87,8 +78,79 @@ TEST(Shape, dicingShouldBeSequential) {
 }
 
 
+TEST(Shape, shouldPassOnMeshPointColorToPolygon) {
+  
+  float v[] = { 
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1,  
+    1,1,1,1
+  };
+	ShapeMock m(v, 3, 3);
+  Color c[]  = {
+    { 1,1,1 },
+    { 2,2,2 },
+    { 3,3,3 },
+    { 4,4,4 },
+    { 5,5,5 },
+    { 6,6,6 },
+    { 7,7,7 },
+    { 8,8,8 },
+    { 9,9,9 }
+  };
+  m.getMeshPoint(0,0).color = c[0];
+  m.getMeshPoint(0,1).color = c[1];
+  m.getMeshPoint(0,2).color = c[2];
+  m.getMeshPoint(1,0).color = c[3];
+  m.getMeshPoint(1,1).color = c[4];
+  m.getMeshPoint(1,2).color = c[5];
+  
+  std::vector<Polygon> P = m.getPolygons();
+
+  CHECK_EQUAL(c[0].red,   P[(size_t)0].getColor().red);
+  CHECK_EQUAL(c[0].green, P[(size_t)0].getColor().green);
+  CHECK_EQUAL(c[0].blue,  P[(size_t)0].getColor().blue);
+
+  CHECK_EQUAL(c[1].red,   P[(size_t)1].getColor().red);
+  CHECK_EQUAL(c[1].green, P[(size_t)1].getColor().green);
+  CHECK_EQUAL(c[1].blue,  P[(size_t)1].getColor().blue);
+
+  CHECK_EQUAL(c[2].red,   P[(size_t)2].getColor().red);
+  CHECK_EQUAL(c[2].green, P[(size_t)2].getColor().green);
+  CHECK_EQUAL(c[2].blue,  P[(size_t)2].getColor().blue);
+
+  CHECK_EQUAL(c[3].red,   P[(size_t)3].getColor().red);
+  CHECK_EQUAL(c[3].green, P[(size_t)3].getColor().green);
+  CHECK_EQUAL(c[3].blue,  P[(size_t)3].getColor().blue);
+
+  CHECK_EQUAL(c[4].red,   P[(size_t)4].getColor().red);
+  CHECK_EQUAL(c[4].green, P[(size_t)4].getColor().green);
+  CHECK_EQUAL(c[4].blue,  P[(size_t)4].getColor().blue);
+
+  CHECK_EQUAL(c[5].red,   P[(size_t)5].getColor().red);
+  CHECK_EQUAL(c[5].green, P[(size_t)5].getColor().green);
+  CHECK_EQUAL(c[5].blue,  P[(size_t)5].getColor().blue);
+}
+
+
 
 TEST(Shape, shouldContainTextureCoordinates) {
+  
+  float v[10*10*4];
+  ShapeMock s(v, 10, 10);
+
+  for (int i=0; i<10; i++) {
+    for (int j=0; j<10; j++) {
+      MeshPoint p = s.getMeshPoint(i,j);
+      DOUBLES_EQUAL(i/10.0, p.u, 0.0001);
+      DOUBLES_EQUAL(j/10.0, p.v, 0.0001);
+    }
+  }
    
 }
 
@@ -113,3 +175,73 @@ TEST(Shape, shouldSetOpacity) {
   
 }
 
+// Test Spy
+static float su[16], sv[16];
+static int shaderCallCount = 0;
+void shadeMock(ShaderParam param) {
+  su[shaderCallCount] = param.u;
+  sv[shaderCallCount] = param.v;
+  shaderCallCount++;
+}
+
+TEST(Shape, shouldHandleNoShader) {
+
+  float v[] = { 1,1,1,1 };
+  ShapeMock s(v, 1, 1);
+  
+  s.shade(NULL);
+  
+}
+
+TEST(Shape, shouldCallShaderForEachCoordinate) {
+
+  // Dont care but lets set up som mem
+  float v[] = {
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  };
+  ShapeMock s(v,4,4);
+
+  s.shade(&shadeMock);
+
+  CHECK_EQUAL(16, shaderCallCount);
+  DOUBLES_EQUAL(0.0000, su[0], 0.0001);
+  DOUBLES_EQUAL(0.0000, sv[0], 0.0001);
+  DOUBLES_EQUAL(0.0000, su[1], 0.0001);
+  DOUBLES_EQUAL(0.3333, sv[1], 0.0001);
+  DOUBLES_EQUAL(0.0000, su[2], 0.0001);
+  DOUBLES_EQUAL(0.6666, sv[2], 0.0001);
+  DOUBLES_EQUAL(0.0000, su[3], 0.0001);
+  DOUBLES_EQUAL(1.0000, sv[3], 0.0001);
+
+  DOUBLES_EQUAL(0.3333, su[4+0], 0.0001);
+  DOUBLES_EQUAL(0.0000, sv[4+0], 0.0001);
+  DOUBLES_EQUAL(0.3333, su[4+1], 0.0001);
+  DOUBLES_EQUAL(0.3333, sv[4+1], 0.0001);
+  DOUBLES_EQUAL(0.3333, su[4+2], 0.0001);
+  DOUBLES_EQUAL(0.6666, sv[4+2], 0.0001);
+  DOUBLES_EQUAL(0.3333, su[4+3], 0.0001);
+  DOUBLES_EQUAL(1.0000, sv[4+3], 0.0001);
+
+  DOUBLES_EQUAL(0.6666, su[8+0], 0.0001);
+  DOUBLES_EQUAL(0.0000, sv[8+0], 0.0001);
+  DOUBLES_EQUAL(0.6666, su[8+1], 0.0001);
+  DOUBLES_EQUAL(0.3333, sv[8+1], 0.0001);
+  DOUBLES_EQUAL(0.6666, su[8+2], 0.0001);
+  DOUBLES_EQUAL(0.6666, sv[8+2], 0.0001);
+  DOUBLES_EQUAL(0.6666, su[8+3], 0.0001);
+  DOUBLES_EQUAL(1.0000, sv[8+3], 0.0001);
+
+  DOUBLES_EQUAL(1.0000, su[12+0], 0.0001);
+  DOUBLES_EQUAL(0.0000, sv[12+0], 0.0001);
+  DOUBLES_EQUAL(1.0000, su[12+1], 0.0001);
+  DOUBLES_EQUAL(0.3333, sv[12+1], 0.0001);
+  DOUBLES_EQUAL(1.0000, su[12+2], 0.0001);
+  DOUBLES_EQUAL(0.6666, sv[12+2], 0.0001);
+  DOUBLES_EQUAL(1.0000, su[12+3], 0.0001);
+  DOUBLES_EQUAL(1.0000, sv[12+3], 0.0001);
+
+
+}

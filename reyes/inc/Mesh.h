@@ -12,8 +12,10 @@
 typedef struct {
 
   Matrix point;
+  float u,v;
+
   //Matrix normal;
-  //Color color;
+  Color color;
 
 } MeshPoint;
 
@@ -31,6 +33,7 @@ public:
   int getN() { return _n; }
   Matrix & getPoint(int i);
   Matrix & getPoint(int u, int v);
+  MeshPoint & getMeshPoint(int u, int v);
 
   Mesh & projectOnto(Matrix &);
   Mesh & transform(Matrix &);

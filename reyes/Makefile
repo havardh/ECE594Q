@@ -9,3 +9,4 @@ gen: all
 
 open: gen
 	open output/0.png
+
