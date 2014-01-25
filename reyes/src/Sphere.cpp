@@ -2,8 +2,8 @@
 
 Sphere::Sphere(float radius, float zmin, float zmax, float thetamax) {
 
-  float phi_min = (float)(zmin > -radius ? asin(zmin/radius) : -M_PI / 4);
-  float phi_max = (float)(zmax < radius ? asin(zmax/radius) : M_PI / 4);
+  float phi_min = (float)(zmin > -radius ? asin(zmin/radius) : -M_PI / 2);
+  float phi_max = (float)(zmax < radius ? asin(zmax/radius) : M_PI / 2);
 
   for (int u=0; u<_m; u++) {
 
@@ -11,7 +11,7 @@ Sphere::Sphere(float radius, float zmin, float zmax, float thetamax) {
 
     for (int v=0; v<_n; v++) {
       
-      float phi = phi_min + (v / (float)_n) * (phi_max - phi_min);
+      float phi = phi_min + (v / (float)_n-1) * (phi_max - phi_min);
 
       float x = radius * (float)(cos(theta) * cos(phi));
       float y = radius * (float)(sin(theta) * cos(phi));
