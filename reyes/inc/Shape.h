@@ -13,7 +13,7 @@ private:
 
 public:
   
- Shape() : Mesh(1024,1024), _opacity(0) {
+ Shape() : Mesh(20,20), _opacity(0) {
     setColor(255, 255, 255);
   }
 

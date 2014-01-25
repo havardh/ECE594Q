@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include "RsTextureShader.h"
+#include "RsRandomShader.h"
 
 #include "RenderMan.h"
 
@@ -67,6 +68,34 @@ void Earth()
 		RiFrameEnd();
 
 	RiEnd();
+}
+
+void CylinderAboutYAxis(void) {
+
+  printf("Cylinder\n");
+  RiBegin(RI_NULL);
+ 
+  RiFormat(200, 200, 1.0); 
+  RiFrameAspectRatio(4.0/4.0); 
+  /* set the perspective transformation */ 
+  float fov = 45.0;
+  RiProjection(RI_PERSPECTIVE, "fov", &fov); 
+
+  RiSurface((RtShaderFunc) &RsRandomShader);
+
+  RiRotate(45, 1, 1, 0);
+  RiTranslate(0, 0, 200.0);
+
+  RiFrameBegin(0);
+
+  RiWorldBegin(); 
+  
+  RiCylinder(10.0, -10.0, 10.0, 360); 
+  
+  RiWorldEnd(); 
+  RiFrameEnd(); 
+  RiEnd();
+
 }
 
 
@@ -198,7 +227,8 @@ int main(int argc, char *argv[]) {
   //FrameBuffer fb(10,10);
   //fb.flush(0);
   //SampleScene1();
-  myScene();
+  CylinderAboutYAxis();
+  //myScene();
   //Earth();
   //renderExample();
 
