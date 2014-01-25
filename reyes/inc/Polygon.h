@@ -7,10 +7,8 @@
 
 class Polygon {
 
-protected:  
-  Matrix _points[4];
-
 private:
+  Matrix *_points[4];
 
   Color _color;
   float _opacity;
@@ -19,12 +17,12 @@ private:
   
 public:
   Polygon();
-  Polygon(Matrix * points);
+  Polygon(Matrix ** points);
 
-  Matrix get(int i) const;
+  Matrix* get(int i) const;
   float getOpacity() const { return _opacity; }
   void setOpacity(float opacity) { _opacity = opacity; }
-  void set(int i, Matrix);
+  void set(int i, Matrix*);
   BoundingBox getBoundingBox() const;
 
   void setColor(Color);
@@ -34,7 +32,7 @@ public:
 
   void print() { 
     for (int i=0; i<4; i++) {
-      _points[i].printPoint();
+      _points[i]->printPoint();
     }
   }
   

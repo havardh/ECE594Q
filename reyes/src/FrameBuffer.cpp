@@ -169,7 +169,7 @@ void FrameBuffer::draw(Polygon polygon) {
             
             if (polygon.intersects(fx + k*fdx, fy + l*fdy)) {
 
-              set(i, j, k*4+l, polygon.getColor(), polygon.get(0).get(2), polygon.getOpacity());
+              set(i, j, k*4+l, polygon.getColor(), polygon.get(0)->get(2), polygon.getOpacity());
             }
           }
         }

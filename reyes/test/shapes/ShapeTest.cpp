@@ -16,7 +16,7 @@ TEST_GROUP(Shape) {
 static void CHECK_DICING(Polygon polygon, int *valueIndices, float *valuesArray) {
 
   for (int i=0; i<4; i++) {
-      Matrix m = polygon.get(i);
+      Matrix m = *polygon.get(i);
       MATRIX_EQUALS(&valuesArray[valueIndices[i]], m, 0.0001);
   }
   

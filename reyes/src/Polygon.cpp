@@ -2,12 +2,11 @@
 
 Polygon::Polygon() {
 
-  this->allocate();
   this->_opacity = 1.0;
   
 }
 
-Polygon::Polygon(Matrix *points) {
+Polygon::Polygon(Matrix **points) {
   
   for (int i=0; i<4; i++) {
     this->_points[i] = points[i];
@@ -17,18 +16,11 @@ Polygon::Polygon(Matrix *points) {
   
 }
 
-void Polygon::allocate() {
-
-  for (int i=0; i<4; i++) {
-    _points[i] = Matrix(4,1);
-  }
-}
-
-Matrix Polygon::get(int i) const {
+Matrix * Polygon::get(int i) const {
   return this->_points[i];
 } 
 
-void Polygon::set(int i, Matrix val) {
+void Polygon::set(int i, Matrix * val) {
   this->_points[i] = val;
 }
 
@@ -42,15 +34,15 @@ void Polygon::setColor(Color color) {
 
 BoundingBox Polygon::getBoundingBox() const {
 
-  float minx = this->_points[0].get(0);
-  float miny = this->_points[0].get(1);
-  float maxx = this->_points[0].get(0);
-  float maxy = this->_points[0].get(1);
+  float minx = this->_points[0]->get(0);
+  float miny = this->_points[0]->get(1);
+  float maxx = this->_points[0]->get(0);
+  float maxy = this->_points[0]->get(1);
   
 
   for (int i=1; i<4; i++) {
-    float x = this->_points[i].get(0);
-    float y = this->_points[i].get(1);
+    float x = this->_points[i]->get(0);
+    float y = this->_points[i]->get(1);
 
     if ( x > maxx )
       maxx = x;
@@ -105,14 +97,14 @@ bool isInTriangle(float x0, float y0, float x1, float y1, float x2, float y2, fl
 
 bool Polygon::intersects(float x, float y) {
 
-  float x0 = this->_points[0].get(0);
-  float y0 = this->_points[0].get(1);
-  float x1 = this->_points[1].get(0);
-  float y1 = this->_points[1].get(1);
-  float x2 = this->_points[2].get(0);
-  float y2 = this->_points[2].get(1);
-  float x3 = this->_points[3].get(0);
-  float y3 = this->_points[3].get(1);
+  float x0 = this->_points[0]->get(0);
+  float y0 = this->_points[0]->get(1);
+  float x1 = this->_points[1]->get(0);
+  float y1 = this->_points[1]->get(1);
+  float x2 = this->_points[2]->get(0);
+  float y2 = this->_points[2]->get(1);
+  float x3 = this->_points[3]->get(0);
+  float y3 = this->_points[3]->get(1);
 
   bool in0 = isInTriangle(x2,y2, x1,y1, x3,y3, x, y);
   bool in1 = isInTriangle(x1,y1, x0,y0, x2,y2, x, y);

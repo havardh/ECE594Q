@@ -32,11 +32,11 @@ std::vector<Polygon> Shape::getPolygons() {
   for (int i=0; i<_m-1; i++) {
     for (int j=0; j<_n; j++) {
      
-      Matrix points[4];
-      points[0] = this->getPoint(IX(i  ,j  ));
-      points[1] = this->getPoint(IX(i  ,(j+1)%_n));
-      points[2] = this->getPoint(IX(i+1,j  ));
-      points[3] = this->getPoint(IX(i+1,(j+1)%_n));
+      Matrix *points[4];
+      points[0] = &this->getPoint(IX(i  ,j  ));
+      points[1] = &this->getPoint(IX(i  ,(j+1)%_n));
+      points[2] = &this->getPoint(IX(i+1,j  ));
+      points[3] = &this->getPoint(IX(i+1,(j+1)%_n));
 
       Polygon p(points);
       p.setColor(getMeshPoint(i,j).color);

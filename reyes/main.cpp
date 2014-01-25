@@ -8,7 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
-#include "RsRandomShader.h"
+#include "RsTextureShader.h"
 
 #include "RenderMan.h"
 
@@ -23,11 +23,11 @@ Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
   100
 );
 
-void texture(int i) { (void) i;}
+//void texture(int i) { (void) i;}
 
 void TextureMap0()
 {
-	texture(0);
+  //texture(0);
 }
 
 void Earth()
@@ -73,7 +73,7 @@ void Earth()
 void myScene(void) { 
   RiBegin(RI_NULL);
  
-  RiFormat(100,100, 1.0); 
+  RiFormat(1024, 1024, 1.0); 
   RiFrameAspectRatio(4.0/4.0); 
 
 
@@ -81,9 +81,10 @@ void myScene(void) {
   float fov = 45.0;
   RiProjection(RI_PERSPECTIVE, "fov", &fov); 
   RiRotate(90, 1, 0, 0);
+  RiRotate(180, 0, 0, 1);
   RiTranslate(0,0, 45.0); 
 
-  RiSurface((RtShaderFunc)&RsRandomShader);
+  RiSurface((RtShaderFunc)&RsTextureShader);
   
   for (int i=0; i<1; i++) {
 
@@ -91,14 +92,11 @@ void myScene(void) {
 
     RiWorldBegin(); 
  
-    //RiSphere(5.0, 5.0, 5.0, 2 * M_PI); 
-    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
     RiTranslate(0,0, -45.0); 
-    RiRotate(80, 1, 0, 0);
+    RiRotate(1, 0, 0, 1);
     RiTranslate(0,0, 45.0); 
-    
-    RiCone(5.0, 5.0, 2*M_PI);
-
+    RiSphere(5.0, -5.0, 5.0, 2 * M_PI); 
+    //RiSphere(2.5, 2.5, 2.5, 2 * M_PI);
     
     RiWorldEnd(); 
     RiFrameEnd(); 
@@ -207,21 +205,6 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-
-
-void draw(FrameBuffer & fb, Shape & shape) {
-  
-  std::vector<Polygon> polygons = shape.getPolygons();
-  
-  std::vector<Polygon>::iterator it;
-  for (it = polygons.begin(); it != polygons.end(); ++it) {
-    float x = it->get(0).get(0);
-    float y = it->get(0).get(1);
-    fb.draw(*it);
-  }
-
-  
-}
 
 void renderExample() {
 

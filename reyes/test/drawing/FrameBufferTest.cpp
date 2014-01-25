@@ -108,10 +108,10 @@ IGNORE_TEST(FrameBuffer, shouldSampleAMicroPolygon) {
   PolyMock p;
   Color c = { 1,1,1 };
   p.setColor(c);
-  p.set(0, Matrix(1, 1, 0, 1));
-  p.set(1, Matrix(1, -1, 0, 1));
-  p.set(2, Matrix(-1, -1, 0, 1));
-  p.set(3, Matrix(-1, 1, 0, 1));
+  p.set(0, new Matrix(1, 1, 0, 1));
+  p.set(1, new Matrix(1, -1, 0, 1));
+  p.set(2, new Matrix(-1, -1, 0, 1));
+  p.set(3, new Matrix(-1, 1, 0, 1));
   fb.draw(p);
 
   for (int i=0; i<10; i++) {
@@ -123,4 +123,10 @@ IGNORE_TEST(FrameBuffer, shouldSampleAMicroPolygon) {
       CHECK_EQUAL(1, actual.blue);
     }
   }
+
+  free(p.get(0));
+  free(p.get(1));
+  free(p.get(2));
+  free(p.get(3));
+
 }
