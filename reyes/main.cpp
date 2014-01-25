@@ -98,6 +98,34 @@ void CylinderAboutYAxis(void) {
 
 }
 
+void DrawTorus(void) {
+
+  printf("Torus\n");
+  RiBegin(RI_NULL);
+ 
+  RiFormat(200, 200, 1.0); 
+  RiFrameAspectRatio(4.0/4.0); 
+  /* set the perspective transformation */ 
+  float fov = 45.0;
+  RiProjection(RI_PERSPECTIVE, "fov", &fov); 
+
+  RiSurface((RtShaderFunc) &RsRandomShader);
+
+  RiRotate(-(90+45), 1, 0, 0);
+  RiTranslate(0, 0, 100.0);
+
+  RiFrameBegin(0);
+
+  RiWorldBegin(); 
+  
+  RiTorus(10.0, 5.0, 0, 360, 360); 
+  
+  RiWorldEnd(); 
+  RiFrameEnd(); 
+  RiEnd();
+
+}
+
 
 void myScene(void) { 
   RiBegin(RI_NULL);
@@ -227,7 +255,8 @@ int main(int argc, char *argv[]) {
   //FrameBuffer fb(10,10);
   //fb.flush(0);
   //SampleScene1();
-  CylinderAboutYAxis();
+  //CylinderAboutYAxis();
+  DrawTorus();
   //myScene();
   //Earth();
   //renderExample();

@@ -6,6 +6,7 @@
 #include "Cone.h"
 #include "FrameBuffer.h"
 #include "Texture.h"
+#include "Torus.h"
 #include <vector>
 #include <cstdarg>
 #include <cmath>
@@ -247,11 +248,8 @@ void RiCylinder(RtFloat radius, RtFloat zmin, RtFloat zmax, RtFloat thetamax, ..
 
 void RiTorus(RtFloat majorradius, RtFloat minorradius, RtFloat phimin, RtFloat phimax, RtFloat thetamax, ...) {
 
-  (void) majorradius;
-  (void) minorradius;
-  (void) phimin;
-  (void) phimax;
-  (void) thetamax;
+  Torus torus(majorradius, minorradius, phimin, phimax, thetamax);
+  renderShape(torus);
 
 }
 
