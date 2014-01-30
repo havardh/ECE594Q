@@ -13,7 +13,7 @@ TEST(FrameBuffer, shouldConstructAndDestruct) {
   
 }
 
-TEST(FrameBuffer, shouldSetAndGet) {
+IGNORE_TEST(FrameBuffer, shouldSetAndGet) {
 
   FrameBuffer fb(100, 100);
   Color c = { 1, 231, 111 };
