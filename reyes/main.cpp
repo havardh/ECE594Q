@@ -16,8 +16,8 @@
 
 #include "RenderMan.h"
 
-#define WIDTH  100
-#define HEIGHT 100
+#define WIDTH  640
+#define HEIGHT 640
 #define N 8
 
 Matrix projectionMatrix = MatrixFactory::createPerspectiveProjection(
@@ -40,7 +40,7 @@ void CylinderAboutYAxis(void) {
 
   RiSurface((RtShaderFunc) &RsRandomShader);
 
-  RiRotate(45, 1, 1, 0);
+  RiRotate(20, 1, 1, 0);
   RiTranslate(0, 0, 200.0);
 
   RiFrameBegin(0);
@@ -55,9 +55,9 @@ void CylinderAboutYAxis(void) {
 
 }
 
-void DrawTorus(void) {
+void ConeCheckers(void) {
 
-  printf("Torus\n");
+
   RiBegin(RI_NULL);
  
   RiFormat(200, 200, 1.0); 
@@ -66,16 +66,16 @@ void DrawTorus(void) {
   float fov = 45.0;
   RiProjection(RI_PERSPECTIVE, "fov", &fov); 
 
-  RiSurface((RtShaderFunc) &RsRandomShader);
+  RiRotate(45, 1, 0, 0);
+  RiSurface((RtShaderFunc) &RsCheckerboardShader);
 
-  RiRotate(-(90+45), 1, 0, 0);
   RiTranslate(0, 0, 100.0);
 
   RiFrameBegin(0);
 
   RiWorldBegin(); 
   
-  RiTorus(10.0, 5.0, 0, 360, 360); 
+  RiCone(5, 5, 360);
   
   RiWorldEnd(); 
   RiFrameEnd(); 
@@ -97,7 +97,7 @@ void BumpyBall() {
   RiRotate(180, 0, 0, 1);
   RiTranslate(0,0, 45.0); 
 
-  RiSurface((RtShaderFunc)&RsTextureShader);
+  RiSurface((RtShaderFunc)&RsCheckerboardShader);
   RiDisplacement((RtShaderFunc)&RsBumpyShader);
   
 
@@ -127,6 +127,7 @@ void CheckerBall() {
   RiProjection(RI_PERSPECTIVE, "fov", &fov); 
   RiRotate(90, 1, 0, 0);
   RiRotate(180, 0, 0, 1);
+  RiRotate(20, 1, 1, 1);
   RiTranslate(0,0, 45.0); 
 
   RiSurface((RtShaderFunc)&RsCheckerboardShader);
@@ -146,7 +147,7 @@ void CheckerBall() {
 void MyEarth(void) { 
   RiBegin(RI_NULL);
  
-  RiFormat(1024, 1024, 1.0); 
+  RiFormat(1024,1024, 1.0); 
   RiFrameAspectRatio(4.0/4.0); 
 
   /* set the perspective transformation */ 
@@ -267,14 +268,17 @@ int main(int argc, char *argv[]) {
 
   //FrameBuffer fb(10,10);
   //fb.flush(0);
-  SampleScene1();
+  //SampleScene1();
   //CylinderAboutYAxis();
+  //ConeCheckers();
   //CheckerBall();
   //BumpyBall();
   //DrawTorus();
   //myScene();
-  //Earth();
+  CheckerBall();
+    //MyEarth();
   //renderExample();
+  
 
   return 0;
 }
@@ -293,12 +297,12 @@ void renderExample() {
     {
       Sphere s(1, 0, 1, 2*M_PI);
       s.setColor(0, 255, 0);
-      s.setOpacity(0.2);
+      s.setOpacity(0.8);
       Matrix t = MatrixFactory::createIdentity(4);
       //t.rotate(X, M_PI/2);
       //t.rotate(Z, M_PI/2);
-      t.scale(2,2,2);
-      t.translate(0, 0, 50);
+      t.scale(5,5,5);
+      t.translate(6, 6, 50);
       s.transform(t);
       s.projectOnto(projectionMatrix);
       s.homogenize();
@@ -307,7 +311,7 @@ void renderExample() {
 
     {
       Sphere s(1, 0, 1, 2*M_PI);
-      s.setColor(0, 255, 255);
+      s.setColor(0, 0, 255);
       s.setOpacity(0.7);
       Matrix t = MatrixFactory::createIdentity(4);
       t.scale(20, 20, 20);

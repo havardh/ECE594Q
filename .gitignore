@@ -2,3 +2,7 @@
 *.o
 *.d
 *.out
+reyes/pictures
+reyes/output
+reyes/test/autotest.watchr
+.DS_Store
