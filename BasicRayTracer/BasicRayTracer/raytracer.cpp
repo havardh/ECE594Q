@@ -1,6 +1,8 @@
-#include <windows.h>
+//#include <windows.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "scene_io.h"
+#include "scene_print.h"
 #include "Timer.h"
 
 #define IMAGE_WIDTH		1500
@@ -15,6 +17,7 @@ SceneIO *scene = NULL;
 static void loadScene(char *name) {
 	/* load the scene into the SceneIO data structure using given parsing code */
 	scene = readScene(name);
+  print_scene(scene);
 
 	/* hint: use the Visual Studio debugger ("watch" feature) to probe the
 	   scene data structure and learn more about it for each of the given scenes */
@@ -56,7 +59,7 @@ int main(int argc, char *argv[]) {
 	Timer total_timer;
 	total_timer.startTimer();
 
-	loadScene("../Scenes/test1.scene");
+	loadScene("../Scenes/test1.ascii");
 
 	/* write your ray tracer here */
 	render();

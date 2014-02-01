@@ -1,6 +1,9 @@
-#include <malloc.h>
+//#include <malloc.h>
+#include <stdlib.h>
 #include "scene_io.h"
 #include <string.h>
+#include "wintounix.h"
+
 
 static SceneIO *readSceneA(FILE *fp);
 static SceneIO *readSceneB(FILE *fp);
