@@ -12,7 +12,7 @@ typedef union _LARGE_INTEGER {
   struct {
     DWORD LowPart;
     LONG  HighPart;
-  };
+  } l;
   struct {
     DWORD LowPart;
     LONG  HighPart;

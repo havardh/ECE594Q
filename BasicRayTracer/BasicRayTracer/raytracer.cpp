@@ -14,7 +14,7 @@ typedef unsigned char u08;
 SceneIO *scene = NULL;
 
 
-static void loadScene(char *name) {
+static void loadScene(const char *name) {
 	/* load the scene into the SceneIO data structure using given parsing code */
 	scene = readScene(name);
   print_scene(scene);
@@ -55,7 +55,7 @@ void render(void) {
 
 
 
-int main(int argc, char *argv[]) {
+int main1() {
 	Timer total_timer;
 	total_timer.startTimer();
 
