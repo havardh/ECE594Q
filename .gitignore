@@ -5,4 +5,13 @@
 reyes/pictures
 reyes/output
 reyes/test/autotest.watchr
+raytrace/raytracer*
 .DS_Store
+*all_tests
+test/cpputest
+autotest.watchr
+raytrace/.gdbinit
+raytrace/out.png
+*.sln
+*.suo
+*.vcproj
