@@ -7,19 +7,20 @@
 
 class Matrix {
 
- private:
+private:
   int _m, _n;
   float *matrix;
 
   void allocate(void);
 
- public:
+public:
   
   Matrix();
   Matrix(int);
   Matrix(int, int);
   Matrix(float, float, float);
   Matrix(float, float, float, float);
+  Matrix(float[3]);
   Matrix(float[4][4]);
   Matrix(const Matrix &);
   ~Matrix(void);
@@ -28,6 +29,10 @@ class Matrix {
   bool operator==(const Matrix &) const;
   bool operator!=(const Matrix &) const;
   const Matrix operator*(const Matrix &) const;
+  const Matrix operator*(const int &) const;
+  const Matrix operator*(const float &) const;
+  const Matrix operator*(const double &) const;
+  const Matrix operator+(const Matrix &) const;
 
   Matrix crossProduct(const Matrix &) const;
 
@@ -40,6 +45,8 @@ class Matrix {
   int getM() const { return _m; }
   int getN() const { return _n; }
 
+  float length(void);
+  Matrix & normalize(void);
   Matrix & homogenize(void);
   Matrix & rotate(Axis, float);
   Matrix & scale(const Matrix &);
@@ -52,7 +59,7 @@ class Matrix {
 
   float dot(const Matrix &) const;
 
-  void printMatrix(void) {
+  void printMatrix(void) const {
     for (int i=0; i<_m; i++) {
       for (int j=0; j<_n; j++) {
         printf("%2.2f ", get(i,j));
@@ -61,10 +68,12 @@ class Matrix {
     }
   }
 
-  void printPoint(void) { 
+  void printPoint(void) const { 
     printf("(%8.8f, %8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0), get(3,0)); 
   }
 
 };
+
+const Matrix operator *(const double &lhs, const Matrix &rhs);
 
 #endif /* _MATRIX_H_ */

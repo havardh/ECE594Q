@@ -61,6 +61,12 @@ Matrix::Matrix(float x, float y, float z, float w) : _m(4), _n(1) {
   
 }
 
+Matrix::Matrix(float vals[3]) : _m(3), _n(1) { 
+
+  this->allocate();
+  this->setAll(vals);
+}
+
 Matrix::Matrix(float vals[4][4] ) : _m(4), _n(4) {
   
   this->allocate();
@@ -78,7 +84,9 @@ void Matrix::allocate(void) {
 }
 
 Matrix::~Matrix(void) {
-  delete [] this->matrix;
+  if (this->matrix) {
+    delete [] this->matrix;
+  }
 }
 
 Matrix & Matrix::operator=(const Matrix &rhs) {
@@ -137,6 +145,49 @@ const Matrix Matrix::operator*(const Matrix &rhs) const {
   return result;
 }
 
+const Matrix Matrix::operator*(const int &c) const {
+  return *this * (double)c;
+}
+
+const Matrix Matrix::operator*(const float &c) const {
+  return *this * (double)c;
+}
+
+const Matrix operator*(const double &lhs, const Matrix &rhs) {
+  return rhs * lhs;
+}
+
+const Matrix Matrix::operator*(const double &c) const {
+  
+  int m = this->_m;
+  int n = this->_n;
+
+  float fc = (float)c;
+
+  Matrix result(m, n);
+
+  for (int i=0; i<m; i++) {
+    for (int j=0; j<n; j++) {
+      result.set(i, j, this->get(i, j)*fc);
+    }
+  }
+  return result;
+}
+
+const Matrix Matrix::operator+(const Matrix &rhs) const {
+  int m = this->_m;
+  int n = this->_n;
+
+  Matrix result(m, n);
+
+  for (int i=0; i<m; i++) {
+    for (int j=0; j<n; j++) {
+      result.set(i, j, this->get(i, j) + rhs.get(i,j));
+    }
+  }
+  return result;
+}
+
 void Matrix::set(int row, int col, float f) {
 
   this->matrix[ IX(row, col) ] = f;
@@ -163,6 +214,30 @@ float Matrix::get(int row, int col) const {
 
 float Matrix::get(int i) const {
   return this->get(i,0);
+}
+
+float Matrix::length(void) {
+  
+  float sum=0;
+
+  for (int i=0; i<_m; i++) {
+    float v = this->get(i);
+    sum += v*v;
+  }
+
+  return (float)sqrt(sum);
+}
+
+Matrix & Matrix::normalize(void) {
+
+  float L = this->length();
+
+  for (int i=0; i<_m; i++) {
+    this->set(i, this->get(i) / L);
+  }
+  
+  return *this;
+
 }
 
 Matrix & Matrix::homogenize(void) {

@@ -18,6 +18,19 @@ TEST(Matrix, shouldContainDeepCopyConstructor) {
 
 }
 
+TEST(Matrix, shouldHaveAVectorContructor) {
+  
+  float v[3] = { 1,2,3 };
+	Matrix m(v);
+  
+  CHECK_EQUAL(3, m.getM());
+  CHECK_EQUAL(1, m.getN());
+
+  DOUBLES_EQUAL(1, m.get(0), 0.0001);
+  DOUBLES_EQUAL(2, m.get(1), 0.0001);
+  DOUBLES_EQUAL(3, m.get(2), 0.0001);  
+}
+
 TEST(Matrix, shouldProvideVectorGet) {
   
 	Matrix m(1.0, 2.0, 4.0, 3.0);
@@ -306,4 +319,35 @@ TEST(Matrix, crossProduct) {
 
   MATRIX_EQUALS(expected, m3, 0.0001);
 
+}
+
+TEST(Matrix, shouldCalculateLength) {
+  
+	Matrix m(2,2,2);
+  DOUBLES_EQUAL(3.464101615f, m.length(), 0.0001);
+  
+}
+
+TEST(Matrix, shouldNormalize) {
+  
+	Matrix m(1, 2, 3);
+
+  m.normalize();
+
+  float L = 3.741657387f;
+
+  DOUBLES_EQUAL(1.0/L, m.get(0), 0.0001);
+  DOUBLES_EQUAL(2.0/L, m.get(1), 0.0001);
+  DOUBLES_EQUAL(3.0/L, m.get(2), 0.0001);
+  
+}
+
+TEST(Matrix, shouldMultiplyByConstant) {
+  
+	Matrix m(1, 2, 2);
+
+  Matrix r = m * 2;
+
+  DOUBLES_EQUAL(2, r.get(0), 0.0001);
+  
 }
