@@ -4,16 +4,21 @@ SRC_DIRS += \
 	../reyes/src\
   ../matrix/test/helpers \
 	../matrix/src\
-	../reyes/test/helpers
+	../reyes/test/helpers \
+	../raytrace/src 
 
 TEST_SRC_DIRS += \
 	../matrix/test/** \
-	../reyes/test/**
+	../reyes/test/** \
+	../raytrace/test/**
 
 INCLUDE_DIRS +=\
 	../reyes/test/helpers \
 	../reyes/inc \
   ../matrix/test/helpers \
-	../matrix/inc 
+	../matrix/inc \
+	../raytrace/inc \
+	../BasicRayTracer/BasicRayTracer
+
 
 include $(BASE_TEST_DIR)/MakefileBase.mk
