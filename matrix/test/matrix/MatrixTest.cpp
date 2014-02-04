@@ -351,3 +351,39 @@ TEST(Matrix, shouldMultiplyByConstant) {
   DOUBLES_EQUAL(2, r.get(0), 0.0001);
   
 }
+
+TEST(Matrix, shouldSubtractTwoMatrices) {
+  
+	Matrix m1(2, 2, 3);
+  Matrix m2(1, 1, 1);
+
+  Matrix r = m1 - m2;
+
+  DOUBLES_EQUAL(1, r.get(0), 0.0001);
+  DOUBLES_EQUAL(1, r.get(1), 0.0001);
+  DOUBLES_EQUAL(2, r.get(2), 0.0001);
+  
+}
+
+TEST(Matrix, shouldProvideAbsFunction) {
+
+  Matrix m1(1, -2, -4);
+  Matrix m2 = m1.abs();
+
+  DOUBLES_EQUAL(1, m2.get(0), 0.0001);
+  DOUBLES_EQUAL(2, m2.get(1), 0.0001);
+  DOUBLES_EQUAL(4, m2.get(2), 0.0001);
+
+}
+
+TEST(Matrix, shouldProvideDivide) {
+  
+	Matrix m1(1, 2, 3);
+  Matrix m2(2, 2, 3);
+  Matrix m3 = m1 / m2;
+  
+  DOUBLES_EQUAL(0.5f, m3.get(0), 0.0001);
+  DOUBLES_EQUAL(1, m3.get(1), 0.0001);
+  DOUBLES_EQUAL(1, m3.get(2), 0.0001);
+  
+}

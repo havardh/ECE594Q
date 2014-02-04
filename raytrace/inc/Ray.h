@@ -13,10 +13,24 @@ public:
 };
 
 class Ray {
-  
+
+public:
+  Ray(const Matrix &origin, const Matrix &direction) {
+    _origin = origin;
+    _direction = direction;
+  }
+
+  void print() {
+    _origin.printPoint();
+    _direction.printPoint();
+  }
+
+  const Matrix getOrigin() const { return _origin; }
+  const Matrix getDirection() const { return _direction; }
+
 private:
-  Matrix position;
-  Matrix direction;
+  Matrix _origin;
+  Matrix _direction;
 
 };
 

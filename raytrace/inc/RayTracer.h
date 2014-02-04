@@ -4,6 +4,8 @@
 #include "Ray.h"
 #include "scene_io.h"
 #include "Camera.h"
+#include "RayFactory.h"
+#include "RTSphere.h"
 #include <stdio.h>
 #include <stdint.h>
 

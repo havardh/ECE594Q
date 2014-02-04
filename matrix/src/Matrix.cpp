@@ -145,6 +145,21 @@ const Matrix Matrix::operator*(const Matrix &rhs) const {
   return result;
 }
 
+const Matrix Matrix::operator/(const Matrix &rhs) const {
+  
+  int m = this->_m;
+  int n = this->_n;
+
+  Matrix result(m,n);
+  
+  for (int i=0; i<m; i++) {
+    for(int j=0; j<n; j++) {
+      result.set(i,j, this->get(i,j) / rhs.get(i,j));
+    }
+  }
+  return result;
+}
+
 const Matrix Matrix::operator*(const int &c) const {
   return *this * (double)c;
 }
@@ -188,6 +203,22 @@ const Matrix Matrix::operator+(const Matrix &rhs) const {
   return result;
 }
 
+const Matrix Matrix::operator-(const Matrix &rhs) const {
+  
+  int m = this->_m; 
+  int n = this->_n; 
+  
+  Matrix result(m,n);
+
+  for (int i=0; i<m; i++) {
+    for (int j=0; j<n; j++) {
+      result.set(i,j, this->get(i,j) - rhs.get(i,j));
+    }
+  }
+
+  return result;
+}
+
 void Matrix::set(int row, int col, float f) {
 
   this->matrix[ IX(row, col) ] = f;
@@ -216,7 +247,7 @@ float Matrix::get(int i) const {
   return this->get(i,0);
 }
 
-float Matrix::length(void) {
+float Matrix::length(void) const {
   
   float sum=0;
 
@@ -349,4 +380,15 @@ Matrix Matrix::crossProduct(const Matrix &other) const {
     u1*v2-u2*v1
   );
   
+}
+
+Matrix Matrix::abs() const {
+
+  Matrix result = *this;
+  
+  for(int i=0; i<_m*_n; i++) {
+    result.set(i, (float)fabs(result.get(i)));
+  }
+
+  return result;
 }

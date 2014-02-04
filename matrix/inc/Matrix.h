@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "MatrixFactory.h"
 #include "Axis.h"
+#include <cmath>
 
 class Matrix {
 
@@ -28,13 +29,16 @@ public:
   Matrix & operator=(const Matrix &);
   bool operator==(const Matrix &) const;
   bool operator!=(const Matrix &) const;
+  const Matrix operator/(const Matrix &) const;
   const Matrix operator*(const Matrix &) const;
   const Matrix operator*(const int &) const;
   const Matrix operator*(const float &) const;
   const Matrix operator*(const double &) const;
   const Matrix operator+(const Matrix &) const;
+  const Matrix operator-(const Matrix &) const;
 
   Matrix crossProduct(const Matrix &) const;
+  Matrix abs() const;
 
   void set(int,int,float);
   void set(int, float);
@@ -45,7 +49,7 @@ public:
   int getM() const { return _m; }
   int getN() const { return _n; }
 
-  float length(void);
+  float length(void) const;
   Matrix & normalize(void);
   Matrix & homogenize(void);
   Matrix & rotate(Axis, float);
@@ -69,7 +73,10 @@ public:
   }
 
   void printPoint(void) const { 
-    printf("(%8.8f, %8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0), get(3,0)); 
+    if (_m == 4)
+      printf("(%8.8f, %8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0), get(3,0)); 
+    if (_m == 3)
+      printf("(%8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0)); 
   }
 
 };

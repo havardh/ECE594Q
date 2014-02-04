@@ -38,8 +38,22 @@ TEST(RayTracer, shouldConstructRayTracer) {
 
 TEST(RayTracer, shouldRender) {
   
+  scene.camera->position[0] = 0; 
+  scene.camera->position[1] = 0; 
+  scene.camera->position[2] = 0;
+  
+  scene.camera->viewDirection[0] = 0; 
+  scene.camera->viewDirection[1] = 0; 
+  scene.camera->viewDirection[2] = 1;
+  
+  scene.camera->orthoUp[0] = 0;
+  scene.camera->orthoUp[1] = 1;
+  scene.camera->orthoUp[2] = 0;
+
+  scene.camera->verticalFOV = (float)(M_PI / 4.0);
+ 
 	RayTracer rayTracer(&scene);
-  uint8_t *fb = rayTracer.render(10,10);
+  uint8_t *fb = rayTracer.render(4,4);
   (void) fb;
   
 }

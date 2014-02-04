@@ -12,7 +12,9 @@ TEST_SRC_DIRS += \
 INCLUDE_DIRS +=\
 	../inc \
   ../../matrix/test/helpers \
+  ../../reyes//test/helpers \
 	../../matrix/inc \
-	../../test/cpputest/include/
+	../../test/cpputest/include \
+  ../../BasicRayTracer/BasicRayTracer
 
 include $(BASE_TEST_DIR)/MakefileBase.mk

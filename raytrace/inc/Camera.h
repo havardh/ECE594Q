@@ -16,10 +16,10 @@ public:
     phi = fov;
   }
 
-  const Matrix& getPosition() { return E; }
-  const Matrix& getDirection() { return V; }
-  const Matrix& getUp() { return U; }
-  float getFieldOfView() { return phi; }
+  const Matrix& getPosition() const { return E; }
+  const Matrix& getDirection() const { return V; }
+  const Matrix& getUp() const { return U; }
+  float getFieldOfView() const { return phi; }
 
 private:
   Matrix E; // Position

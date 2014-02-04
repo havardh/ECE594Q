@@ -15,6 +15,7 @@ RayTracer::RayTracer(SceneIO *scene) :
     camera = Camera(position, direction, 0, up, fov);
   } else {
     printf("Missing Camera in scene\n");
+    //exit(1);
   }
   
 
@@ -27,45 +28,39 @@ RayTracer::~RayTracer(void) {
 }
 
 
+static RTSphere *sphere;
+
 static RayColor trace(const Ray &ray) {
-  (void) ray;
-  return RayColor();
+
+  if (sphere->intersect(ray)) {
+    return RayColor(200,200,200);
+  } else {
+    return RayColor(0,0,0);
+  }
+  
+
 }
 
 uint8_t* RayTracer::render(int width, int height) {
   _frameBuffer = new uint8_t[width*height*3];
 
-  Matrix U = camera.getUp();
-  Matrix V = camera.getDirection();
-  Matrix E = camera.getPosition();
-  float phi = camera.getFieldOfView();
-  float delta = phi * ((float)width / height);
-  float c = 2;
+  sphere = new RTSphere(Matrix(10, 0, 0), 2);
 
-  U.normalize();
-  V.normalize();
+  Camera c(
+    Matrix(0,0,0),
+    Matrix(1,0,0),
+    0,
+    Matrix(0,1,0),
+    (float)(M_PI/2));
 
-  Matrix A = V.crossProduct(U).normalize();
-  Matrix X = A * c * tan(delta / 2.0);
-
-  Matrix B = A.crossProduct(V).normalize();
-  Matrix Y = c * tan(phi / 2.0) * B;
-
-  Matrix M = E + c*V;
+  RayFactory factory(c, width, height);
 
   for(int i=0; i<width; i++) {    
     for (int j=0; j<height; j++) {
 
-      float sx = (float)((i + 0.5) / width);
-      float sy = (float)((j + 0.5) / height);
-
-      Matrix P = M + (2 * sx - 1) * X + (2 * sy - 1) * Y;
-
-      P.printPoint();
-
-      Ray ray;
+      Ray ray = factory.createRay(i,j);
       RayColor color = trace(ray);
-
+      
       _frameBuffer[ IX(i,j,0) ] = color.red;
       _frameBuffer[ IX(i,j,1) ] = color.green;
       _frameBuffer[ IX(i,j,2) ] = color.blue;
