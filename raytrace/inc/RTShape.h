@@ -6,7 +6,9 @@
 class RTShape {
   
  public:
+  virtual ~RTShape() {}
   virtual bool intersect(const Ray &) = 0;
+
     
 };
 

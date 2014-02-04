@@ -6,13 +6,11 @@ RayTracer::RayTracer(SceneIO *scene) :
   _frameBuffer(0), _scene(scene) {
 
   if (_scene && _scene->camera) {
-    CameraIO *cio = _scene->camera;
-    Matrix position(cio->position);
-    Matrix direction(cio->viewDirection);
-    Matrix up(cio->orthoUp);
-    float fov = cio->verticalFOV;
+
+    setCamera(_scene->camera);
+
+    setObjects(_scene->objects);
     
-    camera = Camera(position, direction, 0, up, fov);
   } else {
     printf("Missing Camera in scene\n");
     //exit(1);
@@ -27,37 +25,57 @@ RayTracer::~RayTracer(void) {
   }
 }
 
+void RayTracer::setCamera(CameraIO *cio) {
 
-static RTSphere *sphere;
-
-static RayColor trace(const Ray &ray) {
-
-  if (sphere->intersect(ray)) {
-    return RayColor(200,200,200);
-  } else {
-    return RayColor(0,0,0);
-  }
+  Matrix position(cio->position);
+  Matrix direction(cio->viewDirection);
+  Matrix up(cio->orthoUp);
+  float fov = cio->verticalFOV;
   
+  camera = Camera(position, direction, 0, up, fov);
+
+}
+
+void RayTracer::setObjects(ObjIO *oio) {
+
+  while(oio) {
+    RTShape* shape = RTShapeFactory::createShape(oio);
+    if (shape) {
+      printf( "obj\n" );
+
+      if (typeid(*shape) == typeid(RTTriangle)) {
+        printf("triangle"); ((RTTriangle*)shape)->getP0().printPoint();
+      } else if (typeid(*shape) == typeid(RTSphere)) {
+        printf("sphere"); ((RTSphere*)shape)->getOrigin().printPoint();
+      }
+      objects.push_back(shape);
+    }
+    oio = oio->next;
+  }
+
+}
+
+RayColor RayTracer::trace(const Ray &ray) {
+
+  std::vector<RTShape*>::iterator it;
+  
+  for(it = objects.begin(); it != objects.end(); ++it) {
+    if ((*it)->intersect(ray)) {
+      return RayColor(200,200,200);
+    }
+  }
+
+  return RayColor(0,0,0);
 
 }
 
 uint8_t* RayTracer::render(int width, int height) {
   _frameBuffer = new uint8_t[width*height*3];
 
-  sphere = new RTSphere(Matrix(10, 0, 0), 2);
-
-  Camera c(
-    Matrix(0,0,0),
-    Matrix(1,0,0),
-    0,
-    Matrix(0,1,0),
-    (float)(M_PI/2));
-
-  RayFactory factory(c, width, height);
+  RayFactory factory(camera, width, height);
 
   for(int i=0; i<width; i++) {    
     for (int j=0; j<height; j++) {
-
       Ray ray = factory.createRay(i,j);
       RayColor color = trace(ray);
       

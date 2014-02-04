@@ -43,7 +43,7 @@ void RayFactory::calculateVectors() {
   Matrix V = _camera.getDirection();
   float phi = _camera.getFieldOfView();
   float delta = phi * ((float)_width / _height);
-  float c = 4;
+  float c = 1.1;
   
   U.normalize();
   V.normalize();
