@@ -2,21 +2,21 @@
 
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon) {
 
-    return RTTriangle(
-      Matrix(polygon->vert[0].pos), 
-      Matrix(polygon->vert[1].pos), 
-      Matrix(polygon->vert[2].pos)
-    );
+  return RTTriangle(
+    Matrix(polygon->vert[0].pos), 
+    Matrix(polygon->vert[1].pos), 
+    Matrix(polygon->vert[2].pos)
+  );
 }
 
 RTShape* RTShapeFactory::createShape(ObjIO *obj) {
   
-  (void) obj;
+  RTShape *shape = NULL;
 
   if (obj->type == SPHERE_OBJ) {
 
     SphereIO *io = (SphereIO*)obj->data;
-    return new RTSphere(io->origin, io->radius);
+    shape = new RTSphere(io->origin, io->radius);
 
   } else if (obj->type == POLYSET_OBJ) {
 
@@ -26,9 +26,28 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
       RTTriangle t = RTShapeFactory::createTriangle(&io->poly[i]);
       set->addTriangle(t);
     }
-    return set;
+    shape = set;
 
   }
 
-  return NULL;
+  if (shape) {
+    for (int i=0; i<obj->numMaterials; i++) {
+      shape->addMaterial(RTShapeFactory::createMaterial(&obj->material[i]));
+    }
+  }
+
+  return shape;
+}
+
+RTMaterial RTShapeFactory::createMaterial(MaterialIO *materialIO) {
+  
+  (void) materialIO;
+  RTMaterial material;
+  material.setDiffColor(RTColor(materialIO->diffColor));
+  material.setAmbColor(RTColor(materialIO->ambColor));
+  material.setSpecColor(RTColor(materialIO->specColor));
+  material.setEmissColor(RTColor(materialIO->emissColor));
+  material.setShininess(materialIO->shininess);
+  material.setKTransparency(materialIO->ktran);
+  return material;
 }

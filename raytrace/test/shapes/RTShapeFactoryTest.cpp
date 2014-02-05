@@ -2,6 +2,11 @@
 #include "RTShapeFactory.h"
 #include "scene_io.h"
 
+#define COLOR_EQUAL(r,g,b, actual)              \
+  CHECK_EQUAL(r, actual.getRGBRed());           \
+  CHECK_EQUAL(g, actual.getRGBGreen());         \
+  CHECK_EQUAL(b, actual.getRGBBlue());    
+
 static SphereIO sphereIO = {
   {5,-1,7}, 3,
   {0,0,0}, 0,
@@ -24,7 +29,7 @@ static VertexIO vertexIO[] = {{
   }};
 
 static PolygonIO polygonIO[] = {{
-  3, vertexIO
+    3, vertexIO
   }};
 
 static PolySetIO polySetIO = {
@@ -33,11 +38,17 @@ static PolySetIO polySetIO = {
 };
 
 static MaterialIO materialIO[] = {{
-    {0,0,0},
-    {0,0,0},
-    {0,0,0},
-    {0,0,0},
-    0, 0,
+    {0,1,1},
+    {0.5f,0,0},
+    {0,0,0.3f},
+    {0,0.7f,0},
+    4, 2,
+  },{
+    {0,1,1},
+    {0.5f,0,0},
+    {0,0,0.3f},
+    {0,0.7f,0},
+    4, 2,
   }};
 
 
@@ -99,5 +110,35 @@ TEST(RTShapeFactory, shouldCreateATriangle) {
   DOUBLES_EQUAL(2, p2.get(2), 0.0001);
 
   delete set;
+  
+}
+
+TEST(RTShapeFactory, shouldCreateMaterial) {
+  
+  RTMaterial material = RTShapeFactory::createMaterial(materialIO);
+  (void) material;
+
+  COLOR_EQUAL(0,255,255, material.getDiffColor());
+  COLOR_EQUAL(127,0,0, material.getAmbColor());
+  COLOR_EQUAL(0,0,76, material.getSpecColor());  
+  COLOR_EQUAL(0,178,0, material.getEmissColor());
+  DOUBLES_EQUAL(4, material.getShininess(), 0.0001);
+  DOUBLES_EQUAL(2, material.getKTransparency(), 0.0001);
+}
+
+TEST(RTShapeFactory, shouldCreateShapeWithMaterials) {
+  
+  ObjIO obj = {
+    0, 0, 2,
+    materialIO,
+    SPHERE_OBJ,
+    &sphereIO
+  };
+
+  RTShape *shape = (RTShape*)RTShapeFactory::createShape(&obj);
+
+  CHECK_EQUAL(2, shape->getMaterialCount());
+
+  delete shape;
   
 }

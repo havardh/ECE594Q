@@ -8,6 +8,7 @@
 #include "RTSphere.h"
 #include "RTShape.h"
 #include "RTShapeFactory.h"
+#include "RTColor.h"
 #include "RayFrameBuffer.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -23,7 +24,7 @@ private:
 
   Camera camera;
 
-  RayColor trace(const Ray &ray);
+  RTColor trace(const Ray &ray);
   void setCamera(CameraIO*);
   void setObjects(ObjIO*);
 

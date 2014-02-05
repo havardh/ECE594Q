@@ -11,7 +11,7 @@ class RTShapeFactory {
 public:
   static RTShape* createShape(ObjIO*);
   static RTTriangle createTriangle(PolygonIO*);
-
+  static RTMaterial createMaterial(MaterialIO*);
 };
 
 #endif /* _RTSHAPEFACTORY_H_ */
