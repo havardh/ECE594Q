@@ -1,8 +1,7 @@
 #ifndef _RTCOLOR_H_
 #define _RTCOLOR_H_
 
-static float b=0;
-static float w=0;
+#include <stdint.h>
 
 class RTColor {
 
@@ -48,8 +47,5 @@ private:
   float _red, _green, _blue;
 
 };
-
-const RTColor RTColor::BLACK = RTColor(b,b,b);
-const RTColor RTColor::WHITE = RTColor(w,w,w);
 
 #endif /* _RTCOLOR_H_ */
