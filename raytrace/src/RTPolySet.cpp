@@ -8,15 +8,15 @@ const RTTriangle RTPolySet::getTriangle(int i) const {
   return triangles[(size_t)i];
 }
 
-bool RTPolySet::intersect(const Ray & ray) {
+MatrixPtr RTPolySet::intersect(const Ray & ray) {
 
   std::vector<RTTriangle>::iterator it;
   for (it = triangles.begin();
        it != triangles.end();
        ++it) {
     if (it->intersect(ray)) {
-      return true;
+      return MatrixPtr(new Matrix());
     }
   }
-  return false;
+  return MatrixPtr(NULL);
 }

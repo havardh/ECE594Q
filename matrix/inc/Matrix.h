@@ -81,6 +81,7 @@ public:
 
 };
 
+typedef std::shared_ptr<Matrix> MatrixPtr;
 const Matrix operator *(const double &lhs, const Matrix &rhs);
 
 #endif /* _MATRIX_H_ */

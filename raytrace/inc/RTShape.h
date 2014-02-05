@@ -3,13 +3,14 @@
 
 #include "Ray.h"
 #include "RTMaterial.h"
+#include "Matrix.h"
 #include <vector>
 
 class RTShape {
   
 public:
   virtual ~RTShape() {}
-  virtual bool intersect(const Ray &) = 0;
+  virtual MatrixPtr intersect(const Ray &) = 0;
 
   void addMaterial(RTMaterial);
   int getMaterialCount() const;

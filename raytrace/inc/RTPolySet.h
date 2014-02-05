@@ -13,7 +13,7 @@ public:
 
   void addTriangle(RTTriangle &);
   const RTTriangle getTriangle(int) const;
-  virtual bool intersect(const Ray &);
+  virtual MatrixPtr intersect(const Ray &);
 
 private:
   std::vector<RTTriangle> triangles;

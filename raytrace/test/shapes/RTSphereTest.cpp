@@ -6,18 +6,13 @@ TEST_GROUP(RTSphere) {
 	void teardown() {}
 };
 
-#define check_ray(sphere, origin, direction, expected) \
+#define check_intersects(sphere, origin, direction)     \
   { Ray ray(origin, direction);                         \
-    CHECK_EQUAL(expected, sphere.intersect(ray)); }
- 
+    CHECK(sphere.intersect(ray) != nullptr); }
 
-#define check_intersects(sphere, origin, direction) \
-  check_ray(sphere, origin, direction, true);
-
-
-#define check_not_intersects(sphere, origin, direction) \
-  check_ray(sphere, origin, direction, false);
-
+#define check_not_intersects(sphere, origin, direction)     \
+  { Ray ray(origin, direction);                             \
+    CHECK(sphere.intersect(ray) == nullptr); }
 
 TEST(RTSphere, shouldCheckForIntersection) {
  
@@ -41,4 +36,8 @@ TEST(RTSphere, shouldCheckForIntersection) {
 
   // Diagonals missing
   check_not_intersects(s, Matrix(10, 10, 0), Matrix(1,1,1));
+}
+
+TEST(RTSphere, shouldGetNormalAtIntersectionPoint) {
+
 }

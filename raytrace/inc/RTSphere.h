@@ -8,7 +8,7 @@ class RTSphere : public RTShape {
 
  public:
   RTSphere(Matrix, float);
-  virtual bool intersect(const Ray &);
+  virtual MatrixPtr intersect(const Ray &);
 
   const Matrix getOrigin() const { return _origin; }
   float getRadius() const { return _radius; }

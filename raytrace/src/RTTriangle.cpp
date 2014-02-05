@@ -8,7 +8,7 @@ RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2) {
   _p2 = p2;
 }
 
-bool RTTriangle::intersect(const Ray &ray) {
+MatrixPtr RTTriangle::intersect(const Ray &ray) {
 
   Matrix orig = ray.getOrigin();
   Matrix dir = ray.getDirection();
@@ -21,21 +21,21 @@ bool RTTriangle::intersect(const Ray &ray) {
   float det = edge1.dot(pvec);
 
   if (det > -EPSILON && det < EPSILON) 
-    return 0;
+    return MatrixPtr(NULL);
   float inv_det = 1 / det;
 
   Matrix tvec = orig - _p0;
 
   float u = tvec.dot(pvec) * inv_det;
   if (u < 0.0 || u > 1.0) 
-    return 0;
+    return MatrixPtr(NULL);
 
   Matrix qvec = tvec.crossProduct(edge1);
 
   float v = dir.dot(qvec) * inv_det;
   if (v < 0.0 || u + v > 1.0) 
-    return 0;
+    return MatrixPtr(NULL);
 
-  return 1;
+  return MatrixPtr(new Matrix());
 
 }
