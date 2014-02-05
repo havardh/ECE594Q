@@ -21,6 +21,10 @@ public:
   const Matrix& getUp() const { return U; }
   float getFieldOfView() const { return phi; }
 
+  void setPosition(const Matrix position) { E = position; }
+  void setDirection(const Matrix direction) { V = direction; }
+  void setUp(const Matrix up) { U = up; }
+
 private:
   Matrix E; // Position
   Matrix V; // Direction

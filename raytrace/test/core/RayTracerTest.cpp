@@ -31,8 +31,9 @@ TEST_GROUP(RayTracer) {
 };
 
 TEST(RayTracer, shouldConstructRayTracer) {
-  
-  RayTracer r(&scene);
+
+  RayFrameBuffer fb(0,0);
+  RayTracer r(&scene, &fb);
   
 }
 
@@ -52,9 +53,9 @@ TEST(RayTracer, shouldRender) {
 
   scene.camera->verticalFOV = (float)(M_PI / 4.0);
  
-	RayTracer rayTracer(&scene);
-  uint8_t *fb = rayTracer.render(4,4);
-  (void) fb;
+  RayFrameBuffer fb(4,4);
+	RayTracer rayTracer(&scene, &fb);
+  rayTracer.render();
   
 }
 

@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
 
   const char *scenePath, *outputPath = "out.png";
-  int width = 200, height = 200;
+  int width = 300, height = 300;
   if (argc < 2) {
     printf("Usage: ./raytracer <input-file> <width:height>(optional) <output-file>(optional)\n");
     exit(1);
@@ -23,11 +23,11 @@ int main(int argc, char *argv[]) {
   }
 
   SceneIO *scene = readScene(scenePath);
-  
-  RayTracer rayTracer(scene);
-  uint8_t *frameBuffer = rayTracer.render(width, height);
+  RayFrameBuffer fb(width, height);
 
-  RayFrameBuffer fb(frameBuffer, width, height);
+  RayTracer rayTracer(scene, &fb);
+  rayTracer.render();
+
   fb.write(outputPath);
   
   if (scene != NULL) {

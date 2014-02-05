@@ -2,8 +2,8 @@
 
 #define IX(i,j,k) ((i)*height + (j) + (k))
 
-RayTracer::RayTracer(SceneIO *scene) : 
-  _frameBuffer(0), _scene(scene) {
+RayTracer::RayTracer(SceneIO *scene, RayFrameBuffer *frameBuffer) : 
+  _frameBuffer(frameBuffer), _scene(scene) {
 
   if (_scene && _scene->camera) {
 
@@ -20,9 +20,7 @@ RayTracer::RayTracer(SceneIO *scene) :
 }
 
 RayTracer::~RayTracer(void) {
-  if (_frameBuffer) {
-    delete[] _frameBuffer;
-  }
+
 }
 
 void RayTracer::setCamera(CameraIO *cio) {
@@ -69,22 +67,26 @@ RayColor RayTracer::trace(const Ray &ray) {
 
 }
 
-uint8_t* RayTracer::render(int width, int height) {
-  _frameBuffer = new uint8_t[width*height*3];
+void RayTracer::render() {
+
+  int width = _frameBuffer->getWidth();
+  int height = _frameBuffer->getHeight();
 
   RayFactory factory(camera, width, height);
 
-  for(int i=0; i<width; i++) {    
-    for (int j=0; j<height; j++) {
+  for(int i=0; i<height; i++) {
+    for (int j=0; j<width; j++) {
       Ray ray = factory.createRay(i,j);
       RayColor color = trace(ray);
+
+
+      //ray.getDirection().printPoint();
       
-      _frameBuffer[ IX(i,j,0) ] = color.red;
-      _frameBuffer[ IX(i,j,1) ] = color.green;
-      _frameBuffer[ IX(i,j,2) ] = color.blue;
+      _frameBuffer->set(i,j,0, color.red);
+      _frameBuffer->set(i,j,1, color.green);
+      _frameBuffer->set(i,j,2, color.blue);
 
     }
   }
 
-  return _frameBuffer;
 }

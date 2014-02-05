@@ -8,10 +8,17 @@ class RayFrameBuffer {
 private:
   uint8_t *_frameBuffer;
   int _width, _height;
+  
+  void allocate();
 
 public:
-  RayFrameBuffer(uint8_t *, int, int);
+  RayFrameBuffer(int, int);
+  ~RayFrameBuffer();
 
+  void set(int,int,int,uint8_t);
+  uint8_t get(int, int, int) const;
+  int getWidth() const { return _width; }
+  int getHeight() const { return _height; }
   void write(const char*);
 
 };

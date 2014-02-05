@@ -13,6 +13,7 @@
 #include "RsBumpyShader.h"
 #include "RsCheckerboardShader.h"
 #include "PI.h"
+#include "RenderVector.h"
 
 #include "RenderMan.h"
 
@@ -257,7 +258,6 @@ void SampleScene1(void) {
 	RiEnd();
 };
 
-
 void renderExample();
 int main(int argc, char *argv[]) {
 
@@ -275,10 +275,11 @@ int main(int argc, char *argv[]) {
   //BumpyBall();
   //DrawTorus();
   //myScene();
-  CheckerBall();
-    //MyEarth();
+  //CheckerBall();
+  //MyEarth();
   //renderExample();
   
+  renderRays();
 
   return 0;
 }

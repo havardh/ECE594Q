@@ -8,6 +8,7 @@
 #include "RTSphere.h"
 #include "RTShape.h"
 #include "RTShapeFactory.h"
+#include "RayFrameBuffer.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
@@ -15,7 +16,7 @@
 class RayTracer {
 
 private:
-  uint8_t *_frameBuffer;
+  RayFrameBuffer *_frameBuffer;
   SceneIO *_scene;
 
   std::vector<RTShape*> objects;
@@ -27,9 +28,9 @@ private:
   void setObjects(ObjIO*);
 
 public:
-  RayTracer(SceneIO*);
+  RayTracer(SceneIO*, RayFrameBuffer*);
   ~RayTracer(void);
-  uint8_t *render(int, int);
+  void render();
 };
 
 #endif /* _RAYTRACER_H_ */

@@ -315,7 +315,20 @@ TEST(Matrix, crossProduct) {
   
   Matrix m3 = m1.crossProduct(m2);
 
-  float expected[] = { -2, -4, -2 };
+  float expected[] = { -2, 4, -2 };
+
+  MATRIX_EQUALS(expected, m3, 0.0001);
+
+}
+
+TEST(Matrix, crossProductShouldFollowRightHandRule) {
+
+  Matrix m1(-1, 0, 0);
+  Matrix m2(0, 0, 1);
+
+  Matrix m3 = m1.crossProduct(m2);
+
+  float expected[] = { 0, 1, 0 };
 
   MATRIX_EQUALS(expected, m3, 0.0001);
 

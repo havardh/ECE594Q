@@ -65,9 +65,7 @@ MY_CFLAGS =
 MY_LIBS		=
 
 INCLUDE_DIRS = inc \
-	../matrix/inc \
-	../BasicRayTracer/BasicRayTracer \
-	../reyes/inc
+	../matrix/inc 
 get_dirs_from_dirspec	 = $(wildcard $1)
 INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
 INCLUDES += $(foreach dir, $(INCLUDES_DIRS_EXPANDED), -I$(dir))
@@ -83,12 +81,11 @@ LDFLAGS		=
 # If not specified, only the current directory will be serached.
 SRCDIRS		= . \
 	src \
-	../matrix/src \
-	../BasicRayTracer/BasicRayTracer 
+	../matrix/src 
 
 # The executable file name.
 # If not specified, current directory name or `a.out' will be used.
-PROGRAM		= raytracer
+PROGRAM		= reyes
 
 ## Implicit Section: change the following only when necessary.
 ##==========================================================================
@@ -294,19 +291,12 @@ show:
 
 ### My tagets
 
-SCENE = mytest
+SCENE = test1
 
 gen: all
 	./raytracer ../BasicRayTracer/Scenes/$(SCENE).ascii
 
 open: gen
 	open out.png
-
-outputrays: all
-	./raytracer ../BasicRayTracer/Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out
-
-plotrays: outputrays
-	cd ../reyes/; make -f MakefileTest; ./reyes; open output/0.png; cd ../raytrace
-
 ###
 

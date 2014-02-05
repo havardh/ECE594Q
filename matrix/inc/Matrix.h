@@ -76,7 +76,7 @@ public:
     if (_m == 4)
       printf("(%8.8f, %8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0), get(3,0)); 
     if (_m == 3)
-      printf("(%8.8f, %8.8f, %8.8f)\n", get(0,0), get(1,0), get(2,0)); 
+      printf("%8.8f %8.8f %8.8f\n", get(0,0), get(1,0), get(2,0)); 
   }
 
 };

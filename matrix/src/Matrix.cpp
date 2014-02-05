@@ -373,10 +373,9 @@ Matrix Matrix::crossProduct(const Matrix &other) const {
   float v2 = other.get(1);
   float v3 = other.get(2);
   
-
   return Matrix(
     u2*v3-u3*v2,
-    u1*v3-u3*v1,
+    -(u1*v3-u3*v1),
     u1*v2-u2*v1
   );
   
