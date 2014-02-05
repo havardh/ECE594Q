@@ -22,8 +22,8 @@ void RayFrameBuffer::allocate() {
 }
 
 void RayFrameBuffer::set(int i, int j, int k, uint8_t value) {
-  // Flip on x and y
-  this->_frameBuffer[ _width*_height*3 - IX( i,j,k ) -1 ] = value;
+
+  this->_frameBuffer[ IX( _height-i-1,_width-j-1,k ) ] = value;
 }
 
 uint8_t RayFrameBuffer::get(int i, int j, int k) const {
