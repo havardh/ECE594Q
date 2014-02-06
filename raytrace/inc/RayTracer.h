@@ -23,18 +23,8 @@ private:
   Scene *_scene;
   ShadowTracer _stracer;
 
-  std::vector<RTShape*> objects;
-
-  Camera camera;
-  std::vector<Light> lights;
-
   RTColor trace(const Ray ray);
-  void setCamera(CameraIO*);
-  void setLights(LightIO*);
-  void setObjects(ObjIO*);
 
-  bool isInShadow(const MatrixPtr point);
-  bool hasOcclusion(const MatrixPtr, const Light &);
 
 public:
   RayTracer(Scene*, RayFrameBuffer*);

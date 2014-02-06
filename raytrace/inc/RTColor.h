@@ -34,6 +34,7 @@ public:
   }
 
   static const RTColor BLACK;
+  static const RTColor GRAY;
   static const RTColor WHITE;
 
   uint8_t getRGBRed() const { return (uint8_t)(_red*255); }

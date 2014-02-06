@@ -11,50 +11,17 @@ RayTracer::~RayTracer(void) {
 
 }
 
-bool RayTracer::hasOcclusion(const MatrixPtr point, const Light & light) {
-  (void) point; (void) light;
-  return false;
-}
-
-bool RayTracer::isInShadow(const MatrixPtr point) {
-
-  std::vector<Light>::iterator it;
-  for (it = lights.begin();
-       it != lights.end();
-       ++it) {
-
-    if (!hasOcclusion(point, *it)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 RTColor RayTracer::trace(const Ray ray) {
 
   MatrixPtr intersection = _scene->intersect(ray);
   if (intersection != nullptr) {
-    return RTColor::WHITE;
-  }
-
-  /*std::vector<RTShape*>::iterator it;
-  
-  for(it = objects.begin(); it != objects.end(); ++it) {
-
-    MatrixPtr intersection = (*it)->intersect(ray);
-    if (intersection != nullptr) {
-      printf("%intersected\n");
-      RTMaterial m = (*it)->getMaterial(0);
-      
-      RTColor color = m.getAmbColor();
-      if (!isInShadow(intersection)) {
-        color = m.getDiffColor();
-      }
-      
-      return color;
+    Matrix p = *intersection;
+    if (!_stracer.isInShadow(&p)) {
+      return RTColor::GRAY;
+    } else {
+      return RTColor::WHITE;
     }
-    }*/
+  }
 
   return RTColor::BLACK;
 

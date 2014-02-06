@@ -28,7 +28,7 @@ TEST(ShadowTracer, shouldNotReportOcclusionWhenNoObsticals) {
   
   Matrix point(10, 0, 0);
   
-  CHECK(!stracer->hasOcclusion(light, &point));
+  CHECK(!stracer->hasOcclusion(light->getPosition(), &point));
 
 }
 
@@ -38,7 +38,7 @@ TEST(ShadowTracer, shouldFindObjectOccluding) {
 	RTSphere *obstical = new RTSphere(Matrix(4, 0, 0), 3);
   scene->add(obstical);
   
-  CHECK(stracer->hasOcclusion(light, &point));
+  CHECK(stracer->hasOcclusion(light->getPosition(), &point));
 
   delete obstical;
 }

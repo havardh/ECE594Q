@@ -1,6 +1,7 @@
 #ifndef _SHADOWTRACER_H_
 #define _SHADOWTRACER_H_
 
+
 #include "Scene.h"
 
 class ShadowTracer {
@@ -8,7 +9,8 @@ class ShadowTracer {
  public:
  ShadowTracer(Scene *scene) : _scene(scene) {}
 
-  bool hasOcclusion(Light*, Matrix*);
+  bool hasOcclusion(const Matrix, const Matrix*);
+  bool isInShadow(const Matrix* point);
 
  private:
   Scene* _scene;
