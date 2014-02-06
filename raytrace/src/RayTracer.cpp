@@ -8,7 +8,7 @@ RayTracer::RayTracer(SceneIO *scene, RayFrameBuffer *frameBuffer) :
   if (_scene && _scene->camera) {
 
     setCamera(_scene->camera);
-
+    setLights(_scene->lights);
     setObjects(_scene->objects);
     
   } else {
@@ -34,18 +34,27 @@ void RayTracer::setCamera(CameraIO *cio) {
 
 }
 
+void RayTracer::setLights(LightIO * lio) {
+  while(lio) {
+    
+    Matrix position(lio->position);
+    Matrix direction(lio->direction);
+    RTColor color(lio->color);
+    float dropOffRate = lio->dropOffRate;
+    float cutOffAngle = lio->cutOffAngle;
+
+    Light light(position, direction, color, dropOffRate, cutOffAngle);
+    lights.push_back(light);
+
+    lio = lio->next;
+  }
+}
+
 void RayTracer::setObjects(ObjIO *oio) {
 
   while(oio) {
     RTShape* shape = RTShapeFactory::createShape(oio);
     if (shape) {
-      printf( "obj\n" );
-
-      if (typeid(*shape) == typeid(RTTriangle)) {
-        printf("triangle"); ((RTTriangle*)shape)->getP0().printPoint();
-      } else if (typeid(*shape) == typeid(RTSphere)) {
-        printf("sphere"); ((RTSphere*)shape)->getOrigin().printPoint();
-      }
       objects.push_back(shape);
     }
     oio = oio->next;
@@ -53,15 +62,42 @@ void RayTracer::setObjects(ObjIO *oio) {
 
 }
 
+bool RayTracer::hasOcclusion(const MatrixPtr point, const Light & light) {
+  (void) point; (void) light;
+  return true;
+}
+
+bool RayTracer::isInShadow(const MatrixPtr point) {
+
+  std::vector<Light>::iterator it;
+  for (it = lights.begin();
+       it != lights.end();
+       ++it) {
+
+    if (!hasOcclusion(point, *it)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 RTColor RayTracer::trace(const Ray ray) {
 
   std::vector<RTShape*>::iterator it;
   
   for(it = objects.begin(); it != objects.end(); ++it) {
-    if ((*it)->intersect(ray) != nullptr) {
-      
+
+    MatrixPtr intersection = (*it)->intersect(ray);
+    if (intersection != nullptr) {
       RTMaterial m = (*it)->getMaterial(0);
-      return m.getDiffColor();
+      
+      RTColor color = m.getAmbColor();
+      if (!isInShadow(intersection)) {
+        color = m.getDiffColor();
+      }
+      
+      return color;
     }
   }
 

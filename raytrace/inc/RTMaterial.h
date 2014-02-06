@@ -8,18 +8,18 @@ class RTMaterial {
 public:
   RTMaterial() {}
   
-  void setDiffColor(RTColor c)   { this->diffColor = c; }
-  RTColor getDiffColor()            { return this->diffColor; }
-  void setAmbColor(RTColor c)    { this->ambColor = c; }
-  RTColor getAmbColor()             { return this->ambColor; }
-  void setSpecColor(RTColor c)   { this->specColor = c; }
-  RTColor getSpecColor()            { return this->specColor; }
-  void setEmissColor(RTColor c)  { this->emsissColor = c; }
-  RTColor getEmissColor()           { return this->emsissColor; }
-  void setShininess(float s)     { this->shininess = s; }
-  float getShininess()            { return this->shininess; }
+  void setDiffColor(RTColor c) { this->diffColor = c; }
+  RTColor getDiffColor() const { return this->diffColor; }
+  void setAmbColor(RTColor c) { this->ambColor = c; }
+  RTColor getAmbColor() const { return this->ambColor; }
+  void setSpecColor(RTColor c) { this->specColor = c; }
+  RTColor getSpecColor() const { return this->specColor; }
+  void setEmissColor(RTColor c) { this->emsissColor = c; }
+  RTColor getEmissColor() const { return this->emsissColor; }
+  void setShininess(float s) { this->shininess = s; }
+  float getShininess() const { return this->shininess; }
   void setKTransparency(float t) { this->ktran = t; }
-  float getKTransparency()        { return this->ktran; }
+  float getKTransparency() const { return this->ktran; }
 
 private:
   float ktran;
