@@ -4,13 +4,14 @@
 #include "Ray.h"
 #include "RTMaterial.h"
 #include "Matrix.h"
+#include "Intersection.h"
 #include <vector>
 
 class RTShape {
   
 public:
   virtual ~RTShape() {}
-  virtual MatrixPtr intersect(const Ray ) = 0;
+  virtual IntersectionPtr intersect(const Ray ) = 0;
   virtual MatrixPtr normal(const Matrix &, const Matrix &) = 0;
 
   void addMaterial(RTMaterial);

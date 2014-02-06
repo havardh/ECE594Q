@@ -3,6 +3,7 @@
 #include "ShapeTestHelper.h"
 #include "RTSphere.h"
 
+
 TEST_GROUP(RTSphere) {
 	void setup() {}
 	void teardown() {}

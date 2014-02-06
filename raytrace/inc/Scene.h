@@ -30,7 +30,7 @@ public:
   RTShapeIter shapesBegin() const { return shapes.begin(); }
   RTShapeIter shapesEnd() const { return shapes.end(); }
 
-  MatrixPtr intersect(const Ray ray);
+  IntersectionPtr intersect(const Ray ray);
 
 private:
   Camera camera;

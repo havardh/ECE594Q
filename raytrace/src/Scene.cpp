@@ -55,17 +55,17 @@ void Scene::add(RTShape *shape) {
   shapes.push_back(shape);
 }
 
-MatrixPtr Scene::intersect(const Ray ray) {
+IntersectionPtr Scene::intersect(const Ray ray) {
 
   RTShapeIter it;
   for(it = shapesBegin(); it != shapesEnd(); ++it) {
 
-    MatrixPtr intersection = (*it)->intersect(ray);
+    IntersectionPtr intersection = (*it)->intersect(ray);
     if (intersection != nullptr) {
       return intersection;
     }
   }
 
-  return MatrixPtr(NULL);
+  return IntersectionPtr(NULL);
 
 }

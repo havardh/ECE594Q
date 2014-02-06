@@ -8,7 +8,7 @@ class RTTriangle : public RTShape {
 
 public:
   RTTriangle(const Matrix &, const Matrix &, const Matrix &);
-  virtual MatrixPtr intersect(const Ray );
+  virtual IntersectionPtr intersect(const Ray );
   virtual MatrixPtr normal(const Matrix &, const Matrix &);
 
   const Matrix getP0() const { return _p0; }

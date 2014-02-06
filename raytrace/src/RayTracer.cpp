@@ -13,9 +13,9 @@ RayTracer::~RayTracer(void) {
 
 RTColor RayTracer::trace(const Ray ray) {
 
-  MatrixPtr intersection = _scene->intersect(ray);
+  IntersectionPtr intersection = _scene->intersect(ray);
   if (intersection != nullptr) {
-    Matrix p = *intersection;
+    Matrix p = intersection->getPoint();
     if (!_stracer.isInShadow(&p)) {
       return RTColor::GRAY;
     } else {
