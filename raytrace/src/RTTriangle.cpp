@@ -7,8 +7,8 @@ RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2) {
   _p1 = p1;
   _p2 = p2;
 }
-
-MatrixPtr RTTriangle::intersect(const Ray &ray) {
+// http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
+MatrixPtr RTTriangle::intersect(const Ray ray) {
 
   Matrix orig = ray.getOrigin();
   Matrix dir = ray.getDirection();
@@ -36,6 +36,23 @@ MatrixPtr RTTriangle::intersect(const Ray &ray) {
   if (v < 0.0 || u + v > 1.0) 
     return MatrixPtr(NULL);
 
-  return MatrixPtr(new Matrix());
+  float t = edge2.dot(qvec) *inv_det;
 
+  return MatrixPtr(new Matrix(orig + t * dir));
+
+}
+
+MatrixPtr RTTriangle::normal(const Matrix &point, const Matrix &from ) {
+  (void) point; (void) from;
+  
+  Matrix v1 = _p1 - _p0;
+  Matrix v2 = _p2 - _p0;
+
+  Matrix direction = v2.crossProduct(v1);
+
+  if ( direction.dot(from) < 0 ) {
+    direction = -direction;
+  }
+
+  return MatrixPtr(new Matrix(direction.normalize()));
 }

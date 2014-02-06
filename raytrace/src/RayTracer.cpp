@@ -53,12 +53,12 @@ void RayTracer::setObjects(ObjIO *oio) {
 
 }
 
-RTColor RayTracer::trace(const Ray &ray) {
+RTColor RayTracer::trace(const Ray ray) {
 
   std::vector<RTShape*>::iterator it;
   
   for(it = objects.begin(); it != objects.end(); ++it) {
-    if ((*it)->intersect(ray)) {
+    if ((*it)->intersect(ray) != nullptr) {
       
       RTMaterial m = (*it)->getMaterial(0);
       return m.getDiffColor();

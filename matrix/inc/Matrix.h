@@ -1,6 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <memory>
 #include <stdio.h>
 #include "MatrixFactory.h"
 #include "Axis.h"
@@ -36,6 +37,8 @@ public:
   const Matrix operator*(const double &) const;
   const Matrix operator+(const Matrix &) const;
   const Matrix operator-(const Matrix &) const;
+  const Matrix operator-() const;
+  
 
   Matrix crossProduct(const Matrix &) const;
   Matrix abs() const;

@@ -1,29 +1,12 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "MatrixTestHelper.h"
+#include "ShapeTestHelper.h"
 #include "RTSphere.h"
 
 TEST_GROUP(RTSphere) {
 	void setup() {}
 	void teardown() {}
 };
-
-#define CHECK_INTERSECTS_AT(s, ray, x, y, z)    \
-  {                                             \
-    MatrixPtr I = s.intersect(ray);             \
-    CHECK( I != nullptr );                      \
-    DOUBLES_EQUAL(x, I->get(0), 0.0001);        \
-    DOUBLES_EQUAL(y, I->get(1), 0.0001);        \
-    DOUBLES_EQUAL(z, I->get(2), 0.0001);        \
-  }
-
-#define CHECK_NORMAL_AT(s, point, x, y, z)  \
-  {                                             \
-    MatrixPtr I = s.normal(point);              \
-    CHECK( I != nullptr );                      \
-    DOUBLES_EQUAL(x, I->get(0), 0.0001);        \
-    DOUBLES_EQUAL(y, I->get(1), 0.0001);        \
-    DOUBLES_EQUAL(z, I->get(2), 0.0001);        \
-  }
 
 
 #define check_intersects(sphere, origin, direction) \
@@ -84,14 +67,14 @@ TEST(RTSphere, shouldIntersectOnClosedPointIfCommingFromTheRight) {
 TEST(RTSphere, normalShouldAlongZAxisNegativeOnFront) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(0,0,8), 0,0,-1);
+  CHECK_NORMAL_AT(s, Matrix(0,0,8), Matrix(0,0,0), 0,0,-1);
   
 }
 
 TEST(RTSphere, normalShouldAlongZAxisPositiveOnRear) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(0,0,12), 0,0,1);
+  CHECK_NORMAL_AT(s, Matrix(0,0,12), Matrix(0,0,0), 0,0,1);
   
 }
 
@@ -99,6 +82,13 @@ TEST(RTSphere, normalShouldAlongZAxisPositiveOnRear) {
 TEST(RTSphere, normalShouldBeOnXAxisToTheRight) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(2,0,10), 1,0,0);
+  CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,0), 1,0,0);
+  
+}
+
+TEST(RTSphere, normalShouldHandlePointInsideSphere) {
+
+  RTSphere s(Matrix(0,0,10), 1);
+  CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,10), -1,0,0);
   
 }

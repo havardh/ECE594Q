@@ -10,10 +10,11 @@ class RTPolySet : public RTShape {
 
 public:
   RTPolySet() {}
+  virtual MatrixPtr intersect(const Ray );
+  virtual MatrixPtr normal(const Matrix &, const Matrix &);
 
   void addTriangle(RTTriangle &);
   const RTTriangle getTriangle(int) const;
-  virtual MatrixPtr intersect(const Ray &);
 
 private:
   std::vector<RTTriangle> triangles;

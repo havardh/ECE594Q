@@ -400,3 +400,13 @@ TEST(Matrix, shouldProvideDivide) {
   DOUBLES_EQUAL(1, m3.get(2), 0.0001);
   
 }
+
+TEST(Matrix, shouldProvideUnaryMinus) {
+
+  Matrix m(1,0,-3);
+
+  Matrix actual = -m;
+
+  VECTOR_EQUAL(-1, 0, 3, actual);
+  
+}

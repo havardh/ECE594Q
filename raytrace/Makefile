@@ -73,7 +73,7 @@ INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
 INCLUDES += $(foreach dir, $(INCLUDES_DIRS_EXPANDED), -I$(dir))
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11
+CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11 -std=c++11 -stdlib=libc++ -Weverything
 
 
 # The options used in linking as well as in any direct use of ld.
@@ -109,10 +109,10 @@ CXXFLAGS= -g
 #CC			= gcc
 
 # The C++ program compiler.
-CXX		 = g++
+CXX		 = clang++
 
 # Un-comment the following line to compile C programs as C++ ones.
-#CC			= $(CXX)
+CC			= $(CXX)
 
 # The command used to delete file.
 #RM			= rm -f

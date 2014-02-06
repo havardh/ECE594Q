@@ -219,6 +219,19 @@ const Matrix Matrix::operator-(const Matrix &rhs) const {
   return result;
 }
 
+const Matrix Matrix::operator-() const {
+
+  Matrix result(this->_m, this->_n);
+
+  for (int i=0; i<_m; i++) {
+    for (int j=0; j<_n; j++) {
+      result.set(i,j, -this->get(i,j));
+    }
+  }
+
+  return result;
+}
+
 void Matrix::set(int row, int col, float f) {
 
   this->matrix[ IX(row, col) ] = f;

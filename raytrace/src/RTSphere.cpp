@@ -26,7 +26,7 @@ MatrixPtr RTSphere::getIntersection(const Ray &ray) {
 }
 
 // http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
-MatrixPtr RTSphere::intersect(const Ray &ray) {
+MatrixPtr RTSphere::intersect(const Ray ray) {
 
   Matrix x0 = _origin;
   Matrix x1 = ray.getOrigin();
@@ -41,9 +41,15 @@ MatrixPtr RTSphere::intersect(const Ray &ray) {
   
 }
 
-MatrixPtr RTSphere::normal(const Matrix &point) {
+MatrixPtr RTSphere::normal(const Matrix &point, const Matrix &from) {
 
-  Matrix direction = (point - _origin);
+
+  Matrix direction;
+  if ((from - _origin).length() > _radius) {
+    direction = (point - _origin);
+  } else {
+    direction = (_origin - point);
+  }
   return MatrixPtr(new Matrix(direction.normalize()));
 
 }

@@ -24,7 +24,7 @@ private:
 
   Camera camera;
 
-  RTColor trace(const Ray &ray);
+  RTColor trace(const Ray ray);
   void setCamera(CameraIO*);
   void setObjects(ObjIO*);
 
