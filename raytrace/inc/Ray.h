@@ -20,7 +20,7 @@ public:
     _direction = direction;
   }
 
-  void print() {
+  void print() const {
     _origin.printPoint();
     _direction.printPoint();
   }
