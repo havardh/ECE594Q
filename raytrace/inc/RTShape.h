@@ -23,4 +23,6 @@ private:
 
 };
 
+typedef std::vector<RTShape*>::const_iterator RTShapeIter;
+
 #endif /* _RTSHAPE_H_ */

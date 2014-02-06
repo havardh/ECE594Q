@@ -1,60 +1,63 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "scene_io.h"
 #include "RayTracer.h"
+#include "Scene.h"
 
-static SceneIO scene;
+static Scene *scene;
+static SceneIO sceneIO;
   
 
 TEST_GROUP(RayTracer) {
 	void setup() {
-    scene.camera = new CameraIO;
-    scene.camera->position[0] = -9.58772f; 
-    scene.camera->position[1] = 4.26363f; 
-    scene.camera->position[2] = 4.60779f;
+    sceneIO.camera = new CameraIO;
+    sceneIO.camera->position[0] = -9.58772f; 
+    sceneIO.camera->position[1] = 4.26363f; 
+    sceneIO.camera->position[2] = 4.60779f;
 
-    scene.camera->viewDirection[0] = 0.580339f; 
-    scene.camera->viewDirection[1] = -0.523277f; 
-    scene.camera->viewDirection[2] = -0.62401f;
+    sceneIO.camera->viewDirection[0] = 0.580339f; 
+    sceneIO.camera->viewDirection[1] = -0.523277f; 
+    sceneIO.camera->viewDirection[2] = -0.62401f;
 
-    scene.camera->focalDistance = 12.2118f;
+    sceneIO.camera->focalDistance = 12.2118f;
     
-    scene.camera->orthoUp[0] = 0.411139f;
-    scene.camera->orthoUp[1] = 0.849684f;
-    scene.camera->orthoUp[2] = -0.330155f;
+    sceneIO.camera->orthoUp[0] = 0.411139f;
+    sceneIO.camera->orthoUp[1] = 0.849684f;
+    sceneIO.camera->orthoUp[2] = -0.330155f;
 
-    scene.camera->verticalFOV = 0.785398f;
-
+    sceneIO.camera->verticalFOV = 0.785398f;
+    
+    scene = new Scene;
+    scene->setScene(&sceneIO);
   }
 	void teardown() {
-    delete scene.camera;
+    delete sceneIO.camera;
+    delete scene;
   }
 };
 
 TEST(RayTracer, shouldConstructRayTracer) {
 
   RayFrameBuffer fb(0,0);
-  RayTracer r(&scene, &fb);
+  RayTracer r(scene, &fb);
   
 }
 
 TEST(RayTracer, shouldRender) {
-  
-  scene.camera->position[0] = 0; 
-  scene.camera->position[1] = 0; 
-  scene.camera->position[2] = 0;
-  
-  scene.camera->viewDirection[0] = 0; 
-  scene.camera->viewDirection[1] = 0; 
-  scene.camera->viewDirection[2] = 1;
-  
-  scene.camera->orthoUp[0] = 0;
-  scene.camera->orthoUp[1] = 1;
-  scene.camera->orthoUp[2] = 0;
 
-  scene.camera->verticalFOV = (float)(M_PI / 4.0);
+  //sceneIO.camera->position[0] = 0;
+  //sceneIO.camera->position[1] = 0; 
+  //sceneIO.camera->position[2] = 0;
+  //sceneIO.camera->viewDirection[0] = 0; 
+  //sceneIO.camera->viewDirection[1] = 0; 
+  //sceneIO.camera->viewDirection[2] = 1;
+  //sceneIO.camera->orthoUp[0] = 0;
+  //sceneIO.camera->orthoUp[1] = 1;
+  //sceneIO.camera->orthoUp[2] = 0;
+  //sceneIO.camera->verticalFOV = (float)(M_PI / 4.0);
+  //scene->setScene(&sceneIO);
  
   RayFrameBuffer fb(4,4);
-	RayTracer rayTracer(&scene, &fb);
+	RayTracer rayTracer(scene, &fb);
   rayTracer.render();
   
 }

@@ -1,8 +1,9 @@
-#ifndef _LIGHT_H_
+#ifndef _LIGHT_H_ 
 #define _LIGHT_H_
 
 #include "Matrix.h"
 #include "RTColor.h"
+#include <vector>
 
 /*enum LightType {
   POINT, DIRECTIONAL, SPOT
@@ -41,5 +42,7 @@ private:
   float _dropOffRate, _cutOffAngle;
 
 };
+
+typedef std::vector<Light>::const_iterator LightIter;
 
 #endif /* _LIGHT_H_ */

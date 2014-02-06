@@ -2,7 +2,7 @@
 #define _RAYTRACER_H_
 
 #include "Ray.h"
-#include "scene_io.h"
+#include "Scene.h"
 #include "Light.h"
 #include "Camera.h"
 #include "RayFactory.h"
@@ -11,6 +11,7 @@
 #include "RTShapeFactory.h"
 #include "RTColor.h"
 #include "RayFrameBuffer.h"
+#include "ShadowTracer.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
@@ -19,7 +20,8 @@ class RayTracer {
 
 private:
   RayFrameBuffer *_frameBuffer;
-  SceneIO *_scene;
+  Scene *_scene;
+  ShadowTracer _stracer;
 
   std::vector<RTShape*> objects;
 
@@ -35,7 +37,7 @@ private:
   bool hasOcclusion(const MatrixPtr, const Light &);
 
 public:
-  RayTracer(SceneIO*, RayFrameBuffer*);
+  RayTracer(Scene*, RayFrameBuffer*);
   ~RayTracer(void);
   void render();
 };

@@ -54,9 +54,6 @@ void RayFactory::calculateVectors() {
   
   Matrix A = V.crossProduct(U).normalize();
   Matrix B = A.crossProduct(V).normalize();
-
-  //printf("A: "); A.printPoint();
-  //printf("B: "); B.printPoint();
   
   this->E = _camera.getPosition();
   this->X = (c * tan(delta / 2.0)) * A;

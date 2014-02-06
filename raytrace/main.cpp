@@ -4,6 +4,7 @@
 #include "RayTracer.h"
 #include "RayFrameBuffer.h"
 #include "StrUtil.h"
+#include "Scene.h"
 
 int main(int argc, char *argv[]) {
 
@@ -22,16 +23,18 @@ int main(int argc, char *argv[]) {
     outputPath = argv[3];
   }
 
-  SceneIO *scene = readScene(scenePath);
+  Scene scene;
+  SceneIO* sceneIO = readScene(scenePath);
+  scene.setScene(sceneIO);
   RayFrameBuffer fb(width, height);
 
-  RayTracer rayTracer(scene, &fb);
+  RayTracer rayTracer(&scene, &fb);
   rayTracer.render();
 
   fb.write(outputPath);
   
-  if (scene != NULL) {
-    deleteScene(scene);
+  if (sceneIO != NULL) {
+    deleteScene(sceneIO);
   }
   
   return 0;

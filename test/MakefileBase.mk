@@ -5,9 +5,9 @@
 #----------
 
 #Set this to @ to keep the makefile quiet
-#ifndef SILENCE
-#	SILENCE = @
-#endif
+ifndef SILENCE
+	SILENCE = @
+endif
 
 #--- Inputs ----#
 COMPONENT_NAME = all
