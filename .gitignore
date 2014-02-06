@@ -15,3 +15,5 @@ raytrace/out.png
 *.sln
 *.suo
 *.vcproj
+.cask/*
+Cask
