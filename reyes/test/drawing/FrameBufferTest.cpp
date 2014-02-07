@@ -9,7 +9,7 @@ TEST_GROUP(FrameBuffer) {
 
 TEST(FrameBuffer, shouldConstructAndDestruct) {
   
-	FrameBuffer s(100, 100);
+	FrameBuffer s(1, 1);
   
 }
 
