@@ -14,23 +14,14 @@ RayTracer::~RayTracer(void) {
 RTColor RayTracer::trace(const Ray ray) {
 
   IntersectionPtr intersection = _scene->intersect(ray);
-  
+ 
+  WhittedIlluminator illuminator(&_stracer);
   if (intersection != nullptr) {
     RTShape *shape = intersection->getShape();
 
     if (shape) {
+      return illuminator.illuminate(intersection);
 
-      if (shape->getMaterialCount() == 0) {
-        return RTColor::BLACK;
-      }
-
-      RTMaterial material = shape->getMaterial(0);
-      Matrix p = intersection->getPoint();
-      if (_stracer.isInShadow(&p)) {
-        return material.getAmbColor();
-      } else {
-        return material.getDiffColor();
-      }
     }
   }
 

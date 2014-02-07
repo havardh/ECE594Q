@@ -22,18 +22,16 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
   float det = edge1.dot(pvec);
 
-  if (det > -EPSILON && det < EPSILON) {
-    printf("det\n");
+  if (det > -EPSILON && det < EPSILON) 
     return IntersectionPtr(NULL);
-  }
   float inv_det = 1 / det;
 
   Matrix tvec = orig - _p0;
 
   float u = tvec.dot(pvec) * inv_det;
-  if (u - EPSILON < 0.0 || u+EPSILON > 1.0) 
+  if (u < 0.0 || u > 1.0) {
     return IntersectionPtr(NULL);
-  
+  }
 
   Matrix qvec = tvec.crossProduct(edge1);
 

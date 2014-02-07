@@ -1,8 +1,14 @@
 #ifndef _INTERSECTION_H_
 #define _INTERSECTION_H_
 
+
+
 #include "Ray.h"
 #include "Matrix.h"
+
+class Intersection;
+typedef std::shared_ptr<Intersection> IntersectionPtr;
+
 #include "RTShape.h"
 
 class RTShape;
@@ -22,7 +28,5 @@ private:
   Matrix _point;
 
 };
-
-typedef std::shared_ptr<Intersection> IntersectionPtr;
 
 #endif /* _INTERSECTION_H_ */

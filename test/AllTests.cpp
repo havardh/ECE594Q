@@ -1,5 +1,8 @@
 #include "CppUTest/CommandLineTestRunner.h"
+#include "CppUTestExt/GTestConvertor.h"
 
 int main(int ac, char* av[]) {
-        return CommandLineTestRunner::RunAllTests(ac, av);
+  GTestConvertor convertor;
+  convertor.addAllGTestToTestRegistry();
+  return CommandLineTestRunner::RunAllTests(ac, av);
 }

@@ -33,3 +33,22 @@ bool ShadowTracer::isInShadow(const Matrix* point) {
 
   return true;
 }
+
+std::vector<const Light*> ShadowTracer::getLightSources(const Matrix *point) {
+  (void) point;
+  std::vector<const Light*> sources;
+
+  LightIter it; (void) point;
+  for (it = _scene->lightsBegin();
+       it != _scene->lightsEnd();
+       ++it) {
+    
+    if (!hasOcclusion(it->getPosition(), point)) {
+      sources.push_back(&(*it));
+    }
+  }
+
+  
+  return sources;
+
+}

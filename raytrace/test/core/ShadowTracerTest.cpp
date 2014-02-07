@@ -10,6 +10,9 @@ static Scene *scene;
 static Light *light;
 static ShadowTracer *stracer;
 
+#define CHECK_NOT_OCCLUSION(lpos, point) CHECK(!stracer->hasOcclusion(lpos, point)); 
+#define CHECK_OCCLUSION(lpos, point) CHECK(stracer->hasOcclusion(lpos, point)); 
+
 TEST_GROUP(ShadowTracer) {
 	void setup() {
     scene = new Scene();
@@ -28,7 +31,7 @@ TEST(ShadowTracer, shouldNotReportOcclusionWhenNoObsticals) {
   
   Matrix point(10, 0, 0);
   
-  CHECK(!stracer->hasOcclusion(light->getPosition(), &point));
+  CHECK_NOT_OCCLUSION(light->getPosition(), &point);
 
 }
 
@@ -38,7 +41,7 @@ TEST(ShadowTracer, shouldFindObjectOccluding) {
 	RTSphere obstical(Matrix(4, 0, 0), 3);
   scene->add(&obstical);
   
-  CHECK(stracer->hasOcclusion(light->getPosition(), &point));
+  CHECK_OCCLUSION(light->getPosition(), &point);
 }
 
 TEST(ShadowTracer, shouldHandlePointOnSphere) {
@@ -46,7 +49,7 @@ TEST(ShadowTracer, shouldHandlePointOnSphere) {
   RTSphere sphere(Matrix(4, 0, 0), 1);
   scene->add(&sphere);
   Matrix point(3, 0, 0);
-  CHECK(!stracer->hasOcclusion(light->getPosition(), &point));
+  CHECK_NOT_OCCLUSION(light->getPosition(), &point);
 
 }
 
@@ -55,6 +58,19 @@ TEST(ShadowTracer, shouldHandlePointOnTriangle) {
   RTTriangle triangle(Matrix(2,2,10), Matrix(2,-2,10), Matrix(-2,-2,10));
   scene->add(&triangle);
   Matrix point(0,0,10);
-  CHECK(!stracer->hasOcclusion(light->getPosition(), &point));
+  CHECK_NOT_OCCLUSION(light->getPosition(), &point);
+
+}
+
+TEST(ShadowTracer, shouldRetreiveAllLightSources) {
+  
+  Light localLight(Matrix(0,1,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  scene->add(localLight);
+  Matrix m(10, 0, 0);
+  std::vector<const Light*> sources = stracer->getLightSources(&m);
+  
+  CHECK(sources.size() == 2);
+  CHECK(light->getPosition() == sources[0]->getPosition());
+  CHECK(localLight.getPosition() == sources[1]->getPosition());
 
 }

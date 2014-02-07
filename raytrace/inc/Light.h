@@ -43,6 +43,7 @@ private:
 
 };
 
+typedef std::shared_ptr<Light> LightPtr;
 typedef std::vector<Light>::const_iterator LightIter;
 
 #endif /* _LIGHT_H_ */

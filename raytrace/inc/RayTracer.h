@@ -12,6 +12,7 @@
 #include "RTColor.h"
 #include "RayFrameBuffer.h"
 #include "ShadowTracer.h"
+#include "WhittedIlluminator.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>

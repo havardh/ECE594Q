@@ -9,6 +9,8 @@ raytrace/raytracer*
 .DS_Store
 *all_tests
 test/cpputest
+test/.cpputest
+test/.gmock
 autotest.watchr
 raytrace/.gdbinit
 raytrace/out.png
