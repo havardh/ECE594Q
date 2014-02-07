@@ -1,6 +1,9 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "ShapeTestHelper.h"
 #include "RTTriangle.h"
+#include "RTShapeFactory.h"
+#include "Matrix.h"
+#include <vector>
 
 TEST_GROUP(RTTriangle) {
 	void setup() {}
@@ -45,3 +48,25 @@ TEST(RTTriangle, shouldHandlePointsOnEitherSideOfTheTriangle) {
   CHECK_NORMAL_AT(t, Matrix(0,0,10), Matrix(0,0,20), 0,0,1);
 
 }
+
+/* This bug has found a hole to creep into
+TEST(RTTriangle, shouldBeAddableToPolySet) {
+
+  RTPolySet *set = new RTPolySet();
+  VertexIO vertexIO[] = {
+    {{ 0,-5, 10}, {0,0,0}, 0, 0, 0},
+    {{ 2, 0, 10}, {0,0,0}, 0, 0, 0},
+    {{ 0, 2, 10}, {0,0,0}, 0, 0, 0}
+  };
+
+  PolygonIO polygonIO = {
+    3, vertexIO
+  };
+
+  RTTriangle triangle = RTShapeFactory::createTriangle(&polygonIO);
+  triangle.setParent(set);
+  set->addTriangle(triangle);
+
+  delete set;
+}
+*/

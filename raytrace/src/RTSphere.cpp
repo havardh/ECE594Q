@@ -1,5 +1,7 @@
 #include "RTSphere.h"
 
+#define EPSILON 0.000001
+
 RTSphere::RTSphere(Matrix origin, float radius) {
   _origin = origin;
   _radius = radius;
@@ -21,7 +23,7 @@ IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
     return IntersectionPtr(NULL);
   } else {
     float d = a - (float)sqrt(b);
-    
+    //DPRINTF("..\n");
     IntersectionPtr intersection(new Intersection(this, ray, Matrix(O + d * L)));
     return intersection;
   }
@@ -34,7 +36,13 @@ IntersectionPtr RTSphere::intersect(const Ray ray) {
   Matrix x1 = ray.getOrigin();
   Matrix x2 = ray.getOrigin() + ray.getDirection();
 
+
+  if ((x1 - x0).length() < (x2 - x0).length()) {
+    return IntersectionPtr(NULL);
+  }
+
   float d = ((x2 - x1).crossProduct(x1 - x0)).length() / ((x2-x1).length());
+
   if (_radius >= d) {
     return getIntersection(ray);
   } else {

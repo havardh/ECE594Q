@@ -1,4 +1,5 @@
 #include "RTShape.h"
+#include "Dbg.h"
 
 void RTShape::addMaterial(RTMaterial material) {
   this->materials.push_back(material);

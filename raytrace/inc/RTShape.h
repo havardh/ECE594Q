@@ -15,8 +15,10 @@ public:
   virtual MatrixPtr normal(const Matrix &, const Matrix &) = 0;
 
   void addMaterial(RTMaterial);
-  int getMaterialCount() const;
-  const RTMaterial getMaterial(int) const;
+  virtual int getMaterialCount() const;
+  virtual const RTMaterial getMaterial(int) const;
+
+  virtual void print() const = 0;
 
 private:
   std::vector<RTMaterial> materials;

@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Dbg.h"
 
 void Scene::setScene(SceneIO* sio) {
 
@@ -61,7 +62,9 @@ IntersectionPtr Scene::intersect(const Ray ray) {
   for(it = shapesBegin(); it != shapesEnd(); ++it) {
 
     IntersectionPtr intersection = (*it)->intersect(ray);
+
     if (intersection != nullptr) {
+      //DPRINTF("%p\n", intersection->getShape());
       return intersection;
     }
   }

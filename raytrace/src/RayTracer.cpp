@@ -14,12 +14,23 @@ RayTracer::~RayTracer(void) {
 RTColor RayTracer::trace(const Ray ray) {
 
   IntersectionPtr intersection = _scene->intersect(ray);
+  
   if (intersection != nullptr) {
-    Matrix p = intersection->getPoint();
-    if (!_stracer.isInShadow(&p)) {
-      return RTColor::GRAY;
-    } else {
-      return RTColor::WHITE;
+    RTShape *shape = intersection->getShape();
+
+    if (shape) {
+
+      if (shape->getMaterialCount() == 0) {
+        return RTColor::BLACK;
+      }
+
+      RTMaterial material = shape->getMaterial(0);
+      Matrix p = intersection->getPoint();
+      if (_stracer.isInShadow(&p)) {
+        return material.getAmbColor();
+      } else {
+        return material.getDiffColor();
+      }
     }
   }
 
@@ -36,9 +47,10 @@ void RayTracer::render() {
 
   for(int i=0; i<height; i++) {
     for (int j=0; j<width; j++) {
-      Ray ray = factory.createRay(i,j);
-      RTColor color = trace(ray);
 
+      Ray ray = factory.createRay(i,j);
+
+      RTColor color = trace(ray);
 
       //ray.getDirection().printPoint();
       

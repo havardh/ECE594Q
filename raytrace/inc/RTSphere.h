@@ -3,6 +3,7 @@
 
 #include "RTShape.h"
 #include "Matrix.h"
+#include "Dbg.h"
 
 class RTSphere : public RTShape {
 
@@ -13,6 +14,7 @@ class RTSphere : public RTShape {
 
   const Matrix getOrigin() const { return _origin; }
   float getRadius() const { return _radius; }
+  virtual void print() const { DPRINTF("RTSphere\n"); }
 
  private:
   Matrix _origin;

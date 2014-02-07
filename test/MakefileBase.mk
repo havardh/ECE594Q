@@ -15,9 +15,9 @@ CPPUTEST_HOME = $(BASE_TEST_DIR)/cpputest
 
 CPPUTEST_USE_EXTENSIONS = N
 CPP_PLATFORM = GCC
-CPPFLAGS += -g -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h -v
-CPPUTEST_CPPFLAGS = -x c++ -g -DCPPUTEST
-CFLAGS += -g --std=c99 -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorMallocMacros.h
+CPPFLAGS += -g -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h -v -std=c++11
+CPPUTEST_CPPFLAGS = -x c++ -g -DCPPUTEST -std=c++11
+CFLAGS += -g -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorMallocMacros.h
 
 TEST_SRC_DIRS += $(BASE_TEST_DIR)
 

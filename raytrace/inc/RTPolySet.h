@@ -5,7 +5,9 @@
 #include "Ray.h"
 #include "RTShape.h"
 #include "RTTriangle.h"
+#include "Dbg.h"
 
+class RTTriangle;
 class RTPolySet : public RTShape {
 
 public:
@@ -15,6 +17,8 @@ public:
 
   void addTriangle(RTTriangle &);
   const RTTriangle getTriangle(int) const;
+
+  virtual void print() const { DPRINTF("RTPolySet\n"); }
 
 private:
   std::vector<RTTriangle> triangles;

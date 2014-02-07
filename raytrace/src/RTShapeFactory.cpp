@@ -1,4 +1,5 @@
 #include "RTShapeFactory.h"
+#include "Dbg.h"
 
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon) {
 
@@ -24,6 +25,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
     PolySetIO *io = (PolySetIO*)obj->data;
     for (int i=0; i<io->numPolys; i++) {
       RTTriangle t = RTShapeFactory::createTriangle(&io->poly[i]);
+      t.setParent(set);
       set->addTriangle(t);
     }
     shape = set;

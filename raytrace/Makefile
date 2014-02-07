@@ -67,7 +67,8 @@ MY_LIBS		=
 INCLUDE_DIRS = inc \
 	../matrix/inc \
 	../BasicRayTracer/BasicRayTracer \
-	../reyes/inc
+	../reyes/inc \
+	../util/inc
 get_dirs_from_dirspec	 = $(wildcard $1)
 INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
 INCLUDES += $(foreach dir, $(INCLUDES_DIRS_EXPANDED), -I$(dir))

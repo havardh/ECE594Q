@@ -2,11 +2,20 @@
 
 bool ShadowTracer::hasOcclusion(const Matrix light,  const Matrix* point) {
 
+
   Matrix origin = light;
   Matrix direction = (origin - *point);
-  Ray lightRay(origin, direction.normalize());
+  Matrix normalized = direction.normalize();
   
-  return (_scene->intersect(lightRay) != nullptr);
+  Ray lightRay(*point, normalized);
+
+  IntersectionPtr intersection = _scene->intersect(lightRay);
+  
+  if (intersection != nullptr) {
+    return (*point - intersection->getPoint()).length() > 0.001;
+  } else {
+    return false;
+  }
   
 }
 
@@ -16,7 +25,7 @@ bool ShadowTracer::isInShadow(const Matrix* point) {
   for (it = _scene->lightsBegin();
        it != _scene->lightsEnd();
        ++it) {
-
+    
     if (!hasOcclusion(it->getPosition(), point)) {
       return false;
     }

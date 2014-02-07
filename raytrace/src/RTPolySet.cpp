@@ -14,13 +14,16 @@ IntersectionPtr RTPolySet::intersect(const Ray ray) {
   for (it = triangles.begin();
        it != triangles.end();
        ++it) {
+
     IntersectionPtr intersection = it->intersect(ray);
     if (intersection != nullptr) {
+      //DPRINTF("..\n");
       return intersection;
     }
   }
   return IntersectionPtr(NULL);
 }
+
 MatrixPtr RTPolySet::normal(const Matrix &point, const Matrix &from) {
   (void) point; (void) from;
   return MatrixPtr(NULL);

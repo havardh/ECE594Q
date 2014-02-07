@@ -142,3 +142,20 @@ TEST(RTShapeFactory, shouldCreateShapeWithMaterials) {
   delete shape;
   
 }
+
+TEST(RTShapeFactory, polygonsShouldInheritMaterials) {
+  
+  ObjIO obj = {
+    0,0,1,
+    materialIO,
+    POLYSET_OBJ,
+    &polySetIO
+  };
+
+  RTPolySet *polySet = (RTPolySet*)RTShapeFactory::createShape(&obj);
+  RTTriangle triangle = polySet->getTriangle(0);
+
+  CHECK_EQUAL(1, triangle.getMaterialCount());
+  
+  delete polySet;
+}
