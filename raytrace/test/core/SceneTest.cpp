@@ -59,8 +59,22 @@ TEST(Scene, shouldRetreiveTheClosestIntersect) {
   
 }
 
-TEST(Scene, intersectShouldHandleTrianglesAndSpheres) {
+TEST(Scene, shouldSupportDirectionalLightSources) {
   
-	
+  Scene scene;
+  
+  LightIO lio[] = {{
+      0,
+      DIRECTIONAL_LIGHT,
+      {0,0,0},
+      {0,0,0},
+      {0,0,0},
+      0,0
+    }};
+  
+  scene.setLights(lio);
+  const Light light = *scene.lightsBegin();
+
+  CHECK(light.getType() == DIRECTIONAL);
   
 }

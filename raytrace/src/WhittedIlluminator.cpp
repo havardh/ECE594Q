@@ -1,5 +1,9 @@
 #include "WhittedIlluminator.h"
 
+#define C1 0.25f
+#define C2 0.1f
+#define C3 0.001f
+
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   RTShape *shape = intersection.getShape();
 
@@ -12,7 +16,9 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
 
   std::vector<const Light*> sources = _stracer->getLightSources(&p);
   if (sources.size() == 0) {
-    return material.getAmbColor();
+
+    return material.getDiffColor() * 0.2f;
+
   } else {
 
     float f = 0;
@@ -24,10 +30,15 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
       Matrix normal = *shape->normal(p, intersection.getRay().getOrigin());
       normal.normalize();
       Matrix distance = (p - (*it)->getPosition());
+      float d = distance.length();
       distance.normalize();
     
       float v = -normal.dot(distance);
-      f += (v > 0) ? v : 0;
+      if (v > 0) {
+        float falloff = fmin( 1.0, 1.0 / C1 + C2*d +C3*d*d );
+        f += v * falloff;
+      }
+
     }
 
     RTColor color = material.getDiffColor();

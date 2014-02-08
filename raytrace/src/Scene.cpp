@@ -23,19 +23,27 @@ void Scene::setCamera(CameraIO *cio) {
 
 }
 
+static RTLightType getLightType(LightIO *lio) {
+  switch(lio->type) {
+  case POINT_LIGHT: return POINT;
+  case DIRECTIONAL_LIGHT: return DIRECTIONAL;
+  case SPOT_LIGHT: return SPOT;
+  }
+  return POINT;
+}
+
 void Scene::setLights(LightIO * lio) {
   while(lio) {
 
-    if (lio->type == POINT_LIGHT) {
-      Matrix position(lio->position);
-      Matrix direction(lio->direction);
-      RTColor color(lio->color);
-      float dropOffRate = lio->dropOffRate;
-      float cutOffAngle = lio->cutOffAngle;
-
-      Light light(position, direction, color, dropOffRate, cutOffAngle);
-      this->lights.push_back(light);
-    }
+    RTLightType type = getLightType(lio);
+    Matrix position(lio->position);
+    Matrix direction(lio->direction);
+    RTColor color(lio->color);
+    float dropOffRate = lio->dropOffRate;
+    float cutOffAngle = lio->cutOffAngle;
+    
+    Light light(type, position, direction, color, dropOffRate, cutOffAngle);
+    this->lights.push_back(light);
     lio = lio->next;
   }
 }

@@ -20,12 +20,21 @@ bool ShadowTracer::hasOcclusion(const Matrix light,  const Matrix* point) {
 
 bool ShadowTracer::isInShadow(const Matrix* point) {
 
-  LightIter it; (void) point;
+  LightIter it;
   for (it = _scene->lightsBegin();
        it != _scene->lightsEnd();
        ++it) {
     
     Matrix lightPosition = it->getPosition();
+
+    switch (it->getType()) {
+    case POINT: 
+      lightPosition = it->getPosition();
+      break;
+    case DIRECTIONAL:
+      lightPosition = *point + -100*it->getDirection();
+      break;      
+    }
    
     if (!hasOcclusion(lightPosition, point)) {
       return false;
