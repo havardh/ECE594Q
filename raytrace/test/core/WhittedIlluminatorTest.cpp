@@ -1,12 +1,10 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTestExt/GMock.h"
 #include "WhittedIlluminator.h"
+#include "ColorTestHelper.h"
 #include <vector>
 
-#define COLOR_EQUAL(r,g,b, color) \
-  CHECK_EQUAL(r, color.getRGBRed()) \
-  CHECK_EQUAL(g, color.getRGBGreen()) \
-  CHECK_EQUAL(b, color.getRGBBlue()) 
+
 
 using testing::_;
 

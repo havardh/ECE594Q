@@ -16,6 +16,21 @@ public:
 private:
   ShadowTracer *_stracer;
 
+  /* Local shared members for helpers */
+  Matrix point;
+  RTShape *shape;
+  RTMaterial material;
+  Matrix rayOrigin;
+  std::vector<const Light*> lightSources;
+
+  /* Local helper function for illuminate */
+  RTColor ambient();
+  RTColor direct();
+  RTColor diffuse();
+  RTColor specular();
+  RTColor reflection();
+  RTColor refraction();
+
 };
 
 #endif /* _WHITTEDILLUMINATOR_H_ */
