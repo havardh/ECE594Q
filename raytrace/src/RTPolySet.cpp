@@ -8,20 +8,24 @@ const RTTriangle RTPolySet::getTriangle(int i) const {
   return triangles[(size_t)i];
 }
 
+// Duplicate of Scene::intersection should be refactored
 IntersectionPtr RTPolySet::intersect(const Ray ray) {
+
+  IntersectionPtr intersection(NULL);
 
   std::vector<RTTriangle>::iterator it;
   for (it = triangles.begin();
        it != triangles.end();
        ++it) {
 
-    IntersectionPtr intersection = it->intersect(ray);
-    if (intersection != nullptr) {
-      //DPRINTF("..\n");
-      return intersection;
+    IntersectionPtr newIntersection = it->intersect(ray);
+    if (newIntersection != nullptr) {
+      if (intersection == nullptr || *newIntersection < *intersection) {
+        intersection = newIntersection;
+      }
     }
   }
-  return IntersectionPtr(NULL);
+  return intersection;
 }
 
 MatrixPtr RTPolySet::normal(const Matrix &point, const Matrix &from) {

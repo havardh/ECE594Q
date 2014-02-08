@@ -13,6 +13,7 @@ RayTracer::~RayTracer(void) {
 
 RTColor RayTracer::trace(const Ray ray) {
 
+
   IntersectionPtr intersection = _scene->intersect(ray);
  
   WhittedIlluminator illuminator(&_stracer);
@@ -40,11 +41,12 @@ void RayTracer::render() {
     for (int j=0; j<width; j++) {
       
       //if (i != 9+2 || j != 10) continue;
+      
+      //if (i != height-1-30 || j != 70) continue;
       Ray ray = factory.createRay(i,j);
-
       RTColor color = trace(ray);
 
-      //ray.getDirection().printPoint();
+      //ray.print();
       
       _frameBuffer->set(i,j,0, color.getRGBRed());
       _frameBuffer->set(i,j,1, color.getRGBGreen());

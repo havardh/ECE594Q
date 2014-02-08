@@ -1,6 +1,7 @@
 #ifndef _RTTRIANGLE_H_
 #define _RTTRIANGLE_H_
 
+#include <cmath>
 #include "Matrix.h"
 #include "RTShape.h"
 #include "RTPolySet.h"
@@ -20,7 +21,12 @@ public:
   const Matrix getP0() const { return _p0; }
   const Matrix getP1() const { return _p1; }
   const Matrix getP2() const { return _p2; }
-  virtual void print() const { DPRINTF("RTTriangle\n"); }
+  virtual void print() const { 
+    DPRINTF("Triangle\n"); 
+    _p0.printPoint(); 
+    _p1.printPoint();  
+    _p2.printPoint();  
+  }
 
   void setParent(RTPolySet *parent) {
     _parent = parent;

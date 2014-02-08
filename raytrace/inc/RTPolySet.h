@@ -15,6 +15,7 @@ public:
   virtual IntersectionPtr intersect(const Ray );
   virtual MatrixPtr normal(const Matrix &, const Matrix &);
 
+
   void addTriangle(RTTriangle &);
   const RTTriangle getTriangle(int) const;
 

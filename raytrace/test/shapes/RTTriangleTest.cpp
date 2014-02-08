@@ -56,6 +56,26 @@ TEST(RTTriangle, shouldNotIntersectRayGoingTheOtherWay) {
 
 }
 
+TEST(RTTriangle, shouldIntersectTriangle) {
+  
+  Ray ray(
+    Matrix(-9.58771992f, 4.26362991f, 4.60778999f), 
+    Matrix(0.74592382f, -0.38657027f, -0.54236609f)
+  );
+
+  RTTriangle t(
+    Matrix(-6.19481f, -2.18127f, 0.67082f),
+    Matrix(3.11895f, -2.18127f, 0.67082f),
+    Matrix(3.11895f, -2.18127f, -8.92172f)
+  );
+
+  CHECK(t.intersect(ray) != nullptr);
+
+  
+}
+
+
+
 
 /* This bug has found a hole to creep into
 TEST(RTTriangle, shouldBeAddableToPolySet) {

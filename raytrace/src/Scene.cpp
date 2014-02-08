@@ -72,11 +72,10 @@ IntersectionPtr Scene::intersect(const Ray ray) {
 
   RTShapeIter it;
   IntersectionPtr intersection(NULL);
-
   for(it = shapesBegin(); it != shapesEnd(); ++it) {
 
     IntersectionPtr newIntersection = (*it)->intersect(ray);
-
+    
     if (newIntersection != nullptr) {
       if (intersection == nullptr || *newIntersection < *intersection) {
         intersection = newIntersection;
