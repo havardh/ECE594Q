@@ -1,4 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
+#include "ColorTestHelper.h"
 #include "RTColor.h"
 
 TEST_GROUP(RTColor) {
@@ -22,6 +23,16 @@ TEST(RTColor, shouldSupportMultiplicationOperator) {
   RTColor c1(0.2f, 0.2f, 0.2f);
 
   RTColor expected(0.24f, 0.24f, 0.24f);
-  CHECK( (c1 * 1.2) == expected );
+  COLOR_EQUALS( expected, (c1 * 1.2) );
 
+}
+
+TEST(RTColor, shouldSupportAddOperator) {
+  
+	RTColor c1(0.2f, 0.3f, 0.7f);
+  RTColor c2(0.0f, 0.7f, 0.4f);
+
+  RTColor expected(0.2f, 1.0f, 1.0f);
+  COLOR_EQUALS( expected, (c1 + c2) );
+  
 }

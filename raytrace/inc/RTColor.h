@@ -9,9 +9,6 @@ class RTColor {
 
 public:
 
-  RTColor(uint8_t r, uint8_t g, uint8_t b) {
-    this->setColor(r,g,b);
-  }
   RTColor(float r, float g, float b) {
     this->setColor(r,g,b);
   }
@@ -38,6 +35,7 @@ public:
   bool operator==(const RTColor &) const;
   bool operator!=(const RTColor &) const;
   const RTColor operator*(float) const;
+  const RTColor operator+(const RTColor &) const;
 
   static const RTColor BLACK;
   static const RTColor GRAY;
