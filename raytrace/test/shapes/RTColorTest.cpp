@@ -36,3 +36,14 @@ TEST(RTColor, shouldSupportAddOperator) {
   COLOR_EQUALS( expected, (c1 + c2) );
   
 }
+
+TEST(RTColor, shouldSupportColorMultiplication) {
+  
+  RTColor c1(1,1,1);
+  RTColor c2(0.2f, 0.3f, 2.0f);
+
+  RTColor expected(0.2f, 0.3f, 1.0f);
+  
+  COLOR_EQUALS( expected, (c1 * c2) );
+
+}

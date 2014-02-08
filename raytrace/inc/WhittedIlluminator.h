@@ -10,7 +10,16 @@
 class WhittedIlluminator {
   
 public:
-  WhittedIlluminator(ShadowTracer *shadowTracer) : _stracer(shadowTracer) {}
+  WhittedIlluminator(ShadowTracer *shadowTracer) 
+    : _stracer(shadowTracer),
+      _reflectionsComputed(0),
+      _scene(0) {}
+
+  WhittedIlluminator(ShadowTracer *shadowTracer, Scene *scene) 
+    : _stracer(shadowTracer),
+      _reflectionsComputed(0),
+      _scene(scene) {}
+
   RTColor illuminate(Intersection);
 
   /* Local helper function for illuminate */
@@ -34,6 +43,8 @@ public:
 
 private:
   ShadowTracer *_stracer;
+  int _reflectionsComputed;
+  Scene *_scene;
 
   /* Local shared members for helpers */
   Matrix point;

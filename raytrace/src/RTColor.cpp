@@ -23,6 +23,10 @@ const RTColor RTColor::operator*(float factor) const {
   return RTColor(_red*factor, _green*factor, _blue*factor);
 }
 
+const RTColor RTColor::operator*(const RTColor & rhs) const {
+  return RTColor(_red*rhs._red, _green*rhs._green, _blue*rhs._blue);
+}
+
 const RTColor RTColor::operator+(const RTColor & rhs) const {
   return RTColor(
     fmin(_red+rhs._red,1.0), 

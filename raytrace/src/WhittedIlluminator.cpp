@@ -3,6 +3,7 @@
 #define C1 0.25f
 #define C2 0.1f
 #define C3 0.001f
+#define REFLECTIONS 10
 
 float diffuseLightSourceContribution(float, float);
 
@@ -59,7 +60,7 @@ RTColor WhittedIlluminator::specular() {
   Matrix V = (rayOrigin - point);
   V.normalize();
 
-  RTColor ks = material.getSpecColor();;
+  RTColor ks = material.getSpecColor();
   float q = material.getShininess() * 128;
 
   std::vector<const Light*>::iterator it;
@@ -84,7 +85,7 @@ RTColor WhittedIlluminator::specular() {
 
     );
 
-    totalContribution = totalContribution + scaled;
+    totalContribution = (totalContribution + scaled) * light->getColor();
     
   }
 
@@ -92,6 +93,26 @@ RTColor WhittedIlluminator::specular() {
 }
 
 RTColor WhittedIlluminator::reflection() {
+
+  if (_reflectionsComputed++ < REFLECTIONS) {
+
+    RTColor ks = material.getSpecColor();
+
+    Matrix L = rayOrigin - point;
+    Matrix N = shape->normal(point, rayOrigin)->normalize();
+    Matrix R = 2* N.dot(L) * N - L;
+    R.normalize();
+    
+    Ray ray(point, R);
+
+    IntersectionPtr intersection = _scene->intersect(ray);
+
+    if (intersection != nullptr) {
+      return ks*illuminate(*intersection);
+    }
+    
+  }
+
   return RTColor(0.0f, 0.0f, 0.0f);
 }
 

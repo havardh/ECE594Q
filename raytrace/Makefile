@@ -296,9 +296,10 @@ show:
 ### My tagets
 
 SCENE = mytest
+WH=200:200
 
 gen: all
-	./raytracer ../BasicRayTracer/Scenes/$(SCENE).ascii
+	./raytracer ../BasicRayTracer/Scenes/$(SCENE).ascii $(WH)
 
 open: gen
 	open out.png

@@ -27,14 +27,15 @@ public:
   }
 
   void setColor(float r, float g, float b) {
-    this->_red = r; 
-    this->_green = g; 
-    this->_blue = b;
+    this->_red = fmin(1,r); 
+    this->_green = fmin(1,g); 
+    this->_blue = fmin(1,b);
   }
 
   bool operator==(const RTColor &) const;
   bool operator!=(const RTColor &) const;
   const RTColor operator*(float) const;
+  const RTColor operator*(const RTColor &) const;
   const RTColor operator+(const RTColor &) const;
 
   static const RTColor BLACK;
