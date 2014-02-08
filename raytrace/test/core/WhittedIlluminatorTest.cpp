@@ -108,3 +108,9 @@ TEST(WhittedIlluminator, transpanrancyShouldReduceColorFromDirectLighting) {
   COLOR_EQUAL( 127, 127, 127, color );
 
 }
+
+TEST(WhittedIlluminator, shouldAddSpecularLighting) {
+  
+	
+  
+}

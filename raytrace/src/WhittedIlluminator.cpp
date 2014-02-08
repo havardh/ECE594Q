@@ -53,7 +53,42 @@ RTColor WhittedIlluminator::diffuse() {
 }
 
 RTColor WhittedIlluminator::specular() {
-  return RTColor(0.0f, 0.0f, 0.0f);
+
+  RTColor totalContribution(0,0,0);
+
+  Matrix V = (rayOrigin - point);
+  V.normalize();
+
+  RTColor ks = material.getSpecColor();;
+  float q = material.getShininess() * 128;
+
+  std::vector<const Light*>::iterator it;
+  for (it = lightSources.begin();
+       it != lightSources.end();
+       ++it) {
+
+    const Light* light = *it;
+  
+    Matrix L = light->getPosition() - point;
+    Matrix N = shape->normal(point, rayOrigin)->normalize();
+    Matrix R = 2* N.dot(L) * N - L;
+    R.normalize();
+
+    Matrix distance = (point - light->getPosition());
+    RTColor value = ks * pow(R.dot(V), q);
+
+    RTColor scaled(
+      diffuseLightSourceContribution(value.getRed(), distance.length()),
+      diffuseLightSourceContribution(value.getGreen(), distance.length()),
+      diffuseLightSourceContribution(value.getBlue(), distance.length())
+
+    );
+
+    totalContribution = totalContribution + scaled;
+    
+  }
+
+  return totalContribution;
 }
 
 RTColor WhittedIlluminator::reflection() {
