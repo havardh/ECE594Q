@@ -9,7 +9,7 @@
 int main(int argc, char *argv[]) {
 
   const char *scenePath, *outputPath = "out.png";
-  int width = 200, height = 200;
+  int width = 400, height = 400;
   if (argc < 2) {
     printf("Usage: ./raytracer <input-file> <width:height>(optional) <output-file>(optional)\n");
     exit(1);

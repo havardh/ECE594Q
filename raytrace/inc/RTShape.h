@@ -18,7 +18,7 @@ public:
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
 
-  virtual void print() const = 0;
+  virtual void print() const {};
 
 private:
   std::vector<RTMaterial> materials;

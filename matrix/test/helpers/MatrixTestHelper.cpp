@@ -48,4 +48,3 @@ void MATRIX_EQUALS(float *expected, Matrix actual, double tolerance) {
   }
 
 }
-

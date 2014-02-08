@@ -1,6 +1,9 @@
 #include "Scene.h"
 #include "Dbg.h"
 
+Scene::~Scene() {
+}
+
 void Scene::setScene(SceneIO* sio) {
 
   setCamera(sio->camera);
@@ -59,16 +62,19 @@ void Scene::add(RTShape *shape) {
 IntersectionPtr Scene::intersect(const Ray ray) {
 
   RTShapeIter it;
+  IntersectionPtr intersection(NULL);
+
   for(it = shapesBegin(); it != shapesEnd(); ++it) {
 
-    IntersectionPtr intersection = (*it)->intersect(ray);
+    IntersectionPtr newIntersection = (*it)->intersect(ray);
 
-    if (intersection != nullptr) {
-      //DPRINTF("%p\n", intersection->getShape());
-      return intersection;
+    if (newIntersection != nullptr) {
+      if (intersection == nullptr || *newIntersection < *intersection) {
+        intersection = newIntersection;
+      }
     }
   }
 
-  return IntersectionPtr(NULL);
+  return intersection;
 
 }

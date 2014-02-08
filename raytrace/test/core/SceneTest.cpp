@@ -1,4 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
+#include "MatrixTestHelper.h"
 #include "Scene.h"
 
 TEST_GROUP(Scene) {
@@ -34,4 +35,26 @@ TEST(Scene, shouldConstruct) {
   }
   CHECK_EQUAL(1, count);
  
+}
+
+TEST(Scene, shouldRetreiveTheClosestIntersect) {
+  
+	Scene scene;
+  RTSphere s1(Matrix(0,0,0), 1);
+  scene.add(&s1);
+  RTSphere s2(Matrix(10,0,0), 1);
+  scene.add(&s2);
+  RTSphere s3(Matrix(-10,0,0), 1);
+  scene.add(&s3);
+
+  Ray ray(Matrix(20,0,0), Matrix(-1,0,0));
+
+  IntersectionPtr intersection = scene.intersect(ray);
+  CHECK(intersection != nullptr);
+  RTShape *shape = intersection->getShape();
+  
+  Matrix origin = ((RTSphere*)shape)->getOrigin();
+
+  VECTOR_EQUAL(10, 0, 0, origin);
+  
 }

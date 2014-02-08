@@ -1,6 +1,8 @@
 #ifndef _RTCOLOR_H_
 #define _RTCOLOR_H_
 
+#include <stdio.h>
+#include <cmath>
 #include <stdint.h>
 
 class RTColor {
@@ -33,6 +35,10 @@ public:
     this->_blue = b;
   }
 
+  bool operator==(const RTColor &) const;
+  bool operator!=(const RTColor &) const;
+  const RTColor operator*(float) const;
+
   static const RTColor BLACK;
   static const RTColor GRAY;
   static const RTColor WHITE;
@@ -43,6 +49,8 @@ public:
   float getGreen() const { return _green; }
   uint8_t getRGBBlue() const { return (uint8_t)(_blue*255); }
   float getBlue() const { return _blue; }
+
+  void print() const { printf("%2.2f %2.2f %2.2f\n", _red, _green, _blue); }
 
 private:
   float _red, _green, _blue;
