@@ -30,7 +30,7 @@ RTColor WhittedIlluminator::diffuse() {
     float v = -normal.dot(distance);
     if (v > 0) {
       float falloff = fmin( 1.0, 1.0 / C1 + C2*d +C3*d*d );
-      f += v * (falloff/5.0);
+      f += v * falloff;
     }
   }
 
