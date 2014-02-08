@@ -4,8 +4,6 @@
 #include "ColorTestHelper.h"
 #include <vector>
 
-
-
 using testing::_;
 
 // Mock classes

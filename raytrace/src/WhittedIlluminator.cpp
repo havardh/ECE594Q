@@ -4,6 +4,8 @@
 #define C2 0.1f
 #define C3 0.001f
 
+float diffuseLightSourceContribution(float, float);
+
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   setShape(intersection.getShape());
   setMaterial(shape->getMaterial(0));
@@ -24,30 +26,29 @@ RTColor WhittedIlluminator::direct() {
 
 RTColor WhittedIlluminator::diffuse() {
 
-  float f = 0;
+  float totalContribution = 0;
     
   std::vector<const Light*>::iterator it;
   for (it = lightSources.begin();
        it != lightSources.end();
        ++it) {
 
-    Matrix normal = *shape->normal(point, rayOrigin);
-    normal.normalize();
-    Matrix distance = (point - (*it)->getPosition());
-    float d = distance.length();
-    distance.normalize();
-    
-    float v = -normal.dot(distance);
-    if (v > 0) {
-      float falloff = fmin( 1.0, 1.0 / C1 + C2*d +C3*d*d );
-      f += v * falloff;
-    }
+    const Light* light = *it;
+
+    Matrix normal = shape->normal(point, rayOrigin)->normalize();
+    Matrix distance = (point - light->getPosition());
+
+    totalContribution += diffuseLightSourceContribution(
+      -normal.dot(distance.normalize()),
+      distance.length()
+    );
   }
 
-  RTColor color = material.getDiffColor();
+  RTColor baseColor = material.getDiffColor();
+  totalContribution = fmin(1.0, totalContribution);
+  float transpanrancyFactor = 1.0 - material.getKTransparency();
 
-  f = f > 1.0 ? 1.0 : f;
-  return color * f * (1 - material.getKTransparency());
+  return baseColor * totalContribution * transpanrancyFactor;
 
 }
 
@@ -61,4 +62,15 @@ RTColor WhittedIlluminator::reflection() {
 
 RTColor WhittedIlluminator::refraction() {
   return RTColor(0.0f, 0.0f, 0.0f);
+}
+
+float diffuseLightSourceContribution(float value, float distance) {
+  
+  float d = distance;
+  float dd = d*d;
+
+  if (value > 0) {
+      float falloff = fmin( 1.0, 1.0 / C1 + C2*d +C3*dd );
+      return value * falloff;
+    }
 }
