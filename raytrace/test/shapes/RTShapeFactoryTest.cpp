@@ -1,11 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "RTShapeFactory.h"
+#include "ColorTestHelper.h"
 #include "scene_io.h"
-
-#define COLOR_EQUAL(r,g,b, actual)              \
-  CHECK_EQUAL(r, actual.getRGBRed());           \
-  CHECK_EQUAL(g, actual.getRGBGreen());         \
-  CHECK_EQUAL(b, actual.getRGBBlue());    
 
 static SphereIO sphereIO = {
   {5,-1,7}, 3,
