@@ -42,8 +42,8 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
     }
 
     RTColor color = material.getDiffColor();
-    
+
     f = f > 1.0 ? 1.0 : f;
-    return color * f;
+    return color * f * (1 - material.getKTransparency());
   }
 }

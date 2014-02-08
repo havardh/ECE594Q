@@ -37,6 +37,7 @@ static Light *light;
 TEST_GROUP(WhittedIlluminator) {
 	void setup() {
     material.setDiffColor(RTColor::WHITE);
+    material.setKTransparency(0);
     light = new Light(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
     sources = new std::vector<const Light*>;
     sources->push_back(light);
@@ -111,4 +112,15 @@ TEST(WhittedIlluminator, shouldCeilToOne) {
 
   COLOR_EQUAL(255,255,255, color);
   
+}
+
+TEST(WhittedIlluminator, transpanrancyShouldReduceColorFromDirectLighting) {
+
+  setNormal(new Matrix(1,0,0));
+  material.setKTransparency(0.5);
+  EXPECT_CALL(*shapeMock, getMaterial(_)).WillRepeatedly(Return(material));
+
+  RTColor color = illuminator->illuminate(*intersection);
+  COLOR_EQUAL( 127, 127, 127, color );
+
 }
