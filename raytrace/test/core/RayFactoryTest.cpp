@@ -1,12 +1,8 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "RayFactory.h"
+#include "MatrixTestHelper.h"
 #include <vector>
 #include "Ray.h"
-
-#define VECTOR_EQUAL(x,y,z,v)                    \
-  DOUBLES_EQUAL(x, v.get(0), 0.0001);           \
-  DOUBLES_EQUAL(y, v.get(1), 0.0001);            \
-  DOUBLES_EQUAL(z, v.get(2), 0.0001);            
 
 static Camera *camera;
 

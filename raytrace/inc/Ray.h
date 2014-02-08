@@ -15,6 +15,7 @@ public:
 class Ray {
 
 public:
+ Ray() : _origin(0,0,0), _direction(0,0,0) {}
   Ray(const Matrix &origin, const Matrix &direction) {
     _origin = origin;
     _direction = direction;

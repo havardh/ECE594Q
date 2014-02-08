@@ -12,6 +12,7 @@ class Scene {
 
 public:
   Scene() {}
+  ~Scene();
 
   void setScene(SceneIO*);
   void setCamera(CameraIO*);

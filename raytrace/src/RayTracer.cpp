@@ -20,7 +20,7 @@ RTColor RayTracer::trace(const Ray ray) {
     RTShape *shape = intersection->getShape();
 
     if (shape) {
-      return illuminator.illuminate(intersection);
+      return illuminator.illuminate(*intersection);
 
     }
   }

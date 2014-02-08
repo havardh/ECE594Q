@@ -5,12 +5,13 @@
 #include "Intersection.h"
 #include "ShadowTracer.h"
 #include "Light.h"
+#include <cmath>
 
 class WhittedIlluminator {
   
 public:
   WhittedIlluminator(ShadowTracer *shadowTracer) : _stracer(shadowTracer) {}
-  RTColor illuminate(IntersectionPtr i);
+  RTColor illuminate(Intersection);
 
 private:
   ShadowTracer *_stracer;
