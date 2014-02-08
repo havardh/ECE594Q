@@ -10,8 +10,7 @@ using testing::_;
 
 // Mock classes
 class ShadowTracerMock : public ShadowTracer {
-public:
-  MOCK_METHOD1(getLightSources, std::vector<const Light*>(const Matrix*));
+
 };
 
 class RTShapeMock : public RTShape {
@@ -25,38 +24,31 @@ public:
 
 // Test Figures
 static RTMaterial material; 
-static std::vector<const Light*>* sources;
 static NiceMock<ShadowTracerMock> *shadowTracerMock;
 static NiceMock<RTShapeMock> *shapeMock;
 static WhittedIlluminator *illuminator;
-static Intersection *intersection;
-static Light *light;
+static Light l1(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+static Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
 
 TEST_GROUP(WhittedIlluminator) {
 	void setup() {
     material.setDiffColor(RTColor::WHITE);
     material.setKTransparency(0);
-    light = new Light(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-    sources = new std::vector<const Light*>;
-    sources->push_back(light);
 
     shadowTracerMock = new NiceMock<ShadowTracerMock>;
-    EXPECT_CALL(*shadowTracerMock, getLightSources(_)).WillRepeatedly(Return(*sources));
-
     shapeMock = new NiceMock<RTShapeMock>;
-    EXPECT_CALL(*shapeMock, getMaterial(_)).WillRepeatedly(Return(material));
-    EXPECT_CALL(*shapeMock, getMaterialCount()).WillRepeatedly(Return(1));
 
     illuminator = new WhittedIlluminator(shadowTracerMock);
-    intersection = new Intersection(shapeMock, Ray(Matrix(0,0,0), Matrix(0,0,0)), Matrix(0,0,0));
+    illuminator->setShape(shapeMock);
+    illuminator->setMaterial(material);
+    illuminator->addLightSource(&l1);
+    illuminator->setRayOrigin(Matrix(0,0,0));
+    illuminator->setPoint(Matrix(0,0,0));
   }
 	void teardown() {
-    delete light;
-    delete sources;
     delete shadowTracerMock;
     delete shapeMock;
     delete illuminator;
-    delete intersection;
   }
 };
 
@@ -64,11 +56,12 @@ void setNormal(Matrix *normal) {
   EXPECT_CALL(*shapeMock, normal(_, _)).WillRepeatedly(Return(MatrixPtr(normal)));
 }
 
-TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFromOfLightSource) {
+TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFrontOfLightSource) {
   
   setNormal(new Matrix(1,0,0));
+  
+  RTColor color = illuminator->diffuse();
 
-  RTColor color = illuminator->illuminate(*intersection);
   COLOR_EQUAL(255, 255, 255, color );
  
 }
@@ -77,7 +70,8 @@ TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
   
 	setNormal(new Matrix(0,1,0));
 
-  RTColor color = illuminator->illuminate(*intersection);
+  RTColor color = illuminator->diffuse();
+
   COLOR_EQUAL( 0,0,0, color );
   
 }
@@ -85,12 +79,9 @@ TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
 TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
   setNormal(new Matrix(0.2,0.2,0.9591663045f));
+  illuminator->addLightSource(&l2);
 
-  Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-  sources->push_back(&l2);
-  EXPECT_CALL(*shadowTracerMock, getLightSources(_)).WillRepeatedly(Return(*sources));
-
-  RTColor color = illuminator->illuminate(*intersection);
+  RTColor color = illuminator->diffuse();
 
   uint8_t xx = (uint8_t)(255*0.2 + 255*0.2);
   COLOR_EQUAL(xx, xx, xx, color);
@@ -100,13 +91,10 @@ TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
 TEST(WhittedIlluminator, shouldCeilToOne) {
   
-	setNormal(new Matrix(0.7f, 0.7f, 0.141421355f));
+	setNormal(new Matrix(0.7f, 0.7f, 0.141421355f)); 
+  illuminator->addLightSource(&l2);
 
-  Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-  sources->push_back(&l2);
-  EXPECT_CALL(*shadowTracerMock, getLightSources(_)).WillRepeatedly(Return(*sources));
-
-  RTColor color = illuminator->illuminate(*intersection);
+  RTColor color = illuminator->diffuse();
 
   COLOR_EQUAL(255,255,255, color);
   
@@ -116,9 +104,9 @@ TEST(WhittedIlluminator, transpanrancyShouldReduceColorFromDirectLighting) {
 
   setNormal(new Matrix(1,0,0));
   material.setKTransparency(0.5);
-  EXPECT_CALL(*shapeMock, getMaterial(_)).WillRepeatedly(Return(material));
-
-  RTColor color = illuminator->illuminate(*intersection);
+  illuminator->setMaterial(material);
+ 
+  RTColor color = illuminator->diffuse();
   COLOR_EQUAL( 127, 127, 127, color );
 
 }

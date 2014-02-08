@@ -4,12 +4,22 @@
 #define C2 0.1f
 #define C3 0.001f
 
+RTColor WhittedIlluminator::illuminate(Intersection intersection) {
+  setShape(intersection.getShape());
+  setMaterial(shape->getMaterial(0));
+  setPoint(intersection.getPoint());
+  setLightSources(_stracer->getLightSources(&point));
+  setRayOrigin(intersection.getRay().getOrigin());
+
+  return ambient() + direct() + reflection() + refraction();
+}
+
 RTColor WhittedIlluminator::ambient() {
   return material.getDiffColor() * 0.2f;
 }
 
 RTColor WhittedIlluminator::direct() {
-  return diffuse();  
+  return diffuse() + specular();
 }
 
 RTColor WhittedIlluminator::diffuse() {
@@ -51,22 +61,4 @@ RTColor WhittedIlluminator::reflection() {
 
 RTColor WhittedIlluminator::refraction() {
   return RTColor(0.0f, 0.0f, 0.0f);
-}
-
-RTColor WhittedIlluminator::illuminate(Intersection intersection) {
-  shape = intersection.getShape();
-
-  if (shape->getMaterialCount() == 0) {
-    return RTColor::BLACK;
-  }
-  material = shape->getMaterial(0);
-  point = intersection.getPoint();
-  lightSources = _stracer->getLightSources(&point);
-  rayOrigin = intersection.getRay().getOrigin();
-
-  if (lightSources.size() == 0) {
-    return ambient();
-  } else {
-    return direct();
-  }
 }
