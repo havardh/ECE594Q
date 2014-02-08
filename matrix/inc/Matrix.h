@@ -39,7 +39,7 @@ public:
   const Matrix operator-(const Matrix &) const;
   const Matrix operator-() const;
   
-
+  Matrix hadamardProduct(const Matrix &) const;
   Matrix crossProduct(const Matrix &) const;
   Matrix abs() const;
 

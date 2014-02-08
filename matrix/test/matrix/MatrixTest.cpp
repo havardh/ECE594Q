@@ -410,3 +410,13 @@ TEST(Matrix, shouldProvideUnaryMinus) {
   VECTOR_EQUAL(-1, 0, 3, actual);
   
 }
+
+TEST(Matrix, shouldProvideHadamardProduct) {
+  
+	Matrix m1(1, 2, 3);
+
+  Matrix r = m1.hadamardProduct(m1);
+
+  VECTOR_EQUAL(1, 4, 9, r);
+  
+}

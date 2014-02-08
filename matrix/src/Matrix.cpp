@@ -377,6 +377,19 @@ float Matrix::dot(const Matrix &other) const {
 
 }
 
+Matrix Matrix::hadamardProduct(const Matrix &other) const {
+
+  Matrix result(_m, _n);
+
+  for (int i=0; i<_m; i++) {
+    for (int j=0; j<_n; j++) {
+      result.set(i, j, get(i,j) * other.get(i,j));
+    }
+  }
+
+  return result;
+}
+
 Matrix Matrix::crossProduct(const Matrix &other) const {
   
   float u1 = get(0);
