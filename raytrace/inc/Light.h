@@ -5,15 +5,25 @@
 #include "RTColor.h"
 #include <vector>
 
-/*enum LightType {
+enum RTLightType {
   POINT, DIRECTIONAL, SPOT
-  };*/
+};
 
 class Light {
 
 public:
+  
+  Light(RTLightType type, Matrix pos, Matrix dir, RTColor color, float dropOffRate, float cutOffAngle) {
+    _type = type;
+    _position = pos;
+    _direction = dir;
+    _color = color;
+    _dropOffRate = dropOffRate;
+    _cutOffAngle = cutOffAngle;
+  }
+  
   Light(Matrix pos, Matrix dir, RTColor color, float dropOffRate, float cutOffAngle) {
-    //_type = type;
+    _type = POINT;
     _position = pos;
     _direction = dir;
     _color = color;
@@ -21,14 +31,14 @@ public:
     _cutOffAngle = cutOffAngle;
   }
 
-  //LightType getType() const { return _type; }
+  RTLightType getType() const { return _type; }
   const Matrix& getPosition() const { return _position; }
   const Matrix& getDirection() const { return _direction; }
   const RTColor& getColor() const { return _color; }
   float getDropOffRate() const { return _dropOffRate; }
   float getCutOffAngle() const { return _cutOffAngle; }
 
-  //void setType(LightType type) {  _type = type; }
+  void setType(RTLightType type) {  _type = type; }
   void setPosition(const Matrix& position) {  _position = position; }
   void setDirection(const Matrix& direction) {  _direction = direction; }
   void setColor(const RTColor& color) {  _color = color; }
@@ -36,7 +46,7 @@ public:
   void setCutOffAngle(float cutOffAngle) {  _cutOffAngle = cutOffAngle; }
 
 private:
-  //LightType _type;
+  RTLightType _type;
   Matrix _position, _direction;
   RTColor _color;
   float _dropOffRate, _cutOffAngle;

@@ -74,3 +74,27 @@ TEST(ShadowTracer, shouldRetreiveAllLightSources) {
   CHECK(localLight.getPosition() == sources[1]->getPosition());
 
 }
+
+TEST_GROUP(ShadowTracerBug) {
+	void setup() {
+    scene = new Scene();
+    stracer = new ShadowTracer(scene);
+  }
+	void teardown() {
+    delete scene;
+    delete stracer;
+  }
+};
+
+TEST(ShadowTracerBug, shouldHandleTriangleBehindSphere) {
+  
+  Light light(Matrix(-1.84647f, 0.778452f, 2.67544f), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  scene->add(light);
+  
+  RTSphere sphere(Matrix(-2.11537f, -0.766425f, -3.86329f), 1.33453f);
+  scene->add(&sphere);
+
+  Matrix point(-2.45382833f, -1.16149759f, -2.63432693f);
+
+  
+}

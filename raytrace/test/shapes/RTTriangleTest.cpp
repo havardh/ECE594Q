@@ -49,6 +49,14 @@ TEST(RTTriangle, shouldHandlePointsOnEitherSideOfTheTriangle) {
 
 }
 
+TEST(RTTriangle, shouldNotIntersectRayGoingTheOtherWay) {
+
+  RTTriangle t(Matrix(-2,-2,10), Matrix(2,0,10), Matrix(-2,2,10));
+  CHECK(t.intersect(Ray(Matrix(0,0,0), Matrix(0,0,-1))) == nullptr);
+
+}
+
+
 /* This bug has found a hole to creep into
 TEST(RTTriangle, shouldBeAddableToPolySet) {
 

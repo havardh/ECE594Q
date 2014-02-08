@@ -38,7 +38,8 @@ void RayTracer::render() {
 
   for(int i=0; i<height; i++) {
     for (int j=0; j<width; j++) {
-
+      
+      //if (i != 9+2 || j != 10) continue;
       Ray ray = factory.createRay(i,j);
 
       RTColor color = trace(ray);

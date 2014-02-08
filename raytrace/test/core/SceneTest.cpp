@@ -58,3 +58,9 @@ TEST(Scene, shouldRetreiveTheClosestIntersect) {
   VECTOR_EQUAL(10, 0, 0, origin);
   
 }
+
+TEST(Scene, intersectShouldHandleTrianglesAndSpheres) {
+  
+	
+  
+}

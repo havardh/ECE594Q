@@ -42,8 +42,11 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
   float t = edge2.dot(qvec) *inv_det;
 
-  IntersectionPtr intersection(new Intersection(this, ray, Matrix(orig + t * dir)));
-  return intersection;
+  if ( t > 0 ) {
+    return IntersectionPtr(new Intersection(this, ray, Matrix(orig + t * dir)));
+  } else {
+    return IntersectionPtr(NULL);
+  }
 
 }
 

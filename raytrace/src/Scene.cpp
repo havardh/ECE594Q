@@ -25,16 +25,17 @@ void Scene::setCamera(CameraIO *cio) {
 
 void Scene::setLights(LightIO * lio) {
   while(lio) {
-    
-    Matrix position(lio->position);
-    Matrix direction(lio->direction);
-    RTColor color(lio->color);
-    float dropOffRate = lio->dropOffRate;
-    float cutOffAngle = lio->cutOffAngle;
 
-    Light light(position, direction, color, dropOffRate, cutOffAngle);
-    this->lights.push_back(light);
+    if (lio->type == POINT_LIGHT) {
+      Matrix position(lio->position);
+      Matrix direction(lio->direction);
+      RTColor color(lio->color);
+      float dropOffRate = lio->dropOffRate;
+      float cutOffAngle = lio->cutOffAngle;
 
+      Light light(position, direction, color, dropOffRate, cutOffAngle);
+      this->lights.push_back(light);
+    }
     lio = lio->next;
   }
 }

@@ -3,6 +3,11 @@
 #include "WhittedIlluminator.h"
 #include <vector>
 
+#define COLOR_EQUAL(r,g,b, color) \
+  CHECK_EQUAL(r, color.getRGBRed()) \
+  CHECK_EQUAL(g, color.getRGBGreen()) \
+  CHECK_EQUAL(b, color.getRGBBlue()) 
+
 using testing::_;
 
 // Mock classes
@@ -56,25 +61,54 @@ TEST_GROUP(WhittedIlluminator) {
   }
 };
 
+void setNormal(Matrix *normal) {
+  EXPECT_CALL(*shapeMock, normal(_, _)).WillRepeatedly(Return(MatrixPtr(normal)));
+}
+
 TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFromOfLightSource) {
   
-  EXPECT_CALL(*shapeMock, normal(_, _)).WillRepeatedly(Return(MatrixPtr(new Matrix(1,0,0))));
+  setNormal(new Matrix(1,0,0));
 
   RTColor color = illuminator->illuminate(*intersection);
-  CHECK_EQUAL(255, color.getRGBRed());
-  CHECK_EQUAL(255, color.getRGBGreen());
-  CHECK_EQUAL(255, color.getRGBBlue());
+  COLOR_EQUAL(255, 255, 255, color );
  
 }
 
 TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
   
-	EXPECT_CALL(*shapeMock, normal(_, _)).WillRepeatedly(Return(MatrixPtr(new Matrix(0,1,0))));
+	setNormal(new Matrix(0,1,0));
 
   RTColor color = illuminator->illuminate(*intersection);
-  CHECK_EQUAL(0, color.getRGBRed());
-  CHECK_EQUAL(0, color.getRGBGreen());
-  CHECK_EQUAL(0, color.getRGBBlue());
+  COLOR_EQUAL( 0,0,0, color );
   
 }
 
+TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
+
+  setNormal(new Matrix(0.2,0.2,0.9591663045f));
+
+  Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  sources->push_back(&l2);
+  EXPECT_CALL(*shadowTracerMock, getLightSources(_)).WillRepeatedly(Return(*sources));
+
+  RTColor color = illuminator->illuminate(*intersection);
+
+  uint8_t xx = (uint8_t)(255*0.2 + 255*0.2);
+  COLOR_EQUAL(xx, xx, xx, color);
+
+
+}
+
+TEST(WhittedIlluminator, shouldCeilToOne) {
+  
+	setNormal(new Matrix(0.7f, 0.7f, 0.141421355f));
+
+  Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  sources->push_back(&l2);
+  EXPECT_CALL(*shadowTracerMock, getLightSources(_)).WillRepeatedly(Return(*sources));
+
+  RTColor color = illuminator->illuminate(*intersection);
+
+  COLOR_EQUAL(255,255,255, color);
+  
+}
