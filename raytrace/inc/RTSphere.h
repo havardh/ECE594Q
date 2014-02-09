@@ -1,6 +1,7 @@
 #ifndef _RTSPHERE_H_
 #define _RTSPHERE_H_
 
+#include <cmath>
 #include "RTShape.h"
 #include "Matrix.h"
 #include "Dbg.h"

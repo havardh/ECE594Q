@@ -32,6 +32,7 @@ public:
     this->_blue = fmin(1,b);
   }
 
+  bool operator<(float) const;
   bool operator==(const RTColor &) const;
   bool operator!=(const RTColor &) const;
   const RTColor operator*(float) const;

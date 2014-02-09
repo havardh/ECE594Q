@@ -4,14 +4,18 @@
 #define C2 0.1f
 #define C3 0.001f
 #define REFLECTIONS 10
+#define ETA1 1.0
+#define ETA2 2.0
+
 
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   setShape(intersection.getShape());
   setMaterial(shape->getMaterial(0));
   setPoint(intersection.getPoint());
   setLightSources(_stracer->getLightSources(&point));
+  setRayDirection(intersection.getRay().getDirection());
   setRayOrigin(intersection.getRay().getOrigin());
-
+  //DPRINTF("\n");
   return ambient() + 
     direct() + 
     reflection() + 
@@ -76,10 +80,16 @@ RTColor WhittedIlluminator::specular(const Light *light) {
 }
 
 RTColor WhittedIlluminator::reflection() {
+  
+  RTColor ks = material.getSpecColor();
+  
+  if (ks < 0.000001) {
+    return RTColor::BLACK;
+  }
 
   if (_reflectionsComputed++ < REFLECTIONS) {
 
-    RTColor ks = material.getSpecColor();
+
 
     Matrix L = rayOrigin - point;
     Matrix N = shape->normal(point, rayOrigin)->normalize();
@@ -96,19 +106,59 @@ RTColor WhittedIlluminator::reflection() {
     
   }
 
-  return RTColor(0.0f, 0.0f, 0.0f);
+  return RTColor::BLACK;
 }
 
 RTColor WhittedIlluminator::refraction() {
-  return RTColor(0.0f, 0.0f, 0.0f);
+  
+  Matrix inObjectDirection = rayDirection;
+  Matrix N = shape->normal(point, rayOrigin)->normalize();
+  Ray inObject(point + N*0.000001, rayDirection);
+
+  float kt = material.getKTransparency();
+
+  if (kt < 0.000001) {
+    return RTColor::BLACK;
+  }
+
+  IntersectionPtr outIntersection = _scene->intersect(inObject);
+  
+  if (outIntersection != nullptr) {
+    
+    //DPRINTF("DIR"); rayDirection.printPoint();
+
+    Matrix outPoint = outIntersection->getPoint();
+    Matrix outDirection = rayDirection;
+    
+    Ray outRay(outPoint + N*0.001, outDirection);
+    
+
+    
+    IntersectionPtr intersection = _scene->intersect(outRay);
+
+    if (intersection != nullptr) {
+      //DPRINTF("ORIGIN"); rayOrigin.printPoint();
+      //DPRINTF("INTERSECTION"); point.printPoint();
+      //DPRINTF("OUTPOINT"); outPoint.printPoint();
+          
+      return illuminate(*intersection) * kt;
+    }
+  }
+  
+  return RTColor::BLACK;
 }
 
 float WhittedIlluminator::computeFattj(const Light *light) {
   
-  float distance = (light->getPosition() - point).length();
+  if (light->getType() == POINT) {
 
-  float d = distance;
-  float dd = d*d;
+    float distance = (light->getPosition() - point).length();
 
-  return fmin( 1.0, 1.0 / C1 + C2*d +C3*dd );
+    float d = distance;
+    float dd = d*d;
+
+    return fmin( 1.0, 1.0 / C1 + C2*d +C3*dd );
+  } else {
+    return 1;
+  }
 }

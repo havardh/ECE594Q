@@ -23,9 +23,14 @@ IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
     return IntersectionPtr(NULL);
   } else {
     float d = a - (float)sqrt(b);
-    //DPRINTF("..\n");
-    IntersectionPtr intersection(new Intersection(this, ray, Matrix(O + d * L)));
-    return intersection;
+
+    Matrix p(O + d * L);
+
+    if (fabs ((ray.getOrigin() - p).length()) > 0.001) {
+      return IntersectionPtr(new Intersection(this, ray, p));
+    } else {
+      return IntersectionPtr(NULL);
+    }
   }
 }
 

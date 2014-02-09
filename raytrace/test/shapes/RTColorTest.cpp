@@ -70,3 +70,23 @@ TEST(RTColor, shouldSupportColorMultiplication) {
   COLOR_EQUALS( expected, (c1 * c2) );
 
 }
+
+TEST(RTColor, shouldSupportComparisonWithScalar) {
+  
+  RTColor c1(0.1, 0.2, 0.3);
+  RTColor c2(0.1, 0.4, 0.3);
+  RTColor cl(0,0,0);
+  RTColor ch(1,1,1);
+
+  CHECK( c1 < 1 );
+  CHECK( !(c1 < 0) );
+  CHECK( !(c1 < 0.2) );
+  CHECK( !(c2 < 0.35) );
+  CHECK( !(cl < 0) );
+  CHECK( !(ch < 1) );
+  CHECK( cl < 0.00000000001);
+  CHECK( !(ch < 0.9999999999) );
+  
+
+
+}

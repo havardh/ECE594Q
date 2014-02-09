@@ -34,6 +34,7 @@ public:
   void setShape(RTShape *s) { shape = s; }
   void setMaterial(RTMaterial m) { material = m; }
   void setRayOrigin(Matrix m) { rayOrigin = m; }
+  void setRayDirection(Matrix m) { rayDirection = m; }
   void setLightSources(std::vector<const Light*> sources) {
     lightSources = sources;
   }
@@ -51,6 +52,7 @@ private:
   RTShape *shape;
   RTMaterial material;
   Matrix rayOrigin;
+  Matrix rayDirection;
   std::vector<const Light*> lightSources;
 
   float computeFattj(const Light *light);

@@ -9,6 +9,12 @@ const RTColor RTColor::BLACK = RTColor(b,b,b);
 const RTColor RTColor::GRAY  = RTColor(g,g,g);
 const RTColor RTColor::WHITE = RTColor(w,w,w);
 
+bool RTColor::operator<(float rhs) const {
+
+  return _red < rhs && _green < rhs && _blue < rhs;
+
+}
+
 bool RTColor::operator==(const RTColor &rhs) const {
   return fabs(_red - rhs._red) < 0.000001
                                  && fabs(_green - rhs._green) < 0.000001
