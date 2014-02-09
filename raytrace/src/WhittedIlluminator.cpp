@@ -33,7 +33,7 @@ RTColor WhittedIlluminator::direct() {
 
     float fattj = computeFattj(light);
 
-    total = total + (diffuse(light) + specular(light)) * fattj;
+    total += (diffuse(light) + specular(light)) * fattj;
 
    
   }

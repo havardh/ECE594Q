@@ -38,6 +38,7 @@ public:
   const RTColor operator*(const RTColor &) const;
   const RTColor operator+(const RTColor &) const;
   const RTColor operator+(float) const;
+  const RTColor& operator+=(const RTColor &);
 
   static const RTColor BLACK;
   static const RTColor GRAY;
