@@ -420,3 +420,13 @@ TEST(Matrix, shouldProvideHadamardProduct) {
   VECTOR_EQUAL(1, 4, 9, r);
   
 }
+
+TEST(Matrix, normalizeShouldHandleNullLength) {
+
+  Matrix m1(0,0,0);
+  m1.normalize();
+
+  VECTOR_EQUAL(0,0,0, m1);
+  
+
+}

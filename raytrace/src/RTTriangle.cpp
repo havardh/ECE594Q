@@ -57,7 +57,7 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 }
 
 MatrixPtr RTTriangle::normal(const Matrix &point, const Matrix &from ) {
-  (void) point; (void) from;
+  (void) point;
   
   Matrix v1 = _p1 - _p0;
   Matrix v2 = _p2 - _p0;

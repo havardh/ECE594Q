@@ -37,6 +37,7 @@ public:
   const RTColor operator*(float) const;
   const RTColor operator*(const RTColor &) const;
   const RTColor operator+(const RTColor &) const;
+  const RTColor operator+(float) const;
 
   static const RTColor BLACK;
   static const RTColor GRAY;
@@ -49,7 +50,7 @@ public:
   uint8_t getRGBBlue() const { return (uint8_t)(_blue*255); }
   float getBlue() const { return _blue; }
 
-  void print() const { printf("%2.2f %2.2f %2.2f\n", _red, _green, _blue); }
+  void print() const { printf("%f %f %f\n", _red, _green, _blue); }
 
 private:
   float _red, _green, _blue;

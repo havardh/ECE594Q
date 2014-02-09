@@ -28,9 +28,11 @@ const RTColor RTColor::operator*(const RTColor & rhs) const {
 }
 
 const RTColor RTColor::operator+(const RTColor & rhs) const {
-  return RTColor(
-    fmin(_red+rhs._red,1.0), 
-    fmin(_green+rhs._green, 1.0), 
-    fmin(_blue+rhs._blue, 1.0)
-  );
+  return RTColor(_red+rhs._red,_green+rhs._green,_blue+rhs._blue);
+}
+
+const RTColor RTColor::operator+(float rhs) const {
+
+  return RTColor(_red+rhs,_green+rhs,_blue+rhs);
+
 }

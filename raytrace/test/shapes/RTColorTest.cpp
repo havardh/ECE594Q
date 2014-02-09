@@ -37,6 +37,16 @@ TEST(RTColor, shouldSupportAddOperator) {
   
 }
 
+TEST(RTColor, shouldSupportScalarAdd) {
+  
+	RTColor c1(0.2f, 0.3f, 0.7f);
+  
+  RTColor expected(0.6,0.7, 1.0);
+  COLOR_EQUALS( expected, (c1 + 0.4)); 
+  
+}
+
+
 TEST(RTColor, shouldSupportColorMultiplication) {
   
   RTColor c1(1,1,1);

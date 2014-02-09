@@ -25,8 +25,8 @@ public:
   /* Local helper function for illuminate */
   RTColor ambient();
   RTColor direct();
-  RTColor diffuse();
-  RTColor specular();
+  RTColor diffuse(const Light *light);
+  RTColor specular(const Light *light);
   RTColor reflection();
   RTColor refraction();
 
@@ -52,6 +52,8 @@ private:
   RTMaterial material;
   Matrix rayOrigin;
   std::vector<const Light*> lightSources;
+
+  float computeFattj(const Light *light);
 
 };
 

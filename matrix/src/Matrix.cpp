@@ -276,8 +276,11 @@ Matrix & Matrix::normalize(void) {
 
   float L = this->length();
 
-  for (int i=0; i<_m; i++) {
-    this->set(i, this->get(i) / L);
+
+  if (L != 0) {
+    for (int i=0; i<_m; i++) {
+      this->set(i, this->get(i) / L);
+    }
   }
   
   return *this;
