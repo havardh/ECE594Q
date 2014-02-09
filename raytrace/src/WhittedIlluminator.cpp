@@ -110,39 +110,21 @@ RTColor WhittedIlluminator::reflection() {
 }
 
 RTColor WhittedIlluminator::refraction() {
-  
-  Matrix inObjectDirection = rayDirection;
-  Matrix N = shape->normal(point, rayOrigin)->normalize();
-  Ray inObject(point + N*0.000001, rayDirection);
 
   float kt = material.getKTransparency();
 
   if (kt < 0.000001) {
     return RTColor::BLACK;
   }
-
-  IntersectionPtr outIntersection = _scene->intersect(inObject);
   
-  if (outIntersection != nullptr) {
-    
-    //DPRINTF("DIR"); rayDirection.printPoint();
+  Matrix inObjectDirection = rayDirection;
+  Matrix N = shape->normal(point, rayOrigin)->normalize();
+  Ray inObject(point + N*0.000001, rayDirection);
 
-    Matrix outPoint = outIntersection->getPoint();
-    Matrix outDirection = rayDirection;
-    
-    Ray outRay(outPoint + N*0.001, outDirection);
-    
-
-    
-    IntersectionPtr intersection = _scene->intersect(outRay);
-
-    if (intersection != nullptr) {
-      //DPRINTF("ORIGIN"); rayOrigin.printPoint();
-      //DPRINTF("INTERSECTION"); point.printPoint();
-      //DPRINTF("OUTPOINT"); outPoint.printPoint();
-          
-      return illuminate(*intersection) * kt;
-    }
+  IntersectionPtr intersection = _scene->intersect(inObject);
+  
+  if (intersection != nullptr) {
+    return illuminate(*intersection) * kt;
   }
   
   return RTColor::BLACK;
