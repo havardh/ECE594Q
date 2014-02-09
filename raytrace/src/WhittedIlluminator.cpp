@@ -67,14 +67,16 @@ RTColor WhittedIlluminator::specular(const Light *light) {
   L.normalize();
 
   RTColor ks = material.getSpecColor();
-  float q = material.getShininess() * 99999999;
+  float q = material.getShininess() * 128;
 
   Matrix N = shape->normal(point, rayOrigin)->normalize();
 
   Matrix R = 2 * N.dot(L) * N - L;
   R.normalize();
 
-  RTColor value = ks * pow(R.dot(V), q);
+  float x = R.dot(V);
+
+  RTColor value = ks * pow(x > 0 ? x : 0, q);
 
   return value;
 }
