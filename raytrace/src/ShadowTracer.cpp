@@ -39,12 +39,7 @@ float ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
 
   float r = 1.0;
 
-  Matrix direction;
-  if (light->getType() == POINT) {
-    direction = light->getPosition() - point;
-  } else {
-    direction = light->getDirection() * -1;
-  }
+  Matrix direction = light->getDirectionFrom(point);
 
   Ray ray(point, direction.normalize());
 

@@ -62,12 +62,7 @@ RTColor WhittedIlluminator::direct() {
 RTColor WhittedIlluminator::diffuse(const Light *light) {
 
   Matrix N = -shape->normal(point, rayOrigin)->normalize();
-  Matrix Dj;
-  if (light->getType() == POINT) {
-    Dj = light->getPosition() - point;
-  } else {
-    Dj = light->getDirection() * -1;
-  }
+  Matrix Dj = light->getDirectionFrom(point);
   
   float value = fmax(0, (-N).dot(Dj.normalize()));
   RTColor Cd = material.getDiffColor();
@@ -80,12 +75,7 @@ RTColor WhittedIlluminator::diffuse(const Light *light) {
 RTColor WhittedIlluminator::specular(const Light *light) {
 
   Matrix V = (rayOrigin - point);
-  Matrix L;
-  if (light->getType() == POINT) {
-    L = light->getPosition() - point;
-  } else {
-    L = light->getDirection() * -1;
-  } 
+  Matrix L = light->getDirectionFrom(point);
   V.normalize();
   L.normalize();
 

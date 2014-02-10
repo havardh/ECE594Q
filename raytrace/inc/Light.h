@@ -38,7 +38,7 @@ public:
   float getDropOffRate() const { return _dropOffRate; }
   float getCutOffAngle() const { return _cutOffAngle; }
 
-  const Matrix& getDirectionFrom(const Matrix p) const {
+  const Matrix getDirectionFrom(const Matrix p) const {
     if (getType() == POINT) {
       return getPosition() - p;
     } else {
