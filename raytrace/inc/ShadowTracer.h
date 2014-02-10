@@ -13,7 +13,6 @@ public:
   virtual ~ShadowTracer() {}
 
   virtual bool hasOcclusion(const Matrix, const Matrix*);
-  virtual bool isInShadow(const Matrix* );
   virtual std::vector<const Light*> getLightSources(const Matrix *);
 
  private:
