@@ -50,3 +50,14 @@ const RTColor RTColor::operator+(const RTColor & rhs) const {
 const RTColor RTColor::operator+(float rhs) const {
   return RTColor(_red+rhs,_green+rhs,_blue+rhs);
 }
+
+RTColor RTColor::normalize() {
+
+  float m = fmax(_red, fmax(_green, _blue));
+
+  _red /= m;
+  _green /= m;
+  _blue /= m;
+
+  return *this;
+}

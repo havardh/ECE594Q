@@ -1,4 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
+#include "ColorTestHelper.h"
 #include "ShadowTracer.h"
 #include <vector>
 #include "Scene.h"
@@ -94,9 +95,10 @@ TEST(ShadowTracer, shouldTracePerLightSource) {
   RTSphere sphere(Matrix(5, 0, 0), 2);
   scene->add(&sphere);
   
-  float f = stracer->shadowFactor(point, &light);
+  RTColor f = stracer->shadowFactor(point, &light);
 
-  DOUBLES_EQUAL(0, f, 0.0001);
+  RTColor expected(0,0,0);
+  COLOR_EQUALS(expected, f);
 
 }
 
@@ -110,8 +112,9 @@ TEST(ShadowTracer, shouldTraceThroughTransparantObjects) {
   material.setKTransparency(0.5);
   sphere.addMaterial(material);
   
-  float f = stracer->shadowFactor(point, &light);
+  RTColor f = stracer->shadowFactor(point, &light);
 
-  DOUBLES_EQUAL(0.5, f, 0.0001);
+  RTColor expected(0.5,0.5,0.5);
+  COLOR_EQUALS(expected, f);
   
 }

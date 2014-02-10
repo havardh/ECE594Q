@@ -15,7 +15,7 @@ public:
   virtual bool hasOcclusion(const Matrix, const Matrix*);
   virtual std::vector<const Light*> getLightSources(const Matrix *);
 
-  virtual float shadowFactor(const Matrix&, const Light*);
+  virtual RTColor shadowFactor(const Matrix&, const Light*);
 
  private:
   Scene* _scene;

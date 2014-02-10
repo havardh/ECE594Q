@@ -43,7 +43,7 @@ RTColor WhittedIlluminator::direct() {
     
     const Light light = *it;
 
-    float Sj = _stracer->shadowFactor(point, &light);
+    RTColor Sj = _stracer->shadowFactor(point, &light);
 
     if (Sj < 0.000001) {
       continue;
@@ -51,7 +51,7 @@ RTColor WhittedIlluminator::direct() {
 
     float fattj = computeFattj(&light);
 
-    total += (diffuse(&light) + specular(&light)) * fattj * Sj;
+    total += Sj * (diffuse(&light) + specular(&light)) * fattj;
 
    
   }
@@ -110,7 +110,7 @@ RTColor WhittedIlluminator::reflection() {
     R.normalize();
     
 
-    Ray ray(point, R);
+    Ray ray(point + 0.00001*N, R);
 
     IntersectionPtr intersection = _scene->intersect(ray);
 

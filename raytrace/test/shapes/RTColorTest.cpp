@@ -92,6 +92,9 @@ TEST(RTColor, shouldSupportComparisonWithScalar) {
 IGNORE_TEST(RTColor, shouldNormalize) {
 
   RTColor c(0.1, 0.3, 0.5);
-  //c.normalize();
+  c.normalize();
+
+  RTColor expected( 0.1 / 0.5, 0.3 / 0.5, 1);
+  COLOR_EQUALS( expected, c );
 
 }

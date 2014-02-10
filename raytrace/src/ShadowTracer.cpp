@@ -35,9 +35,9 @@ std::vector<const Light*> ShadowTracer::getLightSources(const Matrix *point) {
   return sources;
 }
 
-float ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
+RTColor ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
 
-  float r = 1.0;
+  RTColor color(1,1,1);
 
   Matrix direction = light->getDirectionFrom(point);
 
@@ -50,8 +50,10 @@ float ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
        it != intersections.end(); 
        ++it) {
     RTMaterial m = (*it)->getShape()->getMaterial(0);
-    r *= m.getKTransparency();
+    float kt = m.getKTransparency();
+    RTColor c = m.getDiffColor();
+    color = color * c.normalize() * kt;
   }
 
-  return r;
+  return color;
 }

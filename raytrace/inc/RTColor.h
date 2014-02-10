@@ -51,6 +51,7 @@ public:
   float getGreen() const { return _green; }
   uint8_t getRGBBlue() const { return (uint8_t)(_blue*255); }
   float getBlue() const { return _blue; }
+  RTColor normalize();
 
   void print() const { printf("%f %f %f\n", _red, _green, _blue); }
 
