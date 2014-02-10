@@ -32,8 +32,31 @@ std::vector<const Light*> ShadowTracer::getLightSources(const Matrix *point) {
       sources.push_back(&(*it));
     }
   }
-
-  
   return sources;
+}
 
+float ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
+
+  float r = 1.0;
+
+  Matrix direction;
+  if (light->getType() == POINT) {
+    direction = light->getPosition() - point;
+  } else {
+    direction = light->getDirection() * -1;
+  }
+
+  Ray ray(point, direction.normalize());
+
+  std::vector<IntersectionPtr> intersections = _scene->intersections(ray);
+
+  std::vector<IntersectionPtr>::iterator it;
+  for (it = intersections.begin();
+       it != intersections.end(); 
+       ++it) {
+    RTMaterial m = (*it)->getShape()->getMaterial(0);
+    r *= m.getKTransparency();
+  }
+
+  return r;
 }

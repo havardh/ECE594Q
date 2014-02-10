@@ -6,7 +6,12 @@
 class RTMaterial {
 
 public:
-  RTMaterial() {}
+  RTMaterial() : 
+    ktran(0), 
+    shininess(0),
+    emsissColor(0,0,0),
+    ambColor(0,0,0),
+    diffColor(0,0,0) {}
   
   void setDiffColor(RTColor c) { this->diffColor = c; }
   RTColor getDiffColor() const { return this->diffColor; }

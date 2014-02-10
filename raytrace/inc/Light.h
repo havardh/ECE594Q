@@ -38,6 +38,14 @@ public:
   float getDropOffRate() const { return _dropOffRate; }
   float getCutOffAngle() const { return _cutOffAngle; }
 
+  const Matrix& getDirectionFrom(const Matrix p) const {
+    if (getType() == POINT) {
+      return getPosition() - p;
+    } else {
+      return getDirection() * -1;
+    }
+  }
+
   void setType(RTLightType type) {  _type = type; }
   void setPosition(const Matrix& position) {  _position = position; }
   void setDirection(const Matrix& direction) {  _direction = direction; }

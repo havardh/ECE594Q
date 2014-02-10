@@ -13,11 +13,13 @@ public:
   WhittedIlluminator(ShadowTracer *shadowTracer) 
     : _stracer(shadowTracer),
       _reflectionsComputed(0),
-      _scene(0) {}
+      _refractionCount(0),
+      _scene() {}
 
   WhittedIlluminator(ShadowTracer *shadowTracer, Scene *scene) 
     : _stracer(shadowTracer),
       _reflectionsComputed(0),
+      _refractionCount(0),
       _scene(scene) {}
 
   RTColor illuminate(Intersection);
@@ -35,16 +37,11 @@ public:
   void setMaterial(RTMaterial m) { material = m; }
   void setRayOrigin(Matrix m) { rayOrigin = m; }
   void setRayDirection(Matrix m) { rayDirection = m; }
-  void setLightSources(std::vector<const Light*> sources) {
-    lightSources = sources;
-  }
-  void addLightSource(const Light *source) {
-    lightSources.push_back(source);
-  }
 
 private:
   ShadowTracer *_stracer;
   int _reflectionsComputed;
+  int _refractionCount;
   Scene *_scene;
 
   /* Local shared members for helpers */
@@ -53,7 +50,6 @@ private:
   RTMaterial material;
   Matrix rayOrigin;
   Matrix rayDirection;
-  std::vector<const Light*> lightSources;
 
   float computeFattj(const Light *light);
 

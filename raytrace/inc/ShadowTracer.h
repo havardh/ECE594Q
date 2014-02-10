@@ -8,12 +8,14 @@
 class ShadowTracer {
 
 public:
-  ShadowTracer() : _scene(0) {}
+  ShadowTracer() : _scene() {}
   ShadowTracer(Scene *scene) : _scene(scene) {}
   virtual ~ShadowTracer() {}
 
   virtual bool hasOcclusion(const Matrix, const Matrix*);
   virtual std::vector<const Light*> getLightSources(const Matrix *);
+
+  virtual float shadowFactor(const Matrix&, const Light*);
 
  private:
   Scene* _scene;

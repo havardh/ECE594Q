@@ -299,10 +299,10 @@ SCENE = mytest
 WH=200:200
 
 gen: all
-	./raytracer ../BasicRayTracer/Scenes/$(SCENE).ascii $(WH)
+	./raytracer ../BasicRayTracer/Scenes/$(SCENE).ascii $(WH) output/$(SCENE).png
 
 open: gen
-	open out.png
+	open output/$(SCENE).png
 
 outputrays: all
 	./raytracer ../BasicRayTracer/Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out

@@ -27,6 +27,7 @@ static NiceMock<RTShapeMock> *shapeMock;
 static WhittedIlluminator *illuminator;
 static Light l1(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
 static Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+static Scene *scene;
 
 TEST_GROUP(WhittedIlluminator) {
 	void setup() {
@@ -38,16 +39,19 @@ TEST_GROUP(WhittedIlluminator) {
     shadowTracerMock = new NiceMock<ShadowTracerMock>;
     shapeMock = new NiceMock<RTShapeMock>;
 
-    illuminator = new WhittedIlluminator(shadowTracerMock);
+    scene = new Scene();
+    scene->add(l1);
+
+    illuminator = new WhittedIlluminator(shadowTracerMock, scene);
     illuminator->setShape(shapeMock);
     illuminator->setMaterial(material);
-    illuminator->addLightSource(&l1);
     illuminator->setRayOrigin(Matrix(1,0,0));
     illuminator->setPoint(Matrix(0,0,0));
   }
 	void teardown() {
     delete shadowTracerMock;
     delete shapeMock;
+    delete scene;
     delete illuminator;
   }
 };
@@ -79,7 +83,7 @@ TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
 TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
   setNormal(new Matrix(0.2,0.2,0.9591663045f));
-  illuminator->addLightSource(&l2);
+  scene->add(l2);
 
   RTColor color = illuminator->direct();
 
@@ -92,7 +96,7 @@ TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 TEST(WhittedIlluminator, shouldCeilToOne) {
   
 	setNormal(new Matrix(0.7f, 0.7f, 0.141421355f)); 
-  illuminator->addLightSource(&l2);
+  scene->add(l2);
 
   RTColor color = illuminator->direct();
 

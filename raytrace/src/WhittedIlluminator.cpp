@@ -1,18 +1,21 @@
 #include "WhittedIlluminator.h"
 
+// Constants used for computing light falloff
 #define C1 0.25f
 #define C2 0.1f
 #define C3 0.001f
+
+// How many recursive steps in reflection
 #define REFLECTIONS 10
-#define ETA1 1.0
-#define ETA2 2.0
+
+#define ETA1 1.0 // refraction index for air
+#define ETA2 1.5 // refraction index for solid object
 
 
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   setShape(intersection.getShape());
   setMaterial(shape->getMaterial(0));
   setPoint(intersection.getPoint());
-  setLightSources(_stracer->getLightSources(&point));
   setRayDirection(intersection.getRay().getDirection());
   setRayOrigin(intersection.getRay().getOrigin());
   //DPRINTF("\n");
@@ -31,13 +34,24 @@ RTColor WhittedIlluminator::direct() {
 
   RTColor total;
 
-  std::vector<const Light*>::iterator it;
-  for (it = lightSources.begin(); it != lightSources.end(); ++it) {
-    const Light *light = *it;
+  LightIter it;
+  
+  if (!_scene) return RTColor::BLACK;
 
-    float fattj = computeFattj(light);
+  
+  for (it = _scene->lightsBegin(); it != _scene->lightsEnd(); ++it) {
 
-    total += (diffuse(light) + specular(light)) * fattj;
+    const Light light = *it;
+
+    float Sj = _stracer->shadowFactor(point, &light);
+
+    if (Sj < 0.000001) {
+      continue;
+    } 
+
+    float fattj = computeFattj(&light);
+
+    total += (diffuse(&light) + specular(&light)) * fattj * Sj;
 
    
   }
@@ -48,7 +62,12 @@ RTColor WhittedIlluminator::direct() {
 RTColor WhittedIlluminator::diffuse(const Light *light) {
 
   Matrix N = shape->normal(point, rayOrigin)->normalize();
-  Matrix Dj = light->getPosition() - point;
+  Matrix Dj;
+  if (light->getType() == POINT) {
+    Dj = light->getPosition() - point;
+  } else {
+    Dj = light->getDirection() * -1;
+  }
   
   float value = fmax(0, N.dot(Dj.normalize()));
   RTColor Cd = material.getDiffColor();
@@ -60,9 +79,13 @@ RTColor WhittedIlluminator::diffuse(const Light *light) {
 
 RTColor WhittedIlluminator::specular(const Light *light) {
 
-
   Matrix V = (rayOrigin - point);
-  Matrix L = light->getPosition() - point;
+  Matrix L;
+  if (light->getType() == POINT) {
+    L = light->getPosition() - point;
+  } else {
+    L = light->getDirection() * -1;
+  } 
   V.normalize();
   L.normalize();
 
@@ -90,8 +113,6 @@ RTColor WhittedIlluminator::reflection() {
   }
 
   if (_reflectionsComputed++ < REFLECTIONS) {
-
-
 
     Matrix L = rayOrigin - point;
     Matrix N = shape->normal(point, rayOrigin)->normalize();

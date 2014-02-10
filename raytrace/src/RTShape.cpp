@@ -10,5 +10,9 @@ int RTShape::getMaterialCount() const {
 }
 
 const RTMaterial RTShape::getMaterial(int i) const {
-  return materials[(size_t)i];
+  if (i < this->getMaterialCount()) {
+    return materials[(size_t)i];
+  } else {
+    return RTMaterial();
+  }
 }

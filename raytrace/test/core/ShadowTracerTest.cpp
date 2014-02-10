@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Matrix.h"
 #include "RTSphere.h"
+#include "RTMaterial.h"
 #include "Light.h"
 
 static Scene *scene;
@@ -86,15 +87,31 @@ TEST_GROUP(ShadowTracerBug) {
   }
 };
 
-TEST(ShadowTracerBug, shouldHandleTriangleBehindSphere) {
-  
-  Light light(Matrix(-1.84647f, 0.778452f, 2.67544f), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-  scene->add(light);
-  
-  RTSphere sphere(Matrix(-2.11537f, -0.766425f, -3.86329f), 1.33453f);
+TEST(ShadowTracer, shouldTracePerLightSource) {
+
+  Matrix point(0,0,0);
+  Light light(Matrix(10, 0, 0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  RTSphere sphere(Matrix(5, 0, 0), 2);
   scene->add(&sphere);
+  
+  float f = stracer->shadowFactor(point, &light);
 
-  Matrix point(-2.45382833f, -1.16149759f, -2.63432693f);
+  DOUBLES_EQUAL(0, f, 0.0001);
 
+}
+
+TEST(ShadowTracer, shouldTraceThroughTransparantObjects) {
+
+  Matrix point(0,0,0);
+  Light light(Matrix(10, 0, 0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  RTSphere sphere(Matrix(5, 0, 0), 2);
+  scene->add(&sphere);
+  RTMaterial material;
+  material.setKTransparency(0.5);
+  sphere.addMaterial(material);
+  
+  float f = stracer->shadowFactor(point, &light);
+
+  DOUBLES_EQUAL(0.5, f, 0.0001);
   
 }
