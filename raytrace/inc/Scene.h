@@ -3,6 +3,7 @@
 
 #include "scene_io.h"
 #include <vector>
+#include <algorithm>
 #include "RTShape.h"
 #include "RTShapeFactory.h"
 #include "Light.h"
@@ -31,7 +32,8 @@ public:
   RTShapeIter shapesBegin() const { return shapes.begin(); }
   RTShapeIter shapesEnd() const { return shapes.end(); }
 
-  IntersectionPtr intersect(const Ray ray);
+  IntersectionPtr intersect(const Ray);
+  std::vector<IntersectionPtr> intersections(const Ray);
 
 private:
   Camera camera;

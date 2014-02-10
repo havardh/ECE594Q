@@ -78,3 +78,20 @@ TEST(Scene, shouldSupportDirectionalLightSources) {
   CHECK(light.getType() == DIRECTIONAL);
   
 }
+
+TEST(Scene, shouldReturnAllIntersections) {
+
+  Scene scene;
+  RTSphere s1(Matrix(0,0,0), 1);
+  scene.add(&s1);
+  RTSphere s2(Matrix(10,0,0), 1);
+  scene.add(&s2);
+  RTSphere s3(Matrix(-10,0,0), 1);
+  scene.add(&s3);
+
+  Ray ray(Matrix(20,0,0), Matrix(-1,0,0));
+
+  std::vector<IntersectionPtr> intersections = scene.intersections(ray);
+  CHECK(intersections.size() == 3);
+
+}

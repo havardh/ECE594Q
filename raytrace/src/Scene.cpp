@@ -70,19 +70,32 @@ void Scene::add(RTShape *shape) {
 
 IntersectionPtr Scene::intersect(const Ray ray) {
 
-  RTShapeIter it;
-  IntersectionPtr intersection(NULL);
-  for(it = shapesBegin(); it != shapesEnd(); ++it) {
+  std::vector<IntersectionPtr> I = intersections(ray);
 
-    IntersectionPtr newIntersection = (*it)->intersect(ray);
-    
-    if (newIntersection != nullptr) {
-      if (intersection == nullptr || *newIntersection < *intersection) {
-        intersection = newIntersection;
-      }
+  IntersectionPtr intersection(NULL);
+  std::vector<IntersectionPtr>::iterator it;
+  for (it = I.begin(); it != I.end(); ++it) {
+    if (intersection == nullptr || *(*it) < *intersection ) {
+      intersection = *it;
     }
   }
 
   return intersection;
+}
+
+std::vector<IntersectionPtr> Scene::intersections(const Ray ray) {
+  
+  RTShapeIter it;
+  std::vector<IntersectionPtr> intersections;
+  for(it = shapesBegin(); it != shapesEnd(); ++it) {
+
+    IntersectionPtr intersection = (*it)->intersect(ray);
+     
+    if (intersection != nullptr) {
+      intersections.push_back(intersection);
+    }
+  }
+
+  return intersections; 
 
 }
