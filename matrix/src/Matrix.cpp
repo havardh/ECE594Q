@@ -272,7 +272,7 @@ float Matrix::length(void) const {
   return (float)sqrt(sum);
 }
 
-Matrix & Matrix::normalize(void) {
+Matrix& Matrix::normalize(void) {
 
   float L = this->length();
 

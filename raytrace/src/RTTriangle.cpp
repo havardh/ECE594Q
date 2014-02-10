@@ -57,15 +57,19 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 }
 
 MatrixPtr RTTriangle::normal(const Matrix &point, const Matrix &from ) {
-  (void) point;
+  (void) point; (void) from;
   
   Matrix v1 = _p1 - _p0;
   Matrix v2 = _p2 - _p0;
 
   Matrix direction = v2.crossProduct(v1);
 
-  if ( direction.dot(from) < 0 ) {
-    direction = -direction;
+  if (_parent) {
+    Matrix fromMid = point - _parent->getMidpoint();
+
+    if ( direction.dot(fromMid) < 0 ) {
+      direction = -direction;
+    }
   }
 
   return MatrixPtr(new Matrix(direction.normalize()));

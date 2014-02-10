@@ -57,14 +57,14 @@ IntersectionPtr RTSphere::intersect(const Ray ray) {
 }
 
 MatrixPtr RTSphere::normal(const Matrix &point, const Matrix &from) {
+  (void) from;
 
-
-  Matrix direction;
-  if ((from - _origin).length() > _radius) {
+  Matrix direction = point - _origin;
+  /*if ((from - _origin).length() > _radius) {
     direction = (point - _origin);
   } else {
     direction = (_origin - point);
-  }
+    }*/
   return MatrixPtr(new Matrix(direction.normalize()));
 
 }

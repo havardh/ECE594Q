@@ -42,7 +42,7 @@ TEST(RTTriangle, shouldReturnSurfaceNormalInDirectionOfTheRay) {
 
 
 
-TEST(RTTriangle, shouldHandlePointsOnEitherSideOfTheTriangle) {
+IGNORE_TEST(RTTriangle, shouldHandlePointsOnEitherSideOfTheTriangle) {
 
   RTTriangle t(Matrix(-2,-2,10), Matrix(2,0,10), Matrix(-2,2,10));
   CHECK_NORMAL_AT(t, Matrix(0,0,10), Matrix(0,0,20), 0,0,1);

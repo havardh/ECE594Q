@@ -87,6 +87,11 @@ TEST(RTColor, shouldSupportComparisonWithScalar) {
   CHECK( cl < 0.00000000001);
   CHECK( !(ch < 0.9999999999) );
   
+}
 
+IGNORE_TEST(RTColor, shouldNormalize) {
+
+  RTColor c(0.1, 0.3, 0.5);
+  //c.normalize();
 
 }

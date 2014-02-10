@@ -39,10 +39,12 @@ TEST_GROUP(WhittedIlluminator) {
     shadowTracerMock = new NiceMock<ShadowTracerMock>;
     shapeMock = new NiceMock<RTShapeMock>;
 
+
     scene = new Scene();
     scene->add(l1);
+    ShadowTracer stracer(scene);
 
-    illuminator = new WhittedIlluminator(shadowTracerMock, scene);
+    illuminator = new WhittedIlluminator(&stracer, scene);
     illuminator->setShape(shapeMock);
     illuminator->setMaterial(material);
     illuminator->setRayOrigin(Matrix(1,0,0));

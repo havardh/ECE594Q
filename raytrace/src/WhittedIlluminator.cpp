@@ -6,7 +6,7 @@
 #define C3 0.001f
 
 // How many recursive steps in reflection
-#define REFLECTIONS 10
+#define REFLECTIONS 1
 
 #define ETA1 1.0 // refraction index for air
 #define ETA2 1.5 // refraction index for solid object
@@ -22,8 +22,8 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   return ambient() + 
     direct() + 
     reflection() + 
-    refraction()
-    ;
+    //refraction() +
+    0;
 }
 
 RTColor WhittedIlluminator::ambient() {
@@ -40,7 +40,7 @@ RTColor WhittedIlluminator::direct() {
 
   
   for (it = _scene->lightsBegin(); it != _scene->lightsEnd(); ++it) {
-
+    
     const Light light = *it;
 
     float Sj = _stracer->shadowFactor(point, &light);
@@ -61,7 +61,7 @@ RTColor WhittedIlluminator::direct() {
 
 RTColor WhittedIlluminator::diffuse(const Light *light) {
 
-  Matrix N = shape->normal(point, rayOrigin)->normalize();
+  Matrix N = -shape->normal(point, rayOrigin)->normalize();
   Matrix Dj;
   if (light->getType() == POINT) {
     Dj = light->getPosition() - point;
@@ -69,7 +69,7 @@ RTColor WhittedIlluminator::diffuse(const Light *light) {
     Dj = light->getDirection() * -1;
   }
   
-  float value = fmax(0, N.dot(Dj.normalize()));
+  float value = fmax(0, (-N).dot(Dj.normalize()));
   RTColor Cd = material.getDiffColor();
   float kt = material.getKTransparency();
 
@@ -116,15 +116,20 @@ RTColor WhittedIlluminator::reflection() {
 
     Matrix L = rayOrigin - point;
     Matrix N = shape->normal(point, rayOrigin)->normalize();
-    Matrix R = 2* N.dot(L) * N - L;
+    Matrix R = 2 * N.dot(L) * N - L;
     R.normalize();
     
+
     Ray ray(point, R);
 
     IntersectionPtr intersection = _scene->intersect(ray);
 
+
     if (intersection != nullptr) {
-      return ks*illuminate(*intersection);
+
+      WhittedIlluminator illuminator(_stracer, _scene);
+      RTColor color = ks * illuminator.illuminate(*intersection);
+      return color;
     }
     
   }
@@ -147,7 +152,8 @@ RTColor WhittedIlluminator::refraction() {
   IntersectionPtr intersection = _scene->intersect(inObject);
   
   if (intersection != nullptr) {
-    return illuminate(*intersection) * kt;
+    WhittedIlluminator illuminator(_stracer, _scene);
+    return illuminator.illuminate(*intersection) * kt;
   }
   
   return RTColor::BLACK;

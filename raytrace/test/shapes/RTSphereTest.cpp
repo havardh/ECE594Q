@@ -87,7 +87,7 @@ TEST(RTSphere, normalShouldBeOnXAxisToTheRight) {
   
 }
 
-TEST(RTSphere, normalShouldHandlePointInsideSphere) {
+IGNORE_TEST(RTSphere, normalShouldHandlePointInsideSphere) {
 
   RTSphere s(Matrix(0,0,10), 1);
   CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,10), -1,0,0);

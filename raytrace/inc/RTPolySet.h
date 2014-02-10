@@ -11,19 +11,21 @@ class RTTriangle;
 class RTPolySet : public RTShape {
 
 public:
-  RTPolySet() {}
+ RTPolySet() : midpoint(0,0,0) {}
   virtual IntersectionPtr intersect(const Ray );
   virtual MatrixPtr normal(const Matrix &, const Matrix &);
 
 
   void addTriangle(RTTriangle &);
   const RTTriangle getTriangle(int) const;
+  void calculateMidpoint();
+  const Matrix getMidpoint() const { return midpoint; }
 
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
 private:
   std::vector<RTTriangle> triangles;
-  
+  Matrix midpoint;
 
 };
 

@@ -39,11 +39,9 @@ void RayTracer::render() {
 
   for(int i=0; i<height; i++) {
     for (int j=0; j<width; j++) {
-      //if (i != 180 || j != 90) continue;
-      //if (i != 117 || j != 76) continue;
-      //DPRINTF("%d %d\n", i, j);
-      //if (i != 9+2 || j != 10) continue;
+      //if (i != 17 || j != 33)     continue;
       
+      //printf("%d %d\n", i,j);
 
       Ray ray = factory.createRay(i,j);
       RTColor color = trace(ray);

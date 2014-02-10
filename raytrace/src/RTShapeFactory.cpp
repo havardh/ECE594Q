@@ -28,6 +28,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
       t.setParent(set);
       set->addTriangle(t);
     }
+    set->calculateMidpoint();
     shape = set;
 
   }
