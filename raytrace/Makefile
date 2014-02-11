@@ -66,7 +66,6 @@ MY_LIBS		=
 
 INCLUDE_DIRS = inc \
 	../matrix/inc \
-	../BasicRayTracer/BasicRayTracer \
 	../reyes/inc \
 	../util/inc
 get_dirs_from_dirspec	 = $(wildcard $1)
@@ -85,7 +84,7 @@ LDFLAGS		=
 SRCDIRS		= . \
 	src \
 	../matrix/src \
-	../BasicRayTracer/BasicRayTracer 
+	../util/src
 
 # The executable file name.
 # If not specified, current directory name or `a.out' will be used.

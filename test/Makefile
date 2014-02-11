@@ -19,8 +19,6 @@ INCLUDE_DIRS +=\
   ../raytrace/test/helpers \
 	../matrix/inc \
 	../util/inc \
-	../raytrace/inc \
-	../BasicRayTracer/BasicRayTracer
-
+	../raytrace/inc 
 
 include $(BASE_TEST_DIR)/MakefileBase.mk
