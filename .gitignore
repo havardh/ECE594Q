@@ -4,6 +4,7 @@
 *.out
 reyes/pictures
 reyes/output
+reyes/reyes
 reyes/test/autotest.watchr
 raytrace/raytracer*
 .DS_Store
