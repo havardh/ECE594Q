@@ -19,3 +19,4 @@ raytrace/out.png
 *.vcproj
 .cask/*
 Cask
+data/*
