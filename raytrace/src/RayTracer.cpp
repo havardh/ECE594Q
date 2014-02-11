@@ -39,7 +39,7 @@ void RayTracer::render() {
 
   for(int i=0; i<height; i++) {
     for (int j=0; j<width; j++) {
-      //if (i != 17 || j != 33)     continue;
+      //if (i != 65 || j != 60)     continue;
       
       //printf("%d %d\n", i,j);
 

@@ -4,6 +4,7 @@
 #include "RTColor.h"
 #include "Intersection.h"
 #include "ShadowTracer.h"
+#include "Snell.h"
 #include "Light.h"
 #include <cmath>
 
@@ -51,6 +52,7 @@ private:
   Matrix rayOrigin;
   Matrix rayDirection;
 
+  bool isGoingIntoObject();
   float computeFattj(const Light *light);
 
 };

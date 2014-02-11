@@ -6,7 +6,7 @@
 #define C3 0.001f
 
 // How many recursive steps in reflection
-#define REFLECTIONS 1
+#define REFLECTIONS 10
 
 #define ETA1 1.0 // refraction index for air
 #define ETA2 1.5 // refraction index for solid object
@@ -22,7 +22,7 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
   return ambient() + 
     direct() + 
     reflection() + 
-    //refraction() +
+    refraction() +
     0;
 }
 
@@ -114,9 +114,7 @@ RTColor WhittedIlluminator::reflection() {
 
     IntersectionPtr intersection = _scene->intersect(ray);
 
-
     if (intersection != nullptr) {
-
       WhittedIlluminator illuminator(_stracer, _scene);
       RTColor color = ks * illuminator.illuminate(*intersection);
       return color;
@@ -127,6 +125,10 @@ RTColor WhittedIlluminator::reflection() {
   return RTColor::BLACK;
 }
 
+bool WhittedIlluminator::isGoingIntoObject() {
+  return rayDirection.dot(shape->normal(point, rayOrigin)->normalize()) > 0;
+}
+
 RTColor WhittedIlluminator::refraction() {
 
   float kt = material.getKTransparency();
@@ -134,10 +136,24 @@ RTColor WhittedIlluminator::refraction() {
   if (kt < 0.000001) {
     return RTColor::BLACK;
   }
-  
-  Matrix inObjectDirection = rayDirection;
+
+  float n1, n2;
+  if (isGoingIntoObject()) {
+    n1 = (_refractionCount == 0) ? ETA1: ETA2;
+    _refractionCount++;
+  } else {
+    n2 = (_refractionCount == 1) ? ETA2 : ETA1;
+    _refractionCount--;
+  }
+
   Matrix N = shape->normal(point, rayOrigin)->normalize();
-  Ray inObject(point + N*0.000001, rayDirection);
+  
+  Matrix I = rayOrigin - point;
+
+  Matrix direction = Snell::direction(n1, n2, N, I);
+  direction.normalize();
+
+  Ray inObject(point + N*0.000001, direction);
 
   IntersectionPtr intersection = _scene->intersect(inObject);
   
