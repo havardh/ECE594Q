@@ -11,6 +11,10 @@ private:
   
   void allocate();
 
+  // Prevent copies
+  RayFrameBuffer(const RayFrameBuffer&);
+  RayFrameBuffer& operator=(const RayFrameBuffer&);
+
 public:
   RayFrameBuffer(int, int);
   ~RayFrameBuffer();

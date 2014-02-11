@@ -30,7 +30,6 @@ private:
 
 public:
   RayTracer(Scene*, RayFrameBuffer*);
-  ~RayTracer(void);
   void render();
 };
 

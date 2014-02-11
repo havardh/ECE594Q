@@ -4,11 +4,6 @@
 
 RayTracer::RayTracer(Scene *scene, RayFrameBuffer *frameBuffer) : 
   _frameBuffer(frameBuffer), _scene(scene), _stracer(scene) {
-  
-}
-
-RayTracer::~RayTracer(void) {
-
 }
 
 RTColor RayTracer::trace(const Ray ray) {
