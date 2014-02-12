@@ -22,7 +22,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
 
     SphereIO *io = (SphereIO*)obj->data;
     shape = new RTSphere(io->origin, io->radius);
-    shape->setColorShader(&gShader);
+    shape->setColorShader(&tShader);
 
   } else if (obj->type == POLYSET_OBJ) {
 
