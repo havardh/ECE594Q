@@ -29,8 +29,10 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
 
     RTPolySet *set = new RTPolySet();
     PolySetIO *io = (PolySetIO*)obj->data;
+    bool i = 0; // setting the is upper property for triangles
     for (int i=0; i<io->numPolys; i++) {
       RTTriangle t = RTShapeFactory::createTriangle(&io->poly[i]);
+      t.setIsUpper(i++ % 2 == 0);
       t.setParent(set);
       set->addTriangle(t);
     }

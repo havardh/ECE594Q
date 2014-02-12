@@ -44,10 +44,19 @@ public:
   void setParent(RTPolySet *parent) {
     _parent = parent;
   }
+  void setIsUpper(bool isUpper) {
+    _isUpper = isUpper;
+  }
 
 private:
   RTPolySet *_parent;
 
+  // In the texture in parameterization a quad is processed
+  // This implies a relationship between two triangles
+  // This variable lets the shader know which of the two its operating on
+  bool _isUpper = 0;
+
+  // Where or not the triangle has normals at the vertexes
   bool _hasNormals;
   Matrix _p0, _p1, _p2;
   Matrix _n0, _n1, _n2;
@@ -58,6 +67,7 @@ private:
   bool hasNormals() { return _hasNormals; }
   MatrixPtr calculateNormal(const Matrix&);
   MatrixPtr interpolateNormal(const Matrix&);
+  void interpolateUV(const Matrix &point, float &u, float &v);
   
 
 };

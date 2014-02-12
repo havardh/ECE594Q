@@ -83,6 +83,15 @@ float area(const Matrix &A, const Matrix &B, const Matrix &C) {
   float ABlen = AB.length();
   float AClen = AC.length();
   
+
+  if ((ABlen * AClen) < 0.00001) {
+    return 0;
+  }
+  
+  if (fabs(AB.dot(AC) / (ABlen * AClen)) > 1) {
+    return 0;
+  }
+  
   float angle = acos(AB.dot(AC) / (ABlen * AClen));
 
   return 0.5 * ABlen*AClen * sin(angle);
@@ -150,8 +159,38 @@ int RTTriangle::getMaterialCount() const {
   }
 }
 
+void RTTriangle::interpolateUV(const Matrix &point, float &u, float &v) {
+  float A = area(_p0, _p1, _p2);
+  float A0 = area(point, _p1, _p2);
+  float A1 = area(point, _p0, _p2);
+  float A2 = area(point, _p0, _p1);
+
+  // u and v values for each coorner
+  float u0, u1, u2, v0, v1, v2;
+  if (this->_isUpper) {
+    u0 = 0; v0 = 0;
+    u1 = 1; v1 = 0;
+    u2 = 0; v2 = 1;
+  } else {
+    u0 = 1; v0 = 1;
+    u1 = 1; v1 = 0;
+    u2 = 0; v2 = 1;
+  }
+
+  u =  u0 * (A0/A);
+  u += u1 * (A1/A);
+  u += u2 * (A2/A);
+
+  v =  v0 * (A0/A);
+  v += v1 * (A1/A);
+  v += v2 * (A2/A);
+}
+
 RTMaterial RTTriangle::shadePoint(const Matrix &point) {
   (void) point;
-
-  return RTMaterial();
+  
+  float u, v;
+  interpolateUV(point, u, v);
+  
+  return _shader->shade(u,v,RTMaterial());
 }

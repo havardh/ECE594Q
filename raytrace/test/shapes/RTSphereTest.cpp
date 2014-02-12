@@ -121,9 +121,7 @@ TEST(RTSphere, shouldCallShaderWithBottomPoint) {
 
 TEST(RTSphere, shouldCallShaderWithTopPoint) {
 
-
-  TEST_UV_SHADER(Matrix(0,1,10), 0.25, testing::FloatNear(0, 0.000001));
-  
+  TEST_UV_SHADER(Matrix(0,1,10), 0.25, testing::FloatNear(0, 0.000001));  
 }
 
 

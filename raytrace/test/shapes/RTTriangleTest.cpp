@@ -2,8 +2,11 @@
 #include "ShapeTestHelper.h"
 #include "RTTriangle.h"
 #include "RTShapeFactory.h"
+#include "ColorShaderMock.h"
 #include "Matrix.h"
 #include <vector>
+
+using testing::_;
 
 TEST_GROUP(RTTriangle) {
 	void setup() {}
@@ -95,23 +98,49 @@ TEST(RTTriangle, shouldIntersectTriangle) {
 
 
 /* This bug has found a hole to creep into
-TEST(RTTriangle, shouldBeAddableToPolySet) {
+   TEST(RTTriangle, shouldBeAddableToPolySet) {
 
-  RTPolySet *set = new RTPolySet();
-  VertexIO vertexIO[] = {
-    {{ 0,-5, 10}, {0,0,0}, 0, 0, 0},
-    {{ 2, 0, 10}, {0,0,0}, 0, 0, 0},
-    {{ 0, 2, 10}, {0,0,0}, 0, 0, 0}
-  };
+   RTPolySet *set = new RTPolySet();
+   VertexIO vertexIO[] = {
+   {{ 0,-5, 10}, {0,0,0}, 0, 0, 0},
+   {{ 2, 0, 10}, {0,0,0}, 0, 0, 0},
+   {{ 0, 2, 10}, {0,0,0}, 0, 0, 0}
+   };
 
-  PolygonIO polygonIO = {
-    3, vertexIO
-  };
+   PolygonIO polygonIO = {
+   3, vertexIO
+   };
 
-  RTTriangle triangle = RTShapeFactory::createTriangle(&polygonIO);
-  triangle.setParent(set);
-  set->addTriangle(triangle);
+   RTTriangle triangle = RTShapeFactory::createTriangle(&polygonIO);
+   triangle.setParent(set);
+   set->addTriangle(triangle);
 
-  delete set;
-}
+   delete set;
+   }
 */
+#define CHECK_UV_TRIANGLE(t, point, u,v, isUpper)                       \
+  NiceMock<ColorShaderMock> shader;                                     \
+  ON_CALL(shader, shade(_,_, _)).WillByDefault(Return(RTMaterial()));   \
+  t.setIsUpper(isUpper);                                                \
+  t.setColorShader(&shader);                                            \
+  EXPECT_CALL(shader, shade( testing::FloatNear(u, 0.00001), testing::FloatNear(v, 0.00001), _)).WillRepeatedly(Return(RTMaterial())); \
+  t.shadePoint(point);
+
+
+TEST(RTTriangle, shouldInterpolateAtTopInUpper) {
+
+  RTTriangle t(Matrix(1,1,0), Matrix(1,0,0), Matrix(0,1,0));
+  CHECK_UV_TRIANGLE(t, Matrix(1,1,0), 0,0, true);
+}
+
+TEST(RTTriangle, shouldInterpolateAtBottomInLower) {
+
+  RTTriangle t(Matrix(0,0,0), Matrix(1,0,0), Matrix(0,1,0));
+  CHECK_UV_TRIANGLE(t, Matrix(0,0,0), 1,1, false);
+}
+
+TEST(RTTriangle, shouldInterpolateAtCenter) {
+
+  RTTriangle t(Matrix(0,0,0), Matrix(1,0,0), Matrix(0,1,0));
+  CHECK_UV_TRIANGLE(t, Matrix(0.5,0.5,0), 0.5,0.5, false);
+}
