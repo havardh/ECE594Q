@@ -70,14 +70,14 @@ TEST(RTSphere, shouldIntersectOnClosedPointIfCommingFromTheRight) {
 TEST(RTSphere, normalShouldAlongZAxisNegativeOnFront) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(0,0,8), Matrix(0,0,0), 0,0,-1);
+  CHECK_NORMAL_AT(s, Matrix(0,0,8), 0,0,-1);
   
 }
 
 TEST(RTSphere, normalShouldAlongZAxisPositiveOnRear) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(0,0,12), Matrix(0,0,0), 0,0,1);
+  CHECK_NORMAL_AT(s, Matrix(0,0,12), 0,0,1);
   
 }
 
@@ -85,14 +85,14 @@ TEST(RTSphere, normalShouldAlongZAxisPositiveOnRear) {
 TEST(RTSphere, normalShouldBeOnXAxisToTheRight) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,0), 1,0,0);
+  CHECK_NORMAL_AT(s, Matrix(2,0,10), 1,0,0);
   
 }
 
 IGNORE_TEST(RTSphere, normalShouldHandlePointInsideSphere) {
 
   RTSphere s(Matrix(0,0,10), 1);
-  CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,10), -1,0,0);
+  CHECK_NORMAL_AT(s, Matrix(2,0,10), -1,0,0);
   
 }
 
@@ -115,14 +115,14 @@ TEST(RTSphere, shouldCallShaderWithMaterial) {
 
 TEST(RTSphere, shouldCallShaderWithBottomPoint) {
 
-  TEST_UV_SHADER(Matrix(0,-1,10), 0.25, testing::FloatNear(0, 0.00001));
+  TEST_UV_SHADER(Matrix(0,-1,10), 0.25, 1);
   
 }
 
 TEST(RTSphere, shouldCallShaderWithTopPoint) {
 
 
-  TEST_UV_SHADER(Matrix(0,1,10), 0.25, 1);
+  TEST_UV_SHADER(Matrix(0,1,10), 0.25, testing::FloatNear(0, 0.000001));
   
 }
 

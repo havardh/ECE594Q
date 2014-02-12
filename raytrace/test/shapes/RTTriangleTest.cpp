@@ -36,8 +36,25 @@ TEST(RTTriangle, shouldReturnIntersectionPointOnARotatedTriangle) {
 TEST(RTTriangle, shouldReturnSurfaceNormalInDirectionOfTheRay) {
 
   RTTriangle t(Matrix(-2,-2,10), Matrix(2,0,10), Matrix(-2,2,10));
-  CHECK_NORMAL_AT(t, Matrix(0,0,10), Matrix(0,0,0), 0,0,-1);
+  CHECK_NORMAL_AT(t, Matrix(0,0,10), 0,0,-1);
 
+}
+
+TEST(RTTriangle, shouldInterpolateCorners) {
+
+  RTTriangle t1(
+    Matrix(0,0,0), Matrix(-1, 0, 2), Matrix(1, 0, 2),
+    Matrix(0,1,0), Matrix(0, 1, 0), Matrix(0, 0.5, 0)
+  );
+
+  CHECK_NORMAL_AT(t1, Matrix(0, 0, 2), 0, 1, 0);
+
+  RTTriangle t2(
+    Matrix(0,0,0), Matrix(10, 0, 0), Matrix(0, 10, 0),
+    Matrix(0,0,1), Matrix(0, 1, 0), Matrix(1, 0, 0)
+  );
+  CHECK_NORMAL_AT(t2, Matrix(5,5,0), 0.707107, 0.707107, 0);
+  
 }
 
 
@@ -45,7 +62,7 @@ TEST(RTTriangle, shouldReturnSurfaceNormalInDirectionOfTheRay) {
 IGNORE_TEST(RTTriangle, shouldHandlePointsOnEitherSideOfTheTriangle) {
 
   RTTriangle t(Matrix(-2,-2,10), Matrix(2,0,10), Matrix(-2,2,10));
-  CHECK_NORMAL_AT(t, Matrix(0,0,10), Matrix(0,0,20), 0,0,1);
+  CHECK_NORMAL_AT(t, Matrix(0,0,10), 0,0,1);
 
 }
 

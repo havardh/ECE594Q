@@ -11,9 +11,9 @@
     DOUBLES_EQUAL(z, I->getPoint().get(2), 0.0001); \
   }
 
-#define CHECK_NORMAL_AT(s, point, origin, x, y, z)  \
+#define CHECK_NORMAL_AT(s, point, x, y, z)  \
   {                                                 \
-    MatrixPtr I = s.normal(point, origin);          \
+    MatrixPtr I = s.normal(point);                  \
     CHECK( I != nullptr );                          \
     DOUBLES_EQUAL(x, I->get(0), 0.0001);            \
     DOUBLES_EQUAL(y, I->get(1), 0.0001);            \

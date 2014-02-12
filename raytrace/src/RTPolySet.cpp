@@ -45,8 +45,8 @@ IntersectionPtr RTPolySet::intersect(const Ray ray) {
   return intersection;
 }
 
-MatrixPtr RTPolySet::normal(const Matrix &point, const Matrix &from) {
-  (void) point; (void) from;
+MatrixPtr RTPolySet::normal(const Matrix &point) {
+  (void) point;
   return MatrixPtr(NULL);
 }
 

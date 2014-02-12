@@ -48,7 +48,7 @@ TEST_GROUP(WhittedIlluminator) {
 };
 
 void setNormal(Matrix *normal) {
-  EXPECT_CALL(*shapeMock, normal(_, _)).WillRepeatedly(Return(MatrixPtr(normal)));
+  EXPECT_CALL(*shapeMock, normal(_)).WillRepeatedly(Return(MatrixPtr(normal)));
 }
 
 TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFrontOfLightSource) {

@@ -13,7 +13,7 @@ class RTShape {
 public:
   virtual ~RTShape() {}
   virtual IntersectionPtr intersect(const Ray ) = 0;
-  virtual MatrixPtr normal(const Matrix &, const Matrix &) = 0;
+  virtual MatrixPtr normal(const Matrix &) = 0;
 
   // Materials
   void addMaterial(RTMaterial);

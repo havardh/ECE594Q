@@ -12,7 +12,7 @@ public:
   MOCK_CONST_METHOD1(getMaterial, const RTMaterial(int));
   MOCK_METHOD1(shadePoint, RTMaterial(const Matrix&));
   MOCK_METHOD1(intersect, IntersectionPtr(const Ray));
-  MOCK_METHOD2(normal, MatrixPtr(const Matrix&, const Matrix&));
+  MOCK_METHOD1(normal, MatrixPtr(const Matrix&));
   MOCK_METHOD0(print, void());
 };
 

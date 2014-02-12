@@ -11,9 +11,15 @@ class RTPolySet;
 class RTTriangle : public RTShape {
 
 public:
-  RTTriangle(const Matrix &, const Matrix &, const Matrix &);
+  RTTriangle(
+    const Matrix &, const Matrix &, const Matrix &
+  );
+  RTTriangle(
+    const Matrix &, const Matrix &, const Matrix &,
+    const Matrix &, const Matrix &, const Matrix &
+  );
   virtual IntersectionPtr intersect(const Ray );
-  virtual MatrixPtr normal(const Matrix &, const Matrix &);
+  virtual MatrixPtr normal(const Matrix &);
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
@@ -23,6 +29,11 @@ public:
   const Matrix getP0() const { return _p0; }
   const Matrix getP1() const { return _p1; }
   const Matrix getP2() const { return _p2; }
+
+  const Matrix getN0() const { return _n0; }
+  const Matrix getN1() const { return _n1; }
+  const Matrix getN2() const { return _n2; }
+
   virtual void print() const { 
     DPRINTF("Triangle\n"); 
     _p0.printPoint(); 
@@ -37,10 +48,17 @@ public:
 private:
   RTPolySet *_parent;
 
+  bool _hasNormals;
   Matrix _p0, _p1, _p2;
+  Matrix _n0, _n1, _n2;
 
   Matrix computeN();
   Matrix computeP(Matrix&, Matrix, Matrix);
+
+  bool hasNormals() { return _hasNormals; }
+  MatrixPtr calculateNormal(const Matrix&);
+  MatrixPtr interpolateNormal(const Matrix&);
+  
 
 };
 

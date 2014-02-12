@@ -13,7 +13,7 @@ class RTPolySet : public RTShape {
 public:
  RTPolySet() : midpoint(0,0,0) {}
   virtual IntersectionPtr intersect(const Ray );
-  virtual MatrixPtr normal(const Matrix &, const Matrix &);
+  virtual MatrixPtr normal(const Matrix &);
 
 
   void addTriangle(RTTriangle &);

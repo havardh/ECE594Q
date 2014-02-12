@@ -3,10 +3,29 @@
 
 #define EPSILON 0.00001
 
+RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2, const Matrix &n0, const Matrix &n1, const Matrix &n2) {
+  _p0 = p0;
+  _p1 = p1;
+  _p2 = p2;
+
+  _n0 = n0;
+  _n1 = n1;
+  _n2 = n2;
+  _hasNormals = true;
+  _parent = 0;
+}
+
 RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2) {
   _p0 = p0;
   _p1 = p1;
   _p2 = p2;
+
+
+  _n0 = Matrix(0,0,0);
+  _n1 = Matrix(0,0,0);
+  _n2 = Matrix(0,0,0);
+
+  _hasNormals = false;
   _parent = 0;
 }
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
@@ -56,23 +75,63 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
 }
 
-MatrixPtr RTTriangle::normal(const Matrix &point, const Matrix &from ) {
-  (void) point; (void) from;
+float area(const Matrix &A, const Matrix &B, const Matrix &C) {
+
+  Matrix AB = B-A;
+  Matrix AC = C-A;
   
+  float ABlen = AB.length();
+  float AClen = AC.length();
+  
+  float angle = acos(AB.dot(AC) / (ABlen * AClen));
+
+  return 0.5 * ABlen*AClen * sin(angle);
+
+}
+
+MatrixPtr RTTriangle::interpolateNormal(const Matrix &point) {
+
+  float A = area(_p0, _p1, _p2);
+  float A0 = area(point, _p1, _p2);
+  float A1 = area(point, _p0, _p2);
+  float A2 = area(point, _p0, _p1);
+
+  Matrix *m = new Matrix(0,0,0);
+  (*m) = (*m) + _n0 * (A0/A);
+  (*m) = (*m) + _n1 * (A1/A);
+  (*m) = (*m) + _n2 * (A2/A);
+  
+  m->normalize();
+
+  return MatrixPtr(m);
+}
+
+MatrixPtr RTTriangle::calculateNormal(const Matrix &point) {
   Matrix v1 = _p1 - _p0;
   Matrix v2 = _p2 - _p0;
-
+ 
   Matrix direction = v2.crossProduct(v1);
-
+ 
   if (_parent) {
     Matrix fromMid = point - _parent->getMidpoint();
+  
 
     if ( direction.dot(fromMid) < 0 ) {
       direction = -direction;
     }
   }
-
   return MatrixPtr(new Matrix(direction.normalize()));
+
+}
+
+MatrixPtr RTTriangle::normal(const Matrix &point) {
+
+  if (hasNormals()) {
+    return interpolateNormal(point);
+  } else {
+    return calculateNormal(point);
+  }
+
 }
 
 const RTMaterial RTTriangle::getMaterial(int i) const {
@@ -92,7 +151,7 @@ int RTTriangle::getMaterialCount() const {
 }
 
 RTMaterial RTTriangle::shadePoint(const Matrix &point) {
- (void) point;
+  (void) point;
 
   return RTMaterial();
 }
