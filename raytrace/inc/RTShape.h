@@ -19,6 +19,7 @@ public:
   void addMaterial(RTMaterial);
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
+  RTMaterial* getMaterialPointer(int);
 
   // Shaders
   void setColorShader(ColorShader *shader);
