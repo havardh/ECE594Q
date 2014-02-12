@@ -3,6 +3,7 @@
 
 static ColorShaderRandom rShader;
 static ColorShaderGradient gShader;
+static ColorShaderCheckerboard cShader(10,10);
 static ColorShaderTexture tShader("earth.jpg");
 
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon) {
@@ -22,7 +23,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
 
     SphereIO *io = (SphereIO*)obj->data;
     shape = new RTSphere(io->origin, io->radius);
-    shape->setColorShader(&tShader);
+    shape->setColorShader(&cShader);
 
   } else if (obj->type == POLYSET_OBJ) {
 
