@@ -82,7 +82,7 @@ RTMaterial RTSphere::shadePoint(const Matrix &point) {
     float u = theta / (2*M_PI);
     float v = 1 - ((phi / M_PI) + 0.5);
     
-    return _shader->shade(u, v, RTMaterial());
+    return _shader->shade(u, v, getMaterial(0));
   }
 
   return getMaterial(0);

@@ -5,6 +5,7 @@ static ColorShaderRandom rShader;
 static ColorShaderGradient gShader;
 static ColorShaderCheckerboard cShader(10,10);
 static ColorShaderTexture tShader("earth.jpg");
+static ColorShaderIdentity iShader;
 
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon) {
 
@@ -23,15 +24,17 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
 
     SphereIO *io = (SphereIO*)obj->data;
     shape = new RTSphere(io->origin, io->radius);
-    shape->setColorShader(&cShader);
+    shape->setColorShader(&iShader);
 
   } else if (obj->type == POLYSET_OBJ) {
 
     RTPolySet *set = new RTPolySet();
+    set->setColorShader(&iShader);
     PolySetIO *io = (PolySetIO*)obj->data;
     bool i = 0; // setting the is upper property for triangles
     for (int i=0; i<io->numPolys; i++) {
       RTTriangle t = RTShapeFactory::createTriangle(&io->poly[i]);
+      t.setColorShader(&iShader);
       t.setIsUpper(i++ % 2 == 0);
       t.setParent(set);
       set->addTriangle(t);

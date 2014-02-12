@@ -192,5 +192,5 @@ RTMaterial RTTriangle::shadePoint(const Matrix &point) {
   float u, v;
   interpolateUV(point, u, v);
   
-  return _shader->shade(u,v,RTMaterial());
+  return _shader->shade(u,v,getMaterial(0));
 }

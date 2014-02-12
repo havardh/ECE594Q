@@ -6,6 +6,7 @@
 #include "RTTriangle.h"
 #include "RTPolySet.h"
 #include "ColorShaderRandom.h"
+#include "ColorShaderIdentity.h"
 #include "ColorShaderCheckerboard.h"
 #include "ColorShaderGradient.h"
 #include "ColorShaderTexture.h"
