@@ -6,10 +6,12 @@
 class ShadedWhittedIlluminator : public WhittedIlluminator {
 
 public:
-  
-  ShadedWhittedIlluminator(ShadowTracer *shadowTracer, Scene *scene);
+  ShadedWhittedIlluminator(ShadowTracer *stracer, Scene *scene) :
+    WhittedIlluminator(stracer, scene) {}
 
   WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
+
+  void setLocalVariables(Intersection intersection);
 
 };
 

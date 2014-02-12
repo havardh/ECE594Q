@@ -52,6 +52,8 @@ protected:
   Matrix rayOrigin;
   Matrix rayDirection;
 
+  virtual void setLocalVariables(Intersection);
+
 private:
   ShadowTracer *_stracer;
   int _reflectionsComputed;

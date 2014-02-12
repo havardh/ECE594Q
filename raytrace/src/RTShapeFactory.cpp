@@ -1,6 +1,10 @@
 #include "RTShapeFactory.h"
 #include "Dbg.h"
 
+static ColorShaderRandom rShader;
+static ColorShaderGradient gShader;
+static ColorShaderTexture tShader("earth.jpg");
+
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon) {
 
   return RTTriangle(
@@ -18,6 +22,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
 
     SphereIO *io = (SphereIO*)obj->data;
     shape = new RTSphere(io->origin, io->radius);
+    shape->setColorShader(&gShader);
 
   } else if (obj->type == POLYSET_OBJ) {
 

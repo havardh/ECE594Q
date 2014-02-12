@@ -5,6 +5,9 @@
 #include "RTSphere.h"
 #include "RTTriangle.h"
 #include "RTPolySet.h"
+#include "ColorShaderRandom.h"
+#include "ColorShaderGradient.h"
+#include "ColorShaderTexture.h"
 #include "scene_io.h"
 
 class RTShapeFactory {

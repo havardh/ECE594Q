@@ -11,7 +11,7 @@ RTColor RayTracer::trace(const Ray ray) {
 
   IntersectionPtr intersection = _scene->intersect(ray);
  
-  WhittedIlluminator illuminator(&_stracer, _scene);
+  ShadedWhittedIlluminator illuminator(&_stracer, _scene);
   if (intersection != nullptr) {
     RTShape *shape = intersection->getShape();
 

@@ -13,17 +13,22 @@
 
 
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
-  setShape(intersection.getShape());
-  setMaterial(shape->getMaterial(0));
-  setPoint(intersection.getPoint());
-  setRayDirection(intersection.getRay().getDirection());
-  setRayOrigin(intersection.getRay().getOrigin());
+  setLocalVariables(intersection);
+
   //DPRINTF("\n");
   return ambient() + 
     direct() + 
     reflection() + 
     refraction() +
     0;
+}
+
+void WhittedIlluminator::setLocalVariables(Intersection intersection) {
+  setShape(intersection.getShape());
+  setMaterial(shape->getMaterial(0));
+  setPoint(intersection.getPoint());
+  setRayDirection(intersection.getRay().getDirection());
+  setRayOrigin(intersection.getRay().getOrigin());
 }
 
 WhittedIlluminator* WhittedIlluminator::newIlluminator(

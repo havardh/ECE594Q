@@ -13,6 +13,7 @@
 #include "RayFrameBuffer.h"
 #include "ShadowTracer.h"
 #include "WhittedIlluminator.h"
+#include "ShadedWhittedIlluminator.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
