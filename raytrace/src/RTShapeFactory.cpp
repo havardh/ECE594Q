@@ -16,14 +16,12 @@ RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon, bool hasNormals, b
   );
   triangle.setParent(parent);
 
-
   if (hasNormals) {
     triangle.setHasNormals(true);
     triangle.setN0(polygon->vert[0].norm);
     triangle.setN1(polygon->vert[1].norm);
     triangle.setN2(polygon->vert[2].norm);
   }
-
 
   if (hasMaterials) {
     triangle.setHasMaterial(true);

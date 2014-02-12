@@ -1,5 +1,6 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "ShapeTestHelper.h"
+#include "ColorTestHelper.h"
 #include "RTTriangle.h"
 #include "RTShapeFactory.h"
 #include "ColorShaderMock.h"
@@ -94,30 +95,6 @@ TEST(RTTriangle, shouldIntersectTriangle) {
   
 }
 
-
-
-
-/* This bug has found a hole to creep into
-   TEST(RTTriangle, shouldBeAddableToPolySet) {
-
-   RTPolySet *set = new RTPolySet();
-   VertexIO vertexIO[] = {
-   {{ 0,-5, 10}, {0,0,0}, 0, 0, 0},
-   {{ 2, 0, 10}, {0,0,0}, 0, 0, 0},
-   {{ 0, 2, 10}, {0,0,0}, 0, 0, 0}
-   };
-
-   PolygonIO polygonIO = {
-   3, vertexIO
-   };
-
-   RTTriangle triangle = RTShapeFactory::createTriangle(&polygonIO);
-   triangle.setParent(set);
-   set->addTriangle(triangle);
-
-   delete set;
-   }
-*/
 #define CHECK_UV_TRIANGLE(t, point, u,v, isUpper)                       \
   NiceMock<ColorShaderMock> shader;                                     \
   ON_CALL(shader, shade(_,_, _)).WillByDefault(Return(RTMaterial()));   \
@@ -143,4 +120,48 @@ TEST(RTTriangle, shouldInterpolateAtCenter) {
 
   RTTriangle t(Matrix(0,0,0), Matrix(1,0,0), Matrix(0,1,0));
   CHECK_UV_TRIANGLE(t, Matrix(0.5,0.5,0), 0.5,0.5, false);
+}
+
+TEST(RTTriangle, shouldInterpolateMaterial) {
+
+  RTTriangle t(Matrix(0,0,0), Matrix(1,0,0), Matrix(0,1,0));
+  t.setHasMaterial(true);
+  RTMaterial m0; m0.setKTransparency(0.1);
+  RTMaterial m1; m1.setKTransparency(0.3);
+  RTMaterial m2; m2.setKTransparency(0.2);
+  t.setM0(&m0);
+  t.setM1(&m1);
+  t.setM2(&m2);
+ 
+  RTMaterial m = t.interpolateMaterial(Matrix(0,0,0));
+
+  DOUBLES_EQUAL( 0.1, m.getKTransparency(), 0.000001 );
+
+}
+
+
+TEST(RTTriangle, shouldInterpolateMaterialCorrectly) {
+
+  RTTriangle t(
+    Matrix(0.11763100, -3.31603003, 1.86602998), 
+    Matrix(0.11763100, -2.81603003, 2.00000000), 
+    Matrix(-0.64773601, -2.81602001, 1.84775996)
+  );
+  t.setHasMaterial(true);
+  RTMaterial m0; m0.setDiffColor(RTColor(0.721809, 0.670898, 0.670898));
+  RTMaterial m1; m1.setDiffColor(RTColor(0.371834, 0.220930, 0.220930));
+  RTMaterial m2; m2.setDiffColor(RTColor(0.721010, 0.669870, 0.669870));
+  t.setM0(&m0);
+  t.setM1(&m1);
+  t.setM2(&m2);
+ 
+  RTMaterial m = t.interpolateMaterial(
+    Matrix(0.09652395, -3.29542994, 1.86735082)
+  );
+
+  
+
+  COLOR_EQUAL( 182, 169, 169, m.getDiffColor() );
+  
+
 }

@@ -36,6 +36,7 @@ public:
   bool operator==(const RTColor &) const;
   bool operator!=(const RTColor &) const;
   const RTColor operator*(float) const;
+  const RTColor operator*=(float);
   const RTColor operator*(const RTColor &) const;
   const RTColor operator+(const RTColor &) const;
   const RTColor operator+(float) const;

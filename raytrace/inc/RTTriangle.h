@@ -24,6 +24,7 @@ class RTTriangle : public RTShape {
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
+  const RTMaterial interpolateMaterial(const Matrix&);
 
   virtual RTMaterial shadePoint(const Matrix&);
 

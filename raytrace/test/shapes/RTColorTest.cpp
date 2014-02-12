@@ -27,6 +27,17 @@ TEST(RTColor, shouldSupportMultiplicationOperator) {
 
 }
 
+TEST(RTColor, shouldSupportMultiplicationAssignmentOperator) {
+
+  RTColor c1(0.2f, 0.2f, 0.2f);
+
+  c1 *= 1.2;
+
+  RTColor expected(0.24f, 0.24f, 0.24f);
+  COLOR_EQUALS( expected, c1 );
+
+}
+
 TEST(RTColor, shouldSupportAddOperator) {
   
 	RTColor c1(0.2f, 0.3f, 0.7f);

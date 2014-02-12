@@ -1,4 +1,5 @@
 #include "WhittedIlluminator.h"
+#include <assert.h>
 
 // Constants used for computing light falloff
 #define C1 0.25f
@@ -13,6 +14,7 @@
 
 
 RTColor WhittedIlluminator::illuminate(Intersection intersection) {
+  assert(this);
   setLocalVariables(intersection);
 
   //DPRINTF("\n");
@@ -33,7 +35,7 @@ void WhittedIlluminator::setLocalVariables(Intersection intersection) {
 
 WhittedIlluminator* WhittedIlluminator::newIlluminator(
   ShadowTracer *shadowTracer, Scene *scene) {
-  return 0;
+  return new WhittedIlluminator(shadowTracer, scene);;
 }
 
 RTColor WhittedIlluminator::ambient() {
@@ -126,6 +128,7 @@ RTColor WhittedIlluminator::reflection() {
 
     if (intersection != nullptr) {
       WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+      assert(illuminator);
       RTColor color = illuminator->illuminate(*intersection) * ks;
       delete illuminator;
       return color;
@@ -171,6 +174,7 @@ RTColor WhittedIlluminator::refraction() {
   
   if (intersection != nullptr) {
     WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+    assert(illuminator);
     RTColor color = illuminator->illuminate(*intersection) * kt;
     delete illuminator;
     return color;

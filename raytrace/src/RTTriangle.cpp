@@ -1,5 +1,6 @@
 #include "RTTriangle.h"
 #include "Dbg.h"
+#include <stdlib.h>
 
 #define EPSILON 0.00001
 
@@ -186,11 +187,30 @@ void RTTriangle::interpolateUV(const Matrix &point, float &u, float &v) {
   v += v2 * (A2/A);
 }
 
+const RTMaterial RTTriangle::interpolateMaterial(const Matrix &point) {
+
+  if (_hasMaterial) {
+    float A = area(_p0, _p1, _p2);
+    float A0 = area(point, _p1, _p2);
+    float A1 = area(point, _p0, _p2);
+    float A2 = area(point, _p0, _p1);
+
+    RTMaterial material;
+    material += (*_m0) * (A0 / A); 
+    material += (*_m1) * (A1 / A);
+    material += (*_m2) * (A2 / A);
+
+    return material;
+  }
+  return getMaterial(0);
+}
+
 RTMaterial RTTriangle::shadePoint(const Matrix &point) {
   (void) point;
   
   float u, v;
   interpolateUV(point, u, v);
+  RTMaterial material = interpolateMaterial(point);
   
-  return _shader->shade(u,v,getMaterial(0));
+  return _shader->shade(u,v,material);
 }

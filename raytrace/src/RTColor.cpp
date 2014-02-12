@@ -26,7 +26,15 @@ bool RTColor::operator!=(const RTColor &rhs) const {
 }
 
 const RTColor RTColor::operator*(float factor) const {
-  return RTColor(_red*factor, _green*factor, _blue*factor);
+  return RTColor(*this) *= factor;
+}
+
+const RTColor RTColor::operator*=(float factor) {
+  _red *= factor;
+  _green *= factor;
+  _blue *= factor;
+
+  return *this;
 }
 
 const RTColor RTColor::operator*(const RTColor & rhs) const {
@@ -34,17 +42,22 @@ const RTColor RTColor::operator*(const RTColor & rhs) const {
 }
 
 const RTColor& RTColor::operator+=(const RTColor &rhs) {
+
+  //printf("before: "); this->print();
+  //printf("beforer: "); rhs.print();
+
   setColor(
     this->_red + rhs._red,
     this->_green + rhs._green,
     this->_blue + rhs._blue
   );
+
+  //printf("after: "); this->print();
   return *this;
 }
 
 const RTColor RTColor::operator+(const RTColor & rhs) const {
-  RTColor c(*this);
-  return c += rhs;
+  return RTColor(*this) += rhs;
 }
 
 const RTColor RTColor::operator+(float rhs) const {

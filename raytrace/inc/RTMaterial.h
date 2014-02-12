@@ -28,6 +28,10 @@ public:
 
   bool operator==(const RTMaterial &);
   bool operator!=(const RTMaterial &);
+  const RTMaterial& operator+=(const RTMaterial&);
+  const RTMaterial operator+(const RTMaterial&) const;
+  const RTMaterial& operator*=(float);
+  const RTMaterial operator*(float) const;
 
 private:
   float ktran;

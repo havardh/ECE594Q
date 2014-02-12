@@ -299,10 +299,14 @@ HW=hw2
 WH=200:200
 
 gen: all
+	echo "set args ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png" | cat >.gdbinit
 	./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
 
 open: gen
 	open output/$(HW)/$(SCENE).png
+
+gdb: all
+	sudo gdb raytracer --args ./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
 
 outputrays: all
 	./raytracer ./Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out

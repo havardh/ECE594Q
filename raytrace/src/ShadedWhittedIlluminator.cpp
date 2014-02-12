@@ -1,8 +1,11 @@
 #include "ShadedWhittedIlluminator.h"
+#include <assert.h>
 
 WhittedIlluminator* newIlluminator(ShadowTracer *stracer, Scene *scene) {
-
-  return new ShadedWhittedIlluminator(stracer, scene);
+  ShadedWhittedIlluminator* illuminator = new ShadedWhittedIlluminator(stracer, scene);
+  assert(illuminator);
+ 
+  return illuminator;
   
 }
 
