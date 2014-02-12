@@ -18,6 +18,8 @@ public:
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
 
+  virtual RTMaterial shadePoint(const Matrix&);
+
   const Matrix getP0() const { return _p0; }
   const Matrix getP1() const { return _p1; }
   const Matrix getP2() const { return _p2; }

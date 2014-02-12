@@ -1,6 +1,8 @@
 #ifndef _COLORSHADER_H_
 #define _COLORSHADER_H_
 
+#include "RTMaterial.h"
+
 class ColorShader {
 
 public:

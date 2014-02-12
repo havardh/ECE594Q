@@ -26,12 +26,14 @@ public:
   RTColor illuminate(Intersection);
 
   /* Local helper function for illuminate */
-  RTColor ambient();
-  RTColor direct();
-  RTColor diffuse(const Light *light);
-  RTColor specular(const Light *light);
-  RTColor reflection();
-  RTColor refraction();
+  virtual RTColor ambient();
+  virtual RTColor direct();
+  virtual RTColor diffuse(const Light *light);
+  virtual RTColor specular(const Light *light);
+  virtual RTColor reflection();
+  virtual RTColor refraction();
+
+  void setScene(Scene *s) { _scene = s; }
 
   void setPoint(Matrix m) { point = m; }
   void setShape(RTShape *s) { shape = s; }
@@ -39,18 +41,22 @@ public:
   void setRayOrigin(Matrix m) { rayOrigin = m; }
   void setRayDirection(Matrix m) { rayDirection = m; }
 
-private:
-  ShadowTracer *_stracer;
-  int _reflectionsComputed;
-  int _refractionCount;
-  Scene *_scene;
+  // Used to create new illuminator for reflection and refraction
+  WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
 
+protected:
   /* Local shared members for helpers */
   Matrix point;
   RTShape *shape;
   RTMaterial material;
   Matrix rayOrigin;
   Matrix rayDirection;
+
+private:
+  ShadowTracer *_stracer;
+  int _reflectionsComputed;
+  int _refractionCount;
+  Scene *_scene;
 
   bool isGoingIntoObject();
   float computeFattj(const Light *light);

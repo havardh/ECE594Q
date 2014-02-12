@@ -5,6 +5,7 @@
 #include "RTMaterial.h"
 #include "Matrix.h"
 #include "Intersection.h"
+#include "ColorShader.h"
 #include <vector>
 
 class RTShape {
@@ -14,15 +15,22 @@ public:
   virtual IntersectionPtr intersect(const Ray ) = 0;
   virtual MatrixPtr normal(const Matrix &, const Matrix &) = 0;
 
+  // Materials
   void addMaterial(RTMaterial);
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
+
+  // Shaders
+  void setColorShader(ColorShader *shader);
+  virtual RTMaterial shadePoint(const Matrix&) = 0;
 
   virtual void print() const {};
 
 private:
   std::vector<RTMaterial> materials;
-  
+
+protected:
+  ColorShader *_shader = 0;
 
 };
 

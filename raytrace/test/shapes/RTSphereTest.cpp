@@ -1,8 +1,10 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "MatrixTestHelper.h"
 #include "ShapeTestHelper.h"
+#include "ColorShaderMock.h"
 #include "RTSphere.h"
 
+using testing::_;
 
 TEST_GROUP(RTSphere) {
 	void setup() {}
@@ -92,4 +94,56 @@ IGNORE_TEST(RTSphere, normalShouldHandlePointInsideSphere) {
   RTSphere s(Matrix(0,0,10), 1);
   CHECK_NORMAL_AT(s, Matrix(2,0,10), Matrix(0,0,10), -1,0,0);
   
+}
+
+
+
+#define TEST_UV_SHADER(point, u, v)                                     \
+  NiceMock<ColorShaderMock> shader;                                     \
+  ON_CALL(shader, shade(_,_, _)).WillByDefault(Return(RTMaterial()));   \
+  RTSphere s(Matrix(0,0,10), 1);                                        \
+  s.setColorShader(&shader);                                            \
+  EXPECT_CALL(shader, shade(u,v, _)).WillRepeatedly(Return(RTMaterial())); \
+  s.shadePoint(point);
+
+
+TEST(RTSphere, shouldCallShaderWithMaterial) {
+
+  
+
+}
+
+TEST(RTSphere, shouldCallShaderWithBottomPoint) {
+
+  TEST_UV_SHADER(Matrix(0,-1,10), 0.25, testing::FloatNear(0, 0.00001));
+  
+}
+
+TEST(RTSphere, shouldCallShaderWithTopPoint) {
+
+
+  TEST_UV_SHADER(Matrix(0,1,10), 0.25, 1);
+  
+}
+
+
+TEST(RTSphere, shouldCallShaderWithLeft) {
+
+  TEST_UV_SHADER(Matrix(-1,0,10), 0.5, 0.5);
+}
+
+
+TEST(RTSphere, shouldCallShaderWithMidFront) {
+  TEST_UV_SHADER(Matrix(0, 0, 9), 0.25, 0.5);
+}
+
+
+IGNORE_TEST(RTSphere, shouldCallShaderWithMidBack) {
+  NiceMock<ColorShaderMock> shader;
+  ON_CALL(shader, shade(_,_, _)).WillByDefault(Return(RTMaterial()));
+  RTSphere s(Matrix(0,0,10), 1);
+  s.setColorShader(&shader);
+
+  EXPECT_CALL(shader, shade(0.75, 0.5, _)).WillOnce(Return(RTMaterial()));
+  s.shadePoint(Matrix(0, 0, 11));
 }

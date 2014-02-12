@@ -295,14 +295,14 @@ show:
 ### My tagets
 
 SCENE = mytest
-HW=2
+HW=hw2
 WH=200:200
 
 gen: all
-	./raytracer ./Scenes/hw$(HW)/$(SCENE).ascii $(WH) output/hw$(HW)/$(SCENE).png
+	./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
 
 open: gen
-	open output/hw$(hw)/$(SCENE).png
+	open output/$(HW)/$(SCENE).png
 
 outputrays: all
 	./raytracer ./Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out

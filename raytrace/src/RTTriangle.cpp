@@ -90,3 +90,9 @@ int RTTriangle::getMaterialCount() const {
     return 0;
   }
 }
+
+RTMaterial RTTriangle::shadePoint(const Matrix &point) {
+ (void) point;
+
+  return RTMaterial();
+}

@@ -21,6 +21,8 @@ public:
   void calculateMidpoint();
   const Matrix getMidpoint() const { return midpoint; }
 
+  virtual RTMaterial shadePoint(const Matrix&);
+
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
 private:

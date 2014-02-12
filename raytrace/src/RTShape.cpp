@@ -16,3 +16,7 @@ const RTMaterial RTShape::getMaterial(int i) const {
     return RTMaterial();
   }
 }
+
+void RTShape::setColorShader(ColorShader *shader) {
+  this->_shader = shader;
+}

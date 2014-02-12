@@ -17,6 +17,7 @@ INCLUDE_DIRS +=\
 	../reyes/inc \
   ../matrix/test/helpers \
   ../raytrace/test/helpers \
+  ../raytrace/test/mocks \
 	../matrix/inc \
 	../util/inc \
 	../raytrace/inc 

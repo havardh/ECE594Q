@@ -26,6 +26,11 @@ RTColor WhittedIlluminator::illuminate(Intersection intersection) {
     0;
 }
 
+WhittedIlluminator* WhittedIlluminator::newIlluminator(
+  ShadowTracer *shadowTracer, Scene *scene) {
+  return 0;
+}
+
 RTColor WhittedIlluminator::ambient() {
   return material.getDiffColor() * 0.2f;
 }
@@ -115,8 +120,9 @@ RTColor WhittedIlluminator::reflection() {
     IntersectionPtr intersection = _scene->intersect(ray);
 
     if (intersection != nullptr) {
-      WhittedIlluminator illuminator(_stracer, _scene);
-      RTColor color = ks * illuminator.illuminate(*intersection);
+      WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+      RTColor color = illuminator->illuminate(*intersection) * ks;
+      delete illuminator;
       return color;
     }
     
@@ -130,6 +136,7 @@ bool WhittedIlluminator::isGoingIntoObject() {
 }
 
 RTColor WhittedIlluminator::refraction() {
+
 
   float kt = material.getKTransparency();
 
@@ -150,16 +157,18 @@ RTColor WhittedIlluminator::refraction() {
   
   Matrix I = rayOrigin - point;
 
-  Matrix direction = Snell::direction(n1, n2, N, I);
-  direction.normalize();
+  //Matrix direction = Snell::direction(n1, n2, N, I);
+  //direction.normalize();
 
-  Ray inObject(point + N*0.000001, direction);
+  Ray inObject(point + N*0.000001, rayDirection);
 
   IntersectionPtr intersection = _scene->intersect(inObject);
   
   if (intersection != nullptr) {
-    WhittedIlluminator illuminator(_stracer, _scene);
-    return illuminator.illuminate(*intersection) * kt;
+    WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+    RTColor color = illuminator->illuminate(*intersection) * kt;
+    delete illuminator;
+    return color;
   }
   
   return RTColor::BLACK;

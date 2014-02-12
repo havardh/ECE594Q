@@ -60,11 +60,35 @@ MatrixPtr RTSphere::normal(const Matrix &point, const Matrix &from) {
   (void) from;
 
   Matrix direction = point - _origin;
-  /*if ((from - _origin).length() > _radius) {
-    direction = (point - _origin);
-  } else {
-    direction = (_origin - point);
-    }*/
   return MatrixPtr(new Matrix(direction.normalize()));
 
+}
+
+RTMaterial RTSphere::shadePoint(const Matrix &point) {
+  (void) point;
+
+  Matrix R = point - _origin;
+  
+  float x = R.get(0);
+  float y = R.get(1);
+  float z = R.get(2);
+  float r = _radius;
+
+  float phi = asin(y/r);
+  float theta = acos(x / (r*cos(phi)));
+  float theta2 = asin(z / (r*cos(phi)));
+
+  printf("%f\n", theta);
+  printf("%f\n", theta2);
+  
+
+  float u = theta / (2*M_PI);
+  float v = (phi / M_PI) + 0.5;
+  
+  if (_shader) {
+    _shader->shade(u, v, RTMaterial());
+  }
+
+
+  return RTMaterial();
 }

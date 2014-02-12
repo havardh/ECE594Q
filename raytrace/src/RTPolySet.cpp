@@ -49,3 +49,10 @@ MatrixPtr RTPolySet::normal(const Matrix &point, const Matrix &from) {
   (void) point; (void) from;
   return MatrixPtr(NULL);
 }
+
+
+RTMaterial RTPolySet::shadePoint(const Matrix &point) {
+ (void) point;
+
+  return RTMaterial();
+}

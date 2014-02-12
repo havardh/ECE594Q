@@ -2,23 +2,13 @@
 #include "CppUTestExt/GMock.h"
 #include "WhittedIlluminator.h"
 #include "ColorTestHelper.h"
+#include "RTShapeMock.h"
 #include <vector>
 
 using testing::_;
 
 // Mock classes
-class ShadowTracerMock : public ShadowTracer {
-
-};
-
-class RTShapeMock : public RTShape {
-public:
-  MOCK_CONST_METHOD0(getMaterialCount, int());
-  MOCK_CONST_METHOD1(getMaterial, const RTMaterial(int));
-  MOCK_METHOD1(intersect, IntersectionPtr(const Ray));
-  MOCK_METHOD2(normal, MatrixPtr(const Matrix&, const Matrix&));
-  MOCK_METHOD0(print, void());
-};
+class ShadowTracerMock : public ShadowTracer {};
 
 // Test Figures
 static RTMaterial material; 
@@ -38,7 +28,6 @@ TEST_GROUP(WhittedIlluminator) {
 
     shadowTracerMock = new NiceMock<ShadowTracerMock>;
     shapeMock = new NiceMock<RTShapeMock>;
-
 
     scene = new Scene();
     scene->add(l1);
@@ -155,3 +144,4 @@ TEST(WhittedIlluminator, specularShouldBeZeroWhenOrthogonal) {
   COLOR_EQUAL( 0,0,0, color);
 
 }
+

@@ -17,6 +17,8 @@ class RTSphere : public RTShape {
   float getRadius() const { return _radius; }
   virtual void print() const { DPRINTF("RTSphere\n"); }
 
+  virtual RTMaterial shadePoint(const Matrix&);
+
  private:
   Matrix _origin;
   float _radius;
