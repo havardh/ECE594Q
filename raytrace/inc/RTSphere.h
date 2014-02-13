@@ -18,12 +18,14 @@ class RTSphere : public RTShape {
   virtual void print() const { DPRINTF("RTSphere\n"); }
 
   virtual RTMaterial shadePoint(const Matrix&);
+  virtual bool shadeIntersection(const Intersection&);
 
  private:
   Matrix _origin;
   float _radius;
 
   IntersectionPtr getIntersection(const Ray &);
+  void interpolateUV(float &, float &, const Matrix &);
 
 };
 #endif /* _RTSPHERE_H_ */

@@ -53,6 +53,10 @@ MatrixPtr RTPolySet::normal(const Matrix &point) {
 
 RTMaterial RTPolySet::shadePoint(const Matrix &point) {
  (void) point;
-
   return RTMaterial();
+}
+
+bool RTPolySet::shadeIntersection(const Intersection &intersection) {
+  (void) intersection;
+  return true;
 }

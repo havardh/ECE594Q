@@ -27,6 +27,7 @@ class RTTriangle : public RTShape {
   const RTMaterial interpolateMaterial(const Matrix&);
 
   virtual RTMaterial shadePoint(const Matrix&);
+  virtual bool shadeIntersection(const Intersection&);
 
   void setP0(Matrix m) { _p0 = m; }
   const Matrix getP0() const { return _p0; }

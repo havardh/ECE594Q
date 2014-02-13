@@ -212,5 +212,10 @@ RTMaterial RTTriangle::shadePoint(const Matrix &point) {
   interpolateUV(point, u, v);
   RTMaterial material = interpolateMaterial(point);
   
-  return _shader->shade(u,v,material);
+  return getColorShader()->shade(u,v,material);
+}
+
+bool RTTriangle::shadeIntersection(const Intersection &intersection) {
+  (void) intersection;
+  return true;
 }

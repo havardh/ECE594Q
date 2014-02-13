@@ -3,10 +3,11 @@
 
 #include "IntersectionShader.h"
 
-class IntersectionShaderVisible {
+class IntersectionShaderVisible : public IntersectionShader {
 
 public:
-  virtual bool shade(float u, float v) {
+  virtual bool shade(float u, float v, RTMaterial m) {
+    (void) m;
     if ( u >= 0 && v >= 0 && u <= 1.0 && v <= 1.0) {
       return 1;
     }

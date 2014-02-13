@@ -3,9 +3,12 @@
 
 static ColorShaderRandom rShader;
 static ColorShaderGradient gShader;
-static ColorShaderCheckerboard cShader(10,10);
-static ColorShaderTexture tShader("earth.jpg");
+static ColorShaderCheckerboard cShader(40,40);
+static ColorShaderTexture tShader("earth.bmp");
 static ColorShaderIdentity iShader;
+
+static IntersectionShaderCheckerboard intersectionShaderCheckerboard(10, 10);
+static IntersectionShaderColor intersectionShaderColor;
 
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon, bool hasNormals, bool hasMaterials, RTPolySet *parent) {
 
@@ -44,7 +47,11 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
     SphereIO *io = (SphereIO*)obj->data;
     shape = new RTSphere(io->origin, io->radius);
     addMaterials(shape, obj);
-    shape->setColorShader(&iShader);
+    
+    //ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
+
+    //shape->setColorShader(shader);
+    //shape->setIntersectionShader(&intersectionShaderColor);
 
   } else if (obj->type == POLYSET_OBJ) {
 
@@ -60,7 +67,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
         io->materialBinding == PER_VERTEX_MATERIAL,
         set
       );
-      t.setColorShader(&iShader);
+      t.setColorShader(&tShader);
       t.setIsUpper(j++ % 2 == 0);
       set->addTriangle(t);
     }

@@ -9,15 +9,16 @@ TEST_GROUP(IntersectionShaderVisible) {
 TEST(IntersectionShaderVisible, shouldReturnFalseForAllPoints) {
  
   IntersectionShaderVisible s;
+  RTMaterial m;
 
-  CHECK( s.shade(0,0) );
-  CHECK( s.shade(1,1) );
-  CHECK( s.shade(1,0) );
-  CHECK( s.shade(0,1) );
+  CHECK( s.shade(0,0, m ));
+  CHECK( s.shade(1,1, m ));
+  CHECK( s.shade(1,0, m ));
+  CHECK( s.shade(0,1, m ));
 
-  CHECK(! s.shade(-1,0) );
-  CHECK(! s.shade(0,-1) );
-  CHECK(! s.shade(1.1,0) );
-  CHECK(! s.shade(0,1.1) );
+  CHECK(! s.shade(-1,0, m ));
+  CHECK(! s.shade(0,-1, m ));
+  CHECK(! s.shade(1.1,0, m ));
+  CHECK(! s.shade(0,1.1, m ));
  
 }

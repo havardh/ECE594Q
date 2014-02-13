@@ -92,7 +92,10 @@ std::vector<IntersectionPtr> Scene::intersections(const Ray ray) {
     IntersectionPtr intersection = (*it)->intersect(ray);
      
     if (intersection != nullptr) {
-      intersections.push_back(intersection);
+
+      if (intersection->getShape()->shadeIntersection(*intersection)) {
+        intersections.push_back(intersection);
+      }
     }
   }
 

@@ -1,0 +1,214 @@
+Composer format 2.1 ascii
+camera {
+  position -10 15 -5
+  viewDirection 0.9 -0.4 0
+  focalDistance 6.37114
+  orthoUp 0.9 0.4 0
+  verticalFOV 0.785398
+}
+point_light {
+  position 5 0 10
+  color 1 1 1
+}
+sphere {
+  name "texture/sun.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 0 0 0
+  radius 3
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/mercury.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 10 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/venus.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 20 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/earth.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 30 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/earth.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 40 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+
+sphere {
+  name "texture/jupiter.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 50 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+
+sphere {
+  name "texture/saturn.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 60 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/uranus.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 70 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/neptune.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 80 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}
+sphere {
+  name "texture/pluto.jpg"
+  numMaterials 1
+  material {
+    diffColor 0.56 0.35 0.14
+    ambColor 0.2 0.2 0.2
+    specColor 0 0 0
+    emisColor 0 0 0
+    shininess 0.2
+    ktran 0
+  }
+  origin 90 0 0
+  radius 2
+  xaxis 1 0 0
+  xlength 1.33453
+  yaxis 0 1 0
+  ylength 1.33453
+  zaxis 0 0 1
+  zlength 1.33453
+}

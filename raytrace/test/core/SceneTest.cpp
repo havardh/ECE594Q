@@ -1,6 +1,9 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "MatrixTestHelper.h"
+#include "IntersectionShaderMock.h"
 #include "Scene.h"
+
+using testing::_;
 
 TEST_GROUP(Scene) {
 	void setup() {}
@@ -94,4 +97,56 @@ TEST(Scene, shouldReturnAllIntersections) {
   std::vector<IntersectionPtr> intersections = scene.intersections(ray);
   CHECK(intersections.size() == 3);
 
+}
+
+static Ray ray(Matrix(0,0,0), Matrix(0,0,1));
+TEST_GROUP(SceneIntersectionShader) {
+  void setup() {
+  }
+};
+
+TEST(SceneIntersectionShader, everythingIsVisibleWhenNotShader) {
+  RTSphere s(Matrix(0,0,10), 1);
+  Scene scene;
+  scene.add(&s);
+
+  CHECK( scene.intersections(ray).size() == 1 );
+}
+
+TEST(SceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
+  RTSphere s(Matrix(0,0,10), 1);
+  Scene scene;
+  scene.add(&s);
+  NiceMock<IntersectionShaderMock> shaderMock;
+  s.setIntersectionShader(&shaderMock);
+
+  ON_CALL(shaderMock, shade(_,_,_)).WillByDefault(Return(false));
+
+  CHECK( scene.intersections(ray).size() == 0 );
+  
+}
+
+TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
+
+  RTSphere s(Matrix(0,0,10), 1);
+  Scene scene;
+  scene.add(&s);
+  NiceMock<IntersectionShaderMock> shaderMock;
+  s.setIntersectionShader(&shaderMock);
+
+  ON_CALL(shaderMock, shade(_,_,_)).WillByDefault(Return(true));
+  CHECK( scene.intersections(ray).size() == 1 );
+  
+}
+
+TEST(SceneIntersectionShader, shouldPassUVToShader) {
+
+  RTSphere s(Matrix(0,0,10), 1);
+  Scene scene;
+  scene.add(&s);
+  NiceMock<IntersectionShaderMock> shaderMock;
+  s.setIntersectionShader(&shaderMock);
+
+  EXPECT_CALL(shaderMock, shade(0.25, 0.5, _));
+  scene.intersections(ray);
 }

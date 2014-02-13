@@ -10,6 +10,8 @@
 #include "ColorShaderCheckerboard.h"
 #include "ColorShaderGradient.h"
 #include "ColorShaderTexture.h"
+#include "IntersectionShaderCheckerboard.h"
+#include "IntersectionShaderColor.h"
 #include "scene_io.h"
 
 class RTShapeFactory {

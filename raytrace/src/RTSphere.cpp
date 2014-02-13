@@ -64,26 +64,48 @@ MatrixPtr RTSphere::normal(const Matrix &point) {
 
 }
 
+
+
 RTMaterial RTSphere::shadePoint(const Matrix &point) {
 
-  if (_shader) {
+  if (getColorShader()) {
 
-    Matrix R = point - _origin;
-  
-    float x = R.get(0);
-    float y = R.get(1);
-    float z = R.get(2);
-    float r = _radius;
-
-    float phi = asin(y/r);
-    float theta = acos(x / (r*cos(phi)));
-    float theta2 = asin(z / (r*cos(phi)));
-
-    float u = theta / (2*M_PI);
-    float v = 1 - ((phi / M_PI) + 0.5);
+    float u,v;
+    interpolateUV(u, v, point);
     
-    return _shader->shade(u, v, getMaterial(0));
+    return getColorShader()->shade(u, v, getMaterial(0));
   }
 
   return getMaterial(0);
+}
+
+bool RTSphere::shadeIntersection(const Intersection &intersection) {
+
+  if (getIntersectionShader()) {
+    
+    float u,v;
+    interpolateUV(u,v, intersection.getPoint());
+
+    return getIntersectionShader()->shade(u,v, getMaterial(0));
+
+  }
+  return true;
+}
+
+void RTSphere::interpolateUV(float &u, float &v, const Matrix &point) {
+
+  Matrix R = point - _origin;
+  
+  float x = R.get(0);
+  float y = R.get(1);
+  float z = R.get(2);
+  float r = _radius;
+
+  float phi = asin(y/r);
+  float theta = acos(x / (r*cos(phi)));
+  float theta2 = asin(z / (r*cos(phi)));
+
+  u = theta / (2*M_PI);
+  v = 1 - ((phi / M_PI) + 0.5);
+  
 }

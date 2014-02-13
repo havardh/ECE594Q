@@ -26,5 +26,10 @@ const RTMaterial RTShape::getMaterial(int i) const {
 }
 
 void RTShape::setColorShader(ColorShader *shader) {
-  this->_shader = shader;
+  this->_colorShader = shader;
+}
+
+
+void RTShape::setIntersectionShader(IntersectionShader *shader) {
+  this->_intersectionShader = shader;
 }
