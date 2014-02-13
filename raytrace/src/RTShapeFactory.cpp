@@ -52,7 +52,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
     addMaterials(set, obj);
     set->setColorShader(&iShader);
     PolySetIO *io = (PolySetIO*)obj->data;
-    bool i = 0; // setting the is upper property for triangles
+    int j = 0; // setting the is upper property for triangles
     for (int i=0; i<io->numPolys; i++) {
       RTTriangle t = RTShapeFactory::createTriangle(
         &io->poly[i],
@@ -61,7 +61,7 @@ RTShape* RTShapeFactory::createShape(ObjIO *obj) {
         set
       );
       t.setColorShader(&iShader);
-      t.setIsUpper(i++ % 2 == 0);
+      t.setIsUpper(j++ % 2 == 0);
       set->addTriangle(t);
     }
     set->calculateMidpoint();
