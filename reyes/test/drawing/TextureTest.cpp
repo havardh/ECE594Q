@@ -11,11 +11,11 @@ TEST(Texture, shouldLoadATextureFromFile) {
 	Texture texture("data/10x10.png");
   
 }
-
-TEST(Texture, shouldGetAPixel) {
+/*
+IGNORE_TEST(Texture, shouldGetAPixel) {
   
 	Texture texture("data/10x10.png");
-  Color c = texture.get(0,0);
+  RTColor c = texture.get(0,0);
   
   CHECK_EQUAL(0, c.red);
   CHECK_EQUAL(0, c.green);
@@ -33,6 +33,6 @@ TEST(Texture, shouldGetAPixel) {
   CHECK_EQUAL(100, c.blue);
   
 }
-
+*/
 
 // Should get pixel at (float,float)

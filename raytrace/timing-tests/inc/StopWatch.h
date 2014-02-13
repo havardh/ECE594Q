@@ -10,7 +10,6 @@ using std::vector;
 class StopWatch {
 
 public:
-  virtual void run() = 0;
 
   void setTimer(Timer *);
 
@@ -19,12 +18,13 @@ public:
   void stop();
 
   ull_t getStart();
-  ull_t getLap(int); 
+  ull_t getLap(int);
   ull_t getStop(); 
 
   int numLaps();
   ull_t totalDuration();
   ull_t lapTime(int);
+  const char* lapName(int);
 
   void print();
 
@@ -32,6 +32,7 @@ private:
   Timer *_timer;
 
   vector<ull_t> times;
+  vector<const char*> lapNames;
 
 };
 

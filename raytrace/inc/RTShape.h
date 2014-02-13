@@ -29,8 +29,8 @@ public:
   ColorShader* getColorShader() { return _colorShader; }
   IntersectionShader* getIntersectionShader() { return _intersectionShader; }
   
-  virtual RTMaterial shadePoint(const Matrix&);
-  virtual bool shadeIntersection(const Intersection&);
+  RTMaterial shadePoint(const Matrix&);
+  bool shadeIntersection(const Intersection&);
 
   virtual void print() const {};
 

@@ -196,14 +196,14 @@ TEST(StopWatch, shouldReportLapTime) {
   EXPECT_CALL(timerMock, time()).WillOnce(Return(5));
   benchmark.lap("");
   
-  EXPECT_CALL(timerMock, time()).WillOnce(Return(5));
+  EXPECT_CALL(timerMock, time()).WillOnce(Return(7));
   benchmark.lap("");
 
   EXPECT_CALL(timerMock, time()).WillOnce(Return(10));
   benchmark.stop();
 
   CHECK_EQUAL( 3, (int)benchmark.lapTime(0) );
-  CHECK_EQUAL( 0, (int)benchmark.lapTime(1) );
+  CHECK_EQUAL( 2, (int)benchmark.lapTime(1) );
   
 }
 

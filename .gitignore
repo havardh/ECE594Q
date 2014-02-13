@@ -21,3 +21,7 @@ raytrace/out.png
 .cask/*
 Cask
 data/*
+*.bmp
+*.png
+*.jpg
+*.dSYM*

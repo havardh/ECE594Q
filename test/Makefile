@@ -5,7 +5,9 @@ SRC_DIRS += \
   ../matrix/test/helpers \
 	../matrix/src\
 	../reyes/test/helpers \
-	../raytrace/src 
+	../raytrace/src \
+	../util/src \
+	../raytrace/timing-tests/src
 
 TEST_SRC_DIRS += \
 	../matrix/test/** \
@@ -20,6 +22,7 @@ INCLUDE_DIRS +=\
   ../raytrace/test/mocks \
 	../matrix/inc \
 	../util/inc \
-	../raytrace/inc 
+	../raytrace/inc \
+	../raytrace/timing-tests/inc 
 
 include $(BASE_TEST_DIR)/MakefileBase.mk

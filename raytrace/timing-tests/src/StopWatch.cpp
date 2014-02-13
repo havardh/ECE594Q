@@ -9,7 +9,8 @@ void StopWatch::start(const char*) {
   times.push_back(_timer->time());
 }
 
-void StopWatch::lap(const char*) {
+void StopWatch::lap(const char* name) {
+  lapNames.push_back(name);
   times.push_back(_timer->time());
 }
 
@@ -57,6 +58,10 @@ ull_t StopWatch::lapTime(int i) {
 
 }
 
+const char* StopWatch::lapName(int i) {
+  return lapNames[i];
+}
+
 void StopWatch::print() {
 
   printf("Running Benchmark: <name>\n");
@@ -66,7 +71,7 @@ void StopWatch::print() {
   printf("Laps recorded: %d\n", numLaps());
   printf("----------------------\n");
   for (int i=0; i<numLaps(); i++) {
-    printf("Lap: <lap name>\n");
+    printf("Lap: %s\n", lapName(i));
     printf("Duration %llu\n", lapTime(i));
   }
   printf("----------------------\n");
