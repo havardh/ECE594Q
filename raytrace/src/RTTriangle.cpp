@@ -160,7 +160,7 @@ int RTTriangle::getMaterialCount() const {
   }
 }
 
-void RTTriangle::interpolateUV(const Matrix &point, float &u, float &v) {
+void RTTriangle::interpolateUV(float &u, float &v, const Matrix &point) {
   float A = area(_p0, _p1, _p2);
   float A0 = area(point, _p1, _p2);
   float A1 = area(point, _p0, _p2);
@@ -203,19 +203,4 @@ const RTMaterial RTTriangle::interpolateMaterial(const Matrix &point) {
     return material;
   }
   return getMaterial(0);
-}
-
-RTMaterial RTTriangle::shadePoint(const Matrix &point) {
-  (void) point;
-  
-  float u, v;
-  interpolateUV(point, u, v);
-  RTMaterial material = interpolateMaterial(point);
-  
-  return getColorShader()->shade(u,v,material);
-}
-
-bool RTTriangle::shadeIntersection(const Intersection &intersection) {
-  (void) intersection;
-  return true;
 }

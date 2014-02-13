@@ -109,9 +109,34 @@ IGNORE_TEST(RTSphere, normalShouldHandlePointInsideSphere) {
 
 TEST(RTSphere, shouldCallShaderWithMaterial) {
 
+  RTMaterial m;
+  m.setDiffColor(RTColor(0.1,0.9,0.5));
   
+  NiceMock<ColorShaderMock> shader;
+  ON_CALL(shader, shade(_,_,_)).WillByDefault(Return(RTMaterial()));
+
+  RTSphere s(Matrix(0,0,0),1);
+  s.addMaterial(m);
+  s.setColorShader(&shader);
+  s.shadePoint(Matrix(0,0,0));
 
 }
+
+TEST(RTSphere, shouldReturnMaterialFromShader) {
+  
+	RTMaterial m;
+  m.setSpecColor(RTColor(0.5,0.3,0.2));
+
+  NiceMock<ColorShaderMock> shader;
+  EXPECT_CALL(shader, shade(_,_,_)).WillRepeatedly(Return(m));
+  
+  RTSphere s(Matrix(0,0,0),1);
+  s.setColorShader(&shader);
+  
+  CHECK( s.shadePoint(Matrix(0,0,0)) == m );
+  
+}
+
 
 TEST(RTSphere, shouldCallShaderWithBottomPoint) {
 

@@ -50,13 +50,13 @@ MatrixPtr RTPolySet::normal(const Matrix &point) {
   return MatrixPtr(NULL);
 }
 
-
-RTMaterial RTPolySet::shadePoint(const Matrix &point) {
- (void) point;
-  return RTMaterial();
+void RTPolySet::interpolateUV(float &u, float &v, const Matrix &point) {
+  (void) point;
+  u = 0;
+  v = 0;
 }
 
-bool RTPolySet::shadeIntersection(const Intersection &intersection) {
-  (void) intersection;
-  return true;
+const RTMaterial RTPolySet::interpolateMaterial(const Matrix &point) {
+  (void) point;
+  return getMaterial(0);
 }

@@ -28,10 +28,13 @@ public:
   ColorShader* getColorShader() { return _colorShader; }
   IntersectionShader* getIntersectionShader() { return _intersectionShader; }
   
-  virtual RTMaterial shadePoint(const Matrix&) = 0;
-  virtual bool shadeIntersection(const Intersection&) = 0;
+  virtual RTMaterial shadePoint(const Matrix&);
+  virtual bool shadeIntersection(const Intersection&);
 
   virtual void print() const {};
+
+  virtual void interpolateUV(float &, float &, const Matrix &) = 0;
+  virtual const RTMaterial interpolateMaterial(const Matrix&) = 0;
 
 private:
   std::vector<RTMaterial> materials;
@@ -39,6 +42,8 @@ private:
 protected:
   ColorShader *_colorShader = 0;
   IntersectionShader *_intersectionShader = 0;
+
+
 
 };
 

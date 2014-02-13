@@ -64,34 +64,6 @@ MatrixPtr RTSphere::normal(const Matrix &point) {
 
 }
 
-
-
-RTMaterial RTSphere::shadePoint(const Matrix &point) {
-
-  if (getColorShader()) {
-
-    float u,v;
-    interpolateUV(u, v, point);
-    
-    return getColorShader()->shade(u, v, getMaterial(0));
-  }
-
-  return getMaterial(0);
-}
-
-bool RTSphere::shadeIntersection(const Intersection &intersection) {
-
-  if (getIntersectionShader()) {
-    
-    float u,v;
-    interpolateUV(u,v, intersection.getPoint());
-
-    return getIntersectionShader()->shade(u,v, getMaterial(0));
-
-  }
-  return true;
-}
-
 void RTSphere::interpolateUV(float &u, float &v, const Matrix &point) {
 
   Matrix R = point - _origin;
@@ -108,4 +80,9 @@ void RTSphere::interpolateUV(float &u, float &v, const Matrix &point) {
   u = theta / (2*M_PI);
   v = 1 - ((phi / M_PI) + 0.5);
   
+}
+
+const RTMaterial RTSphere::interpolateMaterial(const Matrix &point) {
+  (void) point;
+  return getMaterial(0);
 }

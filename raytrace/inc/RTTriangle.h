@@ -10,7 +10,7 @@
 class RTPolySet;
 class RTTriangle : public RTShape {
 
- public:
+public:
   RTTriangle() {}
   RTTriangle(
     const Matrix &, const Matrix &, const Matrix &
@@ -24,10 +24,6 @@ class RTTriangle : public RTShape {
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
-  const RTMaterial interpolateMaterial(const Matrix&);
-
-  virtual RTMaterial shadePoint(const Matrix&);
-  virtual bool shadeIntersection(const Intersection&);
 
   void setP0(Matrix m) { _p0 = m; }
   const Matrix getP0() const { return _p0; }
@@ -69,7 +65,11 @@ class RTTriangle : public RTShape {
     _hasNormals = hasNormals;
   }
 
- private:
+  virtual void interpolateUV(float &u, float &v, const Matrix &point);
+  virtual const RTMaterial interpolateMaterial(const Matrix&);
+
+
+private:
   RTPolySet *_parent;
 
   // In the texture in parameterization a quad is processed
@@ -93,8 +93,6 @@ class RTTriangle : public RTShape {
   bool hasNormals() { return _hasNormals; }
   MatrixPtr calculateNormal(const Matrix&);
   MatrixPtr interpolateNormal(const Matrix&);
-  void interpolateUV(const Matrix &point, float &u, float &v);
-  
 
 };
 

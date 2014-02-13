@@ -33,3 +33,32 @@ void RTShape::setColorShader(ColorShader *shader) {
 void RTShape::setIntersectionShader(IntersectionShader *shader) {
   this->_intersectionShader = shader;
 }
+
+RTMaterial RTShape::shadePoint(const Matrix &point) {
+
+  if (getColorShader()) {
+
+    float u,v;
+    interpolateUV(u, v, point);
+    RTMaterial material = interpolateMaterial(point);
+
+    return getColorShader()->shade(u, v, material);
+  }
+
+  return getMaterial(0);
+}
+
+
+bool RTShape::shadeIntersection(const Intersection &intersection) {
+
+  if (getIntersectionShader()) {
+    
+    float u,v;
+    interpolateUV(u,v, intersection.getPoint());
+
+    return getIntersectionShader()->shade(u,v, getMaterial(0));
+
+  }
+  return true;
+}
+

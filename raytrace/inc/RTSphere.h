@@ -8,7 +8,7 @@
 
 class RTSphere : public RTShape {
 
- public:
+public:
   RTSphere(Matrix, float);
   virtual IntersectionPtr intersect(const Ray);
   virtual MatrixPtr normal(const Matrix &);
@@ -17,15 +17,14 @@ class RTSphere : public RTShape {
   float getRadius() const { return _radius; }
   virtual void print() const { DPRINTF("RTSphere\n"); }
 
-  virtual RTMaterial shadePoint(const Matrix&);
-  virtual bool shadeIntersection(const Intersection&);
+  virtual void interpolateUV(float &, float &, const Matrix &);
+  virtual const RTMaterial interpolateMaterial(const Matrix&);
 
- private:
+private:
   Matrix _origin;
   float _radius;
 
   IntersectionPtr getIntersection(const Ray &);
-  void interpolateUV(float &, float &, const Matrix &);
 
 };
 #endif /* _RTSPHERE_H_ */
