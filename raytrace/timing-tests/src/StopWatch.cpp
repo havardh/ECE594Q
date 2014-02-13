@@ -1,30 +1,30 @@
-#include "TimeBenchmark.h"
+#include "StopWatch.h"
 
-void TimeBenchmark::setTimer(Timer *timer) {
+void StopWatch::setTimer(Timer *timer) {
   _timer = timer;
 }
 
-void TimeBenchmark::start(const char*) {
+void StopWatch::start(const char*) {
   times.clear(); 
   times.push_back(_timer->time());
 }
 
-void TimeBenchmark::lap(const char*) {
+void StopWatch::lap(const char*) {
   times.push_back(_timer->time());
 }
 
-void TimeBenchmark::stop() {
+void StopWatch::stop() {
   times.push_back(_timer->time());
 }
 
-ull_t TimeBenchmark::getStart() {
+ull_t StopWatch::getStart() {
   if (times.size() < 1) {
     return 0;
   }
   return times.front();
 }
 
-ull_t TimeBenchmark::getLap(int i) {
+ull_t StopWatch::getLap(int i) {
   
   if (times.size() < 3 || i < 0 || i+1 >= times.size()-1) {
     return 0;
@@ -32,22 +32,22 @@ ull_t TimeBenchmark::getLap(int i) {
   return times[i+1];
 }
 
-ull_t TimeBenchmark::getStop() {
+ull_t StopWatch::getStop() {
   if (times.size() < 2) {
     return 0;
   }
   return times.back();
 }
 
-int TimeBenchmark::numLaps() {
+int StopWatch::numLaps() {
   return times.size() - 2;
 }
 
-ull_t TimeBenchmark::totalDuration() {
+ull_t StopWatch::totalDuration() {
   return getStop() - getStart();
 }
 
-ull_t TimeBenchmark::lapTime(int i) {
+ull_t StopWatch::lapTime(int i) {
 
   if (i == 0) {
     return getLap(i) - getStart();
@@ -57,7 +57,7 @@ ull_t TimeBenchmark::lapTime(int i) {
 
 }
 
-void TimeBenchmark::print() {
+void StopWatch::print() {
 
   printf("Running Benchmark: <name>\n");
   printf("Start: %llu\n", getStart());

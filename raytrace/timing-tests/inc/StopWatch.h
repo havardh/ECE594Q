@@ -1,17 +1,13 @@
-#ifndef _TIMEBENCHMARK_H_
-#define _TIMEBENCHMARK_H_
+#ifndef _STOPWATCH_H_
+#define _STOPWATCH_H_
 
 #include "Timer.h"
 #include <vector>
 
 using std::vector;
 
-class Action {
-public:
-  void execute();
-};
 
-class TimeBenchmark {
+class StopWatch {
 
 public:
   virtual void run() = 0;
@@ -39,4 +35,4 @@ private:
 
 };
 
-#endif /* _TIMEBENCHMARK_H_ */
+#endif /* _STOPWATCH_H_ */

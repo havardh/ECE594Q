@@ -1,5 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
-#include "TimeBenchmark.h"
+#include "StopWatch.h"
 #include "Timer.h"
 #include "CppUTestExt/GMock.h"
 
@@ -9,20 +9,19 @@ MOCK_METHOD0(time, ull_t());
 
 };
 
-class TimeBenchmarkMock : public TimeBenchmark {
+class StopWatchMock : public StopWatch {
 public:
   MOCK_METHOD0(run, void());
 
 };
 
-
-TEST_GROUP(TimeBenchmark) {
+TEST_GROUP(StopWatch) {
   void setup() {}
   void teardown() {}
 };
 
-TEST(TimeBenchmark, shouldCallTimerOnStart) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldCallTimerOnStart) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   EXPECT_CALL(timerMock, time()).WillOnce(Return(0));
@@ -30,24 +29,24 @@ TEST(TimeBenchmark, shouldCallTimerOnStart) {
  
 }
 
-TEST(TimeBenchmark, shouldCallTimerOnStop) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldCallTimerOnStop) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   EXPECT_CALL(timerMock, time()).WillOnce(Return(0));
   benchmark.stop();
 }
 
-TEST(TimeBenchmark, shouldCallTimerOnLap) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldCallTimerOnLap) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   EXPECT_CALL(timerMock, time()).WillOnce(Return(0));
   benchmark.lap("");
 }
 
-TEST(TimeBenchmark, shouldRememberStartTime) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldRememberStartTime) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   EXPECT_CALL(timerMock, time()).WillOnce(Return(15));
@@ -57,8 +56,8 @@ TEST(TimeBenchmark, shouldRememberStartTime) {
   CHECK_EQUAL( 15, (int)start );
 }
 
-TEST(TimeBenchmark, shouldRememberStopTime) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldRememberStopTime) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   EXPECT_CALL(timerMock, time()).WillOnce(Return(0));
@@ -70,8 +69,8 @@ TEST(TimeBenchmark, shouldRememberStopTime) {
   CHECK_EQUAL( 20, (int)stop );
 }
 
-TEST(TimeBenchmark, shouldRememberLapTime) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldRememberLapTime) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -92,9 +91,9 @@ TEST(TimeBenchmark, shouldRememberLapTime) {
   
 }
 
-TEST(TimeBenchmark, shouldReturnZeroByDefault) {
+TEST(StopWatch, shouldReturnZeroByDefault) {
 
-  NiceMock<TimeBenchmarkMock> benchmark;
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -105,9 +104,9 @@ TEST(TimeBenchmark, shouldReturnZeroByDefault) {
 
 }
 
-TEST(TimeBenchmark, lapShouldBeZeroWhenNotTaken) {
+TEST(StopWatch, lapShouldBeZeroWhenNotTaken) {
 
-  NiceMock<TimeBenchmarkMock> benchmark;
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -120,8 +119,8 @@ TEST(TimeBenchmark, lapShouldBeZeroWhenNotTaken) {
 
 }
 
-TEST(TimeBenchmark, shouldResetOnStop) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldResetOnStop) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   
@@ -145,8 +144,8 @@ TEST(TimeBenchmark, shouldResetOnStop) {
   CHECK_EQUAL( 15, (int)benchmark.getStop() );
 }
 
-TEST(TimeBenchmark, shouldCountLaps) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldCountLaps) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -169,9 +168,9 @@ TEST(TimeBenchmark, shouldCountLaps) {
   
 }
 
-TEST(TimeBenchmark, shouldReportTotalTime) {
+TEST(StopWatch, shouldReportTotalTime) {
   
-  NiceMock<TimeBenchmarkMock> benchmark;
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
   
@@ -185,9 +184,9 @@ TEST(TimeBenchmark, shouldReportTotalTime) {
 
 }
 
-TEST(TimeBenchmark, shouldReportLapTime) {
+TEST(StopWatch, shouldReportLapTime) {
 
-  NiceMock<TimeBenchmarkMock> benchmark;
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -208,8 +207,8 @@ TEST(TimeBenchmark, shouldReportLapTime) {
   
 }
 
-TEST(TimeBenchmark, shouldReportZeroTimeForNegativeLap) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldReportZeroTimeForNegativeLap) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
@@ -227,8 +226,8 @@ TEST(TimeBenchmark, shouldReportZeroTimeForNegativeLap) {
 }
 
 
-TEST(TimeBenchmark, shouldReportZeroTimeForToHightLap) {
-  NiceMock<TimeBenchmarkMock> benchmark;
+TEST(StopWatch, shouldReportZeroTimeForToHightLap) {
+  NiceMock<StopWatchMock> benchmark;
   NiceMock<TimerMock> timerMock;
   benchmark.setTimer(&timerMock);
 
