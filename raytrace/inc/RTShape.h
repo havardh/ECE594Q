@@ -7,12 +7,13 @@
 #include "Intersection.h"
 #include "ColorShader.h"
 #include "IntersectionShader.h"
+#include "ColorShaderTexture.h"
 #include <vector>
 
 class RTShape {
   
 public:
-  virtual ~RTShape() {}
+  virtual ~RTShape();
   virtual IntersectionPtr intersect(const Ray ) = 0;
   virtual MatrixPtr normal(const Matrix &) = 0;
 
@@ -42,8 +43,6 @@ private:
 protected:
   ColorShader *_colorShader = 0;
   IntersectionShader *_intersectionShader = 0;
-
-
 
 };
 

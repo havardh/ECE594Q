@@ -38,55 +38,66 @@ RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon, bool hasNormals, b
 
 void addMaterials(RTShape*, ObjIO*);
 
+
 RTShape* RTShapeFactory::createShape(ObjIO *obj) {
   
   RTShape *shape = NULL;
 
   if (obj->type == SPHERE_OBJ) {
 
-    SphereIO *io = (SphereIO*)obj->data;
-    shape = new RTSphere(io->origin, io->radius);
-    addMaterials(shape, obj);
-    
-    //ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
-
-    //shape->setColorShader(shader);
-    //shape->setIntersectionShader(&intersectionShaderColor);
+    shape = createSphere(obj);
 
   } else if (obj->type == POLYSET_OBJ) {
 
-    RTPolySet *set = new RTPolySet();
-    addMaterials(set, obj);
-    set->setColorShader(&iShader);
-    PolySetIO *io = (PolySetIO*)obj->data;
-    int j = 0; // setting the is upper property for triangles
-    for (int i=0; i<io->numPolys; i++) {
-      RTTriangle t = RTShapeFactory::createTriangle(
-        &io->poly[i],
-        io->normType == PER_VERTEX_NORMAL,
-        io->materialBinding == PER_VERTEX_MATERIAL,
-        set
-      );
-      t.setColorShader(&tShader);
-      t.setIsUpper(j++ % 2 == 0);
-      set->addTriangle(t);
-    }
-    set->calculateMidpoint();
-    shape = set;
-
-  }
-
-  if (shape) {
+    shape = createPolySet(obj);
 
   }
 
   return shape;
 }
 
+RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
+  SphereIO *io = (SphereIO*)obj->data;
+  RTSphere *sphere = new RTSphere(io->origin, io->radius);
+  addMaterials(sphere, obj);
+    
+  if (obj->name) {
+    ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
+    sphere->setColorShader(shader);
+  }
+
+  //shape->setIntersectionShader(&intersectionShaderColor);
+  return sphere;
+}
+
+RTPolySet* RTShapeFactory::createPolySet(ObjIO *obj) {
+
+  RTPolySet *set = new RTPolySet();
+  addMaterials(set, obj);
+  set->setColorShader(&iShader);
+  PolySetIO *io = (PolySetIO*)obj->data;
+
+  int j = 0; // setting the is upper property for triangles
+  for (int i=0; i<io->numPolys; i++) {
+    RTTriangle t = RTShapeFactory::createTriangle(
+      &io->poly[i],
+      io->normType == PER_VERTEX_NORMAL,
+      io->materialBinding == PER_VERTEX_MATERIAL,
+      set
+    );
+    t.setColorShader(&tShader);
+    t.setIsUpper(j++ % 2 == 0);
+    set->addTriangle(t);
+  }
+
+  set->calculateMidpoint();
+  return set;
+}
+
 void addMaterials(RTShape *shape, ObjIO *obj) {
-    for (int i=0; i<obj->numMaterials; i++) {
-      shape->addMaterial(RTShapeFactory::createMaterial(&obj->material[i]));
-    }
+  for (int i=0; i<obj->numMaterials; i++) {
+    shape->addMaterial(RTShapeFactory::createMaterial(&obj->material[i]));
+  }
 }
 
 RTMaterial RTShapeFactory::createMaterial(MaterialIO *materialIO) {

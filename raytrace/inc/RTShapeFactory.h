@@ -19,6 +19,9 @@ public:
   static RTShape* createShape(ObjIO*);
   static RTTriangle createTriangle(PolygonIO*, bool, bool, RTPolySet*);
   static RTMaterial createMaterial(MaterialIO*);
+  static RTSphere* createSphere(ObjIO*);
+  static RTPolySet* createPolySet(ObjIO*);
+
 };
 
 #endif /* _RTSHAPEFACTORY_H_ */

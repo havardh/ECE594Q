@@ -1,6 +1,14 @@
 #include "RTShape.h"
 #include "Dbg.h"
 
+RTShape::~RTShape() {
+
+  if (typeid(ColorShaderTexture) == typeid(_colorShader)) {
+    delete (ColorShaderTexture*)_colorShader;
+  }
+
+}
+
 void RTShape::addMaterial(RTMaterial material) {
   this->materials.push_back(material);
 }
