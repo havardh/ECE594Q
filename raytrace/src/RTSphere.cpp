@@ -86,3 +86,15 @@ const RTMaterial RTSphere::interpolateMaterial(const Matrix &point) {
   (void) point;
   return getMaterial(0);
 }
+
+BoundingBox RTSphere::getBoundingBox() const {
+  float x = getOrigin().get(0) - _radius;
+  float y = getOrigin().get(1) - _radius;
+  float z = getOrigin().get(2) - _radius;
+
+  Matrix origin(x,y,z);
+  float diameter = _radius*2;
+  Matrix delta(diameter, diameter, diameter);
+
+  return BoundingBox(origin, delta);
+}

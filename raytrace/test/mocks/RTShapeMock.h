@@ -13,6 +13,8 @@ public:
   MOCK_METHOD1(shadePoint, RTMaterial(const Matrix&));
   MOCK_METHOD1(shadeIntersection, bool(const Intersection&));
   MOCK_METHOD1(intersect, IntersectionPtr(const Ray));
+  MOCK_CONST_METHOD0(getPosition, Matrix());
+  MOCK_CONST_METHOD0(getBoundingBox, BoundingBox());
   MOCK_METHOD1(normal, MatrixPtr(const Matrix&));
   MOCK_METHOD0(print, void());
 

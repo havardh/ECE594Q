@@ -60,3 +60,7 @@ const RTMaterial RTPolySet::interpolateMaterial(const Matrix &point) {
   (void) point;
   return getMaterial(0);
 }
+
+BoundingBox RTPolySet::getBoundingBox() const {
+  return BoundingBox();
+}

@@ -16,6 +16,8 @@ public:
   const Matrix getOrigin() const { return _origin; }
   float getRadius() const { return _radius; }
   virtual void print() const { DPRINTF("RTSphere\n"); }
+  virtual Matrix getPosition() const { return _origin; }
+  virtual BoundingBox getBoundingBox() const;
 
   virtual void interpolateUV(float &, float &, const Matrix &);
   virtual const RTMaterial interpolateMaterial(const Matrix&);

@@ -7,6 +7,7 @@
 #include "Intersection.h"
 #include "ColorShader.h"
 #include "IntersectionShader.h"
+#include "BBox.h"
 #include "ColorShaderTexture.h"
 #include <vector>
 
@@ -31,6 +32,9 @@ public:
   
   RTMaterial shadePoint(const Matrix&);
   bool shadeIntersection(const Intersection&);
+
+  virtual Matrix getPosition() const = 0;
+  virtual BoundingBox getBoundingBox() const = 0;
 
   virtual void print() const {};
 

@@ -170,3 +170,24 @@ IGNORE_TEST(RTSphere, shouldCallShaderWithMidBack) {
   EXPECT_CALL(shader, shade(0.75, 0.5, _)).WillOnce(Return(RTMaterial()));
   s.shadePoint(Matrix(0, 0, 11));
 }
+
+TEST(RTSphere, shouldReportOriginAsPosition) {
+
+  RTSphere s(Matrix(1,2,3), 1);
+
+  DOUBLES_EQUAL(1, s.getPosition().get(0), 0.0001);
+  DOUBLES_EQUAL(2, s.getPosition().get(1), 0.0001);
+  DOUBLES_EQUAL(3, s.getPosition().get(2), 0.0001);
+
+}
+
+TEST(RTSphere, shouldReturnBoundingBox) {
+
+  RTSphere s(Matrix(1, 0, 10), 2);
+
+  BoundingBox box = s.getBoundingBox();
+
+  VECTOR_EQUAL( -1, -2, 8, box.getOrigin() );
+  VECTOR_EQUAL( 4,4,4, box.getDelta() );
+
+}

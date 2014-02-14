@@ -22,7 +22,10 @@ public:
   const RTTriangle getTriangle(int) const;
   void calculateMidpoint();
   const Matrix getMidpoint() const { return midpoint; }
-
+  virtual Matrix getPosition() const { 
+    return Matrix(0,0,0);
+  }
+  virtual BoundingBox getBoundingBox() const;
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
   virtual void interpolateUV(float &u, float &v, const Matrix &point);

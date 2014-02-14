@@ -21,6 +21,8 @@ public:
   );
   virtual IntersectionPtr intersect(const Ray );
   virtual MatrixPtr normal(const Matrix &);
+  virtual Matrix getPosition() const { return _p0; }
+  virtual BoundingBox getBoundingBox() const;
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;

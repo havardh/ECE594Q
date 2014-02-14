@@ -1,6 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "ShapeTestHelper.h"
 #include "ColorTestHelper.h"
+#include "MatrixTestHelper.h"
 #include "RTTriangle.h"
 #include "RTShapeFactory.h"
 #include "ColorShaderMock.h"
@@ -163,5 +164,27 @@ TEST(RTTriangle, shouldInterpolateMaterialCorrectly) {
 
   COLOR_EQUAL( 182, 169, 169, m.getDiffColor() );
   
+
+}
+
+TEST(RTTriangle, shouldReportP0asPosition) {
+
+  RTTriangle triangle(Matrix(0,1,0), Matrix(1,0,1), Matrix(1,0,1));
+
+  DOUBLES_EQUAL(0, triangle.getPosition().get(0), 0.0001);
+  DOUBLES_EQUAL(1, triangle.getPosition().get(1), 0.0001);
+  DOUBLES_EQUAL(0, triangle.getPosition().get(2), 0.0001);
+
+
+}
+
+TEST(RTTriangle, shouldReturnBoundingBox) {
+
+  RTTriangle triangle(Matrix(0,0.1,1), Matrix(1,0,0.5), Matrix(0.3,1,0));
+  
+  BoundingBox box = triangle.getBoundingBox();
+
+  VECTOR_EQUAL(0,0,0, box.getOrigin());
+  VECTOR_EQUAL(1,1,1, box.getDelta());
 
 }

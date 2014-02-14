@@ -204,3 +204,26 @@ const RTMaterial RTTriangle::interpolateMaterial(const Matrix &point) {
   }
   return getMaterial(0);
 }
+
+float max(float x0, float x1, float x2) {
+  return (x0 > x1 ? (x0 > x2 ? x0 : (x1 > x2 ? x1 : x2)) : (x1 > x2 ? x1 : x2));
+}
+
+float min(float x0, float x1, float x2) {
+  return (x0 < x1 ? (x0 < x2 ? x0 : (x1 < x2 ? x1 : x2)) : (x1 < x2 ? x1 : x2));  
+}
+
+BoundingBox RTTriangle::getBoundingBox() const {
+  float x0 = min(_p0.get(0), _p1.get(0), _p2.get(0));
+  float y0 = min(_p0.get(1), _p1.get(1), _p2.get(1));
+  float z0 = min(_p0.get(2), _p1.get(2), _p2.get(2));
+
+  float x1 = max(_p0.get(0), _p1.get(0), _p2.get(0));
+  float y1 = max(_p0.get(1), _p1.get(1), _p2.get(1));
+  float z1 = max(_p0.get(2), _p1.get(2), _p2.get(2));
+
+  Matrix origin(x0,y0,z0);
+  Matrix delta(x1-x0, y1-y0, z1-z0);
+
+  return BoundingBox(origin, delta);
+}
