@@ -85,7 +85,6 @@ RTPolySet* RTShapeFactory::createPolySet(ObjIO *obj) {
       io->materialBinding == PER_VERTEX_MATERIAL,
       set
     );
-    t.setColorShader(&tShader);
     t.setIsUpper(j++ % 2 == 0);
     set->addTriangle(t);
   }
