@@ -1,4 +1,5 @@
 #include "RayFrameBuffer.h"
+#include <stdlib.h>
 #include "CImg.h"
 
 #define IX(i,j,k) ((i)*_width*3 + (j)*3 + (k))
@@ -19,6 +20,8 @@ RayFrameBuffer::~RayFrameBuffer() {
 
 void RayFrameBuffer::allocate() {
   this->_frameBuffer = new uint8_t[_width*_height*3];
+
+  memset(this->_frameBuffer, 0, _width*_height*3);
 }
 
 void RayFrameBuffer::set(int i, int j, int k, uint8_t value) {
