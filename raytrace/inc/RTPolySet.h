@@ -11,12 +11,14 @@ class RTTriangle;
 class RTPolySet : public RTShape {
 
 public:
-  RTPolySet() : midpoint(0,0,0) {}
+  RTPolySet() : midpoint(0,0,0) {
+    //triangles.reserve(500);
+  }
   virtual IntersectionPtr intersect(const Ray );
   virtual MatrixPtr normal(const Matrix &);
 
 
-  void addTriangle(RTTriangle &);
+  void addTriangle(RTTriangle);
   const RTTriangle getTriangle(int) const;
   void calculateMidpoint();
   const Matrix getMidpoint() const { return midpoint; }

@@ -1,6 +1,6 @@
 #include "RTPolySet.h"
 
-void RTPolySet::addTriangle(RTTriangle &triangle) {
+void RTPolySet::addTriangle(RTTriangle triangle) {
   triangles.push_back(triangle);
 }
 
@@ -9,7 +9,7 @@ const RTTriangle RTPolySet::getTriangle(int i) const {
 }
 
 void RTPolySet::calculateMidpoint() {
-
+  
   std::vector<RTTriangle>::iterator it;
   for (it = triangles.begin(); 
        it != triangles.end(); 
@@ -22,7 +22,7 @@ void RTPolySet::calculateMidpoint() {
   }
 
   midpoint = midpoint * (1.0 / (triangles.size()*3));
-
+  
 }
 
 // Duplicate of Scene::intersection should be refactored
