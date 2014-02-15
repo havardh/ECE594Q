@@ -4,7 +4,7 @@
 static ColorShaderRandom rShader;
 static ColorShaderGradient gShader;
 static ColorShaderCheckerboard cShader(40,40);
-static ColorShaderTexture tShader("earth.bmp");
+static ColorShaderTexture tShader("earth.jpg");
 static ColorShaderIdentity iShader;
 
 static IntersectionShaderCheckerboard intersectionShaderCheckerboard(10, 10);
@@ -60,7 +60,7 @@ RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
   SphereIO *io = (SphereIO*)obj->data;
   RTSphere *sphere = new RTSphere(io->origin, io->radius);
   addMaterials(sphere, obj);
-    
+  //sphere->setColorShader(&tShader);
   if (obj->name) {
     ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
     sphere->setColorShader(shader);

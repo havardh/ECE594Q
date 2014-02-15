@@ -64,7 +64,7 @@ MatrixPtr RTSphere::normal(const Matrix &point) {
 
 }
 
-void RTSphere::interpolateUV(float &u, float &v, const Matrix &point) {
+void RTSphere::interpolateUV(float &u, float &v, const Matrix point) {
 
   Matrix R = point - _origin;
   

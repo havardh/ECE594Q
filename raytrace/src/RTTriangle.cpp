@@ -160,7 +160,7 @@ int RTTriangle::getMaterialCount() const {
   }
 }
 
-void RTTriangle::interpolateUV(float &u, float &v, const Matrix &point) {
+void RTTriangle::interpolateUV(float &u, float &v, const Matrix point) {
   float A = area(_p0, _p1, _p2);
   float A0 = area(point, _p1, _p2);
   float A1 = area(point, _p0, _p2);

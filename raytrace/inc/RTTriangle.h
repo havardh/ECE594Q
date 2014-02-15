@@ -67,9 +67,11 @@ public:
     _hasNormals = hasNormals;
   }
 
-  virtual void interpolateUV(float &u, float &v, const Matrix &point);
+  virtual void interpolateUV(float &u, float &v, const Matrix point);
   virtual const RTMaterial interpolateMaterial(const Matrix&);
 
+  virtual int getID() { return RTTriangle::shapeID; }
+  const static int shapeID = 3;
 
 private:
   RTPolySet *_parent;

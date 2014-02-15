@@ -11,6 +11,9 @@
 #include "ColorShaderTexture.h"
 #include <vector>
 
+#define INSTANCE_OF(pointer, class) \
+  (typeid(pointer->getID()) == typeid(class::shapeID))
+
 class RTShape {
   
 public:
@@ -38,11 +41,16 @@ public:
 
   virtual void print() const {};
 
-  virtual void interpolateUV(float &, float &, const Matrix &) = 0;
+  virtual void interpolateUV(float &, float &, const Matrix) = 0;
   virtual const RTMaterial interpolateMaterial(const Matrix&) = 0;
+
+  virtual int getID() { return RTShape::shapeID; }
+  const static int shapeID = 0;
 
 private:
   std::vector<RTMaterial> materials;
+
+
 
 protected:
   ColorShader *_colorShader = 0;

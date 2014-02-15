@@ -12,7 +12,7 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
   this->depth = depth;
   this->median = findMedian(shapes, axis);
 
-  if (terminate(shapes.size())) { 
+  if (terminate(shapes)) { 
 
     setShapes(shapes);
 
@@ -36,9 +36,11 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
 
 }
 
-bool KDTree::terminate(int numShapes) {
+bool KDTree::terminate(vector<RTShape*> shapes) {
 
-  if (numShapes <= terminationCondition) {
+  int numShapes = shapes.size();
+
+  if (numShapes <= terminationCondition && !containsComposite(shapes)) {
     return true;
   } else {
     return false;
@@ -54,7 +56,7 @@ float KDTree::findMedian(vector<RTShape*> shapes, int axis) {
 
   float m = 0;
   for (it = shapes.begin(); it != shapes.end(); ++it) {
-    m += (*it)->getPosition().get(axis);
+    m += (*it)->getBoundingBox().center().get(axis);
   }
 
   return m;
@@ -69,9 +71,23 @@ vector<RTShape*> KDTree::filter(vector<RTShape*> shapes) {
 
     RTShape *shape = *it;
     BoundingBox shapeBox = shape->getBoundingBox();
-    
+
     if (shapeBox.intersects(box)) {
-      result.push_back(shape);
+
+      if (shape->getID() == RTPolySet::shapeID ) {
+        RTPolySet *set = (RTPolySet*) shape;
+
+        for (int i=0; i<set->size(); i++) {
+          RTTriangle *triangle = set->getTrianglePointer(i);
+          BoundingBox triangleBox = triangle->getBoundingBox();
+          if (triangleBox.intersects(box)) {
+            result.push_back(triangle);
+          }
+        }
+        
+      } else {
+        result.push_back(shape);
+      }
     }
   }
 
@@ -117,4 +133,15 @@ bool KDTree::isChild() {
 
 int KDTree::size() {
   return shapes.size();
+}
+
+bool KDTree::containsComposite(vector<RTShape*> shapes) {
+
+  vector<RTShape*>::iterator it;
+  for (it = shapes.begin(); it != shapes.end(); ++it) {
+    if ((*it)->getID() == RTPolySet::shapeID) {
+      return true;
+    }
+  }
+  return false;
 }

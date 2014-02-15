@@ -74,6 +74,24 @@ TEST(BBox, shouldNotReportDisjointBoxes) {
 
 }
 
+TEST(BBox, shouldProvideUnion) {
 
+  BoundingBox b1(Matrix(-1,0,10), Matrix(5, 7, 1));
+  BoundingBox b2(Matrix(-3,3,11), Matrix(5, 2, 3));
 
- 
+  BoundingBox u = b1.unionWith(b2);
+
+  VECTOR_EQUAL( -3, 0, 10, u.getOrigin() );
+  VECTOR_EQUAL( 7, 7, 4, u.getDelta() );
+
+}
+
+TEST(BBox, shouldReturnCenterPoint) {
+
+  BoundingBox b(Matrix(0,0,0), Matrix(10,10,10));
+  
+  Matrix c = b.center();
+
+  VECTOR_EQUAL( 5,5,5, c );
+
+}

@@ -20,6 +20,8 @@ public:
 
   void addTriangle(RTTriangle);
   const RTTriangle getTriangle(int) const;
+  RTTriangle* getTrianglePointer(int);
+  int size() const { return triangles.size(); }
   void calculateMidpoint();
   const Matrix getMidpoint() const { return midpoint; }
   virtual Matrix getPosition() const { 
@@ -28,13 +30,18 @@ public:
   virtual BoundingBox getBoundingBox() const;
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
-  virtual void interpolateUV(float &u, float &v, const Matrix &point);
+  virtual void interpolateUV(float &u, float &v, const Matrix point);
   virtual const RTMaterial interpolateMaterial(const Matrix&);
 
+  virtual int getID() { return RTPolySet::shapeID; }
+  const static int shapeID = 2;
+  
 private:
   std::vector<RTTriangle> triangles;
   Matrix midpoint;
 
+
+  
 
 };
 

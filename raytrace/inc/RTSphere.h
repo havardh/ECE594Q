@@ -19,12 +19,17 @@ public:
   virtual Matrix getPosition() const { return _origin; }
   virtual BoundingBox getBoundingBox() const;
 
-  virtual void interpolateUV(float &, float &, const Matrix &);
+  virtual void interpolateUV(float &, float &, const Matrix);
   virtual const RTMaterial interpolateMaterial(const Matrix&);
+
+  virtual int getID() { return RTSphere::shapeID; }
+  const static int shapeID = 1;
 
 private:
   Matrix _origin;
   float _radius;
+
+
 
   IntersectionPtr getIntersection(const Ray &);
 

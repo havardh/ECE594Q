@@ -8,6 +8,10 @@ const RTTriangle RTPolySet::getTriangle(int i) const {
   return triangles[(size_t)i];
 }
 
+RTTriangle* RTPolySet::getTrianglePointer(int i) {
+  return &triangles[(size_t)i];
+}
+
 void RTPolySet::calculateMidpoint() {
   
   std::vector<RTTriangle>::iterator it;
@@ -50,7 +54,7 @@ MatrixPtr RTPolySet::normal(const Matrix &point) {
   return MatrixPtr(NULL);
 }
 
-void RTPolySet::interpolateUV(float &u, float &v, const Matrix &point) {
+void RTPolySet::interpolateUV(float &u, float &v, const Matrix point) {
   (void) point;
   u = 0;
   v = 0;
@@ -62,5 +66,17 @@ const RTMaterial RTPolySet::interpolateMaterial(const Matrix &point) {
 }
 
 BoundingBox RTPolySet::getBoundingBox() const {
-  return BoundingBox();
+
+  BoundingBox box;
+
+  // TODO: compiler error on iterator?
+  for (int i=0; i<triangles.size(); i++) {
+    
+    RTTriangle triangle = triangles[i];
+
+    box = box.unionWith(triangle.getBoundingBox());
+
+  }
+
+  return box;
 }
