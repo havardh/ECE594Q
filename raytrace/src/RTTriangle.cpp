@@ -4,7 +4,7 @@
 
 #define EPSILON 0.00001
 
-RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2, const Matrix &n0, const Matrix &n1, const Matrix &n2) {
+RTTriangle::RTTriangle(const Vector &p0, const Vector &p1, const Vector &p2, const Vector &n0, const Vector &n1, const Vector &n2) {
   _p0 = p0;
   _p1 = p1;
   _p2 = p2;
@@ -16,15 +16,15 @@ RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2, con
   _parent = 0;
 }
 
-RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2) {
+RTTriangle::RTTriangle(const Vector &p0, const Vector &p1, const Vector &p2) {
   _p0 = p0;
   _p1 = p1;
   _p2 = p2;
 
 
-  _n0 = Matrix(0,0,0);
-  _n1 = Matrix(0,0,0);
-  _n2 = Matrix(0,0,0);
+  _n0 = Vector(0,0,0);
+  _n1 = Vector(0,0,0);
+  _n2 = Vector(0,0,0);
 
   _hasNormals = false;
   _parent = 0;
@@ -32,13 +32,13 @@ RTTriangle::RTTriangle(const Matrix &p0, const Matrix &p1, const Matrix &p2) {
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
 IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
-  Matrix orig = ray.getOrigin();
-  Matrix dir = ray.getDirection();
+  Vector orig = ray.getOrigin();
+  Vector dir = ray.getDirection();
 
-  Matrix edge1 = _p1 - _p0;
-  Matrix edge2 = _p2 - _p0;
+  Vector edge1 = _p1 - _p0;
+  Vector edge2 = _p2 - _p0;
 
-  Matrix pvec = dir.crossProduct(edge2);
+  Vector pvec = dir.cross(edge2);
 
   float det = edge1.dot(pvec);
 
@@ -46,14 +46,14 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
     return IntersectionPtr(NULL);
   float inv_det = 1 / det;
 
-  Matrix tvec = orig - _p0;
+  Vector tvec = orig - _p0;
 
   float u = tvec.dot(pvec) * inv_det;
   if (u < 0.0 || u > 1.0) {
     return IntersectionPtr(NULL);
   }
 
-  Matrix qvec = tvec.crossProduct(edge1);
+  Vector qvec = tvec.cross(edge1);
 
   float v = dir.dot(qvec) * inv_det;
   if (v < 0.0 || u + v > 1.0) 
@@ -63,7 +63,7 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
   float t = edge2.dot(qvec) *inv_det;
 
   if ( t > 0 ) {
-    Matrix point(orig + t * dir);
+    Vector point(orig + t * dir);
 
     if (fabs((ray.getOrigin() - point).length()) < 0.001) {
       return IntersectionPtr(NULL);
@@ -76,10 +76,10 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
 }
 
-float area(const Matrix &A, const Matrix &B, const Matrix &C) {
+float area(const Vector &A, const Vector &B, const Vector &C) {
 
-  Matrix AB = B-A;
-  Matrix AC = C-A;
+  Vector AB = B-A;
+  Vector AC = C-A;
   
   float ABlen = AB.length();
   float AClen = AC.length();
@@ -99,42 +99,42 @@ float area(const Matrix &A, const Matrix &B, const Matrix &C) {
 
 }
 
-MatrixPtr RTTriangle::interpolateNormal(const Matrix &point) {
+VectorPtr RTTriangle::interpolateNormal(const Vector &point) {
 
   float A = area(_p0, _p1, _p2);
   float A0 = area(point, _p1, _p2);
   float A1 = area(point, _p0, _p2);
   float A2 = area(point, _p0, _p1);
 
-  Matrix *m = new Matrix(0,0,0);
+  Vector *m = new Vector(0,0,0);
   (*m) = (*m) + _n0 * (A0/A);
   (*m) = (*m) + _n1 * (A1/A);
   (*m) = (*m) + _n2 * (A2/A);
   
   m->normalize();
 
-  return MatrixPtr(m);
+  return VectorPtr(m);
 }
 
-MatrixPtr RTTriangle::calculateNormal(const Matrix &point) {
-  Matrix v1 = _p1 - _p0;
-  Matrix v2 = _p2 - _p0;
+VectorPtr RTTriangle::calculateNormal(const Vector &point) {
+  Vector v1 = _p1 - _p0;
+  Vector v2 = _p2 - _p0;
  
-  Matrix direction = v2.crossProduct(v1);
+  Vector direction = v2.cross(v1);
  
   if (_parent) {
-    Matrix fromMid = point - _parent->getMidpoint();
+    Vector fromMid = point - _parent->getMidpoint();
   
 
     if ( direction.dot(fromMid) < 0 ) {
       direction = -direction;
     }
   }
-  return MatrixPtr(new Matrix(direction.normalize()));
+  return VectorPtr(new Vector(direction.normalize()));
 
 }
 
-MatrixPtr RTTriangle::normal(const Matrix &point) {
+VectorPtr RTTriangle::normal(const Vector &point) {
 
   if (hasNormals()) {
     return interpolateNormal(point);
@@ -160,7 +160,7 @@ int RTTriangle::getMaterialCount() const {
   }
 }
 
-void RTTriangle::interpolateUV(float &u, float &v, const Matrix point) {
+void RTTriangle::interpolateUV(float &u, float &v, const Vector point) {
   float A = area(_p0, _p1, _p2);
   float A0 = area(point, _p1, _p2);
   float A1 = area(point, _p0, _p2);
@@ -187,7 +187,7 @@ void RTTriangle::interpolateUV(float &u, float &v, const Matrix point) {
   v += v2 * (A2/A);
 }
 
-const RTMaterial RTTriangle::interpolateMaterial(const Matrix &point) {
+const RTMaterial RTTriangle::interpolateMaterial(const Vector &point) {
 
   if (_hasMaterial) {
     float A = area(_p0, _p1, _p2);
@@ -222,8 +222,8 @@ BoundingBox RTTriangle::getBoundingBox() const {
   float y1 = max(_p0.get(1), _p1.get(1), _p2.get(1));
   float z1 = max(_p0.get(2), _p1.get(2), _p2.get(2));
 
-  Matrix origin(x0,y0,z0);
-  Matrix delta(x1-x0, y1-y0, z1-z0);
+  Vector origin(x0,y0,z0);
+  Vector delta(x1-x0, y1-y0, z1-z0);
 
   return BoundingBox(origin, delta);
 }

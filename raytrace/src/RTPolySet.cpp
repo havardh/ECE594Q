@@ -49,18 +49,18 @@ IntersectionPtr RTPolySet::intersect(const Ray ray) {
   return intersection;
 }
 
-MatrixPtr RTPolySet::normal(const Matrix &point) {
+VectorPtr RTPolySet::normal(const Vector &point) {
   (void) point;
-  return MatrixPtr(NULL);
+  return VectorPtr(NULL);
 }
 
-void RTPolySet::interpolateUV(float &u, float &v, const Matrix point) {
+void RTPolySet::interpolateUV(float &u, float &v, const Vector point) {
   (void) point;
   u = 0;
   v = 0;
 }
 
-const RTMaterial RTPolySet::interpolateMaterial(const Matrix &point) {
+const RTMaterial RTPolySet::interpolateMaterial(const Vector &point) {
   (void) point;
   return getMaterial(0);
 }

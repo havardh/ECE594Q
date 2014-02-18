@@ -91,17 +91,17 @@ TEST(RTShapeFactory, shouldCreateATriangle) {
 
   CHECK(typeid(triangle) == typeid(RTTriangle));
   
-  Matrix p0 = triangle.getP0();
+  Vector p0 = triangle.getP0();
   DOUBLES_EQUAL(0, p0.get(0), 0.0001);
   DOUBLES_EQUAL(0, p0.get(1), 0.0001);
   DOUBLES_EQUAL(0, p0.get(2), 0.0001);
 
-  Matrix p1 = triangle.getP1();
+  Vector p1 = triangle.getP1();
   DOUBLES_EQUAL(1, p1.get(0), 0.0001);
   DOUBLES_EQUAL(1, p1.get(1), 0.0001);
   DOUBLES_EQUAL(1, p1.get(2), 0.0001);
 
-  Matrix p2 = triangle.getP2();
+  Vector p2 = triangle.getP2();
   DOUBLES_EQUAL(1, p2.get(0), 0.0001);
   DOUBLES_EQUAL(0, p2.get(1), 0.0001);
   DOUBLES_EQUAL(2, p2.get(2), 0.0001);
@@ -159,7 +159,7 @@ TEST(RTShapeFactory, polygonsShouldInheritMaterials) {
 
 TEST(RTShapeFactory, shouldCreateXPlane) {
 
-  BoundingBox b(Matrix(3,2,1), Matrix(10,10,10));
+  BoundingBox b(Vector(3,2,1), Vector(10,10,10));
 
   RTPlane plane = RTShapeFactory::createPlane(b, 0, 10);
   RTTriangle t1 = plane.getTriangle(0);
@@ -177,7 +177,7 @@ TEST(RTShapeFactory, shouldCreateXPlane) {
 
 TEST(RTShapeFactory, shouldCreateYPlane) {
 
-  BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
+  BoundingBox b(Vector(3,4,2), Vector(10,14,5));
 
   RTPlane plane = RTShapeFactory::createPlane(b, 1, 7);
   RTTriangle t1 = plane.getTriangle(0);
@@ -195,7 +195,7 @@ TEST(RTShapeFactory, shouldCreateYPlane) {
 
 TEST(RTShapeFactory, shouldCreateZPlane) {
 
-  BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
+  BoundingBox b(Vector(3,4,2), Vector(10,14,5));
 
   RTPlane plane = RTShapeFactory::createPlane(b, 2, 7);
   RTTriangle t1 = plane.getTriangle(0);

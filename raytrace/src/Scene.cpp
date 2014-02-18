@@ -13,9 +13,9 @@ void Scene::setScene(SceneIO* sio) {
   setObjects(sio->objects);
 
 #ifdef USE_KDTREE
-  DPRINTF("..\n");
+  //DPRINTF("..\n");
   updateTree(); 
-  DPRINTF("..\n");
+  //DPRINTF("..\n");
 #endif
 }
 
@@ -27,9 +27,9 @@ void Scene::updateTree() {
 
 void Scene::setCamera(CameraIO *cio) {
 
-  Matrix position(cio->position);
-  Matrix direction(cio->viewDirection);
-  Matrix up(cio->orthoUp);
+  Vector position(cio->position);
+  Vector direction(cio->viewDirection);
+  Vector up(cio->orthoUp);
   float fov = cio->verticalFOV;
   
   this->camera = Camera(position, direction, 0, up, fov);
@@ -49,8 +49,8 @@ void Scene::setLights(LightIO * lio) {
   while(lio) {
 
     RTLightType type = getLightType(lio);
-    Matrix position(lio->position);
-    Matrix direction(lio->direction);
+    Vector position(lio->position);
+    Vector direction(lio->direction);
     RTColor color(lio->color);
     float dropOffRate = lio->dropOffRate;
     float cutOffAngle = lio->cutOffAngle;

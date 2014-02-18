@@ -9,10 +9,10 @@ static Camera *camera;
 TEST_GROUP(RayFactory) {
 	void setup() {
     camera = new Camera(
-    Matrix(0,0,0),
-    Matrix(0,0,-1),
+    Vector(0,0,0),
+    Vector(0,0,-1),
     0,
-    Matrix(0,1,0),
+    Vector(0,1,0),
     (float)(M_PI/2)
   );
   }
@@ -30,12 +30,12 @@ TEST(RayFactory, shouldProduceRaysForCameraAnOnePixel) {
 
   CHECK_EQUAL(1, rays.size());
 
-  Matrix o = rays[0].getOrigin();
+  Vector o = rays[0].getOrigin();
   DOUBLES_EQUAL(0, o.get(0), 0.0001);
   DOUBLES_EQUAL(0, o.get(1), 0.0001);
   DOUBLES_EQUAL(0, o.get(2), 0.0001);
 
-  Matrix d = rays[0].getDirection();
+  Vector d = rays[0].getDirection();
   DOUBLES_EQUAL(0, d.get(0), 0.0001);
   DOUBLES_EQUAL(0, d.get(1), 0.0001);
   DOUBLES_EQUAL(-1, d.get(2), 0.0001);
@@ -64,7 +64,7 @@ TEST(RayFactory, shouldProduceRaysForThreeByThree) {
 
 TEST(RayFactory, shouldProduceRaysForThreeByThreeWhenRotated) {
   
-  camera->setDirection(Matrix(1,0,0));
+  camera->setDirection(Vector(1,0,0));
 
 	RayFactory factory(*camera, 3,3);
 

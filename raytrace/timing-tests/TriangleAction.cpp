@@ -14,12 +14,12 @@ public:
 
   virtual void setup() {
     triangle = RTTriangle(
-      Matrix(1,1,20), 
-      Matrix(2,1,40), 
-      Matrix(2,2,10)
+      Vector(1,1,20), 
+      Vector(2,1,40), 
+      Vector(2,2,10)
     );
 
-    ray = Ray(Matrix(1,1,0), Matrix(0,0,1));
+    ray = Ray(Vector(1,1,0), Vector(0,0,1));
 
   }
 

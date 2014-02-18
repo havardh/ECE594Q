@@ -15,7 +15,7 @@ public:
     //triangles.reserve(500);
   }
   virtual IntersectionPtr intersect(const Ray );
-  virtual MatrixPtr normal(const Matrix &);
+  virtual VectorPtr normal(const Vector &);
 
 
   void addTriangle(RTTriangle);
@@ -23,22 +23,22 @@ public:
   RTTriangle* getTrianglePointer(int);
   int size() const { return triangles.size(); }
   void calculateMidpoint();
-  const Matrix getMidpoint() const { return midpoint; }
-  virtual Matrix getPosition() const { 
-    return Matrix(0,0,0);
+  const Vector getMidpoint() const { return midpoint; }
+  virtual Vector getPosition() const { 
+    return Vector(0,0,0);
   }
   virtual BoundingBox getBoundingBox() const;
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
-  virtual void interpolateUV(float &u, float &v, const Matrix point);
-  virtual const RTMaterial interpolateMaterial(const Matrix&);
+  virtual void interpolateUV(float &u, float &v, const Vector point);
+  virtual const RTMaterial interpolateMaterial(const Vector&);
 
   virtual int getID() { return RTPolySet::shapeID; }
   const static int shapeID = 2;
   
 protected:
   std::vector<RTTriangle> triangles;
-  Matrix midpoint;
+  Vector midpoint;
 
 
   

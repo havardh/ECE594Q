@@ -73,7 +73,7 @@ INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
 INCLUDES += $(foreach dir, $(INCLUDES_DIRS_EXPANDED), -I$(dir))
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11 -std=c++11 -stdlib=libc++ -Weverything
+CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11 -std=c++11 -stdlib=libc++ -Weverything -ffast-math
 
 
 # The options used in linking as well as in any direct use of ld.
@@ -102,8 +102,8 @@ HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp
 
 # The pre-processor and compiler options.
 # Users can override those variables from the command line.
-CFLAGS	= -g -O3
-CXXFLAGS= -g -O3
+CFLAGS	= -O3
+CXXFLAGS= -O3
 
 # The C program compiler.
 #CC			= gcc

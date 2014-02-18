@@ -3,30 +3,30 @@
 
 #include <cmath>
 #include "RTShape.h"
-#include "Matrix.h"
+#include "Vector.h"
 #include "Dbg.h"
 
 class RTSphere : public RTShape {
 
 public:
-  RTSphere(Matrix, float);
+  RTSphere(Vector, float);
   virtual IntersectionPtr intersect(const Ray);
-  virtual MatrixPtr normal(const Matrix &);
+  virtual VectorPtr normal(const Vector &);
 
-  const Matrix getOrigin() const { return _origin; }
+  const Vector getOrigin() const { return _origin; }
   float getRadius() const { return _radius; }
   virtual void print() const { DPRINTF("RTSphere\n"); }
-  virtual Matrix getPosition() const { return _origin; }
+  virtual Vector getPosition() const { return _origin; }
   virtual BoundingBox getBoundingBox() const;
 
-  virtual void interpolateUV(float &, float &, const Matrix);
-  virtual const RTMaterial interpolateMaterial(const Matrix&);
+  virtual void interpolateUV(float &, float &, const Vector);
+  virtual const RTMaterial interpolateMaterial(const Vector&);
 
   virtual int getID() { return RTSphere::shapeID; }
   const static int shapeID = 1;
 
 private:
-  Matrix _origin;
+  Vector _origin;
   float _radius;
 
 

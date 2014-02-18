@@ -2,7 +2,7 @@
 #define _RTTRIANGLE_H_
 
 #include <cmath>
-#include "Matrix.h"
+#include "Vector.h"
 #include "RTShape.h"
 #include "RTPolySet.h"
 #include "Dbg.h"
@@ -13,33 +13,33 @@ class RTTriangle : public RTShape {
 public:
   RTTriangle() {}
   RTTriangle(
-    const Matrix &, const Matrix &, const Matrix &
+    const Vector &, const Vector &, const Vector &
   );
   RTTriangle(
-    const Matrix &, const Matrix &, const Matrix &,
-    const Matrix &, const Matrix &, const Matrix &
+    const Vector &, const Vector &, const Vector &,
+    const Vector &, const Vector &, const Vector &
   );
   virtual IntersectionPtr intersect(const Ray );
-  virtual MatrixPtr normal(const Matrix &);
-  virtual Matrix getPosition() const { return _p0; }
+  virtual VectorPtr normal(const Vector &);
+  virtual Vector getPosition() const { return _p0; }
   virtual BoundingBox getBoundingBox() const;
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;
 
-  void setP0(Matrix m) { _p0 = m; }
-  const Matrix getP0() const { return _p0; }
-  void setP1(Matrix m) { _p1 = m; } 
-  const Matrix getP1() const { return _p1; }
-  void setP2(Matrix m) { _p2 = m; }
-  const Matrix getP2() const { return _p2; }
+  void setP0(Vector m) { _p0 = m; }
+  const Vector getP0() const { return _p0; }
+  void setP1(Vector m) { _p1 = m; } 
+  const Vector getP1() const { return _p1; }
+  void setP2(Vector m) { _p2 = m; }
+  const Vector getP2() const { return _p2; }
 
-  void setN0(Matrix m) { _n0 = m; } 
-  const Matrix getN0() const { return _n0; }
-  void setN1(Matrix m) { _n1 = m; } 
-  const Matrix getN1() const { return _n1; }
-  void setN2(Matrix m) { _n2 = m; }
-  const Matrix getN2() const { return _n2; }
+  void setN0(Vector m) { _n0 = m; } 
+  const Vector getN0() const { return _n0; }
+  void setN1(Vector m) { _n1 = m; } 
+  const Vector getN1() const { return _n1; }
+  void setN2(Vector m) { _n2 = m; }
+  const Vector getN2() const { return _n2; }
 
   void setM0(RTMaterial *m) { _m0 = m; }
   RTMaterial* getM0() { return _m0; }
@@ -67,8 +67,8 @@ public:
     _hasNormals = hasNormals;
   }
 
-  virtual void interpolateUV(float &u, float &v, const Matrix point);
-  virtual const RTMaterial interpolateMaterial(const Matrix&);
+  virtual void interpolateUV(float &u, float &v, const Vector point);
+  virtual const RTMaterial interpolateMaterial(const Vector&);
 
   virtual int getID() { return RTTriangle::shapeID; }
   const static int shapeID = 3;
@@ -87,17 +87,19 @@ private:
   // Does the triangle have materials at the vertices
   bool _hasMaterial = 0;
 
-  Matrix _p0, _p1, _p2;
-  Matrix _n0, _n1, _n2;
+  Vector _p0, _p1, _p2;
+  Vector _n0, _n1, _n2;
   RTMaterial *_m0, *_m1, *_m2;
 
-  Matrix computeN();
-  Matrix computeP(Matrix&, Matrix, Matrix);
+  Vector computeN();
+  Vector computeP(Vector&, Vector, Vector);
 
   bool hasNormals() { return _hasNormals; }
-  MatrixPtr calculateNormal(const Matrix&);
-  MatrixPtr interpolateNormal(const Matrix&);
+  VectorPtr calculateNormal(const Vector&);
+  VectorPtr interpolateNormal(const Vector&);
 
 };
+
+
 
 #endif /* _RTTRIANGLE_H_ */

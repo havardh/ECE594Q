@@ -12,10 +12,10 @@ TEST_GROUP(Snell) {
 
 TEST(Snell, shouldHandlePerpendicularAngle) {
 
-  Matrix N(1,0,0);
-  Matrix I(1,0,0);
+  Vector N(1,0,0);
+  Vector I(1,0,0);
   
-  Matrix D = Snell::direction(ETA1, ETA2, N, I);
+  Vector D = Snell::direction(ETA1, ETA2, N, I);
 
   VECTOR_EQUAL(-1, 0, 0, D);
 }
@@ -24,10 +24,10 @@ TEST(Snell, shouldHandlePerpendicularAngle) {
 
 TEST(Snell, shouldHandleOrthogonalAngles) {
   
-  Matrix N(1,0,0);
-  Matrix I(0,-1,0);
+  Vector N(1,0,0);
+  Vector I(0,-1,0);
 
-  Matrix D = Snell::direction(ETA1, ETA2, N, I);
+  Vector D = Snell::direction(ETA1, ETA2, N, I);
 
   VECTOR_EQUAL(0,-1,0, D);
 
@@ -35,10 +35,10 @@ TEST(Snell, shouldHandleOrthogonalAngles) {
 
 TEST(Snell, shouldNotAlterWhenNIsSame) {
 
-  Matrix N(1,0,0);
-  Matrix I(0.707107,0.707107,0);
+  Vector N(1,0,0);
+  Vector I(0.707107,0.707107,0);
 
-  Matrix D = Snell::direction(1,1, N, I);
+  Vector D = Snell::direction(1,1, N, I);
 
   VECTOR_EQUAL(0.707107,0.707107,0, D);
   

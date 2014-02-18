@@ -1,12 +1,12 @@
 #include "Snell.h"
 
-Matrix Snell::direction(float n1, float n2, Matrix N, Matrix I) {
+Vector Snell::direction(float n1, float n2, Vector N, Vector I) {
 
   float theta1 = acos( N.dot(I) / (N.length() * I.length()) );
   float theta2 = asin( (sin(theta1) * n1) / n2 );
 
   if (fabs(theta1) < 0.000001 && fabs(theta2) < 0.000001) {
-    Matrix D = -I;
+    Vector D = -I;
     return D.normalize();
   }
 
@@ -14,18 +14,18 @@ Matrix Snell::direction(float n1, float n2, Matrix N, Matrix I) {
     return I.normalize();
   }
 
-  Matrix Q = cos(theta1) * N;
-  Matrix M = (sin(theta2) / sin(theta1)) * (Q - I);
-  Matrix P = -cos(theta2) * N;
+  Vector Q = cos(theta1) * N;
+  Vector M = (sin(theta2) / sin(theta1)) * (Q - I);
+  Vector P = -cos(theta2) * N;
 
-  Matrix T = M + P;
+  Vector T = M + P;
 
   return T;
 }
 
 /*
 // http://steve.hollasch.net/cgindex/render/refraction.txt
-Matrix Snell::direction(float n1, float n2, Matrix N, Matrix I) {
+Vector Snell::direction(float n1, float n2, Vector N, Vector I) {
 
   float eta, c1, cs2;
 
@@ -35,7 +35,7 @@ Matrix Snell::direction(float n1, float n2, Matrix N, Matrix I) {
 
   if (cs2 < 0) printf("tir\n"); // total internal reflectation
   
-  Matrix T = eta * I + (eta * c1 - sqrt(cs2)) * N;
+  Vector T = eta * I + (eta * c1 - sqrt(cs2)) * N;
 
   return T;
 }

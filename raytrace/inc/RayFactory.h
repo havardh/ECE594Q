@@ -4,7 +4,7 @@
 #include <vector>
 #include "Ray.h"
 #include "Camera.h"
-#include "Matrix.h"
+#include "Vector.h"
 
 class RayFactory {
 
@@ -18,7 +18,7 @@ private:
   Camera _camera;
   int _width, _height;
 
-  Matrix M, X, Y, E;
+  Vector M, X, Y, E;
 
   void calculateVectors();
 

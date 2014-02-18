@@ -12,7 +12,7 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
   this->depth = depth;
   this->median = findMedian(shapes, axis);
 
-  DPRINTF("%d %d\n", depth, shapes.size());
+  //DPRINTF("%d %d\n", depth, shapes.size());
   if (terminate(shapes)) {
     setShapes(shapes);
   } else {
@@ -51,15 +51,15 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
 
     IntersectionPtr intersection = first->intersect(ray);
     if ( intersection != nullptr) {
-      DPRINTF("Case 1\n");
+      //DPRINTF("Case 1\n");
       return intersection;
     }
 
     if (plane.intersect(ray)) {
-      DPRINTF("Case 2\n");
+      //DPRINTF("Case 2\n");
       intersection = last->intersect(ray);
       if ( intersection != nullptr) {
-        DPRINTF("Case 3\n");
+        //DPRINTF("Case 3\n");
         return intersection;
       }
     }
@@ -86,7 +86,7 @@ std::vector<IntersectionPtr> KDTree::intersectionsChildNode(const Ray ray) const
   
   std::vector<IntersectionPtr> intersections;
   vector<RTShape*>::const_iterator it;
-  DPRINTF("Searching through %d\n", shapes.size());
+  //DPRINTF("Searching through %d\n", shapes.size());
   for(it = shapes.begin(); it != shapes.end(); ++it) {
 
     IntersectionPtr intersection = (*it)->intersect(ray);

@@ -15,8 +15,8 @@ static RTMaterial material;
 static NiceMock<ShadowTracerMock> *shadowTracerMock;
 static NiceMock<RTShapeMock> *shapeMock;
 static WhittedIlluminator *illuminator;
-static Light l1(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-static Light l2(Matrix(10,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+static Light l1(Vector(10,0,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
+static Light l2(Vector(10,0,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
 static Scene *scene;
 
 TEST_GROUP(WhittedIlluminator) {
@@ -36,8 +36,8 @@ TEST_GROUP(WhittedIlluminator) {
     illuminator = new WhittedIlluminator(&stracer, scene);
     illuminator->setShape(shapeMock);
     illuminator->setMaterial(material);
-    illuminator->setRayOrigin(Matrix(1,0,0));
-    illuminator->setPoint(Matrix(0,0,0));
+    illuminator->setRayOrigin(Vector(1,0,0));
+    illuminator->setPoint(Vector(0,0,0));
   }
 	void teardown() {
     delete shadowTracerMock;
@@ -47,13 +47,13 @@ TEST_GROUP(WhittedIlluminator) {
   }
 };
 
-void setNormal(Matrix *normal) {
-  EXPECT_CALL(*shapeMock, normal(_)).WillRepeatedly(Return(MatrixPtr(normal)));
+void setNormal(Vector *normal) {
+  EXPECT_CALL(*shapeMock, normal(_)).WillRepeatedly(Return(VectorPtr(normal)));
 }
 
 TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFrontOfLightSource) {
   
-  setNormal(new Matrix(1,0,0));
+  setNormal(new Vector(1,0,0));
   
   RTColor color = illuminator->diffuse(&l1);
 
@@ -63,7 +63,7 @@ TEST(WhittedIlluminator, shouldFullyIlluminateWhenDirectlyInFrontOfLightSource) 
 
 TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
   
-	setNormal(new Matrix(0,1,0));
+	setNormal(new Vector(0,1,0));
 
   RTColor color = illuminator->diffuse(&l1);
 
@@ -73,7 +73,7 @@ TEST(WhittedIlluminator, shouldNotIlluminateWhenOnOrthogonalToNormalVector) {
 
 TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
-  setNormal(new Matrix(0.2,0.2,0.9591663045f));
+  setNormal(new Vector(0.2,0.2,0.9591663045f));
   scene->add(l2);
 
   RTColor color = illuminator->direct();
@@ -86,7 +86,7 @@ TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
 TEST(WhittedIlluminator, shouldCeilToOne) {
   
-	setNormal(new Matrix(0.7f, 0.7f, 0.141421355f)); 
+	setNormal(new Vector(0.7f, 0.7f, 0.141421355f)); 
   scene->add(l2);
 
   RTColor color = illuminator->direct();
@@ -97,7 +97,7 @@ TEST(WhittedIlluminator, shouldCeilToOne) {
 
 TEST(WhittedIlluminator, transpanrancyShouldReduceColorFromDirectLighting) {
 
-  setNormal(new Matrix(1,0,0));
+  setNormal(new Vector(1,0,0));
   material.setKTransparency(0.5);
   illuminator->setMaterial(material);
  
@@ -108,8 +108,8 @@ TEST(WhittedIlluminator, transpanrancyShouldReduceColorFromDirectLighting) {
 
 TEST(WhittedIlluminator, specularShouldBe1WhenStraightAt) {
   
-  setNormal(new Matrix(1,0,0));
-  illuminator->setRayOrigin(Matrix(1,0,0));
+  setNormal(new Vector(1,0,0));
+  illuminator->setRayOrigin(Vector(1,0,0));
 
   RTColor color = illuminator->specular(&l1);
 
@@ -119,9 +119,9 @@ TEST(WhittedIlluminator, specularShouldBe1WhenStraightAt) {
 
 IGNORE_TEST(WhittedIlluminator, specularShouldDecreaseWithNormal) {
 
-  setNormal(new Matrix(1,0,0));
-  illuminator->setRayOrigin(Matrix(1,0,0));
-  Light l3(Matrix(1,0.000425,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  setNormal(new Vector(1,0,0));
+  illuminator->setRayOrigin(Vector(1,0,0));
+  Light l3(Vector(1,0.000425,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
   RTColor color = illuminator->specular(&l3);
 
   CHECK( color.getRGBRed() > 0 );
@@ -135,9 +135,9 @@ IGNORE_TEST(WhittedIlluminator, specularShouldDecreaseWithNormal) {
 
 TEST(WhittedIlluminator, specularShouldBeZeroWhenOrthogonal) {
 
-  setNormal(new Matrix(1,0,0));
-  illuminator->setRayOrigin(Matrix(1,0,0));
-  Light l3(Matrix(0,2,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
+  setNormal(new Vector(1,0,0));
+  illuminator->setRayOrigin(Vector(1,0,0));
+  Light l3(Vector(0,2,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
   
   RTColor color = illuminator->specular(&l3);
 

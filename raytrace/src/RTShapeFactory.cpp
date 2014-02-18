@@ -13,9 +13,9 @@ static IntersectionShaderColor intersectionShaderColor;
 RTTriangle RTShapeFactory::createTriangle(PolygonIO *polygon, bool hasNormals, bool hasMaterials, RTPolySet *parent) {
 
   RTTriangle triangle(
-    Matrix(polygon->vert[0].pos), 
-    Matrix(polygon->vert[1].pos), 
-    Matrix(polygon->vert[2].pos)
+    Vector(polygon->vert[0].pos), 
+    Vector(polygon->vert[1].pos), 
+    Vector(polygon->vert[2].pos)
   );
   triangle.setParent(parent);
 
@@ -126,36 +126,36 @@ RTPlane RTShapeFactory::createPlane(BoundingBox box, int axis, float pos) {
 
   if (axis == 0) {
     plane.addTriangle(RTTriangle(
-      Matrix(pos, y, z), 
-      Matrix(pos, y+dy, z), 
-      Matrix(pos, y+dy, z+dz)
+      Vector(pos, y, z), 
+      Vector(pos, y+dy, z), 
+      Vector(pos, y+dy, z+dz)
     ));
     plane.addTriangle(RTTriangle(
-      Matrix(pos, y, z), 
-      Matrix(pos, y, z+dz), 
-      Matrix(pos, y+dy, z+dz)
+      Vector(pos, y, z), 
+      Vector(pos, y, z+dz), 
+      Vector(pos, y+dy, z+dz)
     ));
   } else if (axis == 1) {
     plane.addTriangle(RTTriangle(
-      Matrix(x, pos, z), 
-      Matrix(x, pos, z+dz), 
-      Matrix(x+dx, pos, z+dz)
+      Vector(x, pos, z), 
+      Vector(x, pos, z+dz), 
+      Vector(x+dx, pos, z+dz)
     ));
     plane.addTriangle(RTTriangle(
-      Matrix(x, pos, z),
-      Matrix(x+dx, pos, z),
-      Matrix(x+dx, pos, z+dz)
+      Vector(x, pos, z),
+      Vector(x+dx, pos, z),
+      Vector(x+dx, pos, z+dz)
     ));
   } else {
     plane.addTriangle(RTTriangle(
-      Matrix(x, y, pos), 
-      Matrix(x, y+dy, pos), 
-      Matrix(x+dx, y+dy, pos)
+      Vector(x, y, pos), 
+      Vector(x, y+dy, pos), 
+      Vector(x+dx, y+dy, pos)
     ));
     plane.addTriangle(RTTriangle(
-      Matrix(x, y, pos),
-      Matrix(x+dx, y, pos),
-      Matrix(x+dx, y+dy, pos)
+      Vector(x, y, pos),
+      Vector(x+dx, y, pos),
+      Vector(x+dx, y+dy, pos)
     ));
   }
 

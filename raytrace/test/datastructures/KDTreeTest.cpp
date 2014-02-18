@@ -13,12 +13,12 @@ TEST(KDTree, shouldDivideOnAverageByDefault) {
   KDTree tree;
 
   vector<RTShape*> shapes;
-  RTSphere sphere0(Matrix(-5,0,0), 1);
-  RTSphere sphere1(Matrix(5,0,0), 1);
+  RTSphere sphere0(Vector(-5,0,0), 1);
+  RTSphere sphere1(Vector(5,0,0), 1);
   shapes.push_back(&sphere0);
   shapes.push_back(&sphere1);
 
-  BoundingBox box(Matrix(-6, -1, -1), Matrix(12, 2, 2));
+  BoundingBox box(Vector(-6, -1, -1), Vector(12, 2, 2));
   tree.setBoundingBox(box);
   tree.build(shapes, 0);
 
@@ -40,14 +40,14 @@ TEST(KDTree, shapesCanBeInTwoVoxelsIfOnEdge) {
   KDTree tree;
 
   vector<RTShape*> shapes;
-  RTSphere sphere0(Matrix(-5,0,0), 1);
-  RTSphere sphere1(Matrix(5,0,0), 1);
-  RTSphere sphere2(Matrix(0,0,0), 1);
+  RTSphere sphere0(Vector(-5,0,0), 1);
+  RTSphere sphere1(Vector(5,0,0), 1);
+  RTSphere sphere2(Vector(0,0,0), 1);
   shapes.push_back(&sphere0);
   shapes.push_back(&sphere1);
   shapes.push_back(&sphere2);
 
-  BoundingBox box(Matrix(-6, -1, -1), Matrix(12, 2, 2));
+  BoundingBox box(Vector(-6, -1, -1), Vector(12, 2, 2));
   tree.setBoundingBox(box);
   tree.setTerminationCondition(2);
   tree.build(shapes, 0);
@@ -61,16 +61,16 @@ TEST(KDTree, itSplitsXthenYthenZ) {
   KDTree tree;
 
   vector<RTShape*> shapes;
-  RTSphere sphere0(Matrix(5,5,0), 1);
-  RTSphere sphere1(Matrix(5,-5,0), 1);
-  RTSphere sphere2(Matrix(-5,5,0), 1);
-  RTSphere sphere3(Matrix(-5,-5,0), 1);
+  RTSphere sphere0(Vector(5,5,0), 1);
+  RTSphere sphere1(Vector(5,-5,0), 1);
+  RTSphere sphere2(Vector(-5,5,0), 1);
+  RTSphere sphere3(Vector(-5,-5,0), 1);
   shapes.push_back(&sphere0);
   shapes.push_back(&sphere1);
   shapes.push_back(&sphere2);
   shapes.push_back(&sphere3);
 
-  BoundingBox box(Matrix(-6,-6,-6), Matrix(12,12,12));
+  BoundingBox box(Vector(-6,-6,-6), Vector(12,12,12));
   tree.setBoundingBox(box);
   tree.setTerminationCondition(1);
   tree.build(shapes, 0);
@@ -87,12 +87,12 @@ TEST(KDTree, shouldSupportTriangles) {
 
   KDTree tree;
   vector<RTShape*> shapes;
-  RTTriangle triangle0(Matrix(0.1,0.1,0.1), Matrix(1,1,1), Matrix(0.1,2,0.1));
-  RTTriangle triangle1(Matrix(-0.1,-0.1,-0.1), Matrix(-1,-1,-1), Matrix(-0.1,-2,-0.1));
+  RTTriangle triangle0(Vector(0.1,0.1,0.1), Vector(1,1,1), Vector(0.1,2,0.1));
+  RTTriangle triangle1(Vector(-0.1,-0.1,-0.1), Vector(-1,-1,-1), Vector(-0.1,-2,-0.1));
   shapes.push_back(&triangle0);
   shapes.push_back(&triangle1);
 
-  BoundingBox box(Matrix(-1,-2,-1), Matrix(2,4,2));
+  BoundingBox box(Vector(-1,-2,-1), Vector(2,4,2));
   tree.setBoundingBox(box);
   tree.build(shapes, 0);
   
@@ -105,12 +105,12 @@ TEST(KDTree, mixingTrianglesAndSphereIsNotAProblem) {
   
   KDTree tree;
   vector<RTShape*> shapes;
-  RTTriangle triangle(Matrix(0.1,0.1,0.1), Matrix(1,1,1), Matrix(0.1,2,0.1));
-  RTSphere sphere(Matrix(-1,-1,-1), 1);
+  RTTriangle triangle(Vector(0.1,0.1,0.1), Vector(1,1,1), Vector(0.1,2,0.1));
+  RTSphere sphere(Vector(-1,-1,-1), 1);
   shapes.push_back(&triangle);
   shapes.push_back(&sphere);
 
-  BoundingBox box(Matrix(-2,-2,-2), Matrix(2,4,2));
+  BoundingBox box(Vector(-2,-2,-2), Vector(2,4,2));
   tree.setBoundingBox(box);
   tree.build(shapes, 0);
   
@@ -125,13 +125,13 @@ TEST(KDTree, shouldExtractTrianglesFromPolySet) {
   
   vector<RTShape*> shapes;
   RTPolySet ps;
-  RTTriangle t1(Matrix(0,0,0), Matrix(1,0,0), Matrix(1,0,1));
+  RTTriangle t1(Vector(0,0,0), Vector(1,0,0), Vector(1,0,1));
   ps.addTriangle(t1);
-  RTTriangle t2(Matrix(5,5,5), Matrix(6,6,5), Matrix(6,6,6));
+  RTTriangle t2(Vector(5,5,5), Vector(6,6,5), Vector(6,6,6));
   ps.addTriangle(t2);
   shapes.push_back(&ps);
 
-  BoundingBox box(Matrix(0,0,0), Matrix(6,6,6));
+  BoundingBox box(Vector(0,0,0), Vector(6,6,6));
   tree.setBoundingBox(box);
   tree.setTerminationCondition(2);
   tree.build(shapes, 0);
@@ -147,17 +147,17 @@ TEST(KDTree, shouldSupportIntersectionSearchForChildNode) {
   KDTree tree;
   
   vector<RTShape*> shapes;
-  RTTriangle t1(Matrix(0,0,0), Matrix(0,1,0), Matrix(0,0,1));
-  RTTriangle t2(Matrix(-1,0,0), Matrix(-1,1,0), Matrix(-1,0,1));
+  RTTriangle t1(Vector(0,0,0), Vector(0,1,0), Vector(0,0,1));
+  RTTriangle t2(Vector(-1,0,0), Vector(-1,1,0), Vector(-1,0,1));
   shapes.push_back(&t1);
   shapes.push_back(&t2);
 
-  BoundingBox box(Matrix(0,0,0), Matrix(1,0,1));
+  BoundingBox box(Vector(0,0,0), Vector(1,0,1));
   tree.setBoundingBox(box);
   tree.setTerminationCondition(2);
   tree.build(shapes, 0);
 
-  Ray ray(Matrix(-5,0.1,0.1), Matrix(1,0,0));
+  Ray ray(Vector(-5,0.1,0.1), Vector(1,0,0));
   IntersectionPtr intersection = tree.intersect(ray);
   
   CHECK( intersection->getShape() == &t2 );
@@ -169,21 +169,21 @@ TEST(KDTree, shouldSupportIntersectionSearchForRegularNodes) {
   KDTree tree;
   
   vector<RTShape*> shapes;
-  RTSphere sphere0(Matrix(5,5,0), 1);
-  RTSphere sphere1(Matrix(5,-5,0), 1);
-  RTSphere sphere2(Matrix(-5,5,0), 1);
-  RTSphere sphere3(Matrix(-5,-5,0), 1);
+  RTSphere sphere0(Vector(5,5,0), 1);
+  RTSphere sphere1(Vector(5,-5,0), 1);
+  RTSphere sphere2(Vector(-5,5,0), 1);
+  RTSphere sphere3(Vector(-5,-5,0), 1);
   shapes.push_back(&sphere0);
   shapes.push_back(&sphere1);
   shapes.push_back(&sphere2);
   shapes.push_back(&sphere3);
 
-  BoundingBox box(Matrix(-6,-6,-6), Matrix(12,12,12));
+  BoundingBox box(Vector(-6,-6,-6), Vector(12,12,12));
   tree.setBoundingBox(box);
   tree.setTerminationCondition(1);
   tree.build(shapes, 0);
 
-  Ray ray(Matrix(-10, 5, 0 ), Matrix(1,0,0));
+  Ray ray(Vector(-10, 5, 0 ), Vector(1,0,0));
   IntersectionPtr intersection = tree.intersect(ray);
   
   CHECK( intersection != nullptr );

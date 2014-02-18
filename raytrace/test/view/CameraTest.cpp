@@ -1,5 +1,5 @@
 #include "CppUTest/CommandLineTestRunner.h"
-#include "Matrix.h"
+#include "Vector.h"
 #include "MatrixTestHelper.h"
 #include "Camera.h"
 
@@ -9,15 +9,12 @@ TEST_GROUP(Camera) {
 };
 
 TEST(Camera, shouldConstructCompleteCamera) {
-  float pos[] = { 9,4,4 };
-  float dir[] = { 0.5f,-0.5f,-0.6f };
-  float up [] = { 0.4f, 0.8f, -0.3f };
   
-  Camera c(Matrix(9,4,4), Matrix(0.5f,-0.5f,-0.6f), 0, Matrix(0.4f, 0.8f, -0.3f), (float)(M_PI/2.0));
+  Camera c(Vector(9,4,4), Vector(0.5f,-0.5f,-0.6f), 0, Vector(0.4f, 0.8f, -0.3f), (float)(M_PI/2.0));
 
-  MATRIX_EQUALS(pos, c.getPosition(), 0.0001);
-  MATRIX_EQUALS(dir, c.getDirection(), 0.0001);
-  MATRIX_EQUALS(up,  c.getUp(), 0.0001);
+  VECTOR_EQUAL(9,4,4, c.getPosition());
+  VECTOR_EQUAL(0.5f,-0.5f,-0.6f, c.getDirection());
+  VECTOR_EQUAL(0.4f, 0.8f, -0.3f,  c.getUp());
   DOUBLES_EQUAL(M_PI/2, c.getFieldOfView(), 0.0001);
   
 }

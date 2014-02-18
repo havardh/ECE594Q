@@ -1,7 +1,7 @@
 #ifndef _BOUNDINGBOX_H_
 #define _BOUNDINGBOX_H_
 
-#include "Matrix.h"
+#include "Vector.h"
 #include <utility>
 
 using std::pair;
@@ -10,18 +10,18 @@ class BoundingBox {
 
 public:
   BoundingBox();
-  BoundingBox(Matrix, Matrix);
+  BoundingBox(Vector, Vector);
   
-  void setOrigin(Matrix);
-  void setDelta(Matrix);
-  Matrix getOrigin() const;
-  Matrix getDelta() const;
+  void setOrigin(Vector);
+  void setDelta(Vector);
+  Vector getOrigin() const;
+  Vector getDelta() const;
 
   pair<BoundingBox,BoundingBox> split(float,int) const;
 
   bool intersects(const BoundingBox &box) const;
   BoundingBox unionWith(const BoundingBox &box) const;
-  Matrix center() const;
+  Vector center() const;
 
   void print() const {
     _origin.printPoint();
@@ -29,8 +29,8 @@ public:
   }
 
 private:
-  Matrix _origin;
-  Matrix _delta;
+  Vector _origin;
+  Vector _delta;
 
 
   bool intersectsOnAxis(const BoundingBox &box, int axis) const;

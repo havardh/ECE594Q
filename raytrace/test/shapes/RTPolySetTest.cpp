@@ -10,8 +10,8 @@ TEST_GROUP(RTPolySet) {
 
 TEST(RTPolySet, shouldAddAndIntersect) {
  
-  RTTriangle t1(Matrix(0,0,1), Matrix(1,0,1), Matrix(0,1,1));
-  RTTriangle t2(Matrix(0,0,1), Matrix(1,1,1), Matrix(0,1,1));
+  RTTriangle t1(Vector(0,0,1), Vector(1,0,1), Vector(0,1,1));
+  RTTriangle t2(Vector(0,0,1), Vector(1,1,1), Vector(0,1,1));
 
   RTPolySet ps;
 
@@ -19,12 +19,12 @@ TEST(RTPolySet, shouldAddAndIntersect) {
   ps.addTriangle(t2);
   
   {
-    IntersectionPtr m = ps.intersect(Ray(Matrix(0,0,0), Matrix(0,0,1)));
+    IntersectionPtr m = ps.intersect(Ray(Vector(0,0,0), Vector(0,0,1)));
     CHECK(m != nullptr);
   }
 
   {
-    IntersectionPtr m = ps.intersect(Ray(Matrix(1,1,0), Matrix(0,0,1)));
+    IntersectionPtr m = ps.intersect(Ray(Vector(1,1,0), Vector(0,0,1)));
     CHECK(m != nullptr);
   }
 }
@@ -34,14 +34,14 @@ TEST(RTPolySet, shouldCalculateMidpoint) {
 
   RTPolySet ps;
   
-  RTTriangle t1(Matrix(0,0,0), Matrix(1,0,0), Matrix(1,0,1));
+  RTTriangle t1(Vector(0,0,0), Vector(1,0,0), Vector(1,0,1));
   ps.addTriangle(t1);
-  RTTriangle t2(Matrix(0,1,0), Matrix(1,1,0), Matrix(1,1,1));
+  RTTriangle t2(Vector(0,1,0), Vector(1,1,0), Vector(1,1,1));
   ps.addTriangle(t2);
 
   ps.calculateMidpoint();
 
-  Matrix m = ps.getMidpoint();
+  Vector m = ps.getMidpoint();
   
 
 }
@@ -49,9 +49,9 @@ TEST(RTPolySet, shouldCalculateMidpoint) {
 TEST(RTPolySet, boundingBoxShouldBeUnionOfTriangles) {
 
   RTPolySet ps;
-  RTTriangle t1(Matrix(0,0,0), Matrix(1,0,0), Matrix(1,0,1));
+  RTTriangle t1(Vector(0,0,0), Vector(1,0,0), Vector(1,0,1));
   ps.addTriangle(t1);
-  RTTriangle t2(Matrix(5,5,5), Matrix(6,6,5), Matrix(6,6,6));
+  RTTriangle t2(Vector(5,5,5), Vector(6,6,5), Vector(6,6,6));
   ps.addTriangle(t2);
 
   BoundingBox box = ps.getBoundingBox();

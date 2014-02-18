@@ -36,7 +36,7 @@ void RayTracer::render() {
     for (int j=0; j<width; j++) {
       //if (i != 62 || j != 26) {}
 
-      DPRINTF("%d %d\n", i, j);
+      //DPRINTF("%d %d\n", i, j);
 
       Ray ray = factory.createRay(i,j);
       RTColor color = trace(ray);

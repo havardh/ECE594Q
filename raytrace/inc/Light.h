@@ -1,7 +1,7 @@
 #ifndef _LIGHT_H_ 
 #define _LIGHT_H_
 
-#include "Matrix.h"
+#include "Vector.h"
 #include "RTColor.h"
 #include <vector>
 
@@ -13,7 +13,7 @@ class Light {
 
 public:
   
-  Light(RTLightType type, Matrix pos, Matrix dir, RTColor color, float dropOffRate, float cutOffAngle) {
+  Light(RTLightType type, Vector pos, Vector dir, RTColor color, float dropOffRate, float cutOffAngle) {
     _type = type;
     _position = pos;
     _direction = dir;
@@ -22,7 +22,7 @@ public:
     _cutOffAngle = cutOffAngle;
   }
   
-  Light(Matrix pos, Matrix dir, RTColor color, float dropOffRate, float cutOffAngle) {
+  Light(Vector pos, Vector dir, RTColor color, float dropOffRate, float cutOffAngle) {
     _type = POINT;
     _position = pos;
     _direction = dir;
@@ -32,30 +32,30 @@ public:
   }
 
   RTLightType getType() const { return _type; }
-  const Matrix& getPosition() const { return _position; }
-  const Matrix& getDirection() const { return _direction; }
+  const Vector& getPosition() const { return _position; }
+  const Vector& getDirection() const { return _direction; }
   const RTColor& getColor() const { return _color; }
   float getDropOffRate() const { return _dropOffRate; }
   float getCutOffAngle() const { return _cutOffAngle; }
 
-  const Matrix getDirectionFrom(const Matrix p) const {
+  const Vector getDirectionFrom(const Vector p) const {
     if (getType() == POINT) {
       return getPosition() - p;
     } else {
-      return getDirection() * -1;
+      return -getDirection();
     }
   }
 
   void setType(RTLightType type) {  _type = type; }
-  void setPosition(const Matrix& position) {  _position = position; }
-  void setDirection(const Matrix& direction) {  _direction = direction; }
+  void setPosition(const Vector& position) {  _position = position; }
+  void setDirection(const Vector& direction) {  _direction = direction; }
   void setColor(const RTColor& color) {  _color = color; }
   void setDropOffRate(float dropOffRate) {  _dropOffRate = dropOffRate; }
   void setCutOffAngle(float cutOffAngle) {  _cutOffAngle = cutOffAngle; }
 
 private:
   RTLightType _type;
-  Matrix _position, _direction;
+  Vector _position, _direction;
   RTColor _color;
   float _dropOffRate, _cutOffAngle;
 

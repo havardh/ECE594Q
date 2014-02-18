@@ -73,8 +73,8 @@ RTColor WhittedIlluminator::direct() {
 
 RTColor WhittedIlluminator::diffuse(const Light *light) {
 
-  Matrix N = -shape->normal(point)->normalize();
-  Matrix Dj = light->getDirectionFrom(point);
+  Vector N = -shape->normal(point)->normalize();
+  Vector Dj = light->getDirectionFrom(point);
   
   float value = fmax(0, (-N).dot(Dj.normalize()));
   RTColor Cd = material.getDiffColor();
@@ -86,17 +86,17 @@ RTColor WhittedIlluminator::diffuse(const Light *light) {
 
 RTColor WhittedIlluminator::specular(const Light *light) {
 
-  Matrix V = (rayOrigin - point);
-  Matrix L = light->getDirectionFrom(point);
+  Vector V = (rayOrigin - point);
+  Vector L = light->getDirectionFrom(point);
   V.normalize();
   L.normalize();
 
   RTColor ks = material.getSpecColor();
   float q = material.getShininess() * 128;
 
-  Matrix N = shape->normal(point)->normalize();
+  Vector N = shape->normal(point)->normalize();
 
-  Matrix R = 2 * N.dot(L) * N - L;
+  Vector R = 2 * N.dot(L) * N - L;
   R.normalize();
 
   float x = R.dot(V);
@@ -116,9 +116,9 @@ RTColor WhittedIlluminator::reflection() {
 
   if (_reflectionsComputed++ < REFLECTIONS) {
 
-    Matrix L = rayOrigin - point;
-    Matrix N = shape->normal(point)->normalize();
-    Matrix R = 2 * N.dot(L) * N - L;
+    Vector L = rayOrigin - point;
+    Vector N = shape->normal(point)->normalize();
+    Vector R = 2 * N.dot(L) * N - L;
     R.normalize();
     
 
@@ -161,11 +161,11 @@ RTColor WhittedIlluminator::refraction() {
     _refractionCount--;
   }
 
-  Matrix N = shape->normal(point)->normalize();
+  Vector N = shape->normal(point)->normalize();
   
-  Matrix I = rayOrigin - point;
+  Vector I = rayOrigin - point;
 
-  //Matrix direction = Snell::direction(n1, n2, N, I);
+  //Vector direction = Snell::direction(n1, n2, N, I);
   //direction.normalize();
 
   Ray inObject(point + N*0.000001, rayDirection);

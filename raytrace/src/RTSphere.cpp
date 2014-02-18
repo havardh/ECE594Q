@@ -2,19 +2,19 @@
 
 #define EPSILON 0.000001
 
-RTSphere::RTSphere(Matrix origin, float radius) {
+RTSphere::RTSphere(Vector origin, float radius) {
   _origin = origin;
   _radius = radius;
 }
 
 IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
 
-  Matrix O = ray.getOrigin();
-  Matrix L = ray.getDirection();
-  Matrix C = this->_origin;
+  Vector O = ray.getOrigin();
+  Vector L = ray.getDirection();
+  Vector C = this->_origin;
   float  r = this->_radius;
 
-  Matrix O_C = O-C;
+  Vector O_C = O-C;
   
   float a = -(L.dot(O_C));
   float b = (L.dot(O_C) * L.dot(O_C)) - (O_C).dot(O_C) + (r*r);
@@ -24,7 +24,7 @@ IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
   } else {
     float d = a - (float)sqrt(b);
 
-    Matrix p(O + d * L);
+    Vector p(O + d * L);
 
     if (fabs ((ray.getOrigin() - p).length()) > 0.001) {
       return IntersectionPtr(new Intersection(this, ray, p));
@@ -37,16 +37,16 @@ IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
 // http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 IntersectionPtr RTSphere::intersect(const Ray ray) {
 
-  Matrix x0 = _origin;
-  Matrix x1 = ray.getOrigin();
-  Matrix x2 = ray.getOrigin() + ray.getDirection();
+  Vector x0 = _origin;
+  Vector x1 = ray.getOrigin();
+  Vector x2 = ray.getOrigin() + ray.getDirection();
 
 
   if ((x1 - x0).length() < (x2 - x0).length()) {
     return IntersectionPtr(NULL);
   }
 
-  float d = ((x2 - x1).crossProduct(x1 - x0)).length() / ((x2-x1).length());
+  float d = ((x2 - x1).cross(x1 - x0)).length() / ((x2-x1).length());
 
   if (_radius >= d) {
     return getIntersection(ray);
@@ -56,17 +56,17 @@ IntersectionPtr RTSphere::intersect(const Ray ray) {
   
 }
 
-MatrixPtr RTSphere::normal(const Matrix &point) {
+VectorPtr RTSphere::normal(const Vector &point) {
 
 
-  Matrix direction = point - _origin;
-  return MatrixPtr(new Matrix(direction.normalize()));
+  Vector direction = point - _origin;
+  return VectorPtr(new Vector(direction.normalize()));
 
 }
 
-void RTSphere::interpolateUV(float &u, float &v, const Matrix point) {
+void RTSphere::interpolateUV(float &u, float &v, const Vector point) {
 
-  Matrix R = point - _origin;
+  Vector R = point - _origin;
   R.normalize();
 
   u = (float) (0.5 + atan2(R.get(2), R.get(0)) / (2 * M_PI));
@@ -74,7 +74,7 @@ void RTSphere::interpolateUV(float &u, float &v, const Matrix point) {
 
 }
 
-const RTMaterial RTSphere::interpolateMaterial(const Matrix &point) {
+const RTMaterial RTSphere::interpolateMaterial(const Vector &point) {
   (void) point;
   return getMaterial(0);
 }
@@ -84,9 +84,9 @@ BoundingBox RTSphere::getBoundingBox() const {
   float y = getOrigin().get(1) - _radius;
   float z = getOrigin().get(2) - _radius;
 
-  Matrix origin(x,y,z);
+  Vector origin(x,y,z);
   float diameter = _radius*2;
-  Matrix delta(diameter, diameter, diameter);
+  Vector delta(diameter, diameter, diameter);
 
   return BoundingBox(origin, delta);
 }

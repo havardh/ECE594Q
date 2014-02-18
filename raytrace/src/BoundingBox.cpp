@@ -6,13 +6,13 @@
 
 BoundingBox::BoundingBox() : _origin(0,0,0), _delta(0,0,0) {}
 
-BoundingBox::BoundingBox(Matrix origin, Matrix delta) :
+BoundingBox::BoundingBox(Vector origin, Vector delta) :
   _origin(origin), _delta(delta) {}
 
 BoundingBoxes BoundingBox::split(float m, int axis) const {
   
-  Matrix origin = getOrigin();
-  Matrix delta = getDelta();
+  Vector origin = getOrigin();
+  Vector delta = getDelta();
   
   BoundingBox first = *this;
   delta.set(axis, m - getOrigin().get(axis));
@@ -52,7 +52,7 @@ bool BoundingBox::intersects(const BoundingBox &box) const {
 
 BoundingBox BoundingBox::unionWith(const BoundingBox &box) const {
 
-  Matrix origin(
+  Vector origin(
     fmin(getOrigin().get(0), box.getOrigin().get(0)),
     fmin(getOrigin().get(1), box.getOrigin().get(1)),
     fmin(getOrigin().get(2), box.getOrigin().get(2))
@@ -73,7 +73,7 @@ BoundingBox BoundingBox::unionWith(const BoundingBox &box) const {
     box.getOrigin().get(2)+box.getDelta().get(2)
   );
 
-  Matrix delta(
+  Vector delta(
     max_x - origin.get(0),
     max_y - origin.get(1),
     max_z - origin.get(2)
@@ -83,24 +83,24 @@ BoundingBox BoundingBox::unionWith(const BoundingBox &box) const {
 
 }
 
-Matrix BoundingBox::center() const {
+Vector BoundingBox::center() const {
 
   return getOrigin() + 0.5 * getDelta();
 
 }
 
-void BoundingBox::setOrigin(Matrix origin) {
+void BoundingBox::setOrigin(Vector origin) {
   _origin = origin;
 }
 
-void BoundingBox::setDelta(Matrix delta) {
+void BoundingBox::setDelta(Vector delta) {
   _delta = delta;
 }
 
-Matrix BoundingBox::getOrigin() const {
+Vector BoundingBox::getOrigin() const {
   return _origin;
 }
 
-Matrix BoundingBox::getDelta() const {
+Vector BoundingBox::getDelta() const {
   return _delta;
 }

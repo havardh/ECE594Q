@@ -1,7 +1,7 @@
 #ifndef _RAY_H_
 #define _RAY_H_
 
-#include "Matrix.h"
+#include "Vector.h"
 #include <stdint.h>
 
 class RayColor {
@@ -16,7 +16,7 @@ class Ray {
 
 public:
  Ray() : _origin(0,0,0), _direction(0,0,0) {}
-  Ray(const Matrix &origin, const Matrix &direction) {
+  Ray(const Vector &origin, const Vector &direction) {
     _origin = origin;
     _direction = direction;
   }
@@ -26,12 +26,12 @@ public:
     _direction.printPoint();
   }
 
-  const Matrix getOrigin() const { return _origin; }
-  const Matrix getDirection() const { return _direction; }
+  const Vector getOrigin() const { return _origin; }
+  const Vector getDirection() const { return _direction; }
 
 private:
-  Matrix _origin;
-  Matrix _direction;
+  Vector _origin;
+  Vector _direction;
 
 };
 

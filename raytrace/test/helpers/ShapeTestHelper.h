@@ -13,7 +13,7 @@
 
 #define CHECK_NORMAL_AT(s, point, x, y, z)  \
   {                                                 \
-    MatrixPtr I = s.normal(point);                  \
+    VectorPtr I = s.normal(point);                  \
     CHECK( I != nullptr );                          \
     DOUBLES_EQUAL(x, I->get(0), 0.0001);            \
     DOUBLES_EQUAL(y, I->get(1), 0.0001);            \

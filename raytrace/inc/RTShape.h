@@ -3,7 +3,7 @@
 
 #include "Ray.h"
 #include "RTMaterial.h"
-#include "Matrix.h"
+#include "Vector.h"
 #include "Intersection.h"
 #include "ColorShader.h"
 #include "IntersectionShader.h"
@@ -19,7 +19,7 @@ class RTShape {
 public:
   virtual ~RTShape();
   virtual IntersectionPtr intersect(const Ray ) = 0;
-  virtual MatrixPtr normal(const Matrix &) = 0;
+  virtual VectorPtr normal(const Vector &) = 0;
 
   // Materials
   void addMaterial(RTMaterial);
@@ -33,16 +33,16 @@ public:
   ColorShader* getColorShader() { return _colorShader; }
   IntersectionShader* getIntersectionShader() { return _intersectionShader; }
   
-  RTMaterial shadePoint(const Matrix&);
+  RTMaterial shadePoint(const Vector&);
   bool shadeIntersection(const Intersection&);
 
-  virtual Matrix getPosition() const = 0;
+  virtual Vector getPosition() const = 0;
   virtual BoundingBox getBoundingBox() const = 0;
 
   virtual void print() const {};
 
-  virtual void interpolateUV(float &, float &, const Matrix) = 0;
-  virtual const RTMaterial interpolateMaterial(const Matrix&) = 0;
+  virtual void interpolateUV(float &, float &, const Vector) = 0;
+  virtual const RTMaterial interpolateMaterial(const Vector&) = 0;
 
   virtual int getID() { return RTShape::shapeID; }
   const static int shapeID = 0;

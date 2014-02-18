@@ -42,7 +42,7 @@ void RTShape::setIntersectionShader(IntersectionShader *shader) {
   this->_intersectionShader = shader;
 }
 
-RTMaterial RTShape::shadePoint(const Matrix &point) {
+RTMaterial RTShape::shadePoint(const Vector &point) {
 
   if (getColorShader()) {
 

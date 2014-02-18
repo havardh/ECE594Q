@@ -12,8 +12,8 @@ TEST_GROUP(Scene) {
 
 TEST(Scene, shouldConstruct) {
 
-  Light light(Matrix(0,0,0), Matrix(0,0,0), RTColor::WHITE, 0, 0);
-  RTSphere sphere(Matrix(0,0,0), 0);
+  Light light(Vector(0,0,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
+  RTSphere sphere(Vector(0,0,0), 0);
  
   Scene scene;
   scene.add(light);
@@ -43,20 +43,20 @@ TEST(Scene, shouldConstruct) {
 TEST(Scene, shouldRetreiveTheClosestIntersect) {
   
 	Scene scene;
-  RTSphere s1(Matrix(0,0,0), 1);
+  RTSphere s1(Vector(0,0,0), 1);
   scene.add(&s1);
-  RTSphere s2(Matrix(10,0,0), 1);
+  RTSphere s2(Vector(10,0,0), 1);
   scene.add(&s2);
-  RTSphere s3(Matrix(-10,0,0), 1);
+  RTSphere s3(Vector(-10,0,0), 1);
   scene.add(&s3);
   scene.updateTree();
-  Ray ray(Matrix(20,0,0), Matrix(-1,0,0));
+  Ray ray(Vector(20,0,0), Vector(-1,0,0));
 
   IntersectionPtr intersection = scene.intersect(ray);
   CHECK(intersection != nullptr);
   RTShape *shape = intersection->getShape();
   
-  Matrix origin = ((RTSphere*)shape)->getOrigin();
+  Vector origin = ((RTSphere*)shape)->getOrigin();
 
   VECTOR_EQUAL(10, 0, 0, origin);
   
@@ -85,28 +85,28 @@ TEST(Scene, shouldSupportDirectionalLightSources) {
 TEST(Scene, shouldReturnAllIntersections) {
 
   Scene scene;
-  RTSphere s1(Matrix(0,0,0), 1);
+  RTSphere s1(Vector(0,0,0), 1);
   scene.add(&s1);
-  RTSphere s2(Matrix(10,0,0), 1);
+  RTSphere s2(Vector(10,0,0), 1);
   scene.add(&s2);
-  RTSphere s3(Matrix(-10,0,0), 1);
+  RTSphere s3(Vector(-10,0,0), 1);
   scene.add(&s3);
 
-  Ray ray(Matrix(20,0,0), Matrix(-1,0,0));
+  Ray ray(Vector(20,0,0), Vector(-1,0,0));
 
   std::vector<IntersectionPtr> intersections = scene.intersections(ray);
   CHECK(intersections.size() == 3);
 
 }
 
-static Ray ray(Matrix(0,0,0), Matrix(0,0,1));
+static Ray ray(Vector(0,0,0), Vector(0,0,1));
 TEST_GROUP(SceneIntersectionShader) {
   void setup() {
   }
 };
 
 TEST(SceneIntersectionShader, everythingIsVisibleWhenNotShader) {
-  RTSphere s(Matrix(0,0,10), 1);
+  RTSphere s(Vector(0,0,10), 1);
   Scene scene;
   scene.add(&s);
 
@@ -114,7 +114,7 @@ TEST(SceneIntersectionShader, everythingIsVisibleWhenNotShader) {
 }
 
 TEST(SceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
-  RTSphere s(Matrix(0,0,10), 1);
+  RTSphere s(Vector(0,0,10), 1);
   Scene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;
@@ -128,7 +128,7 @@ TEST(SceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
 
 TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
 
-  RTSphere s(Matrix(0,0,10), 1);
+  RTSphere s(Vector(0,0,10), 1);
   Scene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;
@@ -141,7 +141,7 @@ TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
 
 TEST(SceneIntersectionShader, shouldPassUVToShader) {
 
-  RTSphere s(Matrix(0,0,10), 1);
+  RTSphere s(Vector(0,0,10), 1);
   Scene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;

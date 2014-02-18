@@ -35,22 +35,22 @@ public:
 
   void setScene(Scene *s) { _scene = s; }
 
-  void setPoint(Matrix m) { point = m; }
+  void setPoint(Vector m) { point = m; }
   void setShape(RTShape *s) { shape = s; }
   void setMaterial(RTMaterial m) { material = m; }
-  void setRayOrigin(Matrix m) { rayOrigin = m; }
-  void setRayDirection(Matrix m) { rayDirection = m; }
+  void setRayOrigin(Vector m) { rayOrigin = m; }
+  void setRayDirection(Vector m) { rayDirection = m; }
 
   // Used to create new illuminator for reflection and refraction
   WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
 
 protected:
   /* Local shared members for helpers */
-  Matrix point;
+  Vector point;
   RTShape *shape;
   RTMaterial material;
-  Matrix rayOrigin;
-  Matrix rayDirection;
+  Vector rayOrigin;
+  Vector rayDirection;
 
   virtual void setLocalVariables(Intersection);
 

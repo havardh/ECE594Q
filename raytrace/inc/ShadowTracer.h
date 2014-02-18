@@ -12,10 +12,10 @@ public:
   ShadowTracer(Scene *scene) : _scene(scene) {}
   virtual ~ShadowTracer() {}
 
-  virtual bool hasOcclusion(const Matrix, const Matrix*);
-  virtual std::vector<const Light*> getLightSources(const Matrix *);
+  virtual bool hasOcclusion(const Vector, const Vector*);
+  virtual std::vector<const Light*> getLightSources(const Vector *);
 
-  virtual RTColor shadowFactor(const Matrix&, const Light*);
+  virtual RTColor shadowFactor(const Vector&, const Light*);
 
  private:
   Scene* _scene;

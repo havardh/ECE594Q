@@ -1,10 +1,10 @@
 #include "ShadowTracer.h"
 
-bool ShadowTracer::hasOcclusion(const Matrix light,  const Matrix* point) {
+bool ShadowTracer::hasOcclusion(const Vector light,  const Vector* point) {
 
-  Matrix origin = light;
-  Matrix direction = (origin - *point);
-  Matrix normalized = direction.normalize();
+  Vector origin = light;
+  Vector direction = (origin - *point);
+  Vector normalized = direction.normalize();
   
   Ray lightRay(*point, normalized);
 
@@ -19,7 +19,7 @@ bool ShadowTracer::hasOcclusion(const Matrix light,  const Matrix* point) {
 }
 
 
-std::vector<const Light*> ShadowTracer::getLightSources(const Matrix *point) {
+std::vector<const Light*> ShadowTracer::getLightSources(const Vector *point) {
   (void) point;
   std::vector<const Light*> sources;
 
@@ -35,11 +35,11 @@ std::vector<const Light*> ShadowTracer::getLightSources(const Matrix *point) {
   return sources;
 }
 
-RTColor ShadowTracer::shadowFactor(const Matrix &point, const Light *light) {
+RTColor ShadowTracer::shadowFactor(const Vector &point, const Light *light) {
 
   RTColor color(1,1,1);
 
-  Matrix direction = light->getDirectionFrom(point);
+  Vector direction = light->getDirectionFrom(point);
 
   Ray ray(point, direction.normalize());
 

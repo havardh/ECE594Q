@@ -18,10 +18,10 @@ Ray RayFactory::createRay(int i, int j) {
   //printf("X: "); this->X.printPoint();
   //printf("Y: "); this->Y.printPoint();
   
-  Matrix P = this->M + (2 * sx - 1) * this->X + (2 * sy - 1) * this->Y;
+  Vector P = this->M + (2 * sx - 1) * this->X + (2 * sy - 1) * this->Y;
   
-  Matrix t = (P - this->E);
-  Matrix D = t.normalize();
+  Vector t = (P - this->E);
+  Vector D = t.normalize();
   
   return Ray(this->E, D);
 }
@@ -43,8 +43,8 @@ std::vector<Ray> RayFactory::createRays() {
 
 void RayFactory::calculateVectors() {
 
-  Matrix U = _camera.getUp();
-  Matrix V = _camera.getDirection();
+  Vector U = _camera.getUp();
+  Vector V = _camera.getDirection();
   float phi = _camera.getFieldOfView();
   float delta = phi * ((float)_width / _height);
   float c = 1.1f; 
@@ -52,8 +52,8 @@ void RayFactory::calculateVectors() {
   U.normalize();
   V.normalize();
   
-  Matrix A = V.crossProduct(U).normalize();
-  Matrix B = A.crossProduct(V).normalize();
+  Vector A = V.cross(U).normalize();
+  Vector B = A.cross(V).normalize();
   
   this->E = _camera.getPosition();
   this->X = (c * tan(delta / 2.0)) * A;
