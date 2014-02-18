@@ -171,9 +171,9 @@ TEST(RTSphere, shouldReportOriginAsPosition) {
 
   RTSphere s(Vector(1,2,3), 1);
 
-  DOUBLES_EQUAL(1, s.getPosition().get(0), 0.0001);
-  DOUBLES_EQUAL(2, s.getPosition().get(1), 0.0001);
-  DOUBLES_EQUAL(3, s.getPosition().get(2), 0.0001);
+  DOUBLES_EQUAL(1, s.getPosition().x(), 0.0001);
+  DOUBLES_EQUAL(2, s.getPosition().y(), 0.0001);
+  DOUBLES_EQUAL(3, s.getPosition().z(), 0.0001);
 
 }
 

@@ -214,13 +214,13 @@ float min(float x0, float x1, float x2) {
 }
 
 BoundingBox RTTriangle::getBoundingBox() const {
-  float x0 = min(_p0.get(0), _p1.get(0), _p2.get(0));
-  float y0 = min(_p0.get(1), _p1.get(1), _p2.get(1));
-  float z0 = min(_p0.get(2), _p1.get(2), _p2.get(2));
+  float x0 = min(_p0.x(), _p1.x(), _p2.x());
+  float y0 = min(_p0.y(), _p1.y(), _p2.y());
+  float z0 = min(_p0.z(), _p1.z(), _p2.z());
 
-  float x1 = max(_p0.get(0), _p1.get(0), _p2.get(0));
-  float y1 = max(_p0.get(1), _p1.get(1), _p2.get(1));
-  float z1 = max(_p0.get(2), _p1.get(2), _p2.get(2));
+  float x1 = max(_p0.x(), _p1.x(), _p2.x());
+  float y1 = max(_p0.y(), _p1.y(), _p2.y());
+  float z1 = max(_p0.z(), _p1.z(), _p2.z());
 
   Vector origin(x0,y0,z0);
   Vector delta(x1-x0, y1-y0, z1-z0);

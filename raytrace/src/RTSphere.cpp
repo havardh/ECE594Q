@@ -69,8 +69,8 @@ void RTSphere::interpolateUV(float &u, float &v, const Vector point) {
   Vector R = point - _origin;
   R.normalize();
 
-  u = (float) (0.5 + atan2(R.get(2), R.get(0)) / (2 * M_PI));
-  v = (float) (0.5 - asin(R.get(1)) / M_PI);
+  u = (float) (0.5 + atan2(R.z(), R.x()) / (2 * M_PI));
+  v = (float) (0.5 - asin(R.y()) / M_PI);
 
 }
 
@@ -80,9 +80,9 @@ const RTMaterial RTSphere::interpolateMaterial(const Vector &point) {
 }
 
 BoundingBox RTSphere::getBoundingBox() const {
-  float x = getOrigin().get(0) - _radius;
-  float y = getOrigin().get(1) - _radius;
-  float z = getOrigin().get(2) - _radius;
+  float x = getOrigin().x() - _radius;
+  float y = getOrigin().y() - _radius;
+  float z = getOrigin().z() - _radius;
 
   Vector origin(x,y,z);
   float diameter = _radius*2;

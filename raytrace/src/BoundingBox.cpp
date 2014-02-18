@@ -53,30 +53,30 @@ bool BoundingBox::intersects(const BoundingBox &box) const {
 BoundingBox BoundingBox::unionWith(const BoundingBox &box) const {
 
   Vector origin(
-    fmin(getOrigin().get(0), box.getOrigin().get(0)),
-    fmin(getOrigin().get(1), box.getOrigin().get(1)),
-    fmin(getOrigin().get(2), box.getOrigin().get(2))
+    fmin(getOrigin().x(), box.getOrigin().x()),
+    fmin(getOrigin().y(), box.getOrigin().y()),
+    fmin(getOrigin().z(), box.getOrigin().z())
   );
   
   float max_x = fmax(
-    getOrigin().get(0)+getDelta().get(0),
-    box.getOrigin().get(0)+box.getDelta().get(0)
+    getOrigin().x()+getDelta().x(),
+    box.getOrigin().x()+box.getDelta().x()
   );
   
   float max_y = fmax(
-    getOrigin().get(1)+getDelta().get(1),
-    box.getOrigin().get(1)+box.getDelta().get(1)
+    getOrigin().y()+getDelta().y(),
+    box.getOrigin().y()+box.getDelta().y()
   );
   
   float max_z = fmax(
-    getOrigin().get(2)+getDelta().get(2),
-    box.getOrigin().get(2)+box.getDelta().get(2)
+    getOrigin().z()+getDelta().z(),
+    box.getOrigin().z()+box.getDelta().z()
   );
 
   Vector delta(
-    max_x - origin.get(0),
-    max_y - origin.get(1),
-    max_z - origin.get(2)
+    max_x - origin.x(),
+    max_y - origin.y(),
+    max_z - origin.z()
   );
 
   return BoundingBox(origin, delta);

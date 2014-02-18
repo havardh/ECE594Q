@@ -68,9 +68,9 @@ TEST(RTShapeFactory, shouldCreateASphere) {
 
   CHECK(sphere && typeid(*sphere) == typeid(RTSphere));
 
-  DOUBLES_EQUAL(5, sphere->getOrigin().get(0), 0.0001);
-  DOUBLES_EQUAL(-1, sphere->getOrigin().get(1), 0.0001);
-  DOUBLES_EQUAL(7, sphere->getOrigin().get(2), 0.0001);
+  DOUBLES_EQUAL(5, sphere->getOrigin().x(), 0.0001);
+  DOUBLES_EQUAL(-1, sphere->getOrigin().y(), 0.0001);
+  DOUBLES_EQUAL(7, sphere->getOrigin().z(), 0.0001);
   DOUBLES_EQUAL(3, sphere->getRadius(), 0.0001);
 
   delete sphere;
@@ -92,19 +92,19 @@ TEST(RTShapeFactory, shouldCreateATriangle) {
   CHECK(typeid(triangle) == typeid(RTTriangle));
   
   Vector p0 = triangle.getP0();
-  DOUBLES_EQUAL(0, p0.get(0), 0.0001);
-  DOUBLES_EQUAL(0, p0.get(1), 0.0001);
-  DOUBLES_EQUAL(0, p0.get(2), 0.0001);
+  DOUBLES_EQUAL(0, p0.x(), 0.0001);
+  DOUBLES_EQUAL(0, p0.y(), 0.0001);
+  DOUBLES_EQUAL(0, p0.z(), 0.0001);
 
   Vector p1 = triangle.getP1();
-  DOUBLES_EQUAL(1, p1.get(0), 0.0001);
-  DOUBLES_EQUAL(1, p1.get(1), 0.0001);
-  DOUBLES_EQUAL(1, p1.get(2), 0.0001);
+  DOUBLES_EQUAL(1, p1.x(), 0.0001);
+  DOUBLES_EQUAL(1, p1.y(), 0.0001);
+  DOUBLES_EQUAL(1, p1.z(), 0.0001);
 
   Vector p2 = triangle.getP2();
-  DOUBLES_EQUAL(1, p2.get(0), 0.0001);
-  DOUBLES_EQUAL(0, p2.get(1), 0.0001);
-  DOUBLES_EQUAL(2, p2.get(2), 0.0001);
+  DOUBLES_EQUAL(1, p2.x(), 0.0001);
+  DOUBLES_EQUAL(0, p2.y(), 0.0001);
+  DOUBLES_EQUAL(2, p2.z(), 0.0001);
 
   delete set;
   

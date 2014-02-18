@@ -116,13 +116,13 @@ RTPlane RTShapeFactory::createPlane(BoundingBox box, int axis, float pos) {
 
   RTPlane plane;
 
-  float x = box.getOrigin().get(0);
-  float y = box.getOrigin().get(1);
-  float z = box.getOrigin().get(2);
+  float x = box.getOrigin().x();
+  float y = box.getOrigin().y();
+  float z = box.getOrigin().z();
 
-  float dx = box.getDelta().get(0);
-  float dy = box.getDelta().get(1);
-  float dz = box.getDelta().get(2);
+  float dx = box.getDelta().x();
+  float dy = box.getDelta().y();
+  float dz = box.getDelta().z();
 
   if (axis == 0) {
     plane.addTriangle(RTTriangle(

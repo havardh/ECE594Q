@@ -171,9 +171,9 @@ TEST(RTTriangle, shouldReportP0asPosition) {
 
   RTTriangle triangle(Vector(0,1,0), Vector(1,0,1), Vector(1,0,1));
 
-  DOUBLES_EQUAL(0, triangle.getPosition().get(0), 0.0001);
-  DOUBLES_EQUAL(1, triangle.getPosition().get(1), 0.0001);
-  DOUBLES_EQUAL(0, triangle.getPosition().get(2), 0.0001);
+  DOUBLES_EQUAL(0, triangle.getPosition().x(), 0.0001);
+  DOUBLES_EQUAL(1, triangle.getPosition().y(), 0.0001);
+  DOUBLES_EQUAL(0, triangle.getPosition().z(), 0.0001);
 
 
 }

@@ -31,14 +31,14 @@ TEST(RayFactory, shouldProduceRaysForCameraAnOnePixel) {
   CHECK_EQUAL(1, rays.size());
 
   Vector o = rays[0].getOrigin();
-  DOUBLES_EQUAL(0, o.get(0), 0.0001);
-  DOUBLES_EQUAL(0, o.get(1), 0.0001);
-  DOUBLES_EQUAL(0, o.get(2), 0.0001);
+  DOUBLES_EQUAL(0, o.x(), 0.0001);
+  DOUBLES_EQUAL(0, o.y(), 0.0001);
+  DOUBLES_EQUAL(0, o.z(), 0.0001);
 
   Vector d = rays[0].getDirection();
-  DOUBLES_EQUAL(0, d.get(0), 0.0001);
-  DOUBLES_EQUAL(0, d.get(1), 0.0001);
-  DOUBLES_EQUAL(-1, d.get(2), 0.0001);
+  DOUBLES_EQUAL(0, d.x(), 0.0001);
+  DOUBLES_EQUAL(0, d.y(), 0.0001);
+  DOUBLES_EQUAL(-1, d.z(), 0.0001);
 
 }
 
