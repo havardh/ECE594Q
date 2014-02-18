@@ -28,8 +28,7 @@ int main(int argc, char *argv[]) {
   scene.setScene(sceneIO);
   RayFrameBuffer fb(width, height);
 
-  RayTracer ra
-yTracer(&scene, &fb);
+  RayTracer rayTracer(&scene, &fb);
   rayTracer.render();
   fb.write(outputPath);
   

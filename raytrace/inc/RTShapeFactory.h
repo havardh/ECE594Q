@@ -5,6 +5,7 @@
 #include "RTSphere.h"
 #include "RTTriangle.h"
 #include "RTPolySet.h"
+#include "RTPlane.h"
 #include "ColorShaderRandom.h"
 #include "ColorShaderIdentity.h"
 #include "ColorShaderCheckerboard.h"
@@ -21,7 +22,7 @@ public:
   static RTMaterial createMaterial(MaterialIO*);
   static RTSphere* createSphere(ObjIO*);
   static RTPolySet* createPolySet(ObjIO*);
-  static RTPolySet createPlane(BoundingBox, int, float);
+  static RTPlane createPlane(BoundingBox, int, float);
 
 };
 

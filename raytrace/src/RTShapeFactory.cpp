@@ -62,8 +62,8 @@ RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
   addMaterials(sphere, obj);
   //sphere->setColorShader(&tShader);
   if (obj->name) {
-    ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
-    sphere->setColorShader(shader);
+    //ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
+    //sphere->setColorShader(shader);
   }
 
   //shape->setIntersectionShader(&intersectionShaderColor);
@@ -112,9 +112,9 @@ RTMaterial RTShapeFactory::createMaterial(MaterialIO *materialIO) {
   return material;
 }
 
-RTPolySet RTShapeFactory::createPlane(BoundingBox box, int axis, float pos) {
+RTPlane RTShapeFactory::createPlane(BoundingBox box, int axis, float pos) {
 
-  RTPolySet plane;
+  RTPlane plane;
 
   float x = box.getOrigin().get(0);
   float y = box.getOrigin().get(1);

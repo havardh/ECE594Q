@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include "Dbg.h"
 
+#define USE_KDTREE
+
 Scene::~Scene() {
 }
 
@@ -10,11 +12,17 @@ void Scene::setScene(SceneIO* sio) {
   setLights(sio->lights);
   setObjects(sio->objects);
 
-  BoundingBox box(Matrix(-2,-2,-2), Matrix(92,2,2));
-  tree.setBoundingBox(box);
-  tree.setTerminationCondition(4);
-  tree.build(shapes, 0);
+#ifdef USE_KDTREE
+  DPRINTF("..\n");
+  updateTree(); 
+  DPRINTF("..\n");
+#endif
+}
 
+void Scene::updateTree() {
+  tree.setBoundingBox(computeBoundingBox());
+  tree.setTerminationCondition(256);
+  tree.build(shapes, 0);
 }
 
 void Scene::setCamera(CameraIO *cio) {
@@ -74,7 +82,21 @@ void Scene::add(RTShape *shape) {
 }
 
 IntersectionPtr Scene::intersect(const Ray ray) {
+#ifdef USE_KDTREE
   return tree.intersect(ray);
+#else
+  std::vector<IntersectionPtr> I = intersections(ray);
+
+  IntersectionPtr intersection(NULL);
+  std::vector<IntersectionPtr>::iterator it;
+  for (it = I.begin(); it != I.end(); ++it) {
+    if (intersection == nullptr || *(*it) < *intersection ) {
+      intersection = *it;
+    }
+  }
+
+  return intersection;
+#endif
 }
 
 std::vector<IntersectionPtr> Scene::intersections(const Ray ray) {
@@ -95,4 +117,16 @@ std::vector<IntersectionPtr> Scene::intersections(const Ray ray) {
 
   return intersections; 
 
+}
+
+BoundingBox Scene::computeBoundingBox() {
+
+  BoundingBox box;
+
+  std::vector<RTShape*>::iterator it;
+  for (it = shapes.begin(); it != shapes.end(); ++it) {
+    box = box.unionWith((*it)->getBoundingBox());
+  }
+  
+  return box;
 }

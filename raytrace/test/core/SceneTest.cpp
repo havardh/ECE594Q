@@ -49,7 +49,7 @@ TEST(Scene, shouldRetreiveTheClosestIntersect) {
   scene.add(&s2);
   RTSphere s3(Matrix(-10,0,0), 1);
   scene.add(&s3);
-
+  scene.updateTree();
   Ray ray(Matrix(20,0,0), Matrix(-1,0,0));
 
   IntersectionPtr intersection = scene.intersect(ray);

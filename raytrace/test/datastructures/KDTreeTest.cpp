@@ -190,3 +190,5 @@ TEST(KDTree, shouldSupportIntersectionSearchForRegularNodes) {
   CHECK( intersection->getShape() == &sphere2 );
 
 }
+
+

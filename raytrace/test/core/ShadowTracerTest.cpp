@@ -42,6 +42,7 @@ TEST(ShadowTracer, shouldFindObjectOccluding) {
   Matrix point(10, 0, 0);
 	RTSphere obstical(Matrix(4, 0, 0), 3);
   scene->add(&obstical);
+  scene->updateTree();
   
   CHECK_OCCLUSION(light->getPosition(), &point);
 }

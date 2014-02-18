@@ -47,7 +47,9 @@ public:
   int numChildren() const;
   int height() const;
   int numShapeRefs() const;
-  
+
+  bool isLeftOfPlane(RTPolySet, Ray);
+
 private: 
   int axis;
   int depth;

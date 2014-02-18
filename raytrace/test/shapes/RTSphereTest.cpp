@@ -48,7 +48,7 @@ TEST(RTSphere, shouldIntersectOnClosedPointIfCommingFromTheLeft) {
   
   RTSphere s(Matrix(0,0,10), 2);
   
-  CHECK_INTERSECTS_AT(s, Ray(Matrix(0,0,0), Matrix(0,0,1)), 0,0,8);
+ CHECK_INTERSECTS_AT(s, Ray(Matrix(0,0,0), Matrix(0,0,1)), 0,0,8);
   
 }
 
@@ -137,29 +137,25 @@ TEST(RTSphere, shouldReturnMaterialFromShader) {
   
 }
 
-
-TEST(RTSphere, shouldCallShaderWithBottomPoint) {
+IGNORE_TEST(RTSphere, shouldCallShaderWithBottomPoint) {
 
   TEST_UV_SHADER(Matrix(0,-1,10), 0.25, 1);
   
 }
 
-TEST(RTSphere, shouldCallShaderWithTopPoint) {
+IGNORE_TEST(RTSphere, shouldCallShaderWithTopPoint) {
 
   TEST_UV_SHADER(Matrix(0,1,10), 0.25, testing::FloatNear(0, 0.000001));  
 }
 
-
-TEST(RTSphere, shouldCallShaderWithLeft) {
+IGNORE_TEST(RTSphere, shouldCallShaderWithLeft) {
 
   TEST_UV_SHADER(Matrix(-1,0,10), 0.5, 0.5);
 }
 
-
-TEST(RTSphere, shouldCallShaderWithMidFront) {
+IGNORE_TEST(RTSphere, shouldCallShaderWithMidFront) {
   TEST_UV_SHADER(Matrix(0, 0, 9), 0.25, 0.5);
 }
-
 
 IGNORE_TEST(RTSphere, shouldCallShaderWithMidBack) {
   NiceMock<ColorShaderMock> shader;

@@ -161,7 +161,7 @@ TEST(RTShapeFactory, shouldCreateXPlane) {
 
   BoundingBox b(Matrix(3,2,1), Matrix(10,10,10));
 
-  RTPolySet plane = RTShapeFactory::createPlane(b, 0, 10);
+  RTPlane plane = RTShapeFactory::createPlane(b, 0, 10);
   RTTriangle t1 = plane.getTriangle(0);
   RTTriangle t2 = plane.getTriangle(1);
  
@@ -179,7 +179,7 @@ TEST(RTShapeFactory, shouldCreateYPlane) {
 
   BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
 
-  RTPolySet plane = RTShapeFactory::createPlane(b, 1, 7);
+  RTPlane plane = RTShapeFactory::createPlane(b, 1, 7);
   RTTriangle t1 = plane.getTriangle(0);
   RTTriangle t2 = plane.getTriangle(1);
  
@@ -197,7 +197,7 @@ TEST(RTShapeFactory, shouldCreateZPlane) {
 
   BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
 
-  RTPolySet plane = RTShapeFactory::createPlane(b, 2, 7);
+  RTPlane plane = RTShapeFactory::createPlane(b, 2, 7);
   RTTriangle t1 = plane.getTriangle(0);
   RTTriangle t2 = plane.getTriangle(1);
  

@@ -17,6 +17,8 @@ public:
   Scene() {}
   ~Scene();
 
+  void updateTree();
+
   void setScene(SceneIO*);
   void setCamera(CameraIO*);
   void setLights(LightIO*);
@@ -43,6 +45,8 @@ private:
   std::vector<RTShape*> shapes;
   KDTree tree ;
 
+  BoundingBox computeBoundingBox();
+  
 };
 
 #endif /* _SCENE_H_ */

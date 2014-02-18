@@ -36,7 +36,7 @@ public:
   virtual int getID() { return RTPolySet::shapeID; }
   const static int shapeID = 2;
   
-private:
+protected:
   std::vector<RTTriangle> triangles;
   Matrix midpoint;
 
