@@ -60,7 +60,7 @@ RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
   SphereIO *io = (SphereIO*)obj->data;
   RTSphere *sphere = new RTSphere(io->origin, io->radius);
   addMaterials(sphere, obj);
-  //sphere->setColorShader(&tShader);
+  sphere->setColorShader(&tShader);
   if (obj->name) {
     ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
     sphere->setColorShader(shader);

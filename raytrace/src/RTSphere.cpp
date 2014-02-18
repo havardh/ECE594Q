@@ -67,19 +67,11 @@ MatrixPtr RTSphere::normal(const Matrix &point) {
 void RTSphere::interpolateUV(float &u, float &v, const Matrix point) {
 
   Matrix R = point - _origin;
-  
-  float x = R.get(0);
-  float y = R.get(1);
-  float z = R.get(2);
-  float r = _radius;
+  R.normalize();
 
-  float phi = asin(y/r);
-  float theta = acos(x / (r*cos(phi)));
-  float theta2 = asin(z / (r*cos(phi)));
+  u = (float) (0.5 + atan2(R.get(2), R.get(0)) / (2 * M_PI));
+  v = (float) (0.5 - asin(R.get(1)) / M_PI);
 
-  u = theta / (2*M_PI);
-  v = 1 - ((phi / M_PI) + 0.5);
-  
 }
 
 const RTMaterial RTSphere::interpolateMaterial(const Matrix &point) {

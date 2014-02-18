@@ -18,7 +18,7 @@ public:
   MOCK_METHOD1(normal, MatrixPtr(const Matrix&));
   MOCK_METHOD0(print, void());
 
-  MOCK_METHOD3(interpolateUV, void(float&, float&, const Matrix&));
+  MOCK_METHOD3(interpolateUV, void(float&, float&, const Matrix));
   MOCK_METHOD1(interpolateMaterial, const RTMaterial(const Matrix&));
 };
 
