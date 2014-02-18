@@ -23,6 +23,11 @@ public:
   BoundingBox unionWith(const BoundingBox &box) const;
   Matrix center() const;
 
+  void print() const {
+    _origin.printPoint();
+    _delta.printPoint();
+  }
+
 private:
   Matrix _origin;
   Matrix _delta;

@@ -10,6 +10,11 @@ void Scene::setScene(SceneIO* sio) {
   setLights(sio->lights);
   setObjects(sio->objects);
 
+  BoundingBox box(Matrix(-2,-2,-2), Matrix(92,2,2));
+  tree.setBoundingBox(box);
+  tree.setTerminationCondition(4);
+  tree.build(shapes, 0);
+
 }
 
 void Scene::setCamera(CameraIO *cio) {
@@ -69,18 +74,7 @@ void Scene::add(RTShape *shape) {
 }
 
 IntersectionPtr Scene::intersect(const Ray ray) {
-
-  std::vector<IntersectionPtr> I = intersections(ray);
-
-  IntersectionPtr intersection(NULL);
-  std::vector<IntersectionPtr>::iterator it;
-  for (it = I.begin(); it != I.end(); ++it) {
-    if (intersection == nullptr || *(*it) < *intersection ) {
-      intersection = *it;
-    }
-  }
-
-  return intersection;
+  return tree.intersect(ray);
 }
 
 std::vector<IntersectionPtr> Scene::intersections(const Ray ray) {

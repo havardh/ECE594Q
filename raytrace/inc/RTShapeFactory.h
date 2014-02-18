@@ -21,6 +21,7 @@ public:
   static RTMaterial createMaterial(MaterialIO*);
   static RTSphere* createSphere(ObjIO*);
   static RTPolySet* createPolySet(ObjIO*);
+  static RTPolySet createPlane(BoundingBox, int, float);
 
 };
 

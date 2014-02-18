@@ -13,7 +13,7 @@
 
 #define INSTANCE_OF(pointer, class) \
   (typeid(pointer->getID()) == typeid(class::shapeID))
-
+class BoundingBox;
 class RTShape {
   
 public:

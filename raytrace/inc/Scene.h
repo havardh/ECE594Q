@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 #include "RTShape.h"
+#include "KDTree.h"
+#include "BoundingBox.h"
 #include "RTShapeFactory.h"
 #include "Light.h"
 #include "Camera.h"
@@ -39,6 +41,7 @@ private:
   Camera camera;
   std::vector<Light> lights;
   std::vector<RTShape*> shapes;
+  KDTree tree ;
 
 };
 

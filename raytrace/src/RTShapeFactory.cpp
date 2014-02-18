@@ -60,7 +60,7 @@ RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
   SphereIO *io = (SphereIO*)obj->data;
   RTSphere *sphere = new RTSphere(io->origin, io->radius);
   addMaterials(sphere, obj);
-  sphere->setColorShader(&tShader);
+  //sphere->setColorShader(&tShader);
   if (obj->name) {
     ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
     sphere->setColorShader(shader);
@@ -110,4 +110,55 @@ RTMaterial RTShapeFactory::createMaterial(MaterialIO *materialIO) {
   material.setShininess(materialIO->shininess);
   material.setKTransparency(materialIO->ktran);
   return material;
+}
+
+RTPolySet RTShapeFactory::createPlane(BoundingBox box, int axis, float pos) {
+
+  RTPolySet plane;
+
+  float x = box.getOrigin().get(0);
+  float y = box.getOrigin().get(1);
+  float z = box.getOrigin().get(2);
+
+  float dx = box.getDelta().get(0);
+  float dy = box.getDelta().get(1);
+  float dz = box.getDelta().get(2);
+
+  if (axis == 0) {
+    plane.addTriangle(RTTriangle(
+      Matrix(pos, y, z), 
+      Matrix(pos, y+dy, z), 
+      Matrix(pos, y+dy, z+dz)
+    ));
+    plane.addTriangle(RTTriangle(
+      Matrix(pos, y, z), 
+      Matrix(pos, y, z+dz), 
+      Matrix(pos, y+dy, z+dz)
+    ));
+  } else if (axis == 1) {
+    plane.addTriangle(RTTriangle(
+      Matrix(x, pos, z), 
+      Matrix(x, pos, z+dz), 
+      Matrix(x+dx, pos, z+dz)
+    ));
+    plane.addTriangle(RTTriangle(
+      Matrix(x, pos, z),
+      Matrix(x+dx, pos, z),
+      Matrix(x+dx, pos, z+dz)
+    ));
+  } else {
+    plane.addTriangle(RTTriangle(
+      Matrix(x, y, pos), 
+      Matrix(x, y+dy, pos), 
+      Matrix(x+dx, y+dy, pos)
+    ));
+    plane.addTriangle(RTTriangle(
+      Matrix(x, y, pos),
+      Matrix(x+dx, y, pos),
+      Matrix(x+dx, y+dy, pos)
+    ));
+  }
+
+  return plane;
+
 }

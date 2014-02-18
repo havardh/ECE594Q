@@ -141,3 +141,52 @@ TEST(KDTree, shouldExtractTrianglesFromPolySet) {
   CHECK_EQUAL( 1, tree.getRight()->size() );
 
 }
+
+TEST(KDTree, shouldSupportIntersectionSearchForChildNode) {
+
+  KDTree tree;
+  
+  vector<RTShape*> shapes;
+  RTTriangle t1(Matrix(0,0,0), Matrix(0,1,0), Matrix(0,0,1));
+  RTTriangle t2(Matrix(-1,0,0), Matrix(-1,1,0), Matrix(-1,0,1));
+  shapes.push_back(&t1);
+  shapes.push_back(&t2);
+
+  BoundingBox box(Matrix(0,0,0), Matrix(1,0,1));
+  tree.setBoundingBox(box);
+  tree.setTerminationCondition(2);
+  tree.build(shapes, 0);
+
+  Ray ray(Matrix(-5,0.1,0.1), Matrix(1,0,0));
+  IntersectionPtr intersection = tree.intersect(ray);
+  
+  CHECK( intersection->getShape() == &t2 );
+
+}
+
+TEST(KDTree, shouldSupportIntersectionSearchForRegularNodes) {
+
+  KDTree tree;
+  
+  vector<RTShape*> shapes;
+  RTSphere sphere0(Matrix(5,5,0), 1);
+  RTSphere sphere1(Matrix(5,-5,0), 1);
+  RTSphere sphere2(Matrix(-5,5,0), 1);
+  RTSphere sphere3(Matrix(-5,-5,0), 1);
+  shapes.push_back(&sphere0);
+  shapes.push_back(&sphere1);
+  shapes.push_back(&sphere2);
+  shapes.push_back(&sphere3);
+
+  BoundingBox box(Matrix(-6,-6,-6), Matrix(12,12,12));
+  tree.setBoundingBox(box);
+  tree.setTerminationCondition(1);
+  tree.build(shapes, 0);
+
+  Ray ray(Matrix(-10, 5, 0 ), Matrix(1,0,0));
+  IntersectionPtr intersection = tree.intersect(ray);
+  
+  CHECK( intersection != nullptr );
+  CHECK( intersection->getShape() == &sphere2 );
+
+}

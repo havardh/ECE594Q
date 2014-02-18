@@ -12,31 +12,81 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
   this->depth = depth;
   this->median = findMedian(shapes, axis);
 
-  if (terminate(shapes)) { 
-
+  if (terminate(shapes)) {
     setShapes(shapes);
-
+    print();
   } else {
-
     BoundingBoxes boxes = getBoundingBox().split(this->median, this->axis);
-    KDTree *left = new KDTree();
-    KDTree *right = new KDTree();
 
+    KDTree *left = new KDTree();
     left->setBoundingBox(boxes.first);
     left->setTerminationCondition(getTerminationCondition());
+    left->build(left->filter(shapes), depth+1);
+    setLeft(left);
+
+    KDTree *right = new KDTree();
     right->setBoundingBox(boxes.second);
     right->setTerminationCondition(getTerminationCondition());
-    
-    left->build(left->filter(shapes), depth+1);
     right->build(right->filter(shapes), depth+1);
-
-    setLeft(left);
     setRight(right);
   }
 
 }
 
-bool KDTree::terminate(vector<RTShape*> shapes) {
+IntersectionPtr KDTree::intersect(const Ray &ray) const {
+  if (isChild()) {
+    return intersectChildNode(ray);
+  } else {
+
+    IntersectionPtr leftIntersection = getLeft()->intersect(ray);
+    if ( leftIntersection != nullptr) {
+      return leftIntersection;
+    } 
+
+    IntersectionPtr rightIntersection = getRight()->intersect(ray);
+    if ( rightIntersection != nullptr) {
+      return rightIntersection;
+    }
+
+  }
+  return IntersectionPtr(NULL);
+}
+
+IntersectionPtr KDTree::intersectChildNode(const Ray &ray) const {
+  std::vector<IntersectionPtr> I = intersectionsChildNode(ray);
+
+  IntersectionPtr intersection(NULL);
+  std::vector<IntersectionPtr>::iterator it;
+  for (it = I.begin(); it != I.end(); ++it) {
+    if (intersection == nullptr || *(*it) < *intersection ) {
+      intersection = *it;
+    }
+  }
+  
+  return intersection;
+}
+
+std::vector<IntersectionPtr> KDTree::intersectionsChildNode(const Ray ray) const {
+  
+  std::vector<IntersectionPtr> intersections;
+  vector<RTShape*>::const_iterator it;
+  for(it = shapes.begin(); it != shapes.end(); ++it) {
+
+    IntersectionPtr intersection = (*it)->intersect(ray);
+     
+    if (intersection != nullptr) {
+
+      if (intersection->getShape()->shadeIntersection(*intersection)) {
+        intersections.push_back(intersection);
+      }
+    }
+  }
+
+  return intersections; 
+
+}
+
+bool KDTree::terminate(vector<RTShape*> shapes) const {
 
   int numShapes = shapes.size();
 
@@ -51,7 +101,7 @@ void KDTree::setTerminationCondition(int condition) {
   terminationCondition = condition;
 }
 
-float KDTree::findMedian(vector<RTShape*> shapes, int axis) {
+float KDTree::findMedian(vector<RTShape*> shapes, int axis) const {
   vector<RTShape*>::iterator it;
 
   float m = 0;
@@ -59,10 +109,10 @@ float KDTree::findMedian(vector<RTShape*> shapes, int axis) {
     m += (*it)->getBoundingBox().center().get(axis);
   }
 
-  return m;
+  return m / shapes.size();
 }
 
-vector<RTShape*> KDTree::filter(vector<RTShape*> shapes) {
+vector<RTShape*> KDTree::filter(vector<RTShape*> shapes) const {
   
   vector<RTShape*> result;
 
@@ -119,23 +169,23 @@ BoundingBox KDTree::getBoundingBox() const {
   return box;
 }
 
-KDTree* KDTree::getLeft() {
+KDTree* KDTree::getLeft() const {
   return leftChild;
 }
 
-KDTree* KDTree::getRight() {
+KDTree* KDTree::getRight() const {
   return rightChild;
 }
 
-bool KDTree::isChild() {
+bool KDTree::isChild() const {
   return !leftChild && !rightChild;
 }
 
-int KDTree::size() {
+int KDTree::size() const {
   return shapes.size();
 }
 
-bool KDTree::containsComposite(vector<RTShape*> shapes) {
+bool KDTree::containsComposite(vector<RTShape*> shapes) const {
 
   vector<RTShape*>::iterator it;
   for (it = shapes.begin(); it != shapes.end(); ++it) {
@@ -144,4 +194,26 @@ bool KDTree::containsComposite(vector<RTShape*> shapes) {
     }
   }
   return false;
+}
+
+void KDTree::print() const {
+
+  printf("Depth: %d\n", depth);
+  printf("Median: %f\n", median);
+  printf("Num shapes: %lu\n", shapes.size());
+  if (!isChild()) {
+    getLeft()->print();
+    getRight()->print();
+  }
+
+}
+
+int KDTree::numNodes() const {
+
+  if (isChild()) {
+    return 1;
+  } else {
+    return 1 + getLeft()->numNodes() + getRight()->numNodes();
+  }
+
 }

@@ -1,5 +1,6 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "RTShapeFactory.h"
+#include "MatrixTestHelper.h"
 #include "ColorTestHelper.h"
 #include "scene_io.h"
 
@@ -154,4 +155,58 @@ TEST(RTShapeFactory, polygonsShouldInheritMaterials) {
   CHECK_EQUAL(1, triangle.getMaterialCount());
   
   delete polySet;
+}
+
+TEST(RTShapeFactory, shouldCreateXPlane) {
+
+  BoundingBox b(Matrix(3,2,1), Matrix(10,10,10));
+
+  RTPolySet plane = RTShapeFactory::createPlane(b, 0, 10);
+  RTTriangle t1 = plane.getTriangle(0);
+  RTTriangle t2 = plane.getTriangle(1);
+ 
+  VECTOR_EQUAL( 10, 2, 1, t1.getP0());
+  VECTOR_EQUAL( 10, 12, 1, t1.getP1());
+  VECTOR_EQUAL( 10, 12, 11, t1.getP2());
+
+  VECTOR_EQUAL( 10, 2, 1, t2.getP0());
+  VECTOR_EQUAL( 10, 2, 11, t2.getP1());
+  VECTOR_EQUAL( 10, 12, 11, t2.getP2());
+ 
+}
+
+TEST(RTShapeFactory, shouldCreateYPlane) {
+
+  BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
+
+  RTPolySet plane = RTShapeFactory::createPlane(b, 1, 7);
+  RTTriangle t1 = plane.getTriangle(0);
+  RTTriangle t2 = plane.getTriangle(1);
+ 
+  VECTOR_EQUAL( 3, 7, 2, t1.getP0());
+  VECTOR_EQUAL( 3, 7, 7, t1.getP1());
+  VECTOR_EQUAL( 13, 7, 7, t1.getP2());
+
+  VECTOR_EQUAL( 3, 7, 2, t2.getP0());
+  VECTOR_EQUAL( 13, 7, 2, t2.getP1());
+  VECTOR_EQUAL( 13, 7, 7, t2.getP2());
+ 
+}
+
+TEST(RTShapeFactory, shouldCreateZPlane) {
+
+  BoundingBox b(Matrix(3,4,2), Matrix(10,14,5));
+
+  RTPolySet plane = RTShapeFactory::createPlane(b, 2, 7);
+  RTTriangle t1 = plane.getTriangle(0);
+  RTTriangle t2 = plane.getTriangle(1);
+ 
+  VECTOR_EQUAL( 3, 4, 7, t1.getP0());
+  VECTOR_EQUAL( 3, 18, 7, t1.getP1());
+  VECTOR_EQUAL( 13, 18, 7, t1.getP2());
+
+  VECTOR_EQUAL( 3, 4, 7, t2.getP0());
+  VECTOR_EQUAL( 13, 4, 7, t2.getP1());
+  VECTOR_EQUAL( 13, 18, 7, t2.getP2());
+ 
 }
