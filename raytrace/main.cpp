@@ -29,7 +29,11 @@ int main(int argc, char *argv[]) {
   scene.setScene(sceneIO);
   RayFrameBuffer fb(width, height);
 
+#ifdef USE_PTHREAD
   ThreadedRayTracer rayTracer(&scene, &fb);
+#else
+  RayTracer rayTracer(&scene, &fb);
+#endif
   rayTracer.render();
   fb.write(outputPath);
   

@@ -1,5 +1,7 @@
 #include "KDTree.h"
 
+#define KDTREE_NAIVE
+
 KDTree::~KDTree() {
   if (leftChild) delete leftChild;
   if (rightChild) delete rightChild;  
@@ -35,16 +37,31 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
 
 IntersectionPtr KDTree::intersect(const Ray &ray) const {
   if (isChild()) {
+    //DPRINTF("child\n");
     return intersectChildNode(ray);
   } else {
 
-    RTPlane plane = RTShapeFactory::createPlane(getBoundingBox(), axis, median);
+#ifdef KDTREE_NAIVE
 
+    IntersectionPtr intersection = getLeft()->intersect(ray);
+    if (intersection != nullptr) {
+      //DPRINTF("left\n");
+      return intersection; 
+    } else {
+      //DPRINTF("right\n");
+      return getRight()->intersect(ray);
+    }
+    
+#else    
+
+    RTPlane plane = RTShapeFactory::createPlane(getBoundingBox(), axis, median);
     KDTree *first, *last;
     if (plane.isToLeftOf(ray, axis)) {
+      //DPRINTF("left\n");
       first = getLeft();
       last = getRight();
     } else {
+      //DPRINTF("right\n");
       first = getRight();
       last = getLeft();
     }
@@ -56,6 +73,7 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
     }
 
     if (plane.intersect(ray)) {
+      //DPRINTF("intersecting\n");
       //DPRINTF("Case 2\n");
       intersection = last->intersect(ray);
       if ( intersection != nullptr) {
@@ -63,7 +81,7 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
         return intersection;
       }
     }
-
+#endif
   }
   return IntersectionPtr(NULL);
 }
