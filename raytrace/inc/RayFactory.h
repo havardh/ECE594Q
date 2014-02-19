@@ -10,14 +10,15 @@ class RayFactory {
 
 public:
  RayFactory() : _camera(), _width(0), _height(0) {}
-  RayFactory(const Camera &, int, int);
+  RayFactory(const Camera &, int, int, int, int);
 
   std::vector<Ray> createRays();
   Ray createRay(int i, int j) const;
+  Ray createRay(int i, int j, int k, int l) const;
 
 private: 
   Camera _camera;
-  int _width, _height;
+  int _width, _height, _m, _n;
 
   Vector M, X, Y, E;
 

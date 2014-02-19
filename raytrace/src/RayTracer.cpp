@@ -3,7 +3,7 @@
 #define IX(i,j,k) ((i)*height + (j) + (k))
 
 RayTracer::RayTracer(Scene *scene, RayFrameBuffer *frameBuffer) : 
-  _frameBuffer(frameBuffer), _scene(scene), _stracer(scene) {
+  _frameBuffer(frameBuffer), _scene(scene), _stracer(scene), _m(1), _n(1) {
 }
 
 RTColor RayTracer::trace(const Ray ray) {
@@ -27,9 +27,13 @@ RTColor RayTracer::trace(const Ray ray) {
 
 void RayTracer::renderPixel(int i, int j) {
 
-  Ray ray = _factory.createRay(i,j);
-  RTColor color = trace(ray);
-  
+  RTColor color(0,0,0);
+  for (int k=0; k<_m; k++) {
+    for (int l=0; l<_n; l++) {
+      Ray ray = _factory.createRay(i,j, k, l);
+      color += trace(ray) * (1.0/(_m*_n));
+    }
+  }
   _frameBuffer->set(i,j,0, color.getRGBRed());
   _frameBuffer->set(i,j,1, color.getRGBGreen());
   _frameBuffer->set(i,j,2, color.getRGBBlue());
@@ -51,8 +55,12 @@ void RayTracer::render() {
   int width = _frameBuffer->getWidth();
   int height = _frameBuffer->getHeight();
 
-  _factory = RayFactory(_scene->getCamera(), width, height);
+  _factory = RayFactory(_scene->getCamera(), width, height, _m, _n);
 
   renderFrame(width, height);
 
+}
+
+void RayTracer::setAntiAliasingResolution(int m, int n) {
+  _m = m; _n = n;
 }

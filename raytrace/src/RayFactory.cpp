@@ -1,18 +1,25 @@
 #include "RayFactory.h"
 #include "Dbg.h"
 
-RayFactory::RayFactory(const Camera &camera, int width, int height) {
+RayFactory::RayFactory(const Camera &camera, int width, int height, int m, int n) {
   _camera = camera;
   _width = width;
   _height = height;
+  _m = m;
+  _n = n;
 
   calculateVectors();
 
 }
 
 Ray RayFactory::createRay(int i, int j) const {
-  float sx = (float)((j + 0.5) / _width);
-  float sy = (float)((i + 0.5) / _height);
+  return createRay(i,j,0,0);
+}
+
+Ray RayFactory::createRay(int i, int j, int k, int l) const{
+
+  float sx = (float)((j + (k/(float)_m)) / _width);
+  float sy = (float)((i + (l/(float)_n) ) / _height);
 
   
   //printf("M: "); this->M.printPoint();

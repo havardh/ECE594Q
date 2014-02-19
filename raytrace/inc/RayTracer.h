@@ -25,6 +25,7 @@ private:
   RayFrameBuffer *_frameBuffer;
   Scene *_scene;
   ShadowTracer _stracer;
+  int _m, _n;
 
   RTColor trace(const Ray ray);
 
@@ -36,7 +37,7 @@ public:
   virtual void renderFrame(int, int);
   void renderPixel(int, int);
   void render();
-
+  void setAntiAliasingResolution(int,int);
 
 };
 
