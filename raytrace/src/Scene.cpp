@@ -21,7 +21,7 @@ void Scene::setScene(SceneIO* sio) {
 
 void Scene::updateTree() {
   tree.setBoundingBox(computeBoundingBox());
-  tree.setTerminationCondition(256);
+  tree.setTerminationCondition(512);
   tree.build(shapes, 0);
 }
 

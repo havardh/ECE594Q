@@ -2,6 +2,7 @@
 #define _BOUNDINGBOX_H_
 
 #include "Vector.h"
+#include "Ray.h"
 #include <utility>
 
 using std::pair;
@@ -20,6 +21,7 @@ public:
   pair<BoundingBox,BoundingBox> split(float,int) const;
 
   bool intersects(const BoundingBox &box) const;
+  bool intersects(Ray, float&, float&) const;
   BoundingBox unionWith(const BoundingBox &box) const;
   Vector center() const;
 

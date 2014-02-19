@@ -1,6 +1,7 @@
 #include "KDTree.h"
 
-#define KDTREE_NAIVE
+//#define KDTREE_NAIVE
+#define KDTREE_BOUNDINGBOXES
 
 KDTree::~KDTree() {
   if (leftChild) delete leftChild;
@@ -51,7 +52,45 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
       //DPRINTF("right\n");
       return getRight()->intersect(ray);
     }
+
+#elif defined KDTREE_BOUNDINGBOXES
     
+    float t_enter, t_exit;
+    bool intersects = getBoundingBox().intersects(ray, t_enter, t_exit);
+
+    if (!intersects) 
+      return IntersectionPtr(NULL);
+    
+    float t = (median - ray.getOrigin().get(axis)) / ray.getDirection().get(axis);
+
+    KDTree *near, *far;
+    if (median > ray.getOrigin().get(axis)) {
+      near = getLeft(); far = getRight();
+    } else {
+      near = getRight(); far = getLeft();
+    }
+    
+    if (t >= t_exit || t < 0) {
+      return near->intersect(ray);
+    } else if (t <= t_enter) {
+      return far->intersect(ray);
+    } else {
+      IntersectionPtr intersection = near->intersect(ray);
+      if (intersection != nullptr) {
+        IntersectionPtr farIntersection = far->intersect(ray);
+        
+        
+        if (farIntersection != nullptr && (*farIntersection < *intersection)) {
+          return farIntersection;
+        } else {
+          return intersection;
+        }
+      } else {
+        return far->intersect(ray);
+      }
+    }
+
+
 #else    
 
     RTPlane plane = RTShapeFactory::createPlane(getBoundingBox(), axis, median);

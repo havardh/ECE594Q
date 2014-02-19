@@ -7,6 +7,8 @@
 #include "StrUtil.h"
 #include "Scene.h"
 
+#define USE_PTHREAD
+
 int main(int argc, char *argv[]) {
 
   const char *scenePath, *outputPath = "out.png";

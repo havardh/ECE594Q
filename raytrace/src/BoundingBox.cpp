@@ -50,6 +50,69 @@ bool BoundingBox::intersects(const BoundingBox &box) const {
   return x && y && z;
 }
 
+/*bool BoundingBox::intersects(Ray ray, float &tmin, float &tmax) const {
+  
+  float dirfracx = 1.0f / ray.getDirection().get(0);
+  float dirfracy = 1.0f / ray.getDirection().get(1);
+  float dirfracz = 1.0f / ray.getDirection().get(2);
+
+  Vector lb = getOrigin();
+  Vector rt = getOrigin() + getDelta();
+
+  Vector o = ray.getOrigin();
+  float s1 = (lb.get(0) - o.get(0)) * dirfracx;
+  float s2 = (rt.get(0) - o.get(0)) * dirfracx;
+  float s3 = (lb.get(1) - o.get(1)) * dirfracx;
+  float s4 = (rt.get(1) - o.get(1)) * dirfracx;
+  float s5 = (lb.get(2) - o.get(2)) * dirfracx;
+  float s6 = (rt.get(2) - o.get(2)) * dirfracx;
+
+  tmin = fmax(fmax(fmin(s1, s2), fmin(s3, s4)), fmin(s5, s6));
+  tmax = fmin(fmin(fmax(s1, s2), fmax(s3, s4)), fmax(s5, s6));
+
+  if (tmax < 0) {
+    return false;
+  }
+
+  if (tmin > tmax) {
+    return false;
+  }
+
+  return true;
+  }*/
+
+bool BoundingBox::intersects(Ray ray, float &tmin, float &tmax) const {
+
+  Vector min = getOrigin();
+  Vector max = getOrigin() + getDelta();
+
+  tmin = (min.x() - ray.getOrigin().x()) / ray.getDirection().x();
+  tmax = (max.x() - ray.getOrigin().x()) / ray.getDirection().x();
+
+  if (tmin > tmax) std::swap(tmin, tmax);
+
+  float tymin = (min.y() - ray.getOrigin().y()) / ray.getDirection().y();
+  float tymax = (max.y() - ray.getOrigin().y()) / ray.getDirection().y();
+
+  if (tymin > tymax) std::swap(tymin, tymax);
+
+  if (tymin < tmin) tmin = tymin;
+  if (tymax < tmax) tmax = tymax;
+
+  float tzmin = (min.z() - ray.getOrigin().z()) / ray.getDirection().z();
+  float tzmax = (max.z() - ray.getOrigin().z()) / ray.getDirection().z();
+
+  if (tzmin > tzmax) std::swap(tzmin, tzmax);
+
+  if (tzmin < tmin) tmin = tzmin;
+  if (tzmax < tmax) tmax = tzmax;
+
+  if (tmax < 0) return false;
+  if (tmin < 0) tmin = 0;
+
+  return isfinite(tmin) && isfinite(tmax);
+}
+
 BoundingBox BoundingBox::unionWith(const BoundingBox &box) const {
 
   Vector origin(

@@ -95,3 +95,41 @@ TEST(BBox, shouldReturnCenterPoint) {
   VECTOR_EQUAL( 5,5,5, c );
 
 }
+
+TEST(BBox, shouldReturnIntersections) {
+
+  BoundingBox b(Vector(2,2,2), Vector(2, 2, 2));
+  Ray r(Vector(0,0,0), Vector(1,1,1));
+  
+  float t0, t1;
+  CHECK( b.intersects(r, t0, t1) );
+
+  DOUBLES_EQUAL(2, t0, 0.0001);
+  DOUBLES_EQUAL(4, t1, 0.0001);
+
+}
+
+TEST(BBox, shouldReturnIntersectionsForRayWithZeroDirections) {
+
+  BoundingBox b(Vector(2,2,2), Vector(2, 2, 2));
+  Ray r(Vector(1,1,0), Vector(0,0,1));
+  
+  float t0, t1;
+  CHECK( b.intersects(r, t0, t1) );
+
+  DOUBLES_EQUAL(2, t0, 0.0001);
+  DOUBLES_EQUAL(4, t1, 0.0001);
+
+}
+
+TEST(BBox, shouldReturnFalseWhenNotIntersection) {
+
+  BoundingBox b(Vector(2,2,2), Vector(2, 2, 2));
+  Ray r(Vector(5,5,0), Vector(0,0,1));
+  
+  float t0, t1;
+  CHECK( !b.intersects(r, t0, t1) );
+
+
+}
+

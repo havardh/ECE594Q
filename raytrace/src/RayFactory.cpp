@@ -1,4 +1,5 @@
 #include "RayFactory.h"
+#include "Dbg.h"
 
 RayFactory::RayFactory(const Camera &camera, int width, int height) {
   _camera = camera;
@@ -47,7 +48,7 @@ void RayFactory::calculateVectors() {
   Vector V = _camera.getDirection();
   float phi = _camera.getFieldOfView();
   float delta = phi * ((float)_width / _height);
-  float c = 1.1f; 
+  float c = 1.1;
   
   U.normalize();
   V.normalize();
@@ -60,4 +61,11 @@ void RayFactory::calculateVectors() {
   this->Y = (c * tan(phi / 2.0)) * B;
   this->M = this->E + c*V;
     
+  DPRINTF("A "); A.print();
+  DPRINTF("B "); B.print();
+  DPRINTF("E "); E.print();
+  DPRINTF("M "); M.print();
+  DPRINTF("phi %f\n", phi);
+  DPRINTF("delta %f\n", phi);
+  
 }
