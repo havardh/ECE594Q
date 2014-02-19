@@ -64,7 +64,6 @@ RTColor WhittedIlluminator::direct() {
     float fattj = computeFattj(&light);
 
     total += Sj * (diffuse(&light) + specular(&light)) * fattj;
-
    
   }
 
@@ -192,7 +191,7 @@ float WhittedIlluminator::computeFattj(const Light *light) {
     float d = distance;
     float dd = d*d;
 
-    return fmin( 1.0, 1.0 / C1 + C2*d +C3*dd );
+    return fmin( 1.0, 1.0 / (C1 + C2*d +C3*dd) );
   } else {
     return 1;
   }
