@@ -298,9 +298,18 @@ SCENE = mytest
 HW=hw2
 WH=200:200
 
+TIME_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Time Profiler.tracetemplate"
+LEAK_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Leaks.tracetemplate"
 gen: all
 	echo "set args ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png" | cat >.gdbinit
 	time ./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
+
+timing: all
+	instruments -t $(TIME_TEMPLATE) -D time-prof.out raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
+
+leak: all
+	instruments -t $(LEAK_TEMPLATE) -D leak-prof.out ./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
+
 
 open: gen
 	open output/$(HW)/$(SCENE).png
