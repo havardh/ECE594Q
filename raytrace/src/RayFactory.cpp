@@ -60,12 +60,5 @@ void RayFactory::calculateVectors() {
   this->X = (c * tan(delta / 2.0)) * A;
   this->Y = (c * tan(phi / 2.0)) * B;
   this->M = this->E + c*V;
-    
-  DPRINTF("A "); A.print();
-  DPRINTF("B "); B.print();
-  DPRINTF("E "); E.print();
-  DPRINTF("M "); M.print();
-  DPRINTF("phi %f\n", phi);
-  DPRINTF("delta %f\n", phi);
   
 }
