@@ -25,27 +25,34 @@ RTColor RayTracer::trace(const Ray ray) {
 
 }
 
+void RayTracer::renderPixel(int i, int j) {
+
+  Ray ray = _factory.createRay(i,j);
+  RTColor color = trace(ray);
+  
+  _frameBuffer->set(i,j,0, color.getRGBRed());
+  _frameBuffer->set(i,j,1, color.getRGBGreen());
+  _frameBuffer->set(i,j,2, color.getRGBBlue());
+
+}
+
+void RayTracer::renderFrame(int width, int height) {
+
+  for(int i=0; i<height; i++) {
+    for (int j=0; j<width; j++) {
+      renderPixel(i,j);
+    }
+  }
+
+}
+
 void RayTracer::render() {
 
   int width = _frameBuffer->getWidth();
   int height = _frameBuffer->getHeight();
 
-  RayFactory factory(_scene->getCamera(), width, height);
+  _factory = RayFactory(_scene->getCamera(), width, height);
 
-  for(int i=0; i<height; i++) {
-    for (int j=0; j<width; j++) {
-      //if (i != 62 || j != 26) {}
-
-      //DPRINTF("%d %d\n", i, j);
-
-      Ray ray = factory.createRay(i,j);
-      RTColor color = trace(ray);
-      
-      _frameBuffer->set(i,j,0, color.getRGBRed());
-      _frameBuffer->set(i,j,1, color.getRGBGreen());
-      _frameBuffer->set(i,j,2, color.getRGBBlue());
-
-    }
-  }
+  renderFrame(width, height);
 
 }

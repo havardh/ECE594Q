@@ -9,7 +9,7 @@ RayFactory::RayFactory(const Camera &camera, int width, int height) {
 
 }
 
-Ray RayFactory::createRay(int i, int j) {
+Ray RayFactory::createRay(int i, int j) const {
   float sx = (float)((j + 0.5) / _width);
   float sy = (float)((i + 0.5) / _height);
 

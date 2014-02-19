@@ -102,14 +102,14 @@ HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp
 
 # The pre-processor and compiler options.
 # Users can override those variables from the command line.
-CFLAGS	= -O3
-CXXFLAGS= -O3
+CFLAGS	= -g -O3
+CXXFLAGS= -g -O3
 
 # The C program compiler.
 #CC			= gcc
 
 # The C++ program compiler.
-CXX		 = clang++
+CXX		 = g++
 
 # Un-comment the following line to compile C programs as C++ ones.
 CC			= $(CXX)
@@ -300,7 +300,7 @@ WH=200:200
 
 gen: all
 	echo "set args ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png" | cat >.gdbinit
-	./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
+	time ./raytracer ./Scenes/$(HW)/$(SCENE).ascii $(WH) output/$(HW)/$(SCENE).png
 
 open: gen
 	open output/$(HW)/$(SCENE).png

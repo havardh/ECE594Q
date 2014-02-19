@@ -202,6 +202,7 @@ const RTMaterial RTTriangle::interpolateMaterial(const Vector &point) {
 
     return material;
   }
+
   return getMaterial(0);
 }
 

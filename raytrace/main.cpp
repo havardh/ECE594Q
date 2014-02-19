@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "scene_io.h"
 #include "RayTracer.h"
+#include "ThreadedRayTracer.h"
 #include "RayFrameBuffer.h"
 #include "StrUtil.h"
 #include "Scene.h"
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]) {
   scene.setScene(sceneIO);
   RayFrameBuffer fb(width, height);
 
-  RayTracer rayTracer(&scene, &fb);
+  ThreadedRayTracer rayTracer(&scene, &fb);
   rayTracer.render();
   fb.write(outputPath);
   

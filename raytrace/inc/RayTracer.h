@@ -28,10 +28,16 @@ private:
 
   RTColor trace(const Ray ray);
 
+protected:
+  RayFactory _factory;
 
 public:
   RayTracer(Scene*, RayFrameBuffer*);
+  virtual void renderFrame(int, int);
+  void renderPixel(int, int);
   void render();
+
+
 };
 
 #endif /* _RAYTRACER_H_ */
