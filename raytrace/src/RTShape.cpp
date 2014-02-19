@@ -53,7 +53,7 @@ RTMaterial RTShape::shadePoint(const Vector &point) {
     return getColorShader()->shade(u, v, material);
   }
 
-  return getMaterial(0);
+  return interpolateMaterial(point);
 }
 
 
