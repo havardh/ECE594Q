@@ -35,7 +35,7 @@ private:
 
 };
 
-int main(void) {
+int maina(void) {
   Timer timer;
   StopWatch watch;
   watch.setTimer(&timer);

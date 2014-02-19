@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <cmath>
+#include <xmmintrin.h>
+#include <pmmintrin.h>
 
 #define X_AXIS 0
 #define Y_AXIS 1
@@ -41,6 +43,7 @@ public:
 
   float length() const;
   float dot(const Vector&) const;
+  float dotSIMD(const Vector&) const;
   const Vector& normalize();
   Vector cross(const Vector&) const;
 
@@ -48,7 +51,7 @@ public:
   void print() const { printf("%f %f %f\n", x(), y(), z()); }
 
 private:
-  float _values[3];
+  float _values[4];
 };
 
 Vector operator*(float, const Vector&);

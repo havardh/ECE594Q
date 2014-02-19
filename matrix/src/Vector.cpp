@@ -11,7 +11,7 @@ Vector::Vector(float x, float y, float z) {
   _values[0] = x;
   _values[1] = y;
   _values[2] = z;
-  
+  _values[3] = 0;
 }
 
 float Vector::x() const { return _values[0]; }
@@ -74,7 +74,16 @@ float Vector::length() const {
 }
 
 float Vector::dot(const Vector &o) const {
-  return x() * o.x() + y() * o.y() + z() * o.z();
+
+  __m128 X, Y, Z;
+  X = _mm_loadu_ps(this->_values);
+  Y = _mm_loadu_ps(o._values);
+  X = _mm_mul_ps(X, Y);
+
+  float v[4] = {0};
+  _mm_storeu_ps(v, X);
+
+  return v[0] + v[1] + v[2];
 }
 
 const Vector& Vector::normalize() {
