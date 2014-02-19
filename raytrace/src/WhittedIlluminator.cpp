@@ -62,8 +62,10 @@ RTColor WhittedIlluminator::direct() {
     } 
 
     float fattj = computeFattj(&light);
-
-    total += Sj * (diffuse(&light) + specular(&light)) * fattj;
+    
+    if (fattj > 0) {
+      total += Sj * (diffuse(&light) + specular(&light)) * fattj;
+    }
    
   }
 
@@ -163,9 +165,6 @@ RTColor WhittedIlluminator::refraction() {
   Vector N = shape->normal(point)->normalize();
   
   Vector I = rayOrigin - point;
-
-  //Vector direction = Snell::direction(n1, n2, N, I);
-  //direction.normalize();
 
   Ray inObject(point + N*0.000001, rayDirection);
 

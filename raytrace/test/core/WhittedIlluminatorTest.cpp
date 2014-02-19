@@ -78,7 +78,7 @@ TEST(WhittedIlluminator, shouldHandleMultipleLightSource) {
 
   RTColor color = illuminator->direct();
 
-  uint8_t xx = (uint8_t)(255*0.2 + 255*0.2);
+  uint8_t xx = (uint8_t)(75);
   COLOR_EQUAL(xx, xx, xx, color);
 
 
