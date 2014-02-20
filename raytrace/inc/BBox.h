@@ -26,8 +26,8 @@ public:
   Vector center() const;
 
   void print() const {
-    _origin.printPoint();
-    _delta.printPoint();
+    _origin.print();
+    (_origin+_delta).print();
   }
 
 private:

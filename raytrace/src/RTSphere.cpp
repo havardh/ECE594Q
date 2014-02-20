@@ -66,12 +66,12 @@ VectorPtr RTSphere::normal(const Vector &point) {
 
 void RTSphere::interpolateUV(float &u, float &v, const Vector point) {
 
-  Vector R = point - _origin;
+  Vector R = _origin - point;
   R.normalize();
 
   u = (float) (0.5 + atan2(R.z(), R.x()) / (2 * M_PI));
   v = (float) (0.5 - asin(R.y()) / M_PI);
-
+  
 }
 
 const RTMaterial RTSphere::interpolateMaterial(const Vector &point) {

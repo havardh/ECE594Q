@@ -12,16 +12,20 @@ void Scene::setScene(SceneIO* sio) {
   setLights(sio->lights);
   setObjects(sio->objects);
 
+
 #ifdef USE_KDTREE
   //DPRINTF("..\n");
-  updateTree(); 
+  updateTree();
+  tree.print(true);
   //DPRINTF("..\n");
 #endif
 }
 
 void Scene::updateTree() {
+  SurfaceAreaHeuristic sah;
+  tree.setHeuristic(&sah);
   tree.setBoundingBox(computeBoundingBox());
-  tree.setTerminationCondition(512);
+  tree.setTerminationCondition(1024);
   tree.build(shapes, 0);
 }
 
@@ -82,6 +86,8 @@ void Scene::add(RTShape *shape) {
 }
 
 IntersectionPtr Scene::intersect(const Ray ray) {
+  //DPRINTF("\n");
+  
 #ifdef USE_KDTREE
   return tree.intersect(ray);
 #else
@@ -91,6 +97,7 @@ IntersectionPtr Scene::intersect(const Ray ray) {
   std::vector<IntersectionPtr>::iterator it;
   for (it = I.begin(); it != I.end(); ++it) {
     if (intersection == nullptr || *(*it) < *intersection ) {
+      //DPRINTF("\n");
       intersection = *it;
     }
   }

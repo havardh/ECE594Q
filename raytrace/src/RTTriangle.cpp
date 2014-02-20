@@ -31,7 +31,8 @@ RTTriangle::RTTriangle(const Vector &p0, const Vector &p1, const Vector &p2) {
 }
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
 IntersectionPtr RTTriangle::intersect(const Ray ray) {
-
+  static int attempts = 0;
+  //DPRINTF("%d\n", attempts++);
   Vector orig = ray.getOrigin();
   Vector dir = ray.getDirection();
 
@@ -42,22 +43,27 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
 
   float det = edge1.dot(pvec);
 
-  if (det > -EPSILON && det < EPSILON) 
+  if (det > -EPSILON && det < EPSILON) {
+    //DPRINTF("\n");
     return IntersectionPtr(NULL);
+  }
   float inv_det = 1 / det;
 
   Vector tvec = orig - _p0;
 
   float u = tvec.dot(pvec) * inv_det;
   if (u < 0.0 || u > 1.0) {
+    //DPRINTF("\n");
     return IntersectionPtr(NULL);
   }
 
   Vector qvec = tvec.cross(edge1);
 
   float v = dir.dot(qvec) * inv_det;
-  if (v < 0.0 || u + v > 1.0) 
+  if (v < 0.0 || u + v > 1.0) {
+    //DPRINTF("\n");
     return IntersectionPtr(NULL);
+  }
   
 
   float t = edge2.dot(qvec) *inv_det;
@@ -66,11 +72,14 @@ IntersectionPtr RTTriangle::intersect(const Ray ray) {
     Vector point(orig + t * dir);
 
     if (fabs((ray.getOrigin() - point).length()) < 0.001) {
+      //DPRINTF("\n");
       return IntersectionPtr(NULL);
     } else {
+      //DPRINTF("\n");
       return IntersectionPtr(new Intersection(this, ray, point));
     }
   } else {
+    //DPRINTF("\n");
     return IntersectionPtr(NULL);
   }
 

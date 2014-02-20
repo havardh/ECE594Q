@@ -7,6 +7,7 @@
 #include "RTShape.h"
 #include "KDTree.h"
 #include "BoundingBox.h"
+#include "SurfaceAreaHeuristic.h"
 #include "RTShapeFactory.h"
 #include "Light.h"
 #include "Camera.h"

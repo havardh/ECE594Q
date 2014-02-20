@@ -24,7 +24,7 @@ TEST_GROUP(RayFactory) {
 TEST(RayFactory, shouldProduceRaysForCameraAnOnePixel) {
  
  
-  RayFactory factory(*camera, 1, 1);
+  RayFactory factory(*camera, 1, 1, 1, 1);
 
   std::vector<Ray> rays = factory.createRays();
 
@@ -44,7 +44,7 @@ TEST(RayFactory, shouldProduceRaysForCameraAnOnePixel) {
 
 TEST(RayFactory, shouldProduceRaysForThreeByThree) {
   
-	RayFactory factory(*camera, 3,3);
+	RayFactory factory(*camera, 3,3, 1, 1);
 
   std::vector<Ray> rays = factory.createRays();
 
@@ -66,7 +66,7 @@ TEST(RayFactory, shouldProduceRaysForThreeByThreeWhenRotated) {
   
   camera->setDirection(Vector(1,0,0));
 
-	RayFactory factory(*camera, 3,3);
+	RayFactory factory(*camera, 3,3, 1, 1);
 
   std::vector<Ray> rays = factory.createRays();
 

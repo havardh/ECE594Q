@@ -26,6 +26,11 @@ RTColor RayTracer::trace(const Ray ray) {
 }
 
 void RayTracer::renderPixel(int i, int j) {
+  
+  //if (!(i > 40 && i < 60 && j < 75 && j > 65)) return;
+  //if (i != 50 || j != 70) return;
+
+  //DPRINTF("%d %d\n", i, j);
 
   RTColor color(0,0,0);
   for (int k=0; k<_m; k++) {

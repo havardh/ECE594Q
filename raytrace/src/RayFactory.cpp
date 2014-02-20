@@ -18,8 +18,10 @@ Ray RayFactory::createRay(int i, int j) const {
 
 Ray RayFactory::createRay(int i, int j, int k, int l) const{
 
-  float sx = (float)((j + (k/(float)_m)) / _width);
-  float sy = (float)((i + (l/(float)_n) ) / _height);
+  
+
+  float sx = (float)((j + (k/(float)_m) + ((1.0/_m)/2)) / _width);
+  float sy = (float)((i + (l/(float)_n) + ((1.0/_n)/2)) / _height);
 
   
   //printf("M: "); this->M.printPoint();

@@ -30,12 +30,13 @@ int main(int argc, char *argv[]) {
   SceneIO* sceneIO = readScene(scenePath);
   scene.setScene(sceneIO);
   RayFrameBuffer fb(width, height);
-
+  printf("..\n");
 #ifdef USE_PTHREAD
   ThreadedRayTracer rayTracer(&scene, &fb);
 #else
   RayTracer rayTracer(&scene, &fb);
 #endif
+  rayTracer.setAntiAliasingResolution(1,1);
   rayTracer.render();
   fb.write(outputPath);
   

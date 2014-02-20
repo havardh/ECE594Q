@@ -6,6 +6,8 @@
 #include "RTSphere.h"
 #include "RTPolySet.h"
 #include "RTShapeFactory.h"
+#include "SplitHeuristic.h"
+#include "MeanHeuristic.h"
 #include "Class.h"
 #include "BBox.h"
 #include "Dbg.h"
@@ -31,17 +33,19 @@ public:
   bool containsComposite(vector<RTShape*>) const;
 
   void setTerminationCondition(int);
+  void setHeuristic(SplitHeuristic*);
   void setBoundingBox(BoundingBox);
   void setShapes(vector<RTShape*>);
   void setLeft(KDTree*);
   void setRight(KDTree*);
 
+  SplitHeuristic* getHeuristic();
   int getTerminationCondition() const;
   BoundingBox getBoundingBox() const;
   KDTree* getLeft() const;
   KDTree* getRight() const;
 
-  void print() const;
+  void print(bool recursive) const;
 
   int numNodes() const;
   int numChildren() const;
@@ -55,6 +59,8 @@ private:
   int depth;
   float median;
   int terminationCondition = 1;
+  SplitHeuristic* _splitHeuristic = 0;
+  bool _implicitHeuristic = 0;
 
   BoundingBox box;
   vector<RTShape*> shapes;

@@ -191,4 +191,37 @@ TEST(KDTree, shouldSupportIntersectionSearchForRegularNodes) {
 
 }
 
+TEST(KDTree, shouldSearchInTree) {
 
+  KDTree tree;
+
+  vector<RTShape*> shapes;
+  RTSphere sphere0(Vector(2.5, 2.5, 2.5), 2.4);
+  RTSphere sphere1(Vector(2.5, 2.5, 7.5), 2.4);
+  RTSphere sphere2(Vector(2.5, 7.5, 7.5), 2.4);
+  RTSphere sphere3(Vector(2.5, 7.5, 2.5), 2.4);
+  RTSphere sphere4(Vector(7.5, 2.5, 2.5), 2.4);
+  RTSphere sphere5(Vector(7.5, 2.5, 7.5), 2.4);
+  RTSphere sphere6(Vector(7.5, 7.5, 7.5), 2.4);
+  RTSphere sphere7(Vector(7.5, 7.5, 2.5), 2.4);
+  shapes.push_back(&sphere0);
+  shapes.push_back(&sphere1);
+  shapes.push_back(&sphere2);
+  shapes.push_back(&sphere3);
+  shapes.push_back(&sphere4);
+  shapes.push_back(&sphere5);
+  shapes.push_back(&sphere6);
+  shapes.push_back(&sphere7);
+
+  BoundingBox box(Vector(0,0,0), Vector(10,10,10));
+  tree.setBoundingBox(box);
+  tree.setTerminationCondition(1);
+  tree.build(shapes, 0);
+
+  Ray ray(Vector(7.5, 7.5, -2 ), Vector(0,0,1));
+  IntersectionPtr intersection = tree.intersect(ray);
+  
+  CHECK( intersection != nullptr );
+  CHECK( intersection->getShape() == &sphere7 );
+
+}

@@ -43,6 +43,18 @@ RTColor ShadowTracer::shadowFactor(const Vector &point, const Light *light) {
 
   Ray ray(point, direction.normalize());
 
+  
+  IntersectionPtr intersection = _scene->intersect(ray);
+  
+  if (intersection != nullptr) {
+    RTMaterial m = intersection->getShape()->getMaterial(0);
+    float kt = m.getKTransparency();
+    RTColor c = m.getDiffColor();
+    return color * c.normalize() * kt;
+  } else {
+    return color;
+  }
+
   std::vector<IntersectionPtr> intersections = _scene->intersections(ray);
 
   std::vector<IntersectionPtr>::iterator it;

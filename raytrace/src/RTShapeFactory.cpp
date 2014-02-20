@@ -62,11 +62,11 @@ RTSphere * RTShapeFactory::createSphere(ObjIO* obj) {
   addMaterials(sphere, obj);
   //sphere->setColorShader(&tShader);
   if (obj->name) {
-    //ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
-    //sphere->setColorShader(shader);
+    ColorShaderTexture *shader = new ColorShaderTexture(obj->name);
+    sphere->setColorShader(shader);
   }
 
-  //shape->setIntersectionShader(&intersectionShaderColor);
+  //sphere->setIntersectionShader(&intersectionShaderCheckerboard);
   return sphere;
 }
 

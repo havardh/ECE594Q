@@ -1,4 +1,5 @@
 #include "BBox.h"
+#include "Dbg.h"
 
 #define X 0
 #define Y 1
@@ -10,6 +11,9 @@ BoundingBox::BoundingBox(Vector origin, Vector delta) :
   _origin(origin), _delta(delta) {}
 
 BoundingBoxes BoundingBox::split(float m, int axis) const {
+
+  //DPRINTF("Original\n");
+  //this->print();
   
   Vector origin = getOrigin();
   Vector delta = getDelta();
@@ -23,6 +27,11 @@ BoundingBoxes BoundingBox::split(float m, int axis) const {
   origin.set(axis,m);
   second.setOrigin(origin);
   second.setDelta(delta);
+
+  //DPRINTF("First\n");
+  //first.print();
+  //DPRINTF("Second\n");
+  //second.print();
 
   return BoundingBoxes(first, second);
   

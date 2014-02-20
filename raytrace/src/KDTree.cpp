@@ -5,7 +5,8 @@
 
 KDTree::~KDTree() {
   if (leftChild) delete leftChild;
-  if (rightChild) delete rightChild;  
+  if (rightChild) delete rightChild;
+  if (_implicitHeuristic) delete _splitHeuristic;
 }
 
 
@@ -13,9 +14,10 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
 
   this->axis  = depth % 3;
   this->depth = depth;
-  this->median = findMedian(shapes, axis);
+  this->median = getHeuristic()->findMedian(
+    getBoundingBox(), shapes, axis);
 
-  //DPRINTF("%d %d\n", depth, shapes.size());
+  //DPRINTF("%d %d %d\n", depth, axis, shapes.size());
   if (terminate(shapes)) {
     setShapes(shapes);
   } else {
@@ -24,15 +26,19 @@ void KDTree::build(vector<RTShape*> shapes, int depth) {
     KDTree *left = new KDTree();
     left->setBoundingBox(boxes.first);
     left->setTerminationCondition(getTerminationCondition());
+    left->setHeuristic(getHeuristic());
     left->build(left->filter(shapes), depth+1);
     setLeft(left);
 
     KDTree *right = new KDTree();
     right->setBoundingBox(boxes.second);
     right->setTerminationCondition(getTerminationCondition());
+    right->setHeuristic(getHeuristic());
     right->build(right->filter(shapes), depth+1);
     setRight(right);
   }
+
+  //print();
 
 }
 
@@ -44,13 +50,11 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
 
 #ifdef KDTREE_NAIVE
 
-    IntersectionPtr intersection = getLeft()->intersect(ray);
-    if (intersection != nullptr) {
-      //DPRINTF("left\n");
-      return intersection; 
+    IntersectionPtr intersection = getRight()->intersect(ray);
+    if (intersection == nullptr) {
+      return getLeft()->intersect(ray);
     } else {
-      //DPRINTF("right\n");
-      return getRight()->intersect(ray);
+      return intersection;
     }
 
 #elif defined KDTREE_BOUNDINGBOXES
@@ -71,21 +75,25 @@ IntersectionPtr KDTree::intersect(const Ray &ray) const {
     }
     
     if (t >= t_exit || t < 0) {
+      //DPRINTF("near\n");
       return near->intersect(ray);
     } else if (t <= t_enter) {
+      //DPRINTF("far\n");
       return far->intersect(ray);
     } else {
+      //DPRINTF("near\n");
       IntersectionPtr intersection = near->intersect(ray);
       if (intersection != nullptr) {
+        //DPRINTF("far\n");
         IntersectionPtr farIntersection = far->intersect(ray);
-        
-        
+
         if (farIntersection != nullptr && (*farIntersection < *intersection)) {
           return farIntersection;
         } else {
           return intersection;
         }
       } else {
+        //DPRINTF("far\n");
         return far->intersect(ray);
       }
     }
@@ -175,17 +183,6 @@ void KDTree::setTerminationCondition(int condition) {
   terminationCondition = condition;
 }
 
-float KDTree::findMedian(vector<RTShape*> shapes, int axis) const {
-  vector<RTShape*>::iterator it;
-
-  float m = 0;
-  for (it = shapes.begin(); it != shapes.end(); ++it) {
-    m += (*it)->getBoundingBox().center().get(axis);
-  }
-
-  return m / shapes.size();
-}
-
 vector<RTShape*> KDTree::filter(vector<RTShape*> shapes) const {
   
   vector<RTShape*> result;
@@ -218,6 +215,9 @@ vector<RTShape*> KDTree::filter(vector<RTShape*> shapes) const {
   return result;
 }
 
+void KDTree::setHeuristic(SplitHeuristic *heuristic) {
+  _splitHeuristic = heuristic;
+}
 
 void KDTree::setBoundingBox(BoundingBox b) {
   box = b;
@@ -233,6 +233,15 @@ void KDTree::setLeft(KDTree *tree) {
 
 void KDTree::setRight(KDTree *tree) {
   rightChild = tree;
+}
+
+SplitHeuristic* KDTree::getHeuristic() {
+  if (this->_splitHeuristic == 0) {
+    this->_implicitHeuristic = true;
+    this->_splitHeuristic = new MeanHeuristic();
+  }
+
+  return this->_splitHeuristic;
 }
 
 int KDTree::getTerminationCondition() const {
@@ -270,14 +279,20 @@ bool KDTree::containsComposite(vector<RTShape*> shapes) const {
   return false;
 }
 
-void KDTree::print() const {
+void KDTree::print(bool recursive) const {
 
   printf("Depth: %d\n", depth);
   printf("Median: %f\n", median);
   printf("Num shapes: %lu\n", shapes.size());
-  if (!isChild()) {
-    getLeft()->print();
-    getRight()->print();
+  printf("Height: %d\n", height());
+  printf("ShapeRefs: %d\n", numShapeRefs());
+  printf("Num nodes: %d\n", numNodes());
+  printf("Num children: %d\n", numChildren());
+  printf("BoundingBox:\n");
+  getBoundingBox().print();
+  if (recursive && !isChild()) {
+    getLeft()->print(recursive);
+    getRight()->print(recursive);
   }
 
 }

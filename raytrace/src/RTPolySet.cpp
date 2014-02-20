@@ -26,7 +26,8 @@ void RTPolySet::calculateMidpoint() {
   }
 
   midpoint = midpoint * (1.0 / (triangles.size()*3));
-  
+
+  printf("%lu\n", triangles.size());
 }
 
 // Duplicate of Scene::intersection should be refactored
