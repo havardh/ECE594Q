@@ -89,7 +89,7 @@ TEST_GROUP(ShadowTracerBug) {
   }
 };
 
-TEST(ShadowTracer, shouldTracePerLightSource) {
+IGNORE_TEST(ShadowTracer, shouldTracePerLightSource) {
 
   Vector point(0,0,0);
   Light light(Vector(10, 0, 0), Vector(0,0,0), RTColor::WHITE, 0, 0);
@@ -103,7 +103,7 @@ TEST(ShadowTracer, shouldTracePerLightSource) {
 
 }
 
-TEST(ShadowTracer, shouldTraceThroughTransparantObjects) {
+IGNORE_TEST(ShadowTracer, shouldTraceThroughTransparantObjects) {
 
   Vector point(0,0,0);
   Light light(Vector(10, 0, 0), Vector(0,0,0), RTColor::WHITE, 0, 0);

@@ -6,10 +6,18 @@
 #include "RayFrameBuffer.h"
 #include "StrUtil.h"
 #include "Scene.h"
+#include "Timer.h"
+#include "StopWatch.h"
 
-#define USE_PTHREAD
+//#define USE_PTHREAD
 
 int main(int argc, char *argv[]) {
+
+  Timer t;
+  StopWatch sw;
+  sw.setTimer(&t);
+
+  sw.start("Begining");
 
   const char *scenePath, *outputPath = "out.png";
   int width = 400, height = 400;
@@ -28,7 +36,9 @@ int main(int argc, char *argv[]) {
 
   Scene scene;
   SceneIO* sceneIO = readScene(scenePath);
+  sw.lap("Scene read");
   scene.setScene(sceneIO);
+  sw.lap("Datastructure built");
   RayFrameBuffer fb(width, height);
   printf("..\n");
 #ifdef USE_PTHREAD
@@ -38,7 +48,13 @@ int main(int argc, char *argv[]) {
 #endif
   rayTracer.setAntiAliasingResolution(1,1);
   rayTracer.render();
+  sw.lap("Scene Rendered");
+  printf("wtf\n");
+
   fb.write(outputPath);
+  sw.stop();
+
+  sw.print();
   
   if (sceneIO != NULL) {
     deleteScene(sceneIO);

@@ -7,6 +7,7 @@
 #include "RTShape.h"
 #include "KDTree.h"
 #include "BoundingBox.h"
+#include "BoundingBoxHierarchy.h"
 #include "SurfaceAreaHeuristic.h"
 #include "RTShapeFactory.h"
 #include "Light.h"
@@ -45,6 +46,7 @@ private:
   std::vector<Light> lights;
   std::vector<RTShape*> shapes;
   KDTree tree ;
+  BoundingBoxHierarchy bbh;
 
   BoundingBox computeBoundingBox();
   

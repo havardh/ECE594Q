@@ -67,6 +67,7 @@ MY_LIBS		=
 INCLUDE_DIRS = inc \
 	../matrix/inc \
 	../reyes/inc \
+	timing-tests/inc \
 	../util/inc
 get_dirs_from_dirspec	 = $(wildcard $1)
 INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
@@ -84,6 +85,7 @@ LDFLAGS		=
 SRCDIRS		= . \
 	src \
 	../matrix/src \
+	timing-tests/src \
 	../util/src
 
 # The executable file name.
@@ -102,8 +104,8 @@ HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp
 
 # The pre-processor and compiler options.
 # Users can override those variables from the command line.
-CFLAGS	= -g
-CXXFLAGS= -g
+CFLAGS	= -O3
+CXXFLAGS= -O3
 
 # The C program compiler.
 #CC			= gcc

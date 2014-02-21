@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Dbg.h"
 
+//#define USE_BBH
 #define USE_KDTREE
 
 Scene::~Scene() {
@@ -12,11 +13,14 @@ void Scene::setScene(SceneIO* sio) {
   setLights(sio->lights);
   setObjects(sio->objects);
 
+#ifdef USE_BBH
+  bbh.build(shapes);
+#endif
 
 #ifdef USE_KDTREE
   //DPRINTF("..\n");
   updateTree();
-  tree.print(true);
+  //tree.print(true);
   //DPRINTF("..\n");
 #endif
 }
@@ -25,7 +29,7 @@ void Scene::updateTree() {
   SurfaceAreaHeuristic sah;
   tree.setHeuristic(&sah);
   tree.setBoundingBox(computeBoundingBox());
-  tree.setTerminationCondition(1024);
+  tree.setTerminationCondition(256+64+8+4+1); // test1 = 60, test2 = 333,  
   tree.build(shapes, 0);
 }
 
@@ -87,6 +91,10 @@ void Scene::add(RTShape *shape) {
 
 IntersectionPtr Scene::intersect(const Ray ray) {
   //DPRINTF("\n");
+
+#ifdef USE_BBH
+  return bbh.intersect(ray);
+#endif
   
 #ifdef USE_KDTREE
   return tree.intersect(ray);

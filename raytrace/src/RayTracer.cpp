@@ -7,8 +7,7 @@ RayTracer::RayTracer(Scene *scene, RayFrameBuffer *frameBuffer) :
 }
 
 RTColor RayTracer::trace(const Ray ray) {
-
-
+  //static int i=0; DPRINTF("%d\n", i++);
   IntersectionPtr intersection = _scene->intersect(ray);
   
   ShadedWhittedIlluminator illuminator(&_stracer, _scene);

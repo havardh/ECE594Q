@@ -35,7 +35,7 @@ void WhittedIlluminator::setLocalVariables(Intersection intersection) {
 
 WhittedIlluminator* WhittedIlluminator::newIlluminator(
   ShadowTracer *shadowTracer, Scene *scene) {
-  return new WhittedIlluminator(shadowTracer, scene);;
+  return new WhittedIlluminator(shadowTracer, scene);
 }
 
 RTColor WhittedIlluminator::ambient() {
@@ -129,6 +129,7 @@ RTColor WhittedIlluminator::reflection() {
 
     if (intersection != nullptr) {
       WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+      illuminator->setReflectionsComputed(_reflectionsComputed);
       assert(illuminator);
       RTColor color = illuminator->illuminate(*intersection) * ks;
       delete illuminator;
@@ -172,6 +173,7 @@ RTColor WhittedIlluminator::refraction() {
   
   if (intersection != nullptr) {
     WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
+    illuminator->setReflectionsComputed(_reflectionsComputed);
     assert(illuminator);
     RTColor color = illuminator->illuminate(*intersection) * kt;
     delete illuminator;

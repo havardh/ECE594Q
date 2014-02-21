@@ -148,12 +148,13 @@ IntersectionPtr KDTree::intersectChildNode(const Ray &ray) const {
 }
 
 std::vector<IntersectionPtr> KDTree::intersectionsChildNode(const Ray ray) const {
-  
+  static int i=0;
+  static int j=0;
   std::vector<IntersectionPtr> intersections;
   vector<RTShape*>::const_iterator it;
   //DPRINTF("Searching through %d\n", shapes.size());
   for(it = shapes.begin(); it != shapes.end(); ++it) {
-
+    
     IntersectionPtr intersection = (*it)->intersect(ray);
      
     if (intersection != nullptr) {
@@ -161,6 +162,9 @@ std::vector<IntersectionPtr> KDTree::intersectionsChildNode(const Ray ray) const
       if (intersection->getShape()->shadeIntersection(*intersection)) {
         intersections.push_back(intersection);
       }
+      //DPRINTF("Intersect: %d\n", i++);
+    } else {
+      //DPRINTF("Not Intersect: %d\n", j++);
     }
   }
 

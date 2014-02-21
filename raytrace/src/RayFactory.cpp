@@ -32,8 +32,10 @@ Ray RayFactory::createRay(int i, int j, int k, int l) const{
   
   Vector t = (P - this->E);
   Vector D = t.normalize();
-  
-  return Ray(this->E, D);
+
+  Ray ray(this->E, D);
+
+  return ray;
 }
 
 std::vector<Ray> RayFactory::createRays() {

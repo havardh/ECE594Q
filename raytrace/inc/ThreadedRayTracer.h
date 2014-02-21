@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include "RayTracer.h"
 
-#define N 4
-#define M 4
+#define N 8
+#define M 8
 
 class ThreadedRayTracer : public RayTracer {
 

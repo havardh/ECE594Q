@@ -139,7 +139,7 @@ TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
   
 }
 
-TEST(SceneIntersectionShader, shouldPassUVToShader) {
+IGNORE_TEST(SceneIntersectionShader, shouldPassUVToShader) {
 
   RTSphere s(Vector(0,0,10), 1);
   Scene scene;

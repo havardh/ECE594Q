@@ -47,7 +47,7 @@ public:
   const Vector& normalize();
   Vector cross(const Vector&) const;
 
-  void printPoint() const {  }
+  void printPoint() const { print(); }
   void print() const { printf("%f %f %f\n", x(), y(), z()); }
 
 private:

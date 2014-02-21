@@ -7,7 +7,7 @@
 #include <limits>
 
 #define COSTTRAVERSE 1
-#define COSTINTERSECT 1
+#define COSTINTERSECT 10
 
 class SurfaceAreaHeuristic : public SplitHeuristic {
  public:

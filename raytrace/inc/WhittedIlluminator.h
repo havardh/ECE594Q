@@ -35,6 +35,7 @@ public:
 
   void setScene(Scene *s) { _scene = s; }
 
+  void setReflectionsComputed(int r) { _reflectionsComputed = r; }
   void setPoint(Vector m) { point = m; }
   void setShape(RTShape *s) { shape = s; }
   void setMaterial(RTMaterial m) { material = m; }
