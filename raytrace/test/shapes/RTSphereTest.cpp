@@ -187,3 +187,17 @@ TEST(RTSphere, shouldReturnBoundingBox) {
   VECTOR_EQUAL( 4,4,4, box.getDelta() );
 
 }
+
+TEST(RTSphere, shouldIntersectOnInsideOfSphere) {
+
+  RTSphere s(Vector(0, 0, 0), 2);
+
+  Ray ray(Vector(0,0,0), Vector(0,0,1));
+
+  IntersectionPtr I = s.intersect(ray);
+  CHECK( I != nullptr );
+  Vector P = I->getPoint();
+
+  VECTOR_EQUAL( 0,0,2, P);
+
+}

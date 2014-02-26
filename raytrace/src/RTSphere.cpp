@@ -37,9 +37,24 @@ IntersectionPtr RTSphere::getIntersection(const Ray &ray) {
 // http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 IntersectionPtr RTSphere::intersect(const Ray ray) {
 
+  
+
   Vector x0 = _origin;
   Vector x1 = ray.getOrigin();
   Vector x2 = ray.getOrigin() + ray.getDirection();
+
+  if ((x1 - x0).length() < _radius) {
+
+    Ray rayOutside(
+      (2*_radius) * ray.getDirection() + ray.getOrigin(),
+      -ray.getDirection()
+    );
+
+    IntersectionPtr I = intersect(rayOutside);
+    return IntersectionPtr(new Intersection(
+      I->getShape(), ray, I->getPoint()
+    ));
+  }
 
 
   if ((x1 - x0).length() < (x2 - x0).length()) {
@@ -57,7 +72,6 @@ IntersectionPtr RTSphere::intersect(const Ray ray) {
 }
 
 VectorPtr RTSphere::normal(const Vector &point) {
-
 
   Vector direction = point - _origin;
   return VectorPtr(new Vector(direction.normalize()));
