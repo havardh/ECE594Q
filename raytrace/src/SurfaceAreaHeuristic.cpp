@@ -14,6 +14,9 @@ float SurfaceAreaHeuristic::findMedian(BoundingBox box, vector<RTShape*> shapes,
 
   float cost;
   float bestpos = 0;
+  if (shapes.size() == 0) {
+    return 0;
+  }
   float bestcost = calculateCost(shapes[0]->getBoundingBox().getOrigin().get(axis),0);
 
   float bmin = box.getOrigin().get(axis);
