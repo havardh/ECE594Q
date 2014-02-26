@@ -128,3 +128,10 @@ TEST(Vector, shouldProvideMultiplyByScalar) {
   VECTOR_EQUAL( 2, 4, 6, v );
 
 }
+
+TEST(Vector, shouldSupportUnaryMinus) {
+
+  Vector v(1, 2, 3);
+  VECTOR_EQUAL( - 1, -2, -3, -v);
+
+}
