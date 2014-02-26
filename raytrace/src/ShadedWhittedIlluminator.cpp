@@ -1,10 +1,11 @@
 #include "ShadedWhittedIlluminator.h"
 #include <assert.h>
 
-WhittedIlluminator* newIlluminator(ShadowTracer *stracer, Scene *scene) {
+WhittedIlluminator* ShadedWhittedIlluminator::newIlluminator(ShadowTracer *stracer, Scene *scene) {
   ShadedWhittedIlluminator* illuminator = new ShadedWhittedIlluminator(stracer, scene);
   assert(illuminator);
- 
+  illuminator->setReflectionsComputed(this->reflectionsComputed());
+  illuminator->setRefractionCount(this->refractionCount()); 
   return illuminator;
   
 }

@@ -33,9 +33,12 @@ public:
   virtual RTColor reflection();
   virtual RTColor refraction();
 
-  void setScene(Scene *s) { _scene = s; }
+  int reflectionsComputed() { return _reflectionsComputed; }
+  int refractionCount() { return _refractionCount; }
 
+  void setScene(Scene *s) { _scene = s; }
   void setReflectionsComputed(int r) { _reflectionsComputed = r; }
+  void setRefractionCount(int c) { _refractionCount = c; }
   void setPoint(Vector m) { point = m; }
   void setShape(RTShape *s) { shape = s; }
   void setMaterial(RTMaterial m) { material = m; }
@@ -43,7 +46,7 @@ public:
   void setRayDirection(Vector m) { rayDirection = m; }
 
   // Used to create new illuminator for reflection and refraction
-  WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
+  virtual WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
 
 protected:
   /* Local shared members for helpers */

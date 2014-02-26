@@ -9,7 +9,7 @@ public:
   ShadedWhittedIlluminator(ShadowTracer *stracer, Scene *scene) :
     WhittedIlluminator(stracer, scene) {}
 
-  WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
+  virtual WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
 
   void setLocalVariables(Intersection intersection);
 

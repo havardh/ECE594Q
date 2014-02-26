@@ -35,7 +35,10 @@ void WhittedIlluminator::setLocalVariables(Intersection intersection) {
 
 WhittedIlluminator* WhittedIlluminator::newIlluminator(
   ShadowTracer *shadowTracer, Scene *scene) {
-  return new WhittedIlluminator(shadowTracer, scene);
+  WhittedIlluminator* illuminator = new WhittedIlluminator(shadowTracer, scene);
+  illuminator->setReflectionsComputed(_reflectionsComputed);
+  illuminator->setRefractionCount(_refractionCount);
+  return illuminator;
 }
 
 RTColor WhittedIlluminator::ambient() {
@@ -110,7 +113,11 @@ RTColor WhittedIlluminator::specular(const Light *light) {
 RTColor WhittedIlluminator::reflection() {
   
   RTColor ks = material.getSpecColor();
-  
+
+  if (_refractionCount > 0) {
+    return RTColor::BLACK;
+  }
+
   if (ks < 0.000001) {
     return RTColor::BLACK;
   }
@@ -129,7 +136,6 @@ RTColor WhittedIlluminator::reflection() {
 
     if (intersection != nullptr) {
       WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
-      illuminator->setReflectionsComputed(_reflectionsComputed);
       assert(illuminator);
       RTColor color = illuminator->illuminate(*intersection) * ks;
       delete illuminator;
@@ -173,7 +179,6 @@ RTColor WhittedIlluminator::refraction() {
   
   if (intersection != nullptr) {
     WhittedIlluminator* illuminator = this->newIlluminator(_stracer,_scene);
-    illuminator->setReflectionsComputed(_reflectionsComputed);
     assert(illuminator);
     RTColor color = illuminator->illuminate(*intersection) * kt;
     delete illuminator;
