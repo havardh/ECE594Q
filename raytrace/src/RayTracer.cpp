@@ -34,7 +34,7 @@ RTColor RayTracer::trace(const Ray ray) {
 void RayTracer::renderPixel(int i, int j) {
   
   //if (!(i > 40 && i < 60 && j < 75 && j > 65)) return;
-  //if (i != 50 || j != 70) return;
+  //if (i != 150 && j != 100) return;
 
 #ifdef PROGRESS
   ProgressBar_tick();
@@ -48,6 +48,7 @@ void RayTracer::renderPixel(int i, int j) {
       color += trace(ray) * (1.0/(_m*_n));
     }
   }
+
   _frameBuffer->set(i,j,0, color.getRGBRed());
   _frameBuffer->set(i,j,1, color.getRGBGreen());
   _frameBuffer->set(i,j,2, color.getRGBBlue());

@@ -25,3 +25,4 @@ data/*
 *.png
 *.jpg
 *.dSYM*
+raytrace/time-prof*

@@ -9,6 +9,10 @@ void Illuminator::setLocalVariables(Intersection intersection) {
   setIntersection(intersection);
 }
 
+RTColor Illuminator::ambient() {
+  return material.getDiffColor() * 0.1f;
+}
+
 RTColor Illuminator::diffuse(const Light *light) {
 
   Vector N = -shape->normal(point)->normalize();

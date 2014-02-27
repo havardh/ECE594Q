@@ -35,7 +35,7 @@ WhittedIlluminator* WhittedIlluminator::newIlluminator(
 }
 
 RTColor WhittedIlluminator::ambient() {
-  return material.getDiffColor() * 0.2f;
+  return Illuminator::ambient();
 }
 
 RTColor WhittedIlluminator::direct() {

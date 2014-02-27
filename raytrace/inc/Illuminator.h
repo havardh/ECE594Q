@@ -31,6 +31,7 @@ public:
   Scene* getScene() { return _scene; }
   Intersection getIntersection() { return _intersection; }
 
+  virtual RTColor ambient();
   virtual RTColor diffuse(const Light *light);
   virtual RTColor specular(const Light *light);
 

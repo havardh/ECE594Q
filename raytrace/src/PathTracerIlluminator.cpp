@@ -16,12 +16,15 @@ void printLightStats(void) {
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
   setLocalVariables(intersection);
   
-  int n = 1000;
+  int n = 100;
+  float numLights = getScene()->numLights();
+
 
   RTColor color;
   for (int i=0; i<n; i++) {
-    color += direct() * (2.0/n); 
-    color += reflection() * (1/10.0);
+    color += ambient() * (1.0/n);
+    color += direct() * (1.0/n);
+    color += reflection();
   }
 
   return color;
@@ -38,14 +41,15 @@ Illuminator* PathTracerIlluminator::newIlluminator(ShadowTracer *shadowTracer, S
 }
 
 RTColor PathTracerIlluminator::direct() {
+  RTColor ks = material.getSpecColor();
 
   ShadowTracer *stracer = getShadowTracer();
   Vector N = *shape->normal(point);
   const Light *light = uniformlyRandomLightSource();
   RTColor Sj =  stracer->shadowFactor(point + N*0.0001, light);
   float fattj = computeFattj(light);
+  //return Sj * (diffuse(light) + specular(light)) * light->getColor() * fattj;
   return Sj * diffuse(light) * light->getColor() * fattj;
-
 }
 
 RTColor PathTracerIlluminator::reflection() {
@@ -63,10 +67,9 @@ RTColor PathTracerIlluminator::reflection() {
 
       RTColor color = illuminator->illuminate(*intersection);
       delete illuminator;
-
-      return color * 0.05;
+      RTColor ks = material.getSpecColor();
+      return color * ks;
     }
-    
   }
 
   return RTColor(0,0,0);
@@ -75,8 +78,6 @@ RTColor PathTracerIlluminator::reflection() {
 RTColor PathTracerIlluminator::refraction() {
   return RTColor(0,0,0);
 }
-
-
 
 const Light* PathTracerIlluminator::uniformlyRandomLightSource() {
 
