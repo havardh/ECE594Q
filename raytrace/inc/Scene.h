@@ -37,6 +37,7 @@ public:
   LightIter lightsEnd() const { return lights.end(); }
   RTShapeIter shapesBegin() const { return shapes.begin(); }
   RTShapeIter shapesEnd() const { return shapes.end(); }
+  
 
   IntersectionPtr intersect(const Ray);
   std::vector<IntersectionPtr> intersections(const Ray);

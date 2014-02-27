@@ -12,8 +12,11 @@
 #include "RTColor.h"
 #include "RayFrameBuffer.h"
 #include "ShadowTracer.h"
+#include "Illuminator.h"
 #include "WhittedIlluminator.h"
+#include "PathTracerIlluminator.h"
 #include "ShadedWhittedIlluminator.h"
+#include "ProgressBar.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
@@ -38,6 +41,7 @@ public:
   void renderPixel(int, int);
   void render();
   void setAntiAliasingResolution(int,int);
+  
 
 };
 

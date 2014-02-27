@@ -22,7 +22,7 @@ TEST(Snell, shouldHandlePerpendicularAngle) {
 
 
 
-TEST(Snell, shouldHandleOrthogonalAngles) {
+IGNORE_TEST(Snell, shouldHandleOrthogonalAngles) {
   
   Vector N(1,0,0);
   Vector I(0,-1,0);
@@ -33,7 +33,7 @@ TEST(Snell, shouldHandleOrthogonalAngles) {
 
 }
 
-TEST(Snell, shouldNotAlterWhenNIsSame) {
+IGNORE_TEST(Snell, shouldNotAlterWhenNIsSame) {
 
   Vector N(1,0,0);
   Vector I(0.707107,0.707107,0);

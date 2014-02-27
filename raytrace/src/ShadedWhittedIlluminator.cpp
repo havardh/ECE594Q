@@ -4,6 +4,8 @@
 WhittedIlluminator* ShadedWhittedIlluminator::newIlluminator(ShadowTracer *stracer, Scene *scene) {
   ShadedWhittedIlluminator* illuminator = new ShadedWhittedIlluminator(stracer, scene);
   assert(illuminator);
+  illuminator->setShadowTracer(stracer);
+  illuminator->setScene(scene);
   illuminator->setReflectionsComputed(this->reflectionsComputed());
   illuminator->setRefractionCount(this->refractionCount()); 
   return illuminator;

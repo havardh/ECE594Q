@@ -9,7 +9,9 @@
 #include "Timer.h"
 #include "StopWatch.h"
 
-//#define USE_PTHREAD
+#define USE_PTHREAD
+
+void printLightStats(void);
 
 int main(int argc, char *argv[]) {
 
@@ -59,6 +61,6 @@ int main(int argc, char *argv[]) {
   if (sceneIO != NULL) {
     deleteScene(sceneIO);
   }
-  
+  printLightStats();
   return 0;
 }

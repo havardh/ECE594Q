@@ -172,6 +172,24 @@ const Matrix operator*(const double &lhs, const Matrix &rhs) {
   return rhs * lhs;
 }
 
+const Vector Matrix::operator*(const Vector &v) const {
+
+  Vector r;
+
+  r.set(0, (v.get(0) * get(0,0) + v.get(1) * get(0,1) + v.get(2) * get(0,2) + v.get(3) * get(0,3)));
+  r.set(1, (v.get(0) * get(1,0) + v.get(1) * get(1,1) + v.get(2) * get(1,2) + v.get(3) * get(1,3)));
+  r.set(2, (v.get(0) * get(2,0) + v.get(1) * get(2,1) + v.get(2) * get(2,2) + v.get(3) * get(2,3)));
+  r.set(3, (v.get(0) * get(3,0) + v.get(1) * get(3,1) + v.get(2) * get(3,2) + v.get(3) * get(3,3)));
+  
+  r.x(r.x() / r.get(3));
+  r.y(r.y() / r.get(3));
+  r.z(r.z() / r.get(3));
+  r.set(3,1);
+
+  return r;
+
+}
+
 const Matrix Matrix::operator*(const double &c) const {
   
   int m = this->_m;

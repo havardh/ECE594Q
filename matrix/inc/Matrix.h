@@ -4,9 +4,11 @@
 #include <memory>
 #include <stdio.h>
 #include "MatrixFactory.h"
+#include "Vector.h"
 #include "Axis.h"
 #include <cmath>
 
+class Vector;
 class Matrix {
 
 private:
@@ -32,6 +34,7 @@ public:
   bool operator!=(const Matrix &) const;
   const Matrix operator/(const Matrix &) const;
   const Matrix operator*(const Matrix &) const;
+  const Vector operator*(const Vector &) const;
   const Matrix operator*(const int &) const;
   const Matrix operator*(const float &) const;
   const Matrix operator*(const double &) const;

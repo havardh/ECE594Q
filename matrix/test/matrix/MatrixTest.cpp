@@ -1,6 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "Matrix.h"
 #include "MatrixTestHelper.h"
+#include "Vector.h"
 
 TEST_GROUP(Matrix) {
   void setup() {}
@@ -428,5 +429,24 @@ TEST(Matrix, normalizeShouldHandleNullLength) {
 
   VECTOR_EQUAL(0,0,0, m1);
   
+
+}
+
+TEST(Matrix, shouldBeMultipliableWithVector) {
+
+  Matrix m(4,4);
+  float vals[] = {
+    1,1,1,1,
+    2,2,2,2,
+    3,3,3,3,
+    4,4,4,4
+  };
+  m.setAll(vals);
+
+  Vector v( 1, 2, 3 );
+  Vector r = m * v;
+
+  float l = 4+8+12;
+  VECTOR_EQUAL( (1+2+3)/l, (2+4+6)/l, (3+6+9)/l, r ); 
 
 }

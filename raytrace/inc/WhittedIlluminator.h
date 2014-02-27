@@ -4,24 +4,27 @@
 #include "RTColor.h"
 #include "Intersection.h"
 #include "ShadowTracer.h"
+#include "Illuminator.h"
 #include "Snell.h"
 #include "Light.h"
 #include <cmath>
 
-class WhittedIlluminator {
+class WhittedIlluminator : public Illuminator {
   
-public:
-  WhittedIlluminator(ShadowTracer *shadowTracer) 
-    : _stracer(shadowTracer),
-      _reflectionsComputed(0),
-      _refractionCount(0),
-      _scene() {}
+ public:
+ WhittedIlluminator() {
+    setShadowTracer(0);
+    setScene(0);
+  }
+  WhittedIlluminator(ShadowTracer *shadowTracer) {
+    setShadowTracer(shadowTracer);
+    setScene(0);
+  }
 
-  WhittedIlluminator(ShadowTracer *shadowTracer, Scene *scene) 
-    : _stracer(shadowTracer),
-      _reflectionsComputed(0),
-      _refractionCount(0),
-      _scene(scene) {}
+ WhittedIlluminator(ShadowTracer *shadowTracer, Scene *scene) {
+    setShadowTracer(shadowTracer);
+    setScene(scene);
+  }
 
   RTColor illuminate(Intersection);
 
@@ -33,39 +36,13 @@ public:
   virtual RTColor reflection();
   virtual RTColor refraction();
 
-  int reflectionsComputed() { return _reflectionsComputed; }
-  int refractionCount() { return _refractionCount; }
-
-  void setScene(Scene *s) { _scene = s; }
-  void setReflectionsComputed(int r) { _reflectionsComputed = r; }
-  void setRefractionCount(int c) { _refractionCount = c; }
-  void setPoint(Vector m) { point = m; }
-  void setShape(RTShape *s) { shape = s; }
-  void setMaterial(RTMaterial m) { material = m; }
-  void setRayOrigin(Vector m) { rayOrigin = m; }
-  void setRayDirection(Vector m) { rayDirection = m; }
-
   // Used to create new illuminator for reflection and refraction
   virtual WhittedIlluminator* newIlluminator(ShadowTracer*, Scene*);
 
-protected:
-  /* Local shared members for helpers */
-  Vector point;
-  RTShape *shape;
-  RTMaterial material;
-  Vector rayOrigin;
-  Vector rayDirection;
-
   virtual void setLocalVariables(Intersection);
 
-private:
-  ShadowTracer *_stracer;
-  int _reflectionsComputed;
-  int _refractionCount;
-  Scene *_scene;
-
+ private:
   bool isGoingIntoObject();
-  float computeFattj(const Light *light);
 
 };
 

@@ -4,6 +4,7 @@ Vector::Vector(float values[3]) {
 
   memcpy(_values, values, sizeof(float)*3);
 
+  _values[3] = 1;
 }
 
 Vector::Vector(float x, float y, float z) {
@@ -11,7 +12,7 @@ Vector::Vector(float x, float y, float z) {
   _values[0] = x;
   _values[1] = y;
   _values[2] = z;
-  _values[3] = 0;
+  _values[3] = 1;
 }
 
 float Vector::x() const { return _values[0]; }
@@ -119,4 +120,13 @@ Vector Vector::cross(const Vector &o) const {
     -(x() * o.z() - z() * o.x()),
     x() * o.y() - y() * o.x()
   );
+}
+
+Vector& Vector::rotate( Axis axis, float angle ) {
+
+  Matrix rotationMatrix = MatrixFactory::createRotation(axis, angle);
+
+  (*this) = rotationMatrix * (*this) ;
+
+  return *this;
 }

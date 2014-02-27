@@ -135,3 +135,13 @@ TEST(Vector, shouldSupportUnaryMinus) {
   VECTOR_EQUAL( - 1, -2, -3, -v);
 
 }
+
+TEST(Vector, shouldRotateAndHomogenize) {
+
+  Vector v( 0, 1, 0 );
+
+  v.rotate( X, M_PI );
+
+  VECTOR_EQUAL( 0, -1, 0, v );
+
+}

@@ -1,8 +1,8 @@
 #include "Scene.h"
 #include "Dbg.h"
 
-//#define USE_BBH
-#define USE_KDTREE
+#define USE_BBH
+//#define USE_KDTREE
 
 Scene::~Scene() {
 }
@@ -29,7 +29,7 @@ void Scene::updateTree() {
   SurfaceAreaHeuristic sah;
   tree.setHeuristic(&sah);
   tree.setBoundingBox(computeBoundingBox());
-  tree.setTerminationCondition(256+64+8+4+1); // test1 = 60, test2 = 333,  
+  tree.setTerminationCondition(32); // test1 = 60, test2 = 333,  
   tree.build(shapes, 0);
 }
 

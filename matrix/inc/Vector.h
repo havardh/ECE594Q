@@ -3,6 +3,9 @@
 
 #include <memory>
 #include <cmath>
+#include "Axis.h"
+#include "Matrix.h"
+#include "MatrixFactory.h"
 #include <xmmintrin.h>
 #include <pmmintrin.h>
 
@@ -10,6 +13,7 @@
 #define Y_AXIS 1
 #define Z_AXIS 2
 
+class Matrix;
 class Vector {
 
 public:
@@ -46,6 +50,7 @@ public:
   float dotSIMD(const Vector&) const;
   const Vector& normalize();
   Vector cross(const Vector&) const;
+  Vector &rotate( Axis, float );
 
   void printPoint() const { print(); }
   void print() const { printf("%f %f %f\n", x(), y(), z()); }
