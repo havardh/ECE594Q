@@ -16,9 +16,14 @@ public:
   virtual RTColor reflection();
   virtual RTColor refraction();
 
+  void setSamplesPerPixel(int);
+
 private:
+  RTColor _illuminate(Intersection);
+
   const Light* uniformlyRandomLightSource();
-  int numSamplesPerPixel;  
+  int numSamplesPerPixel = 10;
+  bool inObject = 0;
 
 };
 
