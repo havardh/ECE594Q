@@ -21,7 +21,8 @@ Ray PathFactory::createPath(Intersection intersection) {
   RTMaterial m = shape->interpolateMaterial(point);
   RTColor s = m.getSpecColor();
   float r = s.getRed(), g = s.getGreen(), b = s.getBlue();
-  float brdf = (1-fmin(1, sqrt(r*r + g*g + b*b)));
+
+  float brdf = (1-fmin(1, sqrt(r*r + g*g + b*b))) * 0.6;
 
   // Add diffuse randomness
   float rx = ((rand() / (float)RAND_MAX) * M_PI - (M_PI/2.0)) * brdf;
@@ -29,6 +30,10 @@ Ray PathFactory::createPath(Intersection intersection) {
   if (fabs(rx) > 0.00001 && fabs(ry) > 0.00001) {
     R.rotate(X, rx);
     R.rotate(Y, ry);
+  }
+
+  if (N.dot(R) < 0) {
+    R = -R;
   }
 
   return Ray(point + 0.00001*N, R);
