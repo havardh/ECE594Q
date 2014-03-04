@@ -9,11 +9,33 @@
 #include "Timer.h"
 #include "StopWatch.h"
 
-#define USE_PTHREAD
+//#define USE_PTHREAD
 
 void printLightStats(void);
 
+void test() {
+  Texture texture("./texture/grace_cross.png");
+
+
+  int w = 768;
+  int h = 1024;
+  
+  RayFrameBuffer buffer(w,h);
+
+  for (int i=0; i<h; i++) {
+    for (int j=0; j<w; j++) {
+      RTColor c = texture.get(i / (float)h, j / (float)w);
+      buffer.set(i, j, 0, c.getRGBRed()); 
+      buffer.set(i, j, 1, c.getRGBGreen());
+      buffer.set(i, j, 2, c.getRGBBlue());
+    }
+  }
+  buffer.write("test.png");
+}
+
 int main(int argc, char *argv[]) {
+
+  //test(); return 0;
 
   Timer t;
   StopWatch sw;
@@ -43,12 +65,16 @@ int main(int argc, char *argv[]) {
   sw.lap("Datastructure built");
   RayFrameBuffer fb(width, height);
   printf("..\n");
+
 #ifdef USE_PTHREAD
   ThreadedRayTracer rayTracer(&scene, &fb);
 #else
   RayTracer rayTracer(&scene, &fb);
 #endif
+  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
+  rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
   rayTracer.setAntiAliasingResolution(1,1);
+
   rayTracer.render();
   sw.lap("Scene Rendered");
   printf("wtf\n");

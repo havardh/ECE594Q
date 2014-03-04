@@ -11,7 +11,9 @@ private:
   std::vector<Color> pixels;
 
 public:
+  Texture() {}
   Texture(const char*);
+
   ~Texture();
 
   Color get(float, float);

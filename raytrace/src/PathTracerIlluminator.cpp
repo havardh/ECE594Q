@@ -16,7 +16,7 @@ void printLightStats(void) {
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
   setLocalVariables(intersection);
   
-  int n = 100;
+  int n = 1;
   float numLights = getScene()->numLights();
 
 
@@ -35,6 +35,7 @@ Illuminator* PathTracerIlluminator::newIlluminator(ShadowTracer *shadowTracer, S
   Illuminator* illuminator =  new PathTracerIlluminator();
   illuminator->setShadowTracer(shadowTracer);
   illuminator->setScene(scene);
+  illuminator->setEnvironmentMap(getEnvironmentMap());
   illuminator->setReflectionsComputed(reflectionsComputed());
   illuminator->setRefractionCount(refractionCount());
   return illuminator;
@@ -69,9 +70,12 @@ RTColor PathTracerIlluminator::reflection() {
       delete illuminator;
       RTColor ks = material.getSpecColor();
       return color * ks;
+    } else if (getEnvironmentMap()) {
+      //path.getDirection().print();
+      return getEnvironmentMap()->get(path);
     }
   }
-
+  
   return RTColor(0,0,0);
 }
 

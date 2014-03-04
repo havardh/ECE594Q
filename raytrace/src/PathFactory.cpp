@@ -21,8 +21,8 @@ Ray PathFactory::createPath(Intersection intersection) {
   // Add diffuse randomness
   float rx = ((rand() / (float)RAND_MAX) * M_PI - (M_PI/2.0)) * brdf;
   float ry = ((rand() / (float)RAND_MAX) * M_PI - (M_PI/2.0)) * brdf;
-  R.rotate(X, rx);
-  R.rotate(Y, ry);
+  //R.rotate(X, rx);
+  //R.rotate(Y, ry); 
 
   return Ray(point + 0.00001*N, R);
 

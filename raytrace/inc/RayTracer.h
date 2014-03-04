@@ -28,6 +28,7 @@ private:
   RayFrameBuffer *_frameBuffer;
   Scene *_scene;
   ShadowTracer _stracer;
+  EnvironmentMap *_environmentMap = 0;
   int _m, _n;
 
   RTColor trace(const Ray ray);
@@ -41,6 +42,7 @@ public:
   void renderPixel(int, int);
   void render();
   void setAntiAliasingResolution(int,int);
+  void setEnvironmentMap(EnvironmentMap *map) { _environmentMap = map; }
   
 
 };

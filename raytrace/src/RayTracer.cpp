@@ -9,32 +9,37 @@ RayTracer::RayTracer(Scene *scene, RayFrameBuffer *frameBuffer) :
 }
 
 RTColor RayTracer::trace(const Ray ray) {
+  //DPRINTF(""); ray.getDirection().print();
   //static int i=0; DPRINTF("%d\n", i++);
   IntersectionPtr intersection = _scene->intersect(ray);
-  
   //Illuminator* illuminator = new ShadedWhittedIlluminator(&_stracer, _scene);
-  Illuminator* illuminator = new PathTracerIlluminator();
-  illuminator->setShadowTracer(&_stracer);
-  illuminator->setScene(_scene);
-  
+  PathTracerIlluminator illuminator;
+  illuminator.setShadowTracer(&_stracer);
+  illuminator.setScene(_scene);
+  illuminator.setEnvironmentMap(_environmentMap);
+
   if (intersection != nullptr) {
     RTShape *shape = intersection->getShape();
     
     if (shape) {
-      return illuminator->illuminate(*intersection);
+      return illuminator.illuminate(*intersection);
+    }
+  } else {
+    if (_environmentMap) {
+      //ray.getDirection().print();
+      return _environmentMap->get(ray);
 
     }
   }
-  delete illuminator;
 
-  return RTColor::BLACK;
+  return RTColor(0,0,0);
 
 }
 
 void RayTracer::renderPixel(int i, int j) {
   
-  //if (!(i > 40 && i < 60 && j < 75 && j > 65)) return;
-  //if (i != 150 && j != 100) return;
+  //if (!(i > 40 && i < 60 && j > 40 && j < 60)) return;
+  //if (i != 50 && j != 50) return;
 
 #ifdef PROGRESS
   ProgressBar_tick();
@@ -73,7 +78,6 @@ void RayTracer::render() {
 #ifdef PROGRESS
   ProgressBar_setMax(width*height);
 #endif
-
 
   _factory = RayFactory(_scene->getCamera(), width, height, _m, _n);
 

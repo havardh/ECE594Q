@@ -91,8 +91,8 @@ void BoundingBoxHierarchy::sort(
 
   switch (axis) {
   case 0: std::sort(first, last, xCompare); break;
-  case 1: std::sort(first, last, xCompare); break;
-  case 2: std::sort(first, last, xCompare); break;
+  case 1: std::sort(first, last, yCompare); break;
+  case 2: std::sort(first, last, zCompare); break;
   }
  
 }

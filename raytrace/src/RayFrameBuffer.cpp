@@ -27,7 +27,7 @@ void RayFrameBuffer::allocate() {
 
 void RayFrameBuffer::set(int i, int j, int k, uint8_t value) {
 
-  this->_frameBuffer[ IX( _height-i-1,_width-j-1,k ) ] = value;
+  this->_frameBuffer[ IX( i,j,k ) ] = value;
 }
 
 uint8_t RayFrameBuffer::get(int i, int j, int k) const {
@@ -41,7 +41,7 @@ void RayFrameBuffer::write(const char* outputfile) {
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
       for (int k=0; k<3; k++) {
-        image(_width-j-1, i, 0, k) = this->get(i,j,k);
+        image(i, j, 0, k) = this->get(i,j,k);
       }
     }
   }

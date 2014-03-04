@@ -169,7 +169,7 @@ void BoundingBox::setDelta(Vector delta) {
   _delta = delta;
 }
 
-Vector BoundingBox::getOrigin() const {
+Vector BoundingBox::getOrigin() const { 
   return _origin;
 }
 

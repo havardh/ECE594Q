@@ -6,7 +6,7 @@
 #define C2 0.1f
 #define C3 0.001f
 
-
+#include "EnvironmentMap.h"
 #include "Intersection.h"
 #include "ShadowTracer.h"
 #include "Scene.h"
@@ -16,7 +16,7 @@ class Illuminator {
   
 public:
   Illuminator() : _reflectionsComputed(0), _refractionCount(0) {}
-  virtual ~Illuminator() {}
+  virtual ~Illuminator();
   virtual RTColor illuminate(Intersection) = 0;
   virtual Illuminator* newIlluminator(ShadowTracer*, Scene*) = 0;
   
@@ -50,6 +50,8 @@ public:
   void setReflectionsComputed(int r) { _reflectionsComputed = r; }
   void setRefractionCount(int c) { _refractionCount = c; }
 
+  void setEnvironmentMap(EnvironmentMap *map) { _environmentMap = map; }
+  EnvironmentMap *getEnvironmentMap() { return _environmentMap; }
 
 protected:
 
@@ -66,8 +68,9 @@ protected:
 
 private:
 
-  ShadowTracer *_stracer;
-  Scene *_scene;
+  EnvironmentMap *_environmentMap  = 0;
+  ShadowTracer *_stracer = 0;
+  Scene *_scene = 0;
 
   int _reflectionsComputed;
   int _refractionCount;

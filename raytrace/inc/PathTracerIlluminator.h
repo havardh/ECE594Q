@@ -18,8 +18,7 @@ public:
 
 private:
   const Light* uniformlyRandomLightSource();
-  int numSamplesPerPixel;
-  
+  int numSamplesPerPixel;  
 
 };
 

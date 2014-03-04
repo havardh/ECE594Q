@@ -4,7 +4,7 @@
 static ColorShaderRandom rShader;
 static ColorShaderGradient gShader;
 static ColorShaderCheckerboard cShader(40,40);
-static ColorShaderTexture tShader("earth.jpg");
+//static ColorShaderTexture tShader("earth.jpg");
 static ColorShaderIdentity iShader;
 
 static IntersectionShaderCheckerboard intersectionShaderCheckerboard(10, 10);

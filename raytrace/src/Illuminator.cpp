@@ -1,5 +1,11 @@
 #include "Illuminator.h"
 
+Illuminator::~Illuminator() {
+  // if (_environmentMap) delete _environmentMap;
+  // if (_stracer) delete _stracer;
+  // if (_scene) delete _scene;
+}
+
 void Illuminator::setLocalVariables(Intersection intersection) {
   setShape(intersection.getShape());
   setMaterial(shape->getMaterial(0));
