@@ -19,12 +19,12 @@ TEST(RTPolySet, shouldAddAndIntersect) {
   ps.addTriangle(t2);
   
   {
-    IntersectionPtr m = ps.intersect(Ray(Vector(0,0,0), Vector(0,0,1)));
+    IntersectionPtr m = ps.intersect(Ray(Vector(0.0001,0.001,0), Vector(0,0,1)));
     CHECK(m != nullptr);
   }
 
   {
-    IntersectionPtr m = ps.intersect(Ray(Vector(1,1,0), Vector(0,0,1)));
+    IntersectionPtr m = ps.intersect(Ray(Vector(0.9999,0.9999,0), Vector(0,0,1)));
     CHECK(m != nullptr);
   }
 }
