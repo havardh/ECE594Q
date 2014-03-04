@@ -12,8 +12,9 @@ RTColor RayTracer::trace(const Ray ray) {
   //DPRINTF(""); ray.getDirection().print();
   //static int i=0; DPRINTF("%d\n", i++);
   IntersectionPtr intersection = _scene->intersect(ray);
-  //Illuminator* illuminator = new ShadedWhittedIlluminator(&_stracer, _scene);
+  //ShadedWhittedIlluminator illuminator(&_stracer, _scene);
   PathTracerIlluminator illuminator;
+  illuminator.setSamplesPerPixel(5);
   illuminator.setShadowTracer(&_stracer);
   illuminator.setScene(_scene);
   illuminator.setEnvironmentMap(_environmentMap);
