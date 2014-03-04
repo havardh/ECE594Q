@@ -46,6 +46,8 @@ public:
   static const RTColor GRAY;
   static const RTColor WHITE;
 
+  float length() { return sqrt(_red*_red + _green*_green + _blue*_blue); }
+
   uint8_t getRGBRed() const { return (uint8_t)(_red*255); }
   float getRed() const { return _red; }
   uint8_t getRGBGreen() const { return (uint8_t)(_green*255); }
