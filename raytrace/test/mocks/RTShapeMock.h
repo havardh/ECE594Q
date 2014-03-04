@@ -14,7 +14,7 @@ public:
   MOCK_METHOD1(shadeIntersection, bool(const Intersection&));
   MOCK_METHOD1(intersect, IntersectionPtr(const Ray));
   MOCK_CONST_METHOD0(getPosition, Vector());
-  MOCK_CONST_METHOD0(getBoundingBox, BoundingBox());
+  MOCK_METHOD0(getBoundingBox, BoundingBox());
   MOCK_METHOD1(normal, VectorPtr(const Vector&));
   MOCK_METHOD0(print, void());
 
