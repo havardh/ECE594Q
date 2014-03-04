@@ -17,10 +17,6 @@ RTColor EnvironmentMap::get(Ray ray) {
 
   boxUV(u,v);
 
-  if (_texture.get(u,v) < 0.1) {
-    DPRINTF("%f %f\n", u,v);
-  }
-
   return _texture.get(u,v);
 }
 
@@ -101,7 +97,7 @@ void EnvironmentMap::setUV(Ray ray, float &u, float &v) {
 
 
   }
-  //DPRINTF("%f %f ", u, v); d.print();
+
   //assert( u >= 0 && u <= 1);
   //assert( v >= 0 && v <= 1);
 
