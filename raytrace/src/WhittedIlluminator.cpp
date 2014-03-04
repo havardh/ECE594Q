@@ -136,13 +136,13 @@ RTColor WhittedIlluminator::refraction() {
   float n1, n2; bool isGoingIn;
   if (isGoingIntoObject()) {
     isGoingIn = true;
-    DPRINTF("Going in\n");
+    //DPRINTF("Going in\n");
     n1 = ETA1;
     n2 = ETA2;
     incrementRefractionCount();
   } else {
     isGoingIn = false;
-    DPRINTF("Going out\n");
+    //DPRINTF("Going out\n");
     n1 = ETA2;
     n2 = ETA1;
     decrementRefractionCount();
@@ -152,7 +152,7 @@ RTColor WhittedIlluminator::refraction() {
   
   Vector I = (rayOrigin - point).normalize();
   Vector D = Snell::direction(n1,n2, N, I);
-
+  //rayDirection.print();
   if (D == Vector(0,0,0)) {
     return RTColor::BLACK;
   }
