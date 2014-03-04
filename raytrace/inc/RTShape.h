@@ -37,7 +37,7 @@ public:
   bool shadeIntersection(const Intersection&);
 
   virtual Vector getPosition() const = 0;
-  virtual BoundingBox getBoundingBox() const = 0;
+  virtual BoundingBox getBoundingBox() = 0;
 
   virtual void print() const {};
 
@@ -50,11 +50,10 @@ public:
 private:
   std::vector<RTMaterial> materials;
 
-
-
 protected:
   ColorShader *_colorShader = 0;
   IntersectionShader *_intersectionShader = 0;
+  BoundingBox* box = 0;
 
 };
 

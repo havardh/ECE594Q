@@ -17,7 +17,7 @@ public:
   float getRadius() const { return _radius; }
   virtual void print() const { DPRINTF("RTSphere\n"); }
   virtual Vector getPosition() const { return _origin; }
-  virtual BoundingBox getBoundingBox() const;
+  virtual BoundingBox getBoundingBox();
 
   virtual void interpolateUV(float &, float &, const Vector);
   virtual const RTMaterial interpolateMaterial(const Vector&);

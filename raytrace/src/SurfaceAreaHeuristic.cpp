@@ -1,8 +1,8 @@
 #include "SurfaceAreaHeuristic.h"
 
-bool xCompare(const RTShape *lhs, const RTShape *rhs);
-bool yCompare(const RTShape *lhs, const RTShape *rhs);
-bool zCompare(const RTShape *lhs, const RTShape *rhs);
+static bool xCompare(RTShape *lhs, RTShape *rhs);
+static bool yCompare(RTShape *lhs, RTShape *rhs);
+static bool zCompare(RTShape *lhs, RTShape *rhs);
 
 float SurfaceAreaHeuristic::findMedian(BoundingBox box, vector<RTShape*> shapes, int axis) {
   
@@ -103,7 +103,7 @@ float SurfaceAreaHeuristic::calculateRightArea(float pos) {
   return 2*(h*w + h*l + l*w);
 }
 
-bool xCompare(const RTShape *lhs, const RTShape *rhs) {
+bool xCompare(RTShape *lhs, RTShape *rhs) {
   BoundingBox lBox = lhs->getBoundingBox();
   BoundingBox rBox = rhs->getBoundingBox();
 
@@ -120,7 +120,7 @@ bool xCompare(const RTShape *lhs, const RTShape *rhs) {
 
 }
 
-bool yCompare(const RTShape *lhs, const RTShape *rhs) {
+bool yCompare(RTShape *lhs, RTShape *rhs) {
   BoundingBox lBox = lhs->getBoundingBox();
   BoundingBox rBox = rhs->getBoundingBox();
 
@@ -137,7 +137,7 @@ bool yCompare(const RTShape *lhs, const RTShape *rhs) {
 
 }
 
-bool zCompare(const RTShape *lhs, const RTShape *rhs) {
+bool zCompare(RTShape *lhs, RTShape *rhs) {
   BoundingBox lBox = lhs->getBoundingBox();
   BoundingBox rBox = rhs->getBoundingBox();
 

@@ -35,6 +35,12 @@ IntersectionPtr RTPolySet::intersect(const Ray ray) {
 
   IntersectionPtr intersection(NULL);
 
+  float min, max;
+  if (!getBoundingBox().intersects(ray, min, max)) {
+    DPRINTF("%lu\n", triangles.size());
+    return intersection;
+  }
+
   std::vector<RTTriangle>::iterator it;
   for (it = triangles.begin();
        it != triangles.end();
@@ -66,18 +72,23 @@ const RTMaterial RTPolySet::interpolateMaterial(const Vector &point) {
   return getMaterial(0);
 }
 
-BoundingBox RTPolySet::getBoundingBox() const {
+BoundingBox RTPolySet::getBoundingBox() {
+  if (!box) {
 
-  BoundingBox box;
+    BoundingBox b;
 
-  // TODO: compiler error on iterator?
-  for (int i=0; i<triangles.size(); i++) {
-    
-    RTTriangle triangle = triangles[i];
+    // TODO: compiler error on iterator?
+    for (int i=0; i<triangles.size(); i++) {
+      
+      RTTriangle triangle = triangles[i];
+      
+      b = b.unionWith(triangle.getBoundingBox());
+      
+    }
 
-    box = box.unionWith(triangle.getBoundingBox());
+    box = new BoundingBox(b);
 
   }
 
-  return box;
+  return *box;
 }

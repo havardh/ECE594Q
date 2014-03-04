@@ -22,7 +22,7 @@ public:
   virtual IntersectionPtr intersect(const Ray );
   virtual VectorPtr normal(const Vector &);
   virtual Vector getPosition() const { return _p0; }
-  virtual BoundingBox getBoundingBox() const;
+  virtual BoundingBox getBoundingBox();
 
   virtual int getMaterialCount() const;
   virtual const RTMaterial getMaterial(int) const;

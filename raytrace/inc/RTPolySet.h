@@ -27,7 +27,7 @@ public:
   virtual Vector getPosition() const { 
     return Vector(0,0,0);
   }
-  virtual BoundingBox getBoundingBox() const;
+  virtual BoundingBox getBoundingBox();
   virtual void print() const { DPRINTF("RTPolySet\n"); }
 
   virtual void interpolateUV(float &u, float &v, const Vector point);
@@ -39,7 +39,6 @@ public:
 protected:
   std::vector<RTTriangle> triangles;
   Vector midpoint;
-
 
   
 

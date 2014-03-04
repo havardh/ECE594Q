@@ -223,17 +223,21 @@ float min(float x0, float x1, float x2) {
   return (x0 < x1 ? (x0 < x2 ? x0 : (x1 < x2 ? x1 : x2)) : (x1 < x2 ? x1 : x2));  
 }
 
-BoundingBox RTTriangle::getBoundingBox() const {
-  float x0 = min(_p0.x(), _p1.x(), _p2.x());
-  float y0 = min(_p0.y(), _p1.y(), _p2.y());
-  float z0 = min(_p0.z(), _p1.z(), _p2.z());
+BoundingBox RTTriangle::getBoundingBox() {
+  if (!box) {
+    float x0 = min(_p0.x(), _p1.x(), _p2.x());
+    float y0 = min(_p0.y(), _p1.y(), _p2.y());
+    float z0 = min(_p0.z(), _p1.z(), _p2.z());
 
-  float x1 = max(_p0.x(), _p1.x(), _p2.x());
-  float y1 = max(_p0.y(), _p1.y(), _p2.y());
-  float z1 = max(_p0.z(), _p1.z(), _p2.z());
+    float x1 = max(_p0.x(), _p1.x(), _p2.x());
+    float y1 = max(_p0.y(), _p1.y(), _p2.y());
+    float z1 = max(_p0.z(), _p1.z(), _p2.z());
 
-  Vector origin(x0,y0,z0);
-  Vector delta(x1-x0, y1-y0, z1-z0);
+    Vector origin(x0,y0,z0);
+    Vector delta(x1-x0, y1-y0, z1-z0);
 
-  return BoundingBox(origin, delta);
+    box = new BoundingBox(origin, delta);
+  }
+
+  return *box;
 }

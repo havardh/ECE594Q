@@ -6,6 +6,9 @@ RTShape::~RTShape() {
   if (typeid(ColorShaderTexture) == typeid(_colorShader)) {
     delete (ColorShaderTexture*)_colorShader;
   }
+  if (box) {
+    delete box;
+  }
 
 }
 
