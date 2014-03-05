@@ -1,7 +1,7 @@
 #include "PathTracerIlluminator.h"
 
 // How many recursive steps in reflection
-#define REFLECTIONS 5
+#define REFLECTIONS 7
 
 static int light[3];
 
@@ -16,7 +16,6 @@ void printLightStats(void) {
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
 
   
-  float numLights = getScene()->numLights();
 
   RTColor color;
   for (int i=0; i<numSamplesPerPixel; i++) {
@@ -32,8 +31,9 @@ RTColor PathTracerIlluminator::_illuminate(Intersection intersection) {
   
   RTColor color;
   color += ambient() * (1.0/numSamplesPerPixel);
-  color += direct()  * (1.0/numSamplesPerPixel);
-  color += reflection()  * (1.0/2);
+  if (getScene()->numLights())
+    color += direct()  * (1.0/numSamplesPerPixel);
+  color += reflection();// * (1.0/(numSamplesPerPixel));
   return color;
 
 }
@@ -74,7 +74,7 @@ RTColor PathTracerIlluminator::reflection() {
       RTColor color = illuminator->_illuminate(*intersection);
       delete illuminator;
       RTColor ks = material.getSpecColor();
-      return color; //* fmax(ks.length(),0.1);
+      return color * fmax(ks.length(),0.3);
     } else if (getEnvironmentMap()) {
       return getEnvironmentMap()->get(path);
     }
@@ -85,6 +85,43 @@ RTColor PathTracerIlluminator::reflection() {
 
 RTColor PathTracerIlluminator::refraction() {
 
+  inObject = !inObject;
+  float n;
+  if (inObject) {
+    n = 1;
+  } else {
+    n = 1;
+  }
+
+  Vector direction = rayDirection;
+  direction.normalize();
+  Vector normal = shape->normal(point)->normalize();
+
+  double cosA = direction.dot(normal);
+  if (cosA < 0) {
+    normal = -normal;
+  }
+
+  double c = direction.dot(normal);
+  double cosPhi2 = ( 1 - ((n*n) * (1 - (c*c))) );
+  
+  if (cosPhi2 >= 0) {
+
+    double cosPhi = sqrt(cosPhi2);
+    Vector term1 = n * (direction - normal * c);
+    Vector refractionRay = term1 - normal * cosPhi;
+
+    Ray ray(point + normal*0.01, refractionRay);
+    IntersectionPtr intersection = getScene()->intersect(ray);
+    if ( intersection != nullptr ) {
+      PathTracerIlluminator* illuminator = (PathTracerIlluminator*)this->newIlluminator(
+        getShadowTracer(), getScene()
+      );
+      RTColor color = illuminator->_illuminate(*intersection);
+      delete illuminator;
+      return color;
+    }
+  }
   return RTColor(0,0,0);
 }
 
