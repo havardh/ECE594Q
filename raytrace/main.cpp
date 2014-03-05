@@ -5,7 +5,7 @@
 #include "RayFrameBuffer.h"
 #include "Settings.h"
 #include "StrUtil.h"
-#include "IOScene.h"
+#include "SceneFactory.h"
 #include "Timer.h"
 #include "StopWatch.h"
 
@@ -45,19 +45,18 @@ int main(int argc, char *argv[]) {
 
   sw.start("Begining");
 
-  IOScene scene;
-  scene.setScene(settings.input());
+  Scene *scene = SceneFactory::load(settings.input());
   sw.lap("Datastructure built");
   RayFrameBuffer fb(settings.width(), settings.height());
   printf("..\n");
 
 #ifdef USE_PTHREAD
-  ThreadedRayTracer rayTracer(&scene, &fb);
+  ThreadedRayTracer rayTracer(scene, &fb);
 #else
-  RayTracer rayTracer(&scene, &fb);
+  RayTracer rayTracer(scene, &fb);
 #endif
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
-  rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
+  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
   rayTracer.setAntiAliasingResolution(1,1);
 
   rayTracer.render();
@@ -66,9 +65,9 @@ int main(int argc, char *argv[]) {
 
   fb.write(settings.output());
   sw.stop();
-
+  delete scene;
   sw.print();
-  
+
   printLightStats();
   return 0;
 }

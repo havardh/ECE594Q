@@ -1,7 +1,7 @@
 #include "PathTracerIlluminator.h"
 
 // How many recursive steps in reflection
-#define REFLECTIONS 7
+#define REFLECTIONS 8
 
 static int light[3];
 
@@ -13,9 +13,12 @@ void printLightStats(void) {
 
 }
 
-RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
+RTColor PathTracerIlluminator::ambient() {
+  return Illuminator::ambient();
+  return material.getAmbColor();
+}
 
-  
+RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
 
   RTColor color;
   for (int i=0; i<numSamplesPerPixel; i++) {
