@@ -26,8 +26,6 @@ void RTPolySet::calculateMidpoint() {
   }
 
   midpoint = midpoint * (1.0 / (triangles.size()*3));
-
-  printf("%lu\n", triangles.size());
 }
 
 // Duplicate of Scene::intersection should be refactored
@@ -36,8 +34,8 @@ IntersectionPtr RTPolySet::intersect(const Ray ray) {
   IntersectionPtr intersection(NULL);
 
   float min, max;
-  if (!getBoundingBox().intersects(ray, min, max)) {
-    DPRINTF("%lu\n", triangles.size());
+
+  if (!getBoundingBox().intersects(ray, min, max)) {    
     return intersection;
   }
 
@@ -73,17 +71,22 @@ const RTMaterial RTPolySet::interpolateMaterial(const Vector &point) {
 }
 
 BoundingBox RTPolySet::getBoundingBox() {
+
   if (!box) {
 
-    BoundingBox b;
+    if (!triangles.size()) {
+      box = new BoundingBox();
+      return *box;
+    }
+
+    BoundingBox b = triangles[0].getBoundingBox();
 
     // TODO: compiler error on iterator?
-    for (int i=0; i<triangles.size(); i++) {
-      
+    for (int i=1; i<triangles.size(); i++) {
       RTTriangle triangle = triangles[i];
       
       b = b.unionWith(triangle.getBoundingBox());
-      
+      //b.print();
     }
 
     box = new BoundingBox(b);
