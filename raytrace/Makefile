@@ -59,7 +59,7 @@
 
 
 # The pre-processor and compiler options.
-MY_CFLAGS =
+MY_CFLAGS = -Dcimg_use_openexr
 
 # The linker options.
 MY_LIBS		=
@@ -68,13 +68,14 @@ INCLUDE_DIRS = inc \
 	../matrix/inc \
 	../reyes/inc \
 	timing-tests/inc \
-	../util/inc
+	../util/inc \
+	/usr/local/include/OpenEXR
 get_dirs_from_dirspec	 = $(wildcard $1)
 INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
 INCLUDES += $(foreach dir, $(INCLUDES_DIRS_EXPANDED), -I$(dir))
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11 -std=c++11 -stdlib=libc++ -Weverything -ffast-math
+CPPFLAGS	= -Wall -lm -lpthread $(INCLUDES) -L/usr/local/lib -lIlmImf -lHalf -I/opt/X11/include -L/opt/local/lib -lm -lpthread -lX11 -std=c++11 -stdlib=libc++ -Weverything -ffast-math
 
 
 # The options used in linking as well as in any direct use of ld.
@@ -236,7 +237,7 @@ ctags: $(HEADERS) $(SOURCES)
 
 # Rules for generating the executable.
 #-------------------------------------
-$(PROGRAM):$(OBJS)
+$(PROGRAM):$(OBJS) $(HEADERS)
 ifeq ($(SRC_CXX),)							# C program
 	$(LINK.c)		$(OBJS) $(MY_LIBS) -o $@
 	@echo Type ./$@ to execute the program.
