@@ -16,9 +16,10 @@ class Scene {
 
 public:
   Scene() {}
-  ~Scene();
-
-  void setScene();
+  virtual ~Scene();
+  
+  virtual void setScene();
+  virtual void setScene(char*) = 0;
   void updateTree();
 
   void add(const Light);

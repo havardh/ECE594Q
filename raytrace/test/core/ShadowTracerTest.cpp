@@ -2,7 +2,7 @@
 #include "ColorTestHelper.h"
 #include "ShadowTracer.h"
 #include <vector>
-#include "Scene.h"
+#include "IOScene.h"
 #include "Vector.h"
 #include "RTSphere.h"
 #include "RTMaterial.h"
@@ -17,7 +17,7 @@ static ShadowTracer *stracer;
 
 TEST_GROUP(ShadowTracer) {
 	void setup() {
-    scene = new Scene();
+    scene = new IOScene();
     light = new Light(Vector(0,0,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
     scene->add(*light);  
     stracer = new ShadowTracer(scene);
@@ -80,7 +80,7 @@ TEST(ShadowTracer, shouldRetreiveAllLightSources) {
 
 TEST_GROUP(ShadowTracerBug) {
 	void setup() {
-    scene = new Scene();
+    scene = new IOScene();
     stracer = new ShadowTracer(scene);
   }
 	void teardown() {

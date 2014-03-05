@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdint.h>
-#include "scene_io.h"
 #include "RayTracer.h"
 #include "ThreadedRayTracer.h"
 #include "RayFrameBuffer.h"
@@ -47,9 +46,7 @@ int main(int argc, char *argv[]) {
   sw.start("Begining");
 
   IOScene scene;
-  SceneIO* sceneIO = readScene(settings.input());
-  sw.lap("Scene read");
-  scene.setScene(sceneIO);
+  scene.setScene(settings.input());
   sw.lap("Datastructure built");
   RayFrameBuffer fb(settings.width(), settings.height());
   printf("..\n");
@@ -72,9 +69,6 @@ int main(int argc, char *argv[]) {
 
   sw.print();
   
-  if (sceneIO != NULL) {
-    deleteScene(sceneIO);
-  }
   printLightStats();
   return 0;
 }

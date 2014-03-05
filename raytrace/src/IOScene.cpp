@@ -1,10 +1,21 @@
 #include "IOScene.h"
 
-void IOScene::setScene(SceneIO* sio) {
+void IOScene::setScene(char *filename) {
+  SceneIO *sio = readScene(filename);
+  setCamera(sio->camera);
+  setLights(sio->lights);
+  setObjects(sio->objects);
+  Scene::setScene();
+
+}
+
+void IOScene::setScene(SceneIO *sio) {
 
   setCamera(sio->camera);
   setLights(sio->lights);
   setObjects(sio->objects);
+
+  //deleteScene(sio);
 
   Scene::setScene();
 }

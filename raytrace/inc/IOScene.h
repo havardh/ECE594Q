@@ -7,6 +7,7 @@
 class IOScene : public Scene {
 
 public:
+  void setScene(char*);
   void setScene(SceneIO*);
   void setCamera(CameraIO*);
   void setLights(LightIO*);
