@@ -5,7 +5,11 @@
 #define SETTINGS_DEFAULT_HEIGHT 100
 #define SETTINGS_DEFAULT_NUM_SAMPLES 10
 #define SETTINGS_DEFAULT_INPUT "input.ascii"
-#define SETTINGS_DEFAULT_OUTPUT "input.ascii"
+#define SETTINGS_DEFAULT_OUTPUT "output.png"
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 class Settings {
  
@@ -26,6 +30,7 @@ public:
   char *output() const;
   int numSamples() const;
 
+  void print() const;
   
 private:
   void parseResolution(char *);

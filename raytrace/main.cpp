@@ -4,17 +4,18 @@
 #include "RayTracer.h"
 #include "ThreadedRayTracer.h"
 #include "RayFrameBuffer.h"
+#include "Settings.h"
 #include "StrUtil.h"
 #include "Scene.h"
 #include "Timer.h"
 #include "StopWatch.h"
 
-//#define USE_PTHREAD
+#define USE_PTHREAD
 
 void printLightStats(void);
 
 void test() {
-  Texture texture("./texture/grace_cross.png");
+  Texture texture("./texture/environment/EnvironmentMaps/uffizi_latlong.exr");
 
 
   int w = 768;
@@ -36,6 +37,8 @@ void test() {
 int main(int argc, char *argv[]) {
 
   //test(); return 0;
+  settings.parse(argc, argv);
+  settings.print();
 
   Timer t;
   StopWatch sw;
@@ -43,27 +46,12 @@ int main(int argc, char *argv[]) {
 
   sw.start("Begining");
 
-  const char *scenePath, *outputPath = "out.png";
-  int width = 400, height = 400;
-  if (argc < 2) {
-    printf("Usage: ./raytracer <input-file> <width:height>(optional) <output-file>(optional)\n");
-    exit(1);
-  }
-  scenePath = argv[1];
-  if (argc >= 3) {
-    splitWidthHeightParam(argv[2], width, height);
-  }
-
-  if (argc == 4) {
-    outputPath = argv[3];
-  }
-
   Scene scene;
-  SceneIO* sceneIO = readScene(scenePath);
+  SceneIO* sceneIO = readScene(settings.input());
   sw.lap("Scene read");
   scene.setScene(sceneIO);
   sw.lap("Datastructure built");
-  RayFrameBuffer fb(width, height);
+  RayFrameBuffer fb(settings.width(), settings.height());
   printf("..\n");
 
 #ifdef USE_PTHREAD
@@ -72,14 +60,14 @@ int main(int argc, char *argv[]) {
   RayTracer rayTracer(&scene, &fb);
 #endif
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
-  rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
+  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
   rayTracer.setAntiAliasingResolution(1,1);
 
   rayTracer.render();
   sw.lap("Scene Rendered");
   printf("wtf\n");
 
-  fb.write(outputPath);
+  fb.write(settings.output());
   sw.stop();
 
   sw.print();

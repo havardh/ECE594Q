@@ -61,3 +61,13 @@ char * Settings::input() const {
 char * Settings::output() const {
   return _output;
 }
+
+void Settings::print() const {
+
+  printf("Settings: \n");
+  printf("\tWidth: %d\n", width());
+  printf("\tHeight: %d\n", height());
+  printf("\tNum Samples Per Pixel: %d\n", numSamples());
+  printf("\tReading: %s\n", input());
+  printf("\tWriting: %s\n", output());
+}

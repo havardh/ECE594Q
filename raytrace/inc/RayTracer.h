@@ -17,6 +17,7 @@
 #include "PathTracerIlluminator.h"
 #include "ShadedWhittedIlluminator.h"
 #include "ProgressBar.h"
+#include "Settings.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
