@@ -6,7 +6,7 @@
 #include "RayFrameBuffer.h"
 #include "Settings.h"
 #include "StrUtil.h"
-#include "Scene.h"
+#include "IOScene.h"
 #include "Timer.h"
 #include "StopWatch.h"
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
   sw.start("Begining");
 
-  Scene scene;
+  IOScene scene;
   SceneIO* sceneIO = readScene(settings.input());
   sw.lap("Scene read");
   scene.setScene(sceneIO);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
   RayTracer rayTracer(&scene, &fb);
 #endif
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
-  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
+  rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
   rayTracer.setAntiAliasingResolution(1,1);
 
   rayTracer.render();

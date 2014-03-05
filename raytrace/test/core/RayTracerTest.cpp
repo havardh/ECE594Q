@@ -1,9 +1,9 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "scene_io.h"
 #include "RayTracer.h"
-#include "Scene.h"
+#include "IOScene.h"
 
-static Scene *scene;
+static IOScene *scene;
 static SceneIO sceneIO;
   
 
@@ -26,7 +26,7 @@ TEST_GROUP(RayTracer) {
 
     sceneIO.camera->verticalFOV = 0.785398f;
     
-    scene = new Scene;
+    scene = new IOScene;
     scene->setScene(&sceneIO);
   }
 	void teardown() {

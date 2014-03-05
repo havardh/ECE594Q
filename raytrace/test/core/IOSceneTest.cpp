@@ -1,21 +1,21 @@
 #include "CppUTest/CommandLineTestRunner.h"
 #include "MatrixTestHelper.h"
 #include "IntersectionShaderMock.h"
-#include "Scene.h"
+#include "IOScene.h"
 
 using testing::_;
 
-TEST_GROUP(Scene) {
+TEST_GROUP(IOScene) {
 	void setup() {}
 	void teardown() {}
 };
 
-TEST(Scene, shouldConstruct) {
+TEST(IOScene, shouldConstruct) {
 
   Light light(Vector(0,0,0), Vector(0,0,0), RTColor::WHITE, 0, 0);
   RTSphere sphere(Vector(0,0,0), 0);
  
-  Scene scene;
+  IOScene scene;
   scene.add(light);
   scene.add(&sphere);
 
@@ -40,9 +40,9 @@ TEST(Scene, shouldConstruct) {
  
 }
 
-TEST(Scene, shouldRetreiveTheClosestIntersect) {
+TEST(IOScene, shouldRetreiveTheClosestIntersect) {
   
-	Scene scene;
+	IOScene scene;
   RTSphere s1(Vector(0,0,0), 1);
   scene.add(&s1);
   RTSphere s2(Vector(10,0,0), 1);
@@ -62,9 +62,9 @@ TEST(Scene, shouldRetreiveTheClosestIntersect) {
   
 }
 
-TEST(Scene, shouldSupportDirectionalLightSources) {
+TEST(IOScene, shouldSupportDirectionalLightSources) {
   
-  Scene scene;
+  IOScene scene;
   
   LightIO lio[] = {{
       0,
@@ -82,9 +82,9 @@ TEST(Scene, shouldSupportDirectionalLightSources) {
   
 }
 
-TEST(Scene, shouldReturnAllIntersections) {
+TEST(IOScene, shouldReturnAllIntersections) {
 
-  Scene scene;
+  IOScene scene;
   RTSphere s1(Vector(0,0,0), 1);
   scene.add(&s1);
   RTSphere s2(Vector(10,0,0), 1);
@@ -100,22 +100,22 @@ TEST(Scene, shouldReturnAllIntersections) {
 }
 
 static Ray ray(Vector(0,0,0), Vector(0,0,1));
-TEST_GROUP(SceneIntersectionShader) {
+TEST_GROUP(IOSceneIntersectionShader) {
   void setup() {
   }
 };
 
-TEST(SceneIntersectionShader, everythingIsVisibleWhenNotShader) {
+TEST(IOSceneIntersectionShader, everythingIsVisibleWhenNotShader) {
   RTSphere s(Vector(0,0,10), 1);
-  Scene scene;
+  IOScene scene;
   scene.add(&s);
 
   CHECK( scene.intersections(ray).size() == 1 );
 }
 
-TEST(SceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
+TEST(IOSceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
   RTSphere s(Vector(0,0,10), 1);
-  Scene scene;
+  IOScene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;
   s.setIntersectionShader(&shaderMock);
@@ -126,10 +126,10 @@ TEST(SceneIntersectionShader, shouldReportFalseIfShaderSaysNo) {
   
 }
 
-TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
+TEST(IOSceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
 
   RTSphere s(Vector(0,0,10), 1);
-  Scene scene;
+  IOScene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;
   s.setIntersectionShader(&shaderMock);
@@ -139,10 +139,10 @@ TEST(SceneIntersectionShader, shouldReportIntersectIfShaderSaysYes) {
   
 }
 
-IGNORE_TEST(SceneIntersectionShader, shouldPassUVToShader) {
+IGNORE_TEST(IOSceneIntersectionShader, shouldPassUVToShader) {
 
   RTSphere s(Vector(0,0,10), 1);
-  Scene scene;
+  IOScene scene;
   scene.add(&s);
   NiceMock<IntersectionShaderMock> shaderMock;
   s.setIntersectionShader(&shaderMock);

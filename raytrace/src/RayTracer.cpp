@@ -1,6 +1,6 @@
 #include "RayTracer.h"
 
-#define PROGRESS
+//#define PROGRESS
 
 #define IX(i,j,k) ((i)*height + (j) + (k))
 
