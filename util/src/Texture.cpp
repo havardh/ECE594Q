@@ -15,15 +15,14 @@ Texture::Texture(const char * filename) {
   for (int i=0; i<height; i++) {
     for (int j=0; j<width; j++) {
       RTColor c = {
-        image(i,j,0,0) / 255.0,
-        image(i,j,0,1) / 255.0,
-        image(i,j,0,2) / 255.0
+        image(width-j-1,i,0,0) / 255.0,
+        image(width-j-1,i,0,1) / 255.0,
+        image(width-j-1,i,0,2) / 255.0
       };
 
       pixels.push_back(c);
     }
   }
-
 }
 
 Texture::~Texture() {}

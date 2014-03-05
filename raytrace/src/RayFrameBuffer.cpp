@@ -41,7 +41,7 @@ void RayFrameBuffer::write(const char* outputfile) {
   for (int i=0; i<this->_height; i++) {
     for (int j=0; j<this->_width; j++) {
       for (int k=0; k<3; k++) {
-        image(i, j, 0, k) = this->get(i,j,k);
+        image(j, _height-i-1, 0, k) = this->get(i,j,k);
       }
     }
   }
