@@ -73,25 +73,25 @@ void EnvironmentMap::setUV(Ray ray, float &u, float &v) {
   }
 
   case Zp: {
-    u = 0.375 - (d.y() / d.z()) * du;
-    v = 0.5   + (d.x() / d.z()) * dv;
+    u = (3/8.0) - (d.y() / d.z()) * du;
+    v = (3/6.0)   + (d.x() / d.z()) * dv;
     break;
   }
   case Zn: {
-    u = 0.875 - (d.y() / d.z()) * du;
-    v = 0.5   + (d.x() / d.z()) * dv;
+    u = (7/8.0) - (d.y() / d.z()) * du;
+    v = (3/6.0)   + (d.x() / d.z()) * dv;
     break;
   }
 
   case Yp: {
     u = (1/8.0) - (d.z() / d.y()) * du;
-    v = 0.5     + (d.x() / d.y()) * dv;
+    v = (3/6.0)     + (d.x() / d.y()) * dv;
     break;
   }
 
   case Yn: {
     u = (5/8.0) - (d.z() / d.y()) * du;
-    v = 0.5     - (d.x() / d.y()) * dv;
+    v = (3/6.0)     - (d.x() / d.y()) * dv;
     break;
   }
 
