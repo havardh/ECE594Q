@@ -11,7 +11,7 @@ Ray PathFactory::createPath(Intersection intersection) {
   Vector N = shape->normal(point)->normalize();
   
   if (L.length() < 0.0001) {
-    return Ray(point+0.00001*N, N);
+    return Ray(point+0.001*N, N);
   }
 
   Vector R = 2 * N.dot(L) * N - L;
@@ -36,6 +36,6 @@ Ray PathFactory::createPath(Intersection intersection) {
     R = -R;
   }
 
-  return Ray(point + 0.00001*N, R);
+  return Ray(point + 0.001*N, R);
 
 }
