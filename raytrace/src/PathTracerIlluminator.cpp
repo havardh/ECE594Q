@@ -1,7 +1,5 @@
 #include "PathTracerIlluminator.h"
 
-// How many recursive steps in reflection
-#define REFLECTIONS 7
 
 static int light[3];
 
@@ -15,36 +13,35 @@ void printLightStats(void) {
 
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
 
-  
-
   RTColor color;
   for (int i=0; i<numSamplesPerPixel; i++) {
-    color += _illuminate(intersection);
+     color += _illuminate(intersection);
   }
 
   return color;
-
 }
 
 RTColor PathTracerIlluminator::_illuminate(Intersection intersection) {
   setLocalVariables(intersection);
-  
+
   RTColor color;
   color += ambient() * (1.0/numSamplesPerPixel);
   if (getScene()->numLights())
     color += direct()  * (1.0/numSamplesPerPixel);
-  color += reflection();// * (1.0/(numSamplesPerPixel));
+  color += reflection() * (1.0/numSamplesPerPixel);
+
   return color;
 
 }
 
 Illuminator* PathTracerIlluminator::newIlluminator(ShadowTracer *shadowTracer, Scene *scene) {
-  Illuminator* illuminator =  new PathTracerIlluminator();
+  PathTracerIlluminator* illuminator =  new PathTracerIlluminator();
   illuminator->setShadowTracer(shadowTracer);
   illuminator->setScene(scene);
   illuminator->setEnvironmentMap(getEnvironmentMap());
   illuminator->setReflectionsComputed(reflectionsComputed());
   illuminator->setRefractionCount(refractionCount());
+  illuminator->setSamplesPerPixel(numSamplesPerPixel);
   return illuminator;
 }
 
@@ -59,9 +56,10 @@ RTColor PathTracerIlluminator::direct() {
   return Sj * (diffuse(light) + specular(light)) * light->getColor() * fattj;
 }
 
+
 RTColor PathTracerIlluminator::reflection() {
 
-  if (incrementReflectionComputed() < REFLECTIONS) {
+  if (russianRoulette()) {
     PathTracerIlluminator* illuminator = (PathTracerIlluminator*)this->newIlluminator(
       getShadowTracer(), getScene()
     );
@@ -74,13 +72,16 @@ RTColor PathTracerIlluminator::reflection() {
       RTColor color = illuminator->_illuminate(*intersection);
       delete illuminator;
       RTColor ks = material.getSpecColor();
-      return color * fmax(ks.length(),0.3);
+      return color * ks.length();
     } else if (getEnvironmentMap()) {
       return getEnvironmentMap()->get(path);
     }
   }
-  
-  return RTColor(0,0,0);
+  if (getEnvironmentMap()) {
+    return getEnvironmentMap()->get(Ray(rayOrigin, rayDirection));
+  } else {
+    return RTColor(0,0,0);
+  }
 }
 
 RTColor PathTracerIlluminator::refraction() {
@@ -142,4 +143,11 @@ const Light* PathTracerIlluminator::uniformlyRandomLightSource() {
 
 void PathTracerIlluminator::setSamplesPerPixel(int n) {
   this->numSamplesPerPixel = n;
+}
+
+bool PathTracerIlluminator::russianRoulette() {
+
+  float probability = 0.01;
+
+  return (rand() / (float)RAND_MAX) > probability;
 }

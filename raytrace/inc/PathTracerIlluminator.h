@@ -25,6 +25,8 @@ private:
   int numSamplesPerPixel = 10;
   bool inObject = 0;
 
+  bool russianRoulette();
+
 };
 
 #endif /* _PATHTRACERILLUMINATOR_H_ */
