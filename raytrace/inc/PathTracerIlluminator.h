@@ -12,6 +12,7 @@ public:
   RTColor illuminate(Intersection);
   Illuminator* newIlluminator(ShadowTracer*, Scene*);
 
+  virtual RTColor ambient();
   virtual RTColor direct();
   virtual RTColor reflection();
   virtual RTColor refraction();

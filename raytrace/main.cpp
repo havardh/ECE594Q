@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
-#include "scene_io.h"
 #include "RayTracer.h"
 #include "ThreadedRayTracer.h"
 #include "RayFrameBuffer.h"
 #include "Settings.h"
 #include "StrUtil.h"
-#include "Scene.h"
+#include "SceneFactory.h"
 #include "Timer.h"
 #include "StopWatch.h"
 
@@ -26,19 +25,16 @@ int main(int argc, char *argv[]) {
 
   //sw.start("Begining");
 
-  Scene scene;
-  SceneIO* sceneIO = readScene(settings.input());
-  //sw.lap("Scene read");
-  scene.setScene(sceneIO);
+  Scene *scene = SceneFactory::load(settings.input());
   //sw.lap("Datastructure built");
   RayFrameBuffer fb(settings.width(), settings.height());
   printf("..\n");
 
   RayTracer *rayTracer = NULL;
   if (settings.useThreads()) {
-    rayTracer = new ThreadedRayTracer(&scene, &fb);
+    rayTracer = new ThreadedRayTracer(scene, &fb);
   } else {
-    rayTracer = new RayTracer(&scene, &fb);
+    rayTracer = new RayTracer(scene, &fb);
   }
 
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
@@ -53,15 +49,12 @@ int main(int argc, char *argv[]) {
   printf("wtf\n");
 
   fb.write(settings.output());
-  //sw.stop();
-
-  //sw.print();
-  
-  if (sceneIO != NULL) {
-    deleteScene(sceneIO);
-  }
 
   delete rayTracer;
+  sw.stop();
+  delete scene;
+  sw.print();
+
   printLightStats();
   return 0;
 }

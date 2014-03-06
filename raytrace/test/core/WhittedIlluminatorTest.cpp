@@ -3,6 +3,7 @@
 #include "WhittedIlluminator.h"
 #include "ColorTestHelper.h"
 #include "RTShapeMock.h"
+#include "IOScene.h"
 #include <vector>
 
 using testing::_;
@@ -29,7 +30,7 @@ TEST_GROUP(WhittedIlluminator) {
     shadowTracerMock = new NiceMock<ShadowTracerMock>;
     shapeMock = new NiceMock<RTShapeMock>;
 
-    scene = new Scene();
+    scene = new IOScene();
     scene->add(l1);
     ShadowTracer stracer(scene);
 

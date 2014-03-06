@@ -1,6 +1,5 @@
 #include "PathTracerIlluminator.h"
 
-
 static int light[3];
 
 void printLightStats(void) {
@@ -11,6 +10,11 @@ void printLightStats(void) {
 
 }
 
+RTColor PathTracerIlluminator::ambient() {
+  //return Illuminator::ambient();
+  return material.getAmbColor();
+}
+ 
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
 
   RTColor color;

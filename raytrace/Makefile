@@ -69,6 +69,7 @@ INCLUDE_DIRS = inc \
 	../reyes/inc \
 	timing-tests/inc \
 	../util/inc \
+	../lib/tinyobjloader \
 	/usr/local/include/OpenEXR
 get_dirs_from_dirspec	 = $(wildcard $1)
 INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(INCLUDE_DIRS))
@@ -87,6 +88,7 @@ SRCDIRS		= . \
 	src \
 	../matrix/src \
 	timing-tests/src \
+	../lib/tinyobjloader \
 	../util/src
 
 # The executable file name.
@@ -142,6 +144,8 @@ ifeq ($(SRCDIRS),)
 	SRCDIRS = .
 endif
 SOURCES = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(SRCEXTS))))
+SOURCES := $(filter-out ../lib/tinyobjloader/test.cc, $(SOURCES))
+SOURCES := $(filter-out ../lib/tinyobjloader/usage.c, $(SOURCES))
 HEADERS = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(HDREXTS))))
 SRC_CXX = $(filter-out %.c,$(SOURCES))
 OBJS		= $(addsuffix .o, $(basename $(SOURCES)))

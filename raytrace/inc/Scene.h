@@ -1,7 +1,6 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include "scene_io.h"
 #include <vector>
 #include <algorithm>
 #include "RTShape.h"
@@ -17,14 +16,11 @@ class Scene {
 
 public:
   Scene() {}
-  ~Scene();
-
+  virtual ~Scene();
+  
+  virtual void setScene();
+  virtual void setScene(char*) = 0;
   void updateTree();
-
-  void setScene(SceneIO*);
-  void setCamera(CameraIO*);
-  void setLights(LightIO*);
-  void setObjects(ObjIO*);
 
   void add(const Light);
   void add(RTShape*);
@@ -42,10 +38,11 @@ public:
   IntersectionPtr intersect(const Ray);
   std::vector<IntersectionPtr> intersections(const Ray);
 
-private:
+protected:
   Camera camera;
   std::vector<Light> lights;
   std::vector<RTShape*> shapes;
+private:
   KDTree tree ;
   BoundingBoxHierarchy bbh;
 
