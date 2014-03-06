@@ -5,13 +5,13 @@
 void OBJScene::setScene(char *filename) {
 
   std::vector<tinyobj::shape_t> tinyshapes;
-  std::string err = tinyobj::LoadObj(tinyshapes, filename, "../lib/tinyobjloader/");
+  std::string err = tinyobj::LoadObj(tinyshapes, filename, "Scenes/obj/");
 
   std::cout << err << std::endl;
 
   this->camera = Camera(
-    Vector(275,270,-260),
-    Vector(0,0,1),
+    Vector(15, 15, -10),
+    Vector(-0.8,-0.8, 0.5),
     0,
     Vector(0,1,0),
     M_PI/2
@@ -19,15 +19,32 @@ void OBJScene::setScene(char *filename) {
 
   this->lights.push_back(Light(
     POINT,
-    Vector(270,500,270),
+    Vector(20, 5, 0),
     Vector(0,0,1),
     RTColor(1,1,1),
     0,
     0
   ));
 
-  setObjects(tinyshapes);
+  //this->camera = Camera(
+    //  Vector(275,270,-260),
+  //  Vector(0,0,1),
+  //  0,
+  //  Vector(0,1,0),
+  //  M_PI/2
+  //);
+  //
+     //this->lights.push_back(Light(
+    //  POINT,
+  //  Vector(270,500,270),
+  //  Vector(0,0,1),
+  //  RTColor(1,1,1),
+  //  0,
+  //  0
+  //));
 
+  setObjects(tinyshapes);
+  
   Scene::setScene();
 
 }

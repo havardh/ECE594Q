@@ -32,7 +32,7 @@ RTColor PathTracerIlluminator::_illuminate(Intersection intersection) {
   color += ambient() * (1.0/numSamplesPerPixel);
   if (getScene()->numLights())
     color += direct()  * (1.0/numSamplesPerPixel);
-  color += reflection() * (1.0/numSamplesPerPixel);
+  color += reflection(); // * (1.0/numSamplesPerPixel);
 
   return color;
 
@@ -76,7 +76,7 @@ RTColor PathTracerIlluminator::reflection() {
       RTColor color = illuminator->_illuminate(*intersection);
       delete illuminator;
       RTColor ks = material.getSpecColor();
-      return color * ks.length();
+      return color * fmax(ks.length(), 0.3);
     } else if (getEnvironmentMap()) {
       return getEnvironmentMap()->get(path);
     }
@@ -151,7 +151,11 @@ void PathTracerIlluminator::setSamplesPerPixel(int n) {
 
 bool PathTracerIlluminator::russianRoulette() {
 
-  float probability = 0.01;
+  float probability = 0.2;
 
   return (rand() / (float)RAND_MAX) > probability;
+}
+
+float PathTracerIlluminator::computeFattj(const Light *light) {
+  return Illuminator::computeFattj(light);
 }

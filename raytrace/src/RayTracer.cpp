@@ -1,6 +1,6 @@
 #include "RayTracer.h"
 
-//#define PROGRESS
+#define PROGRESS
 
 #define IX(i,j,k) ((i)*height + (j) + (k))
 
@@ -40,7 +40,7 @@ RTColor RayTracer::trace(const Ray ray) {
 void RayTracer::renderPixel(int i, int j) {
   
   //if (!(i > 40 && i < 60 && j > 40 && j < 60)) return;
-  //if (i != 50 && j != 50) return;
+  //if (i != 50 || j != 25) return;
 
 #ifdef PROGRESS
   ProgressBar_tick();

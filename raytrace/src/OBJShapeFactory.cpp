@@ -5,7 +5,9 @@ RTShape* OBJShapeFactory::createShape(tinyobj::shape_t shape) {
   RTPolySet *set = new RTPolySet();
 
 
+  int j=0;
   for (int i=0; i<shape.mesh.indices.size(); i+=3) {
+
     RTTriangle triangle(
       Vector(
         shape.mesh.positions[shape.mesh.indices[i]*3+0],
@@ -24,10 +26,14 @@ RTShape* OBJShapeFactory::createShape(tinyobj::shape_t shape) {
       )
     );
 
+    triangle.setN0(&shape.mesh.normals[shape.mesh.indices[i+0]*3+0]);
+    triangle.setN1(&shape.mesh.normals[shape.mesh.indices[i+2]*3+0]);
+    triangle.setN2(&shape.mesh.normals[shape.mesh.indices[i+1]*3+0]);
     
-    triangle.setHasNormals(false);    
+    triangle.setHasNormals(true);    
     triangle.setHasMaterial(false);
     triangle.setParent(set);
+    triangle.setIsUpper(j++ % 2 == 0);
     set->addTriangle(triangle);
   }
   set->addMaterial(createMaterial(shape.material));

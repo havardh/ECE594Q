@@ -143,7 +143,6 @@ IntersectionPtr KDTree::intersectChildNode(const Ray &ray) const {
       intersection = *it;
     }
   }
-  
   return intersection;
 }
 

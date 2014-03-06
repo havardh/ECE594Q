@@ -18,6 +18,8 @@ public:
   virtual RTColor refraction();
 
   void setSamplesPerPixel(int);
+  float computeFattj(const Light *light);
+
 
 private:
   RTColor _illuminate(Intersection);

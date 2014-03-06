@@ -64,7 +64,7 @@ protected:
   Intersection _intersection;
 
   virtual void setLocalVariables(Intersection);
-  float computeFattj(const Light *light);
+  virtual float computeFattj(const Light *light);
 
 private:
 
