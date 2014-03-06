@@ -302,19 +302,22 @@ HW=hw2
 WH=200:200
 N=20
 A=1:1
+ENV_MAP="./texture/uffizi_cross.png"
+
+OPTS=-i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A) -t4:4 -e$(ENV_MAP)
 
 TIME_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Time Profiler.tracetemplate"
 LEAK_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Leaks.tracetemplate"
 gen: all
 	cp output/$(HW)/$(SCENE).png output/$(HW)/$(SCENE)_old.png
-	echo "set args -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A)" | cat >.gdbinit
-	time ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A)
+	echo "set args $(OPTS)" | cat >.gdbinit
+	time ./raytracer $(OPTS)
 
 timing: all
-	instruments -t $(TIME_TEMPLATE) -D time-prof.out raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
+	instruments -t $(TIME_TEMPLATE) -D time-prof.out raytracer $(OPTS)
 
 leak: all
-	instruments -t $(LEAK_TEMPLATE) -D leak-prof.out ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
+	instruments -t $(LEAK_TEMPLATE) -D leak-prof.out ./raytracer $(OPTS)
 
 
 open: gen
@@ -322,7 +325,7 @@ open: gen
 	open output/$(HW)/$(SCENE)_old.png
 
 gdb: all
-	sudo gdb raytracer --args ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
+	sudo gdb raytracer --args ./raytracer $(OPTS)
 
 outputrays: all
 	./raytracer -i./Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out

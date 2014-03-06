@@ -10,71 +10,58 @@
 #include "Timer.h"
 #include "StopWatch.h"
 
-#define USE_PTHREAD
+//#define USE_PTHREAD
 
 void printLightStats(void);
 
-void test() {
-  Texture texture("./texture/environment/EnvironmentMaps/uffizi_latlong.exr");
-
-
-  int w = 768;
-  int h = 1024;
-  
-  RayFrameBuffer buffer(w,h);
-
-  for (int i=0; i<h; i++) {
-    for (int j=0; j<w; j++) {
-      RTColor c = texture.get(i / (float)h, j / (float)w);
-      buffer.set(i, j, 0, c.getRGBRed()); 
-      buffer.set(i, j, 1, c.getRGBGreen());
-      buffer.set(i, j, 2, c.getRGBBlue());
-    }
-  }
-  buffer.write("test.png");
-}
 
 int main(int argc, char *argv[]) {
 
-  //test(); return 0;
   settings.parse(argc, argv);
   settings.print();
 
-  Timer t;
-  StopWatch sw;
-  sw.setTimer(&t);
+  //Timer t;
+  //StopWatch sw;
+  //sw.setTimer(&t);
 
-  sw.start("Begining");
+  //sw.start("Begining");
 
   Scene scene;
   SceneIO* sceneIO = readScene(settings.input());
-  sw.lap("Scene read");
+  //sw.lap("Scene read");
   scene.setScene(sceneIO);
-  sw.lap("Datastructure built");
+  //sw.lap("Datastructure built");
   RayFrameBuffer fb(settings.width(), settings.height());
   printf("..\n");
 
-#ifdef USE_PTHREAD
-  ThreadedRayTracer rayTracer(&scene, &fb);
-#else
-  RayTracer rayTracer(&scene, &fb);
-#endif
-  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
-  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
-  rayTracer.setAntiAliasingResolution(settings.valias(), settings.halias());
+  RayTracer *rayTracer = NULL;
+  if (settings.useThreads()) {
+    rayTracer = new ThreadedRayTracer(&scene, &fb);
+  } else {
+    rayTracer = new RayTracer(&scene, &fb);
+  }
 
-  rayTracer.render();
-  sw.lap("Scene Rendered");
+  //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
+  //
+  if (settings.environmentMap()) {
+    rayTracer->setEnvironmentMap(new EnvironmentMap(settings.environmentMap()));
+  }
+  rayTracer->setAntiAliasingResolution(settings.valias(), settings.halias());
+
+  rayTracer->render();
+  //sw.lap("Scene Rendered");
   printf("wtf\n");
 
   fb.write(settings.output());
-  sw.stop();
+  //sw.stop();
 
-  sw.print();
+  //sw.print();
   
   if (sceneIO != NULL) {
     deleteScene(sceneIO);
   }
+
+  delete rayTracer;
   printLightStats();
   return 0;
 }

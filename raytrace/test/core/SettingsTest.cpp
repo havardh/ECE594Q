@@ -18,6 +18,8 @@ TEST(Settings, shouldHaveDefaultValues) {
   CHECK_EQUAL(0, strcmp(SETTINGS_DEFAULT_INPUT, settings.input()));
   CHECK(settings.output());
   CHECK_EQUAL(0, strcmp(SETTINGS_DEFAULT_OUTPUT, settings.output()));
+	CHECK_EQUAL(SETTINGS_DEFAULT_NUM_THREADS_N, settings.numThreadsN());
+	CHECK_EQUAL(SETTINGS_DEFAULT_NUM_THREADS_M, settings.numThreadsM());
   
 }
 
@@ -86,3 +88,72 @@ TEST(Settings, shouldParseArgumentsForAntiAliasing) {
 
 }
 
+
+TEST(Settings, shouldDefaultToNotUsingThreads) {
+
+  Settings settings;
+
+  char *args[] {
+    "-a2:4"
+  };
+
+  settings.parse(1, args);
+
+  CHECK( !settings.useThreads() );
+ 
+
+}
+
+TEST(Settings, providingThreadNumParameterShouldSwitchUseThreads) {
+
+  Settings settings;
+
+  char *args[] {
+    "-t2:4"
+  };
+
+  settings.parse(1, args);
+
+  CHECK( settings.useThreads() );
+ 
+
+}
+
+TEST(Settings, shouldGetThreadCountsFromThreadParameter) {
+
+  char *args[] {
+    "-t5:4"
+  };
+
+  settings.parse(1, args);
+
+  CHECK_EQUAL( 5, settings.numThreadsN() );
+  CHECK_EQUAL( 4, settings.numThreadsM() );
+ 
+}
+
+TEST(Settings, environmentMapShouldBeNULLWhenNotDefined) {
+
+  Settings settings;
+
+  char *args[] {
+    "-t5:4"
+  };
+
+  settings.parse(1, args);
+
+  CHECK( settings.environmentMap() == 0 );
+ 
+}
+
+TEST(Settings, shouldSetEnvironmentMap) {
+
+  char *args[] {
+    "-etest.png"
+  };
+
+  settings.parse(1, args);
+
+  CHECK( strcmp(settings.environmentMap(), "test.png") == 0 );
+ 
+}
