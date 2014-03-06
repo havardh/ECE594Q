@@ -127,4 +127,8 @@ void Settings::print() const {
   printf("\tNum Samples Per Pixel: %d\n", numSamples());
   printf("\tReading: %s\n", input());
   printf("\tWriting: %s\n", output());
+  if (useThreads()) {
+    printf("\tRunning with Threads (%dx%d)\n", numThreadsN(), numThreadsM());
+  }
+  
 }
