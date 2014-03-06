@@ -10,11 +10,11 @@ void OBJScene::setScene(char *filename) {
   std::cout << err << std::endl;
 
   this->camera = Camera(
-    Vector(200,0,0),
-    Vector(-1,0,0),
+    Vector(275,270,-260),
+    Vector(0,0,1),
     0,
     Vector(0,1,0),
-    M_PI/4
+    M_PI/2
   );
 
   this->lights.push_back(Light(

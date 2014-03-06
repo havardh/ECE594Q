@@ -145,6 +145,7 @@ ifeq ($(SRCDIRS),)
 endif
 SOURCES = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(SRCEXTS))))
 SOURCES := $(filter-out ../lib/tinyobjloader/test.cc, $(SOURCES))
+SOURCES := $(filter-out ../lib/tinyobjloader/usage.c, $(SOURCES))
 HEADERS = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(HDREXTS))))
 SRC_CXX = $(filter-out %.c,$(SOURCES))
 OBJS		= $(addsuffix .o, $(basename $(SOURCES)))

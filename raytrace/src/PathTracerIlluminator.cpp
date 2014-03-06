@@ -14,10 +14,10 @@ void printLightStats(void) {
 }
 
 RTColor PathTracerIlluminator::ambient() {
-  return Illuminator::ambient();
+  //return Illuminator::ambient();
   return material.getAmbColor();
 }
-
+ 
 RTColor PathTracerIlluminator::illuminate(Intersection intersection) {
 
   RTColor color;
