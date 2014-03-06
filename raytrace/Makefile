@@ -301,19 +301,20 @@ SCENE = mytest
 HW=hw2
 WH=200:200
 N=20
+A=1:1
 
 TIME_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Time Profiler.tracetemplate"
 LEAK_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Leaks.tracetemplate"
 gen: all
 	cp output/$(HW)/$(SCENE).png output/$(HW)/$(SCENE)_old.png
-	echo "set args -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N)" | cat >.gdbinit
-	time ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N)
+	echo "set args -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A)" | cat >.gdbinit
+	time ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A)
 
 timing: all
-	instruments -t $(TIME_TEMPLATE) -D time-prof.out raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png
+	instruments -t $(TIME_TEMPLATE) -D time-prof.out raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
 
 leak: all
-	instruments -t $(LEAK_TEMPLATE) -D leak-prof.out ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png
+	instruments -t $(LEAK_TEMPLATE) -D leak-prof.out ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
 
 
 open: gen
@@ -321,7 +322,7 @@ open: gen
 	open output/$(HW)/$(SCENE)_old.png
 
 gdb: all
-	sudo gdb raytracer --args ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png
+	sudo gdb raytracer --args ./raytracer -i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -a$(A) -ooutput/$(HW)/$(SCENE).png
 
 outputrays: all
 	./raytracer -i./Scenes/mytest.ascii | tail -n9 > ../reyes/vec.out

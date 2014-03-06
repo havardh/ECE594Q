@@ -11,6 +11,8 @@ TEST(Settings, shouldHaveDefaultValues) {
   Settings settings;
 	CHECK_EQUAL(SETTINGS_DEFAULT_WIDTH, settings.width());
 	CHECK_EQUAL(SETTINGS_DEFAULT_HEIGHT, settings.height());
+	CHECK_EQUAL(SETTINGS_DEFAULT_VALIAS, settings.valias());
+	CHECK_EQUAL(SETTINGS_DEFAULT_HALIAS, settings.halias());
   CHECK_EQUAL(SETTINGS_DEFAULT_NUM_SAMPLES, settings.numSamples());
   CHECK(settings.input());
   CHECK_EQUAL(0, strcmp(SETTINGS_DEFAULT_INPUT, settings.input()));
@@ -66,6 +68,20 @@ TEST(Settings, shouldParseArgumentsWidthHeight) {
 
   CHECK_EQUAL(200, settings.width());
   CHECK_EQUAL(200, settings.height());
+ 
+
+}
+
+TEST(Settings, shouldParseArgumentsForAntiAliasing) {
+
+  char *args[] {
+    "-a2:4"
+  };
+
+  settings.parse(1, args);
+
+  CHECK_EQUAL(2, settings.valias());
+  CHECK_EQUAL(4, settings.halias());
  
 
 }

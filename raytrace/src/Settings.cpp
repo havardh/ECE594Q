@@ -14,6 +14,7 @@ void Settings::parse(int argc, char *argv[]) {
     case 'n': parseNumSamples(arg); break;
     case 'i': parseInput(arg);      break;
     case 'o': parseOutput(arg);     break;
+    case 'a': parseAlias(arg);     break;
 
     }
   }
@@ -42,12 +43,32 @@ void Settings::parseInput(char *input) {
   _input = input;
 }
 
+void Settings::parseAlias(char*arg) {
+  char param[10];
+  strcpy(param, arg);
+  char * split = strchr(param, ':');
+
+  (*split++) = '\0';
+
+  this->_valias = atoi(param);
+  this->_halias = atoi(split);
+
+}
+
 int Settings::width() const {
   return this->_width;
 }
 
 int Settings::height() const {
   return this->_height;
+}
+
+int Settings::valias() const {
+  return _valias;
+}
+
+int Settings::halias() const {
+  return _halias;
 }
 
 int Settings::numSamples() const {

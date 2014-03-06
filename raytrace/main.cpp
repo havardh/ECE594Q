@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 #endif
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/earth.jpg"));
   //rayTracer.setEnvironmentMap(new EnvironmentMap("./texture/uffizi_cross.png"));
-  rayTracer.setAntiAliasingResolution(1,1);
+  rayTracer.setAntiAliasingResolution(settings.valias(), settings.halias());
 
   rayTracer.render();
   sw.lap("Scene Rendered");
