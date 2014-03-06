@@ -51,9 +51,9 @@ int main(int argc, char *argv[]) {
   fb.write(settings.output());
 
   delete rayTracer;
-  sw.stop();
+  //sw.stop();
   delete scene;
-  sw.print();
+  //sw.print();
 
   printLightStats();
   return 0;
