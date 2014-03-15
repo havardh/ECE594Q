@@ -309,7 +309,7 @@ A=1:1
 ENV_MAP=./texture/uffizi_cross.png
 T=4:4
 
-OPTS=-i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A) -t$(T) #-e$(ENV_MAP)
+OPTS=-i./Scenes/$(HW)/$(SCENE).ascii -r$(WH) -ooutput/$(HW)/$(SCENE).png -n$(N) -a$(A) -t$(T) -p #-e$(ENV_MAP)
 
 TIME_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Time Profiler.tracetemplate"
 LEAK_TEMPLATE="/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Leaks.tracetemplate"

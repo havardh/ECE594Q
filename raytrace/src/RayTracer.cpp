@@ -1,7 +1,5 @@
 #include "RayTracer.h"
 
-#define PROGRESS
-
 #define IX(i,j,k) ((i)*height + (j) + (k))
 
 RayTracer::RayTracer(Scene *scene, RayFrameBuffer *frameBuffer) : 
@@ -42,9 +40,9 @@ void RayTracer::renderPixel(int i, int j) {
   //if (!(i > 40 && i < 60 && j > 40 && j < 60)) return;
   //if (i != 50 || j != 25) return;
 
-#ifdef PROGRESS
-  ProgressBar_tick();
-#endif
+  if (settings.progress()) {
+    ProgressBar_tick();
+  }
 
 
   RTColor color(0,0,0);
@@ -76,9 +74,9 @@ void RayTracer::render() {
   int width = _frameBuffer->getWidth();
   int height = _frameBuffer->getHeight();
 
-#ifdef PROGRESS
-  ProgressBar_setMax(width*height);
-#endif
+  if (settings.progress()) {
+    ProgressBar_setMax(width*height);
+  }
 
   _factory = RayFactory(_scene->getCamera(), width, height, _m, _n);
 

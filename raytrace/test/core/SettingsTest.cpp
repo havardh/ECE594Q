@@ -157,3 +157,22 @@ TEST(Settings, shouldSetEnvironmentMap) {
   CHECK( strcmp(settings.environmentMap(), "test.png") == 0 );
  
 }
+
+TEST(Settings, progressShouldDefaultToFalse) {
+
+  Settings settings;
+  CHECK( !settings.progress() );
+ 
+}
+
+TEST(Settings, shouldParseProgress) {
+
+  char *args[] {
+    "-p"
+  };
+
+  settings.parse(1, args);
+
+  CHECK( settings.progress() );
+ 
+}

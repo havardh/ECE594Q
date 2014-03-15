@@ -1,6 +1,8 @@
 #include "Settings.h"
+#include "Dbg.h"
 
 Settings settings;
+
 
 void Settings::parse(int argc, char *argv[]) {
   for (int i=0; i<argc; i++) {
@@ -17,6 +19,7 @@ void Settings::parse(int argc, char *argv[]) {
     case 'a': parseAlias(arg);      break;
     case 't': parseNumThreads(arg); break;
     case 'e': parseEnvironmentMap(arg); break;
+    case 'p': _progress = true;  break;
 
     }
   }
@@ -73,6 +76,21 @@ void Settings::parseEnvironmentMap(char *map) {
   _environmentMap = map;
 }
 
+void Settings::reset() {
+  _width = SETTINGS_DEFAULT_WIDTH;
+  _height = SETTINGS_DEFAULT_HEIGHT;
+  _valias = SETTINGS_DEFAULT_VALIAS;
+  _halias = SETTINGS_DEFAULT_HALIAS;
+  _useThreads = SETTINGS_DEFAULT_USE_THREADS;
+  _numThreadsN = SETTINGS_DEFAULT_NUM_THREADS_N;
+  _numThreadsM = SETTINGS_DEFAULT_NUM_THREADS_M;
+  _numSamplesPerPixel = SETTINGS_DEFAULT_NUM_SAMPLES;
+  _progress = SETTINGS_DEFAULT_PROGRESS;
+  _environmentMap = SETTINGS_DEFAULT_ENV_MAP;
+  _input = SETTINGS_DEFAULT_INPUT;
+  _output = SETTINGS_DEFAULT_OUTPUT;
+}
+
 int Settings::width() const {
   return this->_width;
 }
@@ -91,6 +109,10 @@ int Settings::halias() const {
 
 int Settings::numSamples() const {
   return this->_numSamplesPerPixel;
+}
+
+bool Settings::progress() const {
+  return this->_progress;
 }
 
 bool Settings::useThreads() const {

@@ -28,6 +28,8 @@ TEST_GROUP(RayTracer) {
     
     scene = new IOScene;
     scene->setScene(&sceneIO);
+
+    settings.reset();
   }
 	void teardown() {
     delete sceneIO.camera;
