@@ -1,13 +1,13 @@
 #include "OBJScene.h"
 #include "OBJShapeFactory.h"
-#include <iostream>
 
 void OBJScene::setScene(char *filename) {
 
   std::vector<tinyobj::shape_t> tinyshapes;
   std::string err = tinyobj::LoadObj(tinyshapes, filename, "Scenes/obj/");
 
-  std::cout << err << std::endl;
+
+  printf("%s\n", err.c_str());
 
   this->camera = Camera(
     Vector(15, 15, -10),
